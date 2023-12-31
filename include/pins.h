@@ -15,26 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Arduino.h>
-#include "ble_hid/BLEHid.hpp" // Without this build fails
-#include "SPI.h"
-#include "posixsd.hpp"
-#include "pins.h"
-#include "debug.h"
-
-static void init_sd() {
-  SPI.begin(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
-  if(!init_sdcard(SD_CARD_CS)) {
-    LOG_ERROR("Error during init SD card");
-  };
-}
-
-void setup()
-{
-  SERIAL_DEVICE.begin(115200);
-  init_sd();
-}
-
-void loop()
-{
-}
+// SD card
+#define SD_CARD_CS 10
+#define SD_CARD_MOSI 11
+#define SD_CARD_MISO 12
+#define SD_CARD_SCK 13
