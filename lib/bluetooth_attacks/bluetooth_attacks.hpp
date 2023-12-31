@@ -62,6 +62,7 @@ public:
     };
 
     void sniff(FS sd);
+    void scan(FS sd, int scan_time = 30);
 };
 
 #endif

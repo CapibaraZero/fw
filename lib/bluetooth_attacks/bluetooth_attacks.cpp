@@ -17,6 +17,7 @@
 
 #include "bluetooth_attacks.hpp"
 #include "BLESniffer.hpp"
+#include "BLEScanner.hpp"
 #include "../../include/pcap_gen.h"
 
 #define PCAP_TYPE String("bluetooth")
@@ -24,4 +25,16 @@
 void BluetoothAttack::sniff(FS sd)
 {
     BLESniffer ble_sniffer = BLESniffer(PCAP_FILE(PCAP_TYPE).c_str(), sd);
+}
+
+void BluetoothAttack::scan(FS sd, int scan_time) {
+    BLEScanner scanner = BLEScanner();
+    delay(scan_time + 1000);    // Scan time + about 1 sec for BLE stack initialization time, ecc...
+    while (scanner.is_scanning())
+    {
+        /* If scan still in progress do nothing */
+        __asm__ __volatile__ ("nop\n\t");
+    }
+    
+    scanner.save_to_sd(sd, scanner.get_result());
 }
