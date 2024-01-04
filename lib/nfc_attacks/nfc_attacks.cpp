@@ -147,6 +147,25 @@ void NFCAttacks::write_tag(NFCTag *tag)
     }
 }
 
+void NFCAttacks::write_tag(NFCTag *tag, int starting_block)
+{
+    uint8_t key_universal[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}; // Universal key
+    for (size_t i = starting_block; i < tag->get_blocks_count(); i++)
+    {
+        Serial0.printf("Writing block: %i\n", i);
+        uint8_t block[BLOCK_SIZE] = {0};
+        tag->get_block(i, block);
+        if (nfc_framework.write_tag(i, block, key_universal))
+        {
+            LOG_SUCCESS("Block written correctly\n");
+        }
+        else
+        {
+            LOG_ERROR("Error during writing block.");
+        };
+    }
+}
+
 void NFCAttacks::write_tag(NFCTag *tag, uint8_t *key)
 {
     for (size_t i = 0; i < tag->get_blocks_count(); i++)
@@ -164,6 +183,41 @@ void NFCAttacks::write_tag(NFCTag *tag, uint8_t *key)
         };
     }
 }
+
+void NFCAttacks::write_tag(NFCTag *tag, uint8_t *key, int starting_block)
+{
+    for (size_t i = starting_block; i < tag->get_blocks_count(); i++)
+    {
+        Serial0.printf("Writing block: %i\n", i);
+        uint8_t block[BLOCK_SIZE] = {0};
+        tag->get_block(i, block);
+        if (nfc_framework.write_tag(i, block, key))
+        {
+            LOG_SUCCESS("Block written correctly\n");
+        }
+        else
+        {
+            LOG_ERROR("Error during writing block.");
+        };
+    }
+}
+
+void NFCAttacks::format_tag(bool ultralight)
+{
+    LOG_INFO("Formatting tag...");
+    uint8_t empty_tag_data[ultralight ? MIFARE_ULTRALIGHT_SIZE : MIFARE_CLASSIC_SIZE] = {0};
+    NFCTag empty_tag = NFCTag(empty_tag_data, 4);   // Uid lenght is dummy here since it's an empty key
+    write_tag(&empty_tag, ultralight ? 7 : 4);
+}
+
+void NFCAttacks::format_tag(bool ultralight, uint8_t *key)
+{
+    LOG_INFO("Formatting tag...");
+    uint8_t empty_tag_data[ultralight ? MIFARE_ULTRALIGHT_SIZE : MIFARE_CLASSIC_SIZE] = {0};
+    NFCTag empty_tag = NFCTag(empty_tag_data, 4);   // Uid lenght is dummy here since it's an empty key
+    write_tag(&empty_tag, key, ultralight ? 7 : 4);
+}
+
 
 void NFCAttacks::write_ntag(NFCTag *tag)
 {
@@ -185,4 +239,12 @@ void NFCAttacks::write_ntag(NFCTag *tag)
             LOG_ERROR("Error during writing block.\n");
         };
     }
+}
+
+void NFCAttacks::format_ntag(int pages)
+{
+    LOG_INFO("Formatting ntag...");
+    uint8_t empty_tag_data[pages * NTAG_PAGE_SIZE] = {0};
+    NFCTag empty_tag = NFCTag(empty_tag_data, 7, pages);
+    write_ntag(&empty_tag);
 }

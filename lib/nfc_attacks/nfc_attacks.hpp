@@ -26,6 +26,9 @@ class NFCAttacks
 private:
     NFCFramework nfc_framework = NFCFramework();
     bool is_there_null_blocks(NFCTag *tag);
+    // For internal usage(format)
+    void write_tag(NFCTag *tag, int starting_block);
+    void write_tag(NFCTag *tag, uint8_t *key, int starting_key);
 public:
     NFCAttacks(/* args */);
     inline ~NFCAttacks() {};
@@ -36,7 +39,10 @@ public:
     NFCTag dump_ntag(int pages);
     void write_tag(NFCTag *tag);
     void write_tag(NFCTag *tag, uint8_t *key);
+    void format_tag(bool ultralight = false);
+    void format_tag(bool ultralight = false, uint8_t *key);
     void write_ntag(NFCTag *tag);
+    void format_ntag(int pages);
     void printHex(uint8_t *payload) { nfc_framework.printHex(payload, sizeof(payload) / sizeof(payload[0])); }
 };
 
