@@ -33,8 +33,10 @@ public:
     void read_uid(uint8_t *uid, uint8_t *uid_length);
     NFCTag dump_tag();
     NFCTag dump_tag(uint8_t *key);
+    NFCTag dump_ntag(int pages);
     void write_tag(NFCTag *tag);
     void write_tag(NFCTag *tag, uint8_t *key);
+    void write_ntag(NFCTag *tag);
     void printHex(uint8_t *payload) { nfc_framework.printHex(payload, sizeof(payload) / sizeof(payload[0])); }
 };
 
