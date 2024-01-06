@@ -210,7 +210,7 @@ void NFCAttacks::format_tag(bool ultralight)
     write_tag(&empty_tag, ultralight ? 7 : 4);
 }
 
-void NFCAttacks::format_tag(bool ultralight, uint8_t *key)
+void NFCAttacks::format_tag(uint8_t *key ,bool ultralight)
 {
     LOG_INFO("Formatting tag...");
     uint8_t empty_tag_data[ultralight ? MIFARE_ULTRALIGHT_SIZE : MIFARE_CLASSIC_SIZE] = {0};
@@ -247,4 +247,31 @@ void NFCAttacks::format_ntag(int pages)
     uint8_t empty_tag_data[pages * NTAG_PAGE_SIZE] = {0};
     NFCTag empty_tag = NFCTag(empty_tag_data, 7, pages);
     write_ntag(&empty_tag);
+}
+
+bool NFCAttacks::detect_felica(uint8_t *idm, uint8_t *pmm, uint16_t *sys_code) {
+    return nfc_framework.felica_polling(idm, pmm, sys_code);
+}
+
+bool NFCAttacks::felica_read(uint8_t service_length, uint16_t *service_codes, uint8_t num_blocks, 
+                            uint16_t *block_list, uint8_t data[][16]) {
+    return nfc_framework.felica_read_without_encryption(service_length, service_codes, num_blocks, block_list, data);
+}
+
+bool NFCAttacks::felica_read(uint8_t num_blocks, uint16_t *block_list, uint8_t data[][16]) {
+    uint16_t default_service_code[1] = { 0x000B };   // Default service code for reading. Should works for every card
+    return nfc_framework.felica_read_without_encryption(1, default_service_code, num_blocks, block_list, data);
+}
+
+
+bool NFCAttacks::felica_write(uint8_t service_codes_list_length, uint16_t *service_codes, 
+                            uint8_t block_number, uint16_t *block_list, uint8_t data[][16]) {
+
+    return nfc_framework.felica_write_without_encryption(service_codes_list_length, service_codes,
+                                                    block_number, block_list, data);
+}
+
+bool NFCAttacks::felica_write(uint8_t block_number, uint16_t *block_list, uint8_t data[][16]) {
+    uint16_t default_service_code[1] = { 0x0009 };   // Default service code for writing. Should works for every card
+    return nfc_framework.felica_write_without_encryption(1, default_service_code,block_number, block_list, data);
 }

@@ -40,9 +40,16 @@ public:
     void write_tag(NFCTag *tag);
     void write_tag(NFCTag *tag, uint8_t *key);
     void format_tag(bool ultralight = false);
-    void format_tag(bool ultralight = false, uint8_t *key);
+    void format_tag(uint8_t *key, bool ultralight = false);
     void write_ntag(NFCTag *tag);
     void format_ntag(int pages);
+    bool detect_felica(uint8_t *idm, uint8_t *pmm, uint16_t *sys_code);
+    bool felica_read(uint8_t service_length, uint16_t *service_codes, uint8_t num_blocks, 
+                            uint16_t *block_list, uint8_t data[][16]);
+    bool felica_read(uint8_t num_blocks, uint16_t *block_list, uint8_t data[][16]);
+    bool felica_write(uint8_t service_codes_list_length, uint16_t *service_codes, 
+                            uint8_t block_number, uint16_t *block_list, uint8_t data[][16]);
+    bool felica_write(uint8_t block_number, uint16_t *block_list, uint8_t data[][16]);
     void printHex(uint8_t *payload) { nfc_framework.printHex(payload, sizeof(payload) / sizeof(payload[0])); }
 };
 
