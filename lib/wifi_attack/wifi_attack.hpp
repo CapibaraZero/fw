@@ -18,47 +18,68 @@
 #ifndef WIFIATTACK_H
 #define WIFIATTACK_H
 
-#include "wifi_sniffer.hpp"
-#include "../../include/WifiNetwork.hpp"
 #include <vector>
+
+#include "../../include/WifiNetwork.hpp"
 #include "FS.h"
+#include "wifi_sniffer.hpp"
 
 using namespace std;
 
-class WifiAttack
-{
-private:
-    void rotate_all_channels(int max_ch, int wait_time);
-public:
-    WifiAttack(/* args */);
-    ~WifiAttack();
+class WifiAttack {
+ private:
+  WifiSniffer *sniffer;
+  void rotate_all_channels(int max_ch, int wait_time);
 
-    
-    /// @brief Scan all the WiFi environments
-    /// @return A list of all network found
-    vector<WifiNetwork> scan();
-    /// @brief Save WiFI scan result to JSON in SD
-    /// @param networks WiFi scan result
-    void save_scan(vector<WifiNetwork> *networks);
+ public:
+  WifiAttack(/* args */);
+  ~WifiAttack();
 
-    /// @brief Sniff all the WiFi environment and save it to SD
-    /// @param delay Time before switch to another channel
-    /// @param inf Sniff all the time
-    void sniff(int delay, bool inf, FS sd);
+  /// @brief Scan all the WiFi environments
+  /// @return A list of all network found
+  vector<WifiNetwork> scan();
+  /// @brief Save WiFI scan result to JSON in SD
+  /// @param networks WiFi scan result
+  void save_scan(vector<WifiNetwork> *networks);
 
+  /// @brief Sniff all the WiFi environment and save it to SD
+  /// @param delay Time before switch to another channel
+  /// @param inf Sniff all the time
+  void sniff(int delay, FS sd);
 
-    /// @brief Sniff a specific WiFi channel range and save it to SD
-    /// @param max_ch Maximium channel that it will scan
-    /// @param delay Time before switch to another channel
-    /// @param inf Sniff all the time
-    void sniff(int max_ch, int delay, bool inf, FS sd);
+  /// @brief Sniff packets and filter selected BSSID
+  /// @param bssid BSSID of network to sniff
+  /// @param ch Channel of network to sniff
+  /// @param sd SD object
+  void sniff_bssid(uint8_t *bssid, int ch, FS sd);
+  
+  /// @brief Stop sniffer
+  void stop_sniff() {
+    delete sniffer;
+    sniffer = nullptr;
+  };
+  
+  /// @brief Return if sniffer is running or not
+  /// @return Sniffer status
+  bool sniffer_running() { return sniffer != nullptr; };
+  
+  /// @brief Get total sniffed packets
+  /// @return all packets sniffed, since sniffer started
+  int get_sniffed_packets() {
+    return sniffer->get_sniffed_packets();
+  }
+  
+  /// @brief Sniff a specific WiFi channel range and save it to SD
+  /// @param max_ch Maximium channel that it will scan
+  /// @param delay Time before switch to another channel
+  /// @param inf Sniff all the time
+  void sniff(int max_ch, int delay, FS sd);
 
-
-    /// @brief Sniff a specific WiFi channel
-    /// @param channel WiFi channel to sniff
-    /// @param time Time before finish scan. Not used in case of inf==true
-    /// @param inf Sniff all the time
-    void sniff_channel(int channel, int time, bool inf, FS sd);
+  /// @brief Sniff a specific WiFi channel
+  /// @param channel WiFi channel to sniff
+  /// @param time Time before finish scan. Not used in case of inf==true
+  /// @param inf Sniff all the time
+  void sniff_channel(int channel, int time, FS sd);
 };
 
 #endif
