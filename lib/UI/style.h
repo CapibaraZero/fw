@@ -15,22 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Define buttons pins
-#define OK_BTN_PIN 3
-#define UP_BTN_PIN 6
-#define DOWN_BTN_PIN 7
-#define LEFT_BTN_PIN 15
-#define RIGHT_BTN_PIN 16
+#include <Adafruit_ST77xx.h>
 
-// Display pins
-#define TFT_CS 10
-#define TFT_DC 4
-#define TFT_SCLK 13
-#define TFT_MOSI 11
-#define TFT_RST 5
+#ifndef STYLE_H
+#define STYLE_H
 
-// SD card
-#define SD_CARD_MOSI 11
-#define SD_CARD_MISO 12
-#define SD_CARD_SCK 13
-#define SD_CARD_CS 14
+#define HOME_BACKGROUND_COLOR ST77XX_BLACK  // Home background color
+#define HOME_TEXT_COLOR ST77XX_WHITE        // Icon description color
+#define HOME_ICON_COLOR ST77XX_MAGENTA      // Icon margin color
+#define HOME_INFO_COLOR ST77XX_WHITE        // Home info text color
+#define HOME_ICON_RADIUS 8                  // Home icon radius
+#define HOME_ICON_HEIGHT 50                 // Home icon height
+#define HOME_TEXT_SIZE 2                    // Home text size
+
+#endif

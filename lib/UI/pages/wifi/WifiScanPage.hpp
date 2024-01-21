@@ -15,22 +15,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Define buttons pins
-#define OK_BTN_PIN 3
-#define UP_BTN_PIN 6
-#define DOWN_BTN_PIN 7
-#define LEFT_BTN_PIN 15
-#define RIGHT_BTN_PIN 16
+#include "Grid.hpp"
+#include "Text.hpp"
+#include "../Page.hpp"
 
-// Display pins
-#define TFT_CS 10
-#define TFT_DC 4
-#define TFT_SCLK 13
-#define TFT_MOSI 11
-#define TFT_RST 5
+#ifndef WIFISCANPAGE_H
+#define WIFISCANPAGE_H
 
-// SD card
-#define SD_CARD_MOSI 11
-#define SD_CARD_MISO 12
-#define SD_CARD_SCK 13
-#define SD_CARD_CS 14
+class WifiScanPage: public Page {
+ private:
+  Grid *wifi_scan_grid;
+  Text *wifi_scan_text;
+  Text *wifi_scan_progress;
+  Text *wifi_scan_current_ch;
+ public:
+  WifiScanPage(GFXForms *_screen);
+  ~WifiScanPage();
+  void display();
+  void update_progress(char *_progress){
+    wifi_scan_progress->set_text(_progress);
+  };
+  void set_ch_text(char *channel) {
+    wifi_scan_current_ch->set_text(channel);
+  }
+    void up(){};
+  void down(){};
+  void left(){};
+  void right(){};
+};
+
+#endif

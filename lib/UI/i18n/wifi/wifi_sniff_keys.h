@@ -15,22 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Define buttons pins
-#define OK_BTN_PIN 3
-#define UP_BTN_PIN 6
-#define DOWN_BTN_PIN 7
-#define LEFT_BTN_PIN 15
-#define RIGHT_BTN_PIN 16
-
-// Display pins
-#define TFT_CS 10
-#define TFT_DC 4
-#define TFT_SCLK 13
-#define TFT_MOSI 11
-#define TFT_RST 5
-
-// SD card
-#define SD_CARD_MOSI 11
-#define SD_CARD_MISO 12
-#define SD_CARD_SCK 13
-#define SD_CARD_CS 14
+#define WIFI_SNIFFING_INFO_KEY "wifi_sniffing_info"
+#define WIFI_SNIFFING_SNIFFED_KEY "wifi_sniffing_sniffed"
+#define WIFI_SNIFFING_SAVE_KEY "wifi_sniff_save"

@@ -15,22 +15,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Define buttons pins
-#define OK_BTN_PIN 3
-#define UP_BTN_PIN 6
-#define DOWN_BTN_PIN 7
-#define LEFT_BTN_PIN 15
-#define RIGHT_BTN_PIN 16
+#include "WifiScanPage.hpp"
+#include "../../i18n.hpp"
+#include "../../i18n/wifi/wifi_scan_keys.h"
 
-// Display pins
-#define TFT_CS 10
-#define TFT_DC 4
-#define TFT_SCLK 13
-#define TFT_MOSI 11
-#define TFT_RST 5
+WifiScanPage::WifiScanPage(GFXForms *_screen) {
+    screen = _screen;
+}
 
-// SD card
-#define SD_CARD_MOSI 11
-#define SD_CARD_MISO 12
-#define SD_CARD_SCK 13
-#define SD_CARD_CS 14
+WifiScanPage::~WifiScanPage() {
+}
+
+void WifiScanPage::display() {
+  wifi_scan_grid = new Grid(screen, 3, 1);
+  wifi_scan_text = new Text(screen, ST77XX_WHITE, english_words->at(WIFI_SCANNING_KEY));
+  wifi_scan_progress = new Text(screen, ST77XX_WHITE, "10%");
+  wifi_scan_current_ch = new Text(screen, ST77XX_WHITE, "1");
+  wifi_scan_grid->add(wifi_scan_text);
+  wifi_scan_grid->add(wifi_scan_progress);
+  wifi_scan_grid->add(wifi_scan_current_ch);
+  wifi_scan_grid->set_y_spacing(30);
+  wifi_scan_grid->display();
+}

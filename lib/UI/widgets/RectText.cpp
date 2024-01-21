@@ -15,22 +15,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Define buttons pins
-#define OK_BTN_PIN 3
-#define UP_BTN_PIN 6
-#define DOWN_BTN_PIN 7
-#define LEFT_BTN_PIN 15
-#define RIGHT_BTN_PIN 16
+#include "widgets/RectText.hpp"
 
-// Display pins
-#define TFT_CS 10
-#define TFT_DC 4
-#define TFT_SCLK 13
-#define TFT_MOSI 11
-#define TFT_RST 5
+RectText::RectText(GFXForms *display, const char *text, int font_size, uint16_t font_color, int _heigth, int radius, uint16_t rect_color)
+{
+  box = new Rect(display, 0 , _heigth , 0, 0, 8, rect_color);
+  text_widget = new Text(display, font_color, text);
+  text_widget->set_size(2);
+  text_widget->set_wrap(true);
 
-// SD card
-#define SD_CARD_MOSI 11
-#define SD_CARD_MISO 12
-#define SD_CARD_SCK 13
-#define SD_CARD_CS 14
+  heigth = _heigth + 20;
+
+  container = new Grid(display, 2, 1);
+  container->add(box);
+  container->add(text_widget);
+}
+
+RectText::~RectText()
+{
+}

@@ -15,22 +15,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Define buttons pins
-#define OK_BTN_PIN 3
-#define UP_BTN_PIN 6
-#define DOWN_BTN_PIN 7
-#define LEFT_BTN_PIN 15
-#define RIGHT_BTN_PIN 16
+#include "buttons.h"
 
-// Display pins
-#define TFT_CS 10
-#define TFT_DC 4
-#define TFT_SCLK 13
-#define TFT_MOSI 11
-#define TFT_RST 5
+static Buttons btn_pressed = NULL_BTN;
 
-// SD card
-#define SD_CARD_MOSI 11
-#define SD_CARD_MISO 12
-#define SD_CARD_SCK 13
-#define SD_CARD_CS 14
+/* ISR routines */
+void handle_up_button() {
+  btn_pressed = UP_BTN;
+}
+
+void handle_down_button() {
+  btn_pressed = DOWN_BTN;
+}
+
+void handle_left_button() {
+  btn_pressed = LEFT_BTN;
+}
+
+void handle_right_button() {
+  btn_pressed = RIGHT_BTN;
+}
+
+void handle_ok_button() {
+  btn_pressed = OK_BTN;
+}
+
+Buttons get_btn_pressed() {
+    return btn_pressed;
+}
+
+void reset_btn_state() {
+  btn_pressed = NULL_BTN;
+}

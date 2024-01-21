@@ -1,0 +1,1 @@
+# WiFi i18n keys
