@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2023 Andrea Canale.
+ * Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+/* This file contains definitions of wifiAttack class */
 
 #ifndef WIFIATTACK_H
 #define WIFIATTACK_H
@@ -30,17 +32,17 @@ class WifiAttack {
  private:
   WifiSniffer *sniffer;
   void rotate_all_channels(int max_ch, int wait_time);
-
+  vector<WifiNetwork> networks;
  public:
   WifiAttack(/* args */);
   ~WifiAttack();
 
   /// @brief Scan all the WiFi environments
   /// @return A list of all network found
-  vector<WifiNetwork> scan();
+  void scan();
   /// @brief Save WiFI scan result to JSON in SD
   /// @param networks WiFi scan result
-  void save_scan(vector<WifiNetwork> *networks);
+  void save_scan();
 
   /// @brief Sniff all the WiFi environment and save it to SD
   /// @param delay Time before switch to another channel
@@ -80,6 +82,12 @@ class WifiAttack {
   /// @param time Time before finish scan. Not used in case of inf==true
   /// @param inf Sniff all the time
   void sniff_channel(int channel, int time, FS sd);
+
+  /// @brief Get scanned network. Invoke this when scan is not running
+  /// @return Get all the networks scanned
+  vector<WifiNetwork> get_networks() { return networks; }; 
+  /// @brief Clean the networks scanned. Call this when you want to do more than one scan
+  void clean_networks() { networks.clear(); };
 };
 
 #endif

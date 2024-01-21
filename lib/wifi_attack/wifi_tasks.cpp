@@ -2,13 +2,9 @@
 #include "posixsd.hpp"
 #include "wifi_sniff_task_types.h"
 
-bool wifi_scan_finished = false;
-vector<WifiNetwork> networks;
-
 void wifi_scan_task(void *pv) {
     WifiAttack *attack = static_cast<WifiAttack *>(pv);
-    networks = attack->scan();
-    wifi_scan_finished = true;
+    attack->scan();
     vTaskDelete(NULL);
 }
 

@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2023 Andrea Canale.
+ * Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+/* This file contains implementation of wifiAttack class */
 
 #include "wifi_attack.hpp"
 
@@ -33,21 +35,18 @@ WifiAttack::~WifiAttack() {
   Serial0.println("Destroyed");
 }
 
-vector<WifiNetwork> WifiAttack::scan() {
+void WifiAttack::scan() {
   int n = WiFi.scanNetworks(false, true, false, 1000);
-  vector<WifiNetwork> networks_found = vector<WifiNetwork>();
   for (int i = 0; i < n; i++) {
     WifiNetwork network = WifiNetwork(WiFi.SSID(i), WiFi.RSSI(i), WiFi.BSSID(i), WiFi.channel(i), WiFi.encryptionType(i));
-    networks_found.push_back(network);
+    networks.push_back(network);
   }
-
-  return networks_found;
 }
 
-void WifiAttack::save_scan(vector<WifiNetwork> *networks) {
+void WifiAttack::save_scan() {
   DynamicJsonDocument all_networks(2048);
 
-  for (auto network : *networks) {
+  for (auto network : networks) {
     Serial0.printf("SSID: %s\n", network.get_ssid());
     DynamicJsonDocument wifi(512);
     wifi["ssid"] = network.get_ssid();
@@ -88,3 +87,4 @@ void WifiAttack::sniff_channel(int channel, int time, FS sd) {
 void WifiAttack::sniff_bssid(uint8_t *bssid, int ch, FS sd) {
   sniffer = new WifiSniffer(PCAP_FILE(PCAP_TYPE).c_str(), sd, bssid, ch);
 }
+
