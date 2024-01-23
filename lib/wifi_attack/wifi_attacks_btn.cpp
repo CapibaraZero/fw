@@ -44,7 +44,7 @@ void scan_wifi(Gui *gui, WifiAttack *wifiAttack) {
 void sniff_wifi(Gui *gui, WifiAttack *wifiAttack) {
   gui->reset();
   gui->show_wifi_sniff_page();
-  xTaskCreate(&wifi_sniff_task, "wifi_sniff", 4000, (void *)&wifiAttack, 5, NULL);
+  xTaskCreate(&wifi_sniff_task, "wifi_sniff", 4000, (void *)wifiAttack, 5, NULL);
   while (!wifiAttack->sniffer_running()) {
     delay(1);  // Wait for sniffer initialization
   }
