@@ -23,14 +23,14 @@
 #define RIGHT_BTN_PIN 16
 
 // Display pins
-#define TFT_CS 10
 #define TFT_DC 4
-#define TFT_SCLK 13
-#define TFT_MOSI 11
 #define TFT_RST 5
+#define TFT_CS 10
+#define TFT_MOSI 11
+#define TFT_SCLK 13
 
 // SD card
-#define SD_CARD_MOSI 11
-#define SD_CARD_MISO 12
-#define SD_CARD_SCK 13
 #define SD_CARD_CS 14
+#define SD_CARD_MOSI 35
+#define SD_CARD_SCK 36
+#define SD_CARD_MISO 37 
