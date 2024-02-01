@@ -38,12 +38,14 @@ WifiScanSaveResultPage::~WifiScanSaveResultPage() {
 void WifiScanSaveResultPage::up() {
   if (selection_index == 0)
     return;
+  selection->set_selected(selection_index, false);
   selection_index--;
   selection->set_selected(selection_index, true);
 }
 void WifiScanSaveResultPage::down() {
   if (selection_index == 3)
     return;
+  selection->set_selected(selection_index, false);
   selection_index++;
   selection->set_selected(selection_index, true);
 }
