@@ -29,7 +29,10 @@ WifiNetworksPage::~WifiNetworksPage() {
 }
 
 void WifiNetworksPage::set_network() {
-  current_ssid = String(english_words->at(WIFI_SSID_KEY)) + networks->at(current_network).get_ssid();
+  if(networks->at(current_network).get_ssid() != "")
+    current_ssid = String(english_words->at(WIFI_SSID_KEY)) + networks->at(current_network).get_ssid();
+  else
+    current_ssid = String(english_words->at(WIFI_SSID_KEY)) + String(english_words->at(WIFI_SSID_HIDDEN_KEY)); 
   current_rssi = String(english_words->at(WIFI_RSSI_KEY)) + String(networks->at(current_network).get_rssi());
   current_ch = String(english_words->at(WIFI_CH_KEY)) + String(networks->at(current_network).get_channel());
   current_bssid = String(english_words->at(WIFI_BSSID_KEY)) + mac_to_string(networks->at(current_network).get_bssid());

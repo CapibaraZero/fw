@@ -17,6 +17,7 @@
 
 #define WIFI_AUTH_KEY "wifi_auth"
 #define WIFI_SSID_KEY "wifi_ssid"
+#define WIFI_SSID_HIDDEN_KEY "wifi_ssid_hidden"
 #define WIFI_BSSID_KEY "wifi_bssid"
 #define WIFI_RSSI_KEY "wifi_rssi"
 #define WIFI_CH_KEY   "wifi_ch"
