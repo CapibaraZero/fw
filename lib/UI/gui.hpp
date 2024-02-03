@@ -24,6 +24,10 @@
 #include "pages/wifi/WifiScanPage.hpp"
 #include "pages/wifi/WifiScanSaveResultPage.hpp"
 #include "pages/wifi/WifiSniffPage.hpp"
+#include "pages/BLE/BLEPage.hpp"
+#include "pages/BLE/BLEScanPage.hpp"
+#include "pages/BLE/BLESniffPage.hpp"
+#include "pages/BLE/BLESpamPage.hpp"
 #include "wifi_attack.hpp"
 
 #ifndef GUI_H
@@ -44,6 +48,10 @@ class Gui {
   // BLE
 #ifndef CONFIG_IDF_TARGET_ESP32S2
   RectText *ble;
+  BLEPage *ble_page = nullptr;
+  BLEScanPage *ble_scan_page = nullptr;
+  BLESniffPage *ble_sniff_page = nullptr;
+  BLESpamPage *ble_spam_page = nullptr;
 #endif
 #if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
   RectText *badusb;
@@ -55,6 +63,8 @@ class Gui {
   RectText *settings;
   Grid *grid;
   int current_position = 0;
+  int position_limit = 7;	// Maximum number of widgets in the page
+  int position_increment = 4;	// Maximum increment of position by a single button
   void init_icons();
   void init_text();
   void up_submenu();
@@ -126,6 +136,10 @@ class Gui {
     return current_position;
   }
 
+  void set_current_position(int pos) {
+    current_position = pos;
+    }
+
 
   /// @brief Return if grid is visible or not(sub menu displayed)
   /// @return submenu visible or not
@@ -191,6 +205,31 @@ class Gui {
   void destroy_wifi_sniff() {
     delete wifi_sniff_page;
     wifi_sniff_page = nullptr;
+  }
+
+/*********************** BLE GUI FUNCTIONS *************************/
+
+  void init_ble_gui();
+  bool get_ble_sub_menu() { return ble_page != nullptr; }
+  void init_ble_scan_gui();
+  void set_ble_adv_devices_text(int adv_devices) {
+   ble_scan_page->set_adv_devices_text(String(adv_devices).c_str()); 
+  }
+  void set_ble_progress(char *progress) { ble_scan_page->update_progress(progress); };
+  void init_ble_sniff_gui();
+  void update_ble_packets_count(int count) {
+    ble_sniff_page->update_packet_count(count);
+  };
+  bool ble_sniff_visible() { return ble_sniff_page != nullptr; };
+  void init_ble_spam_gui();
+  bool ble_spam_visible() { return ble_spam_page != nullptr; };
+  void destroy_ble_sniff_gui() {
+      delete ble_sniff_page;
+      ble_sniff_page = nullptr;
+  }
+  void destroy_ble_spam_gui() {
+      delete ble_spam_page;
+      ble_spam_page = nullptr;
   }
 };
 

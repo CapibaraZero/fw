@@ -18,6 +18,10 @@
 #include "buttons/btn_routines.hpp"
 #include "gui.hpp"
 #include "wifi/wifi_navigation.hpp"
+#include "BLE/ble_navigation.hpp"
+
+#define WIFI_MODULE_POS 0
+#define BLE_MODULE_POS 1
 
 static Gui *gui;
 
@@ -25,7 +29,30 @@ void init_main_gui() {
   gui->reset();
   gui->wifi_cleanup();
   gui->init_gui();
+  gui->set_current_position(0);
   gui->set_selected_widget(0, true);
+}
+
+void main_menu_handler(int pos) {
+#ifdef CONFIG_DEBUG_WIFI_MENU
+  Serial0.println("Submenu1");
+#endif
+  switch (pos) {
+    case WIFI_MODULE_POS:  // Open Wi-Fi submenu
+      init_wifi_navigation(gui);
+      gui->ok(init_wifi_gui);
+      break;
+    case BLE_MODULE_POS:
+      init_ble_navigation(gui);
+      gui->ok(goto_ble_gui);
+      break;
+    default:
+#ifdef CONFIG_DEBUG_WIFI_MENU
+      Serial0.println("Not implemented");
+#endif
+      break;
+  }
+  return;
 }
 
 static void handle_ok() {
@@ -49,13 +76,27 @@ static void handle_ok() {
   }
 
   if (gui->wifi_scan_save_visible()) {
-    Serial0.println("Selection is visible");
     handle_wifi_network_selection();
     return;
   }
 
   if (gui->get_wifi_scan_result_visible()) {
     gui->show_wifi_scan_result_dialog();
+    return;
+  }
+
+  if(gui->get_ble_sub_menu()) {
+    ble_submenu_handler(pos);
+    return;
+  }
+
+  if(gui->ble_sniff_visible()) {
+    stop_ble_sniffer();
+    return;
+  }
+
+  if(gui->ble_spam_visible()) {
+    handle_ble_spam_stop();
     return;
   }
 }
@@ -66,7 +107,7 @@ static void handle_ok() {
 */
 void set_selected_listener(void *pv) {
   gui = static_cast<Gui *>(pv);
-  init_wifi_navigation(gui);
+ 
   while (true) {
     if (get_btn_pressed() == -1) {
       vTaskDelay(1 / portTICK_PERIOD_MS);  // Avoid wdt trigger

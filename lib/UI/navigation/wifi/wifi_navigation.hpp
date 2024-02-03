@@ -21,7 +21,7 @@
 #include "gui.hpp"
 #include "wifi_attack.hpp"
 
-void main_menu_handler(int pos);
+void init_wifi_gui();
 
 void wifi_submenu_handler(int pos);
 

@@ -66,7 +66,8 @@ void Gui::init_text() {
 }
 
 void Gui::init_gui() {
-  // current_position = 0;
+  position_increment = 4;
+  position_limit = 7;
   init_icons();
   init_text();
 }
@@ -74,6 +75,8 @@ void Gui::init_gui() {
 void Gui::init_wifi_gui() {
   delete grid;  // Free some spaces
   grid = nullptr;
+  position_limit = 1;
+  position_increment = 1;
   wifi_page = new WifiPage(screen);
   wifi_page->display();
 }
@@ -93,11 +96,45 @@ void Gui::init_wifi_networks_gui(vector<WifiNetwork> *networks) {
   wifi_networks_page->display();
 }
 
+/*********************** BLE GUI FUNCTIONS *************************/
+
+void Gui::init_ble_gui(){
+    delete grid;
+    grid = nullptr;
+    position_limit = 3;
+    position_increment = 1;
+    ble_page = new BLEPage(screen);
+    ble_page->display();
+}
+
+void Gui::init_ble_scan_gui(){
+    delete ble_page;
+    ble_page = nullptr;
+    ble_scan_page = new BLEScanPage(screen);
+    ble_scan_page->display();
+}
+
+void Gui::init_ble_sniff_gui() {
+    delete ble_page;
+    ble_page = nullptr;
+    ble_sniff_page = new BLESniffPage(screen);
+    ble_sniff_page->display();
+}
+
+void Gui::init_ble_spam_gui() {
+    delete ble_page;
+    ble_page = nullptr;
+    ble_spam_page = new BLESpamPage(screen);
+    ble_spam_page->display();
+}
+
 void Gui::set_selected_widget(int pos, bool selected) {
   if (grid != nullptr) {
     grid->set_selected(pos, selected);
   } else if (wifi_page != nullptr) {
     wifi_page->set_selected(pos, selected);
+  } else if(ble_page != nullptr) {
+    ble_page->set_selected(pos, selected);
   }
 }
 
@@ -106,23 +143,8 @@ void Gui::click_element(int pos, void callback()) {
     grid->click(pos, callback);
   else if (wifi_page != nullptr)
     wifi_page->click(pos, callback);
-}
-void Gui::up_submenu() {
-  int tmp_current_position = current_position - 1;
-  if (tmp_current_position >= 0) {
-    set_selected_widget(current_position, false);
-    current_position = tmp_current_position;
-  }
-  set_selected_widget(current_position, true);
-}
-
-void Gui::down_submenu() {
-  int tmp_current_position = current_position + 1;
-  if (tmp_current_position <= 1) {
-    set_selected_widget(current_position, false);
-    current_position = tmp_current_position;
-  }
-  set_selected_widget(current_position, true);
+  else if (ble_page != nullptr)
+    ble_page->click(pos, callback);
 }
 
 void Gui::up() {
@@ -134,11 +156,7 @@ void Gui::up() {
     wifi_sniff_page->up();
     return;
   }
-  if (wifi_page != nullptr) {
-    up_submenu();
-    return;
-  }
-  int tmp_current_position = current_position - 4;
+  int tmp_current_position = current_position - position_increment;
   if (tmp_current_position >= 0) {
     set_selected_widget(current_position, false);
     current_position = tmp_current_position;
@@ -155,12 +173,9 @@ void Gui::down() {
     wifi_sniff_page->down();
     return;
   }
-  if (wifi_page != nullptr) {
-    down_submenu();
-    return;
-  }
-  int tmp_current_position = current_position + 4;
-  if (tmp_current_position <= 7) {
+ 
+  int tmp_current_position = current_position + position_increment;
+  if (tmp_current_position <= position_limit) {
     set_selected_widget(current_position, false);
     current_position = tmp_current_position;
   }
@@ -175,11 +190,10 @@ void Gui::left() {
     wifi_networks_page->left();
     return;
   }
-  if (wifi_page != nullptr) {
-    // left_submenu();
+  if (wifi_page != nullptr || ble_page != nullptr) {
     return;
-  }
-  if (current_position > 0 && current_position <= 7) {
+  } 
+  if (current_position > 0 && current_position <= position_limit) {
     set_selected_widget(current_position, false);
     current_position--;
   }
@@ -194,8 +208,7 @@ void Gui::right() {
     wifi_networks_page->right();
     return;
   }
-  if (wifi_page != nullptr) {
-    // right_submenu();
+  if (wifi_page != nullptr || ble_page != nullptr) {
     return;
   }
   if (current_position >= 0 && current_position < 7) {
@@ -205,15 +218,7 @@ void Gui::right() {
   set_selected_widget(current_position, true);
 }
 
-void Gui::ok_submenu(void callback()) {
-  click_element(current_position, callback);
-}
-
 void Gui::ok(void callback()) {
-  if (wifi_page != nullptr) {
-    ok_submenu(callback);
-    return;
-  }
   click_element(current_position, callback);
 }
 

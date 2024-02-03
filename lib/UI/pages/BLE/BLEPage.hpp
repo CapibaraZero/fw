@@ -15,26 +15,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "bluetooth_attacks.hpp"
-#include "../../include/pcap_gen.h"
+#include "Grid.hpp"
+#include "List.hpp"
+#include "../Page.hpp"
 
-#define PCAP_TYPE String("bluetooth")
+#ifndef BLE_PAGE_H
+#define BLE_PAGE_H
 
-void BluetoothAttack::sniff(FS sd)
-{
-    sniffer = new BLESniffer(PCAP_FILE(PCAP_TYPE).c_str());
-    sniffer->sniff(sd);
-}
+class BLEPage : public Page {
+ private:
+//  List *ble_list;
+  List *ble_sniff;
+  List *apple_juice;
+  List *samsung_ble;
+  List *swift_pair;
+  Grid *ble_grid;
 
-void BluetoothAttack::scan(FS sd, int scan_time) {
-    scanner = new BLEScanner(scan_time);
-    sc_time = scan_time;
-    delay(scan_time + 1000);    // Scan time + about 1 sec for BLE stack initialization time, ecc...
-    while (scanner->is_scanning())
-    {
-        /* If scan still in progress do nothing */
-        __asm__ __volatile__ ("nop\n\t");
-    }
-    
-    scanner->save_to_sd(sd, scanner->get_result());
-}
+ public:
+  BLEPage(GFXForms *_screen);
+  ~BLEPage();
+  void display();
+  void click(int pos, void callback()) {
+    ble_grid->click(pos, callback);
+  };
+  void set_selected(int pos, bool status) {
+    ble_grid->set_selected(pos, status);
+  };
+  void up(){};
+  void down(){};
+  void left(){};
+  void right(){};
+};
+
+#endif

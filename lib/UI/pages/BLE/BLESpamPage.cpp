@@ -15,26 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "bluetooth_attacks.hpp"
-#include "../../include/pcap_gen.h"
+#include "BLESpamPage.hpp"
+#include "../../i18n.hpp"
+#include "../../i18n/BLE/ble_spam_keys.h"
 
-#define PCAP_TYPE String("bluetooth")
-
-void BluetoothAttack::sniff(FS sd)
-{
-    sniffer = new BLESniffer(PCAP_FILE(PCAP_TYPE).c_str());
-    sniffer->sniff(sd);
+BLESpamPage::BLESpamPage(GFXForms *_screen) {
+  text = new Text(_screen, ST77XX_WHITE, english_words->at(BLE_SPAM_PROGRESS_KEY));
+  details_grid = new Grid(_screen, 2, 1);
+  save = new List(_screen, english_words->at(BLE_SPAM_STOP_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  details_grid->add(text);
+  details_grid->add(save);
+  details_grid->set_selected(1, true);
+  details_grid->set_y_spacing(20);
 }
 
-void BluetoothAttack::scan(FS sd, int scan_time) {
-    scanner = new BLEScanner(scan_time);
-    sc_time = scan_time;
-    delay(scan_time + 1000);    // Scan time + about 1 sec for BLE stack initialization time, ecc...
-    while (scanner->is_scanning())
-    {
-        /* If scan still in progress do nothing */
-        __asm__ __volatile__ ("nop\n\t");
-    }
-    
-    scanner->save_to_sd(sd, scanner->get_result());
+BLESpamPage::~BLESpamPage() {
 }

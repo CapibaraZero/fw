@@ -15,26 +15,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "bluetooth_attacks.hpp"
-#include "../../include/pcap_gen.h"
+#include "Grid.hpp"
+#include "Text.hpp"
+#include "../Page.hpp"
 
-#define PCAP_TYPE String("bluetooth")
+#ifndef BLESCANPAGE_H
+#define BLESCANPAGE_H
 
-void BluetoothAttack::sniff(FS sd)
-{
-    sniffer = new BLESniffer(PCAP_FILE(PCAP_TYPE).c_str());
-    sniffer->sniff(sd);
-}
+class BLEScanPage: public Page {
+ private:
+  Grid *ble_scan_grid;
+  Text *ble_scan_text;
+  Text *ble_scan_progress;
+  Text *ble_scan_adv_devices;
+ public:
+  BLEScanPage(GFXForms *_screen);
+  ~BLEScanPage();
+  void display();
+  void update_progress(char *_progress){
+    ble_scan_progress->set_text(_progress);
+  };
+  void set_adv_devices_text(const char *channel) {
+    ble_scan_adv_devices->set_text(channel);
+  }
+    void up(){};
+  void down(){};
+  void left(){};
+  void right(){};
+};
 
-void BluetoothAttack::scan(FS sd, int scan_time) {
-    scanner = new BLEScanner(scan_time);
-    sc_time = scan_time;
-    delay(scan_time + 1000);    // Scan time + about 1 sec for BLE stack initialization time, ecc...
-    while (scanner->is_scanning())
-    {
-        /* If scan still in progress do nothing */
-        __asm__ __volatile__ ("nop\n\t");
-    }
-    
-    scanner->save_to_sd(sd, scanner->get_result());
-}
+#endif

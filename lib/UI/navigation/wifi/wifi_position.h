@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define WIFI_MODULE_POS 0
 #define WIFI_SCAN_POS 0
 #define WIFI_SNIFF_POS 1
 

@@ -23,11 +23,15 @@
 #include "i18n/wifi/wifi_network_details_keys.h"
 #include "i18n/wifi/wifi_scan_keys.h"
 #include "i18n/wifi/wifi_sniff_keys.h"
+#include "i18n/BLE/BLE_submenu_keys.h"
+#include "i18n/BLE/ble_scan_keys.h"
+#include "i18n/BLE/ble_spam_keys.h"
 
 std::map<const char *, const char *> *english_words;
 
 void init_english_dict() {
     english_words = new std::map<const char *, const char *>();
+    // Home
     english_words->insert({WIFI_HOME_KEY, "Wi-Fi"});
     english_words->insert({BLE_HOME_KEY, "BLE"});
     english_words->insert({BADUSB_HOME_KEY, "BadUSB"});
@@ -37,11 +41,15 @@ void init_english_dict() {
     english_words->insert({NET_ATTACKS_HOME_KEY, "NetAt."});
     english_words->insert({SETTINGS_HOME_KEY, "Sett."});
     english_words->insert({VERSION_KEY, "Version "});
+    // Home
+
+    // WiFi
     english_words->insert({WIFI_SCAN_KEY, "Scan"});
     english_words->insert({WIFI_SNIFF_KEY, "Sniff"});
     english_words->insert({WIFI_SCANNING_KEY, "Scanning Wi-Fi network..."});
     english_words->insert({WIFI_AUTH_KEY, "Auth: "});
     english_words->insert({WIFI_SSID_KEY, "SSID: "});
+    english_words->insert({WIFI_SSID_HIDDEN_KEY, "SSID Hidden"});
     english_words->insert({WIFI_BSSID_KEY, "BSSID: "});
     english_words->insert({WIFI_RSSI_KEY, "RSSI: "});
     english_words->insert({WIFI_CH_KEY, "CH: "});
@@ -52,4 +60,13 @@ void init_english_dict() {
     english_words->insert({WIFI_SNIFFING_INFO_KEY, "Sniffing packets..."});
     english_words->insert({WIFI_SNIFFING_SNIFFED_KEY, "Sniffed packets: "});
     english_words->insert({WIFI_SNIFFING_SAVE_KEY, "Save"});
+    // WiFi
+
+#ifndef CONFIG_IDF_TARGET_ESP32S2	// ESP32S2 doesn't support BLE
+    english_words->insert({BLE_SCAN_KEY, "Scan"});
+    english_words->insert({BLE_SNIFF_KEY, "Sniff"});
+    english_words->insert({BLE_SCANNING_KEY, "Scanning BLE devices..."});
+    english_words->insert({BLE_SPAM_PROGRESS_KEY, "Spam attack in progress..."});
+    english_words->insert({BLE_SPAM_STOP_KEY, "Stop spam"});
+#endif
 }

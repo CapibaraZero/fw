@@ -16,6 +16,7 @@
  */
 
 #include "buttons.h"
+#include <Arduino.h>
 
 static Buttons btn_pressed = NULL_BTN;
 

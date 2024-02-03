@@ -17,10 +17,10 @@
 
 #include <Arduino.h>
 #include "gui.hpp"
-#include "../navigation.hpp"
 #include "wifi_position.h"
 #include "wifi_attacks_btn.hpp"
 #include "wifi_tasks.hpp"
+#include "../navigation.hpp"
 
 static Gui *gui;
 static WifiAttack wifiAttack = WifiAttack();
@@ -33,26 +33,9 @@ static void goto_sniff_wifi() {
   sniff_wifi(gui, &wifiAttack);
 }
 
-static void init_wifi_gui() {
+void init_wifi_gui() {
   gui->reset();
   gui->init_wifi_gui();
-}
-
-void main_menu_handler(int pos) {
-#ifdef CONFIG_DEBUG_WIFI_MENU
-  Serial0.println("Submenu1");
-#endif
-  switch (pos) {
-    case WIFI_MODULE_POS:  // Open Wi-Fi submenu
-      gui->ok(init_wifi_gui);
-      break;
-    default:
-#ifdef CONFIG_DEBUG_WIFI_MENU
-      Serial0.println("Not implemented");
-#endif
-      break;
-  }
-  return;
 }
 
 void wifi_submenu_handler(int pos) {

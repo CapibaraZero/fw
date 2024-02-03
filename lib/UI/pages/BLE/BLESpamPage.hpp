@@ -15,26 +15,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "bluetooth_attacks.hpp"
-#include "../../include/pcap_gen.h"
+#include "GFXForms.hpp"
+#include "Grid.hpp"
+#include "List.hpp"
+#include "../Page.hpp"
+#include "Text.hpp"
 
-#define PCAP_TYPE String("bluetooth")
+#ifndef BLE_SPAM_PAGE_H
+#define BLE_SPAM_PAGE_H
 
-void BluetoothAttack::sniff(FS sd)
-{
-    sniffer = new BLESniffer(PCAP_FILE(PCAP_TYPE).c_str());
-    sniffer->sniff(sd);
-}
+class BLESpamPage : public Page {
+ private:
+  Text *text;
+  List *save;
+  Grid *details_grid;
 
-void BluetoothAttack::scan(FS sd, int scan_time) {
-    scanner = new BLEScanner(scan_time);
-    sc_time = scan_time;
-    delay(scan_time + 1000);    // Scan time + about 1 sec for BLE stack initialization time, ecc...
-    while (scanner->is_scanning())
-    {
-        /* If scan still in progress do nothing */
-        __asm__ __volatile__ ("nop\n\t");
-    }
-    
-    scanner->save_to_sd(sd, scanner->get_result());
-}
+ public:
+  BLESpamPage(GFXForms *_screen);
+  ~BLESpamPage();
+  void display() {
+    details_grid->display();
+  }
+  void up() {
+  };
+  void down() {
+  };
+  void left(){};
+  void right(){};
+};
+
+#endif

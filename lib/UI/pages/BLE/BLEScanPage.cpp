@@ -15,26 +15,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "bluetooth_attacks.hpp"
-#include "../../include/pcap_gen.h"
+#include "BLEScanPage.hpp"
+#include "../../i18n.hpp"
+#include "../../i18n/BLE/ble_scan_keys.h"
 
-#define PCAP_TYPE String("bluetooth")
-
-void BluetoothAttack::sniff(FS sd)
-{
-    sniffer = new BLESniffer(PCAP_FILE(PCAP_TYPE).c_str());
-    sniffer->sniff(sd);
+BLEScanPage::BLEScanPage(GFXForms *_screen) {
+    screen = _screen;
 }
 
-void BluetoothAttack::scan(FS sd, int scan_time) {
-    scanner = new BLEScanner(scan_time);
-    sc_time = scan_time;
-    delay(scan_time + 1000);    // Scan time + about 1 sec for BLE stack initialization time, ecc...
-    while (scanner->is_scanning())
-    {
-        /* If scan still in progress do nothing */
-        __asm__ __volatile__ ("nop\n\t");
-    }
-    
-    scanner->save_to_sd(sd, scanner->get_result());
+BLEScanPage::~BLEScanPage() {
+}
+
+void BLEScanPage::display() {
+  ble_scan_grid = new Grid(screen, 3, 1);
+  ble_scan_text = new Text(screen, ST77XX_WHITE, english_words->at(BLE_SCANNING_KEY));
+  ble_scan_progress = new Text(screen, ST77XX_WHITE, "10%");
+  ble_scan_adv_devices = new Text(screen, ST77XX_WHITE, "0");
+  ble_scan_grid->add(ble_scan_text);
+  ble_scan_grid->add(ble_scan_progress);
+  ble_scan_grid->add(ble_scan_adv_devices);
+  ble_scan_grid->set_y_spacing(30);
+  ble_scan_grid->display();
 }

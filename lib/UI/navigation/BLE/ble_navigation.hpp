@@ -15,26 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "bluetooth_attacks.hpp"
-#include "../../include/pcap_gen.h"
+#ifndef BLE_NAVIGATION_H
+#define BLE_NAVIGATION_H
 
-#define PCAP_TYPE String("bluetooth")
+void goto_ble_gui();
+void ble_submenu_handler(int pos);
+void init_ble_navigation(Gui *_gui);
+void stop_ble_sniffer();
+void stop_applejuice();
+void stop_samsung_ble_spam();
+void stop_swift_pair_spam();
+void handle_ble_spam_stop();
 
-void BluetoothAttack::sniff(FS sd)
-{
-    sniffer = new BLESniffer(PCAP_FILE(PCAP_TYPE).c_str());
-    sniffer->sniff(sd);
-}
-
-void BluetoothAttack::scan(FS sd, int scan_time) {
-    scanner = new BLEScanner(scan_time);
-    sc_time = scan_time;
-    delay(scan_time + 1000);    // Scan time + about 1 sec for BLE stack initialization time, ecc...
-    while (scanner->is_scanning())
-    {
-        /* If scan still in progress do nothing */
-        __asm__ __volatile__ ("nop\n\t");
-    }
-    
-    scanner->save_to_sd(sd, scanner->get_result());
-}
+#endif
