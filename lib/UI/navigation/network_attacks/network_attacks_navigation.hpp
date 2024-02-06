@@ -15,23 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <ESPAsyncWebServer.h>
-#include "Arduino.h"
+#ifndef NETWORK_ATTACKS_NAVIGATION_H
+#define NETWORK_ATTACKS_NAVIGATION_H
 
-int captured_requests = 0;
+void goto_net_attacks_gui();
+void network_attacks_submenu_handler(int pos);
+void stop_dhcpglutton();
+void stop_evilportal();
+void init_network_attacks_navigation(Gui *_gui);
 
-void captive_portal_callback(AsyncWebServerRequest* request) {
-    for (size_t i = 0; i < request->args(); i++) {
-        Serial0.printf("%s: %s\n", request->argName(i), request->arg(i));
-        request->send(200);
-        captured_requests++;
-    } 
-}
-
-int get_captured_requests() {
-    return captured_requests;
-}
-
-void reset_captured_requests() {
-    captured_requests = 0;
-}
+#endif

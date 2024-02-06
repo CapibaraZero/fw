@@ -128,6 +128,49 @@ void Gui::init_ble_spam_gui() {
     ble_spam_page->display();
 }
 
+/****************** NET ATTACKS GUI FUNCTIONS *********************/
+
+void Gui::init_network_attacks_gui() {
+    delete grid;
+    grid = nullptr;
+    position_limit = 1;
+    position_increment = 1;
+    net_attacks_page = new NetworkAttacksPage(screen);
+    net_attacks_page->display();
+}
+
+void Gui::init_dhcp_glutton_gui() {
+    delete net_attacks_page;
+    net_attacks_page = nullptr;
+    position_limit = 0; // It has just one button, so it cannot be increased
+    position_increment = 0;
+    dhcp_glutton_page = new DHCPGluttonPage(screen);
+    dhcp_glutton_page->display();
+}
+
+void Gui::set_dhcp_glutton_clients(int client) {
+    dhcp_glutton_page->update_packet_count(client);
+}
+
+/****************** EVILPORTAL GUI FUNCTIONS *********************/
+
+void Gui::init_evilportal_gui() {
+    delete net_attacks_page;
+    net_attacks_page = nullptr;
+    position_limit = 0; // It has just one button, so it cannot be increased
+    position_increment = 0;
+    evilportal_page = new EvilPortalPage(screen);
+    evilportal_page->display();
+}
+
+void Gui::set_evilportal_requests(int req) {
+  evilportal_page->update_requests_count(req);
+}
+
+void Gui::set_evilportal_ip(String ip) {
+  evilportal_page->set_portal_ip(ip);
+}
+
 void Gui::set_selected_widget(int pos, bool selected) {
   if (grid != nullptr) {
     grid->set_selected(pos, selected);
@@ -135,6 +178,8 @@ void Gui::set_selected_widget(int pos, bool selected) {
     wifi_page->set_selected(pos, selected);
   } else if(ble_page != nullptr) {
     ble_page->set_selected(pos, selected);
+  } else if(network_attacks_submenu_visible()) {
+    net_attacks_page->set_selected(pos, selected);
   }
 }
 

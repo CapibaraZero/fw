@@ -28,6 +28,9 @@
 #include "pages/BLE/BLEScanPage.hpp"
 #include "pages/BLE/BLESniffPage.hpp"
 #include "pages/BLE/BLESpamPage.hpp"
+#include "pages/network_attacks/NetworkAttacksPage.hpp"
+#include "pages/network_attacks/DHCPGluttonPage.hpp"
+#include "pages/network_attacks/EvilPortalPage.hpp"
 #include "wifi_attack.hpp"
 
 #ifndef GUI_H
@@ -59,7 +62,12 @@ class Gui {
   RectText *SubGhz;
   RectText *NFC;
   RectText *IR;
+  // Network attacks
   RectText *net_attacks;
+  NetworkAttacksPage *net_attacks_page = nullptr;
+  DHCPGluttonPage *dhcp_glutton_page = nullptr;
+  EvilPortalPage *evilportal_page = nullptr;
+  // Network attacks
   RectText *settings;
   Grid *grid;
   int current_position = 0;
@@ -231,6 +239,32 @@ class Gui {
       delete ble_spam_page;
       ble_spam_page = nullptr;
   }
+
+/****************** NET ATTACKS GUI FUNCTIONS *********************/
+
+  void init_network_attacks_gui();
+  bool network_attacks_submenu_visible() { return net_attacks_page != nullptr; };
+
+/**************** DHCP STARVATION GUI FUNCTIONS ********************/
+
+  void init_dhcp_glutton_gui();
+  bool dhcp_glutton_visible() { return dhcp_glutton_page != nullptr; };
+  void set_dhcp_glutton_clients(int client);
+  void destroy_dhcp_glutton_gui() {
+    delete dhcp_glutton_page;
+    dhcp_glutton_page = nullptr;
+  }
+
+/****************** EVILPORTAL GUI FUNCTIONS *********************/
+
+  void init_evilportal_gui();
+  bool evilportal_page_visible() { return evilportal_page != nullptr; };
+  void destroy_evilportal_gui() {
+    delete evilportal_page;
+    evilportal_page = nullptr;
+  };
+  void set_evilportal_requests(int req);
+  void set_evilportal_ip(String ip);
 };
 
 #endif

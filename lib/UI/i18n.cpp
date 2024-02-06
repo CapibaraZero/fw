@@ -26,6 +26,9 @@
 #include "i18n/BLE/BLE_submenu_keys.h"
 #include "i18n/BLE/ble_scan_keys.h"
 #include "i18n/BLE/ble_spam_keys.h"
+#include "i18n/network_attacks/net_attacks_main_page.h"
+#include "i18n/network_attacks/evilportal_keys.h"
+#include "i18n/network_attacks/dhcpglutton_keys.h"
 
 std::map<const char *, const char *> *english_words;
 
@@ -69,4 +72,14 @@ void init_english_dict() {
     english_words->insert({BLE_SPAM_PROGRESS_KEY, "Spam attack in progress..."});
     english_words->insert({BLE_SPAM_STOP_KEY, "Stop spam"});
 #endif
+
+    // Net attacks
+    english_words->insert({EVILPORTAL_KEY, "EvilPortal"});
+    english_words->insert({DHCP_GLUTTON_KEY, "DHCPGlutton"});
+    english_words->insert({RUNNING_EVILPORTAL_KEY, "Running EvilPortal..."});
+    english_words->insert({EVILPORTAL_IP_KEY, "EvilPortal IP: "});
+    english_words->insert({EVILPORTAL_CAPTURED_REQUESTS_KEY, "Captured requests: "});
+    english_words->insert({RUNNING_DHCPGLUTTON_KEY, "Running DHCP Starvation..."});
+    english_words->insert({CREATED_DHCPGLUTTON_CLIENTS_KEY, "Created clients: "});
+    // Net attacks
 }

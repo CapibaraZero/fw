@@ -15,23 +15,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <ESPAsyncWebServer.h>
-#include "Arduino.h"
+#include "Grid.hpp"
+#include "List.hpp"
+#include "../Page.hpp"
 
-int captured_requests = 0;
+#ifndef NetworkAttacks_PAGE_H
+#define NetworkAttacks_PAGE_H
 
-void captive_portal_callback(AsyncWebServerRequest* request) {
-    for (size_t i = 0; i < request->args(); i++) {
-        Serial0.printf("%s: %s\n", request->argName(i), request->arg(i));
-        request->send(200);
-        captured_requests++;
-    } 
-}
+class NetworkAttacksPage : public Page {
+ private:
+  List *dhcpglutton;
+  List *evilportal;
+  Grid *net_attacks_grid;
 
-int get_captured_requests() {
-    return captured_requests;
-}
+ public:
+  NetworkAttacksPage(GFXForms *_screen);
+  ~NetworkAttacksPage();
+  void display();
+  void click(int pos, void callback()) {
+    net_attacks_grid->click(pos, callback);
+  };
+  void set_selected(int pos, bool status) {
+    Serial0.println("Set selected");
+    net_attacks_grid->set_selected(pos, status);
+  };
+  void up(){};
+  void down(){};
+  void left(){};
+  void right(){};
+};
 
-void reset_captured_requests() {
-    captured_requests = 0;
-}
+#endif

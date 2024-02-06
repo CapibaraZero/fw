@@ -19,7 +19,7 @@
 #include "gui.hpp"
 #include "wifi/wifi_navigation.hpp"
 #include "BLE/ble_navigation.hpp"
-
+#include "network_attacks/network_attacks_navigation.hpp"
 #define WIFI_MODULE_POS 0
 #define BLE_MODULE_POS 1
 
@@ -45,6 +45,10 @@ void main_menu_handler(int pos) {
     case BLE_MODULE_POS:
       init_ble_navigation(gui);
       gui->ok(goto_ble_gui);
+      break;
+    case 6:
+      init_network_attacks_navigation(gui);
+      gui->ok(goto_net_attacks_gui);
       break;
     default:
 #ifdef CONFIG_DEBUG_WIFI_MENU
@@ -97,6 +101,21 @@ static void handle_ok() {
 
   if(gui->ble_spam_visible()) {
     handle_ble_spam_stop();
+    return;
+  }
+
+  if(gui->network_attacks_submenu_visible()) {
+      network_attacks_submenu_handler(pos);
+      return;
+  }
+
+  if(gui->dhcp_glutton_visible()) {
+    stop_dhcpglutton();  
+    return;
+  }
+
+  if(gui->evilportal_page_visible()) {
+    stop_evilportal();
     return;
   }
 }

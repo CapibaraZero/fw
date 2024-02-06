@@ -15,23 +15,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <ESPAsyncWebServer.h>
-#include "Arduino.h"
+#include "NetworkAttacksPage.hpp"
+#include "../../i18n.hpp"
+#include "../../i18n/network_attacks/net_attacks_main_page.h"
 
-int captured_requests = 0;
-
-void captive_portal_callback(AsyncWebServerRequest* request) {
-    for (size_t i = 0; i < request->args(); i++) {
-        Serial0.printf("%s: %s\n", request->argName(i), request->arg(i));
-        request->send(200);
-        captured_requests++;
-    } 
+NetworkAttacksPage::NetworkAttacksPage(GFXForms *_screen) {
+  screen = _screen;
 }
 
-int get_captured_requests() {
-    return captured_requests;
+NetworkAttacksPage::~NetworkAttacksPage() {
 }
 
-void reset_captured_requests() {
-    captured_requests = 0;
+void NetworkAttacksPage::display() {
+  net_attacks_grid = new Grid(screen, 1, 1);
+  evilportal = new List(screen, english_words->at(EVILPORTAL_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  dhcpglutton = new List(screen, english_words->at(DHCP_GLUTTON_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  net_attacks_grid->add(dhcpglutton);
+  net_attacks_grid->add(evilportal);
+  net_attacks_grid->set_selected(0, true);
+  net_attacks_grid->display();
 }
