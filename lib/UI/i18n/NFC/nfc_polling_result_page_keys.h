@@ -1,0 +1,7 @@
+#define NFC_MIFARE_CLASSIC_FOUND_KEY "mifare_classic_found_key"
+#define NFC_MIFARE_ULTRALIGHT_FOUND_KEY "mifare_ultralight_found"
+#define NFC_UID_KEY "uid_key"
+#define NFC_DUMP_TAG_TO_SD "dump_tag_to_sd_key"
+#define NFC_FORMAT_TAG_TO_SD "format_tag_to_sd_key"
+#define NFC_BRUTEFORCE_TAG_KEY "bruteforce_tag_key"
+#define NFC_GO_BACK_KEY "nfc_go_back_key"

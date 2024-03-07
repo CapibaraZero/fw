@@ -20,14 +20,18 @@
 #include "wifi/wifi_navigation.hpp"
 #include "BLE/ble_navigation.hpp"
 #include "network_attacks/network_attacks_navigation.hpp"
+#include "NFC/NFCNavigation.hpp"
+
 #define WIFI_MODULE_POS 0
 #define BLE_MODULE_POS 1
+#define NFC_MODULE_POS 4
+#define NETWORK_ATTACKS_MODULE_POS 6
 
 static Gui *gui;
 
 void init_main_gui() {
   gui->reset();
-  gui->wifi_cleanup();
+  // gui->wifi_cleanup();
   gui->init_gui();
   gui->set_current_position(0);
   gui->set_selected_widget(0, true);
@@ -46,7 +50,11 @@ void main_menu_handler(int pos) {
       init_ble_navigation(gui);
       gui->ok(goto_ble_gui);
       break;
-    case 6:
+    case NFC_MODULE_POS:
+      init_nfc_navigation(gui);
+      gui->ok(goto_nfc_gui);
+      break;
+    case NETWORK_ATTACKS_MODULE_POS:
       init_network_attacks_navigation(gui);
       gui->ok(goto_net_attacks_gui);
       break;
@@ -116,6 +124,42 @@ static void handle_ok() {
 
   if(gui->evilportal_page_visible()) {
     stop_evilportal();
+    return;
+  }
+
+  if(gui->nfc_page_visible()) {
+    nfc_submenu_handler(pos);
+    return;
+  }
+
+  if(gui->nfc_polling_waiting_page_visible()) {
+    stop_nfc_polling();
+    return;
+  }
+
+  if(gui->nfc_format_page_visible()) {
+    nfc_format_submenu_handler(pos);
+    return;
+  }
+
+  if(gui->nfc_dump_result_page_visible()) {
+    nfc_dump_submenu_handler(pos);
+    return;
+  }
+
+  if(gui->nfc_bruteforce_page_visible()) {
+    Serial0.println("nfc_bruteforce_page_visible");
+    nfc_bruteforce_submenu_handler(pos);
+    return;
+  }
+  
+  if(gui->nfc_polling_result_page_visible()) {
+    nfc_polling_submenu_handler(pos);
+    return;
+  }
+
+  if(gui->nfc_felica_polling_result_page_visible()) {
+    nfc_felica_polling_submenu_handler(pos);
     return;
   }
 }

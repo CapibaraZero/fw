@@ -67,6 +67,7 @@ void Gui::init_text() {
 
 void Gui::init_gui() {
   position_increment = 4;
+  lower_limit = 0;
   position_limit = 7;
   init_icons();
   init_text();
@@ -172,15 +173,122 @@ void Gui::set_evilportal_ip(String ip) {
 }
 
 void Gui::set_selected_widget(int pos, bool selected) {
-  if (grid != nullptr) {
+  if (grid != nullptr)
     grid->set_selected(pos, selected);
-  } else if (wifi_page != nullptr) {
+  else if (wifi_page != nullptr)
     wifi_page->set_selected(pos, selected);
-  } else if(ble_page != nullptr) {
+  else if(ble_page != nullptr) 
     ble_page->set_selected(pos, selected);
-  } else if(network_attacks_submenu_visible()) {
+  else if(network_attacks_submenu_visible())
     net_attacks_page->set_selected(pos, selected);
-  }
+  else if(nfc_page_visible())
+    nfc_main_page->set_selected(pos, selected);
+  else if(nfc_dump_result_page_visible())
+    nfc_dump_result_page->set_selected(pos, selected);
+  else if(nfc_format_page_visible())
+    nfc_format_result_page->set_selected(pos, selected);
+  else if(nfc_polling_result_page_visible())
+    nfc_polling_result_page->set_selected(pos, selected);
+  else if(nfc_felica_polling_result_page_visible())
+    nfc_felica_polling_result_page->set_selected(pos, selected);
+}
+
+/******************** NFC GUI FUNCTIONS ************************/
+void Gui::init_nfc_gui() {
+    delete grid;
+    grid = nullptr;
+    position_limit = 2;
+    position_increment = 1;
+    nfc_main_page = new NFCMainPage(screen);
+    nfc_main_page->display();
+};
+
+void Gui::init_nfc_polling_waiting_gui() {
+  delete nfc_main_page;
+  nfc_main_page = nullptr;
+  position_limit = 0;
+  position_increment = 0;
+  nfc_polling_waiting_page = new NFCPollingWaitingPage(screen);
+  nfc_polling_waiting_page->display();
+}
+
+void Gui::init_nfc_polling_result_gui(uint8_t *uid, uint8_t length) {
+  delete nfc_polling_waiting_page;
+  nfc_polling_waiting_page = nullptr;
+  position_limit = 5;
+  // position_limit = 4;
+  lower_limit = 2;
+  position_increment = 1;
+  nfc_polling_result_page = new NFCPollingResultPage(screen);
+  nfc_polling_result_page->display(uid, length);
+}
+
+void Gui::init_nfc_dump_result_gui() {
+  // We don't destroy previous page since we may need it again
+  // position_limit = 5;
+  lower_limit = 4;
+  position_limit = 5;
+  position_increment = 0;
+  nfc_dump_result_page = new NFCDumpResultPage(screen);
+  nfc_dump_result_page->display();
+}
+
+void Gui::return_to_nfc_polling_gui() {
+  position_limit = 5;
+  lower_limit = 2;
+  position_increment = 1;
+  nfc_polling_result_page->display();
+}
+
+void Gui::init_nfc_write_result_gui() {
+  // We don't destroy previous page since we may need it again
+  position_limit = 4;
+  lower_limit = 3;
+  position_increment = 1;
+  nfc_write_result_page = new NFCWriteResultPage(screen);
+  nfc_write_result_page->display();
+}
+
+void Gui::init_nfc_format_result_gui() {
+  // We don't destroy previous page since we may need it again
+  // position_limit = 4;
+  // lower_limit = 3;
+  position_limit = 0;
+  position_increment = 0;
+  nfc_format_result_page = new NFCFormatResultPage(screen);
+  nfc_format_result_page->display();
+}
+
+void Gui::init_nfc_bruteforce_gui() {
+  // We don't destroy previous page since we may need it again
+  // position_limit = 4;
+  // lower_limit = 3;
+  position_limit = 0;
+  position_increment = 0;
+  nfc_bruteforce_tag_page = new NFCBruteforceTagPage(screen);
+  nfc_bruteforce_tag_page->display();
+}
+
+void Gui::init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm, uint16_t sys_code) {
+  delete nfc_polling_waiting_page;
+  nfc_polling_waiting_page = nullptr;
+  lower_limit = 4;
+  position_limit = 5;
+  position_increment = 1;
+  nfc_felica_polling_result_page = new NFCFelicaPollingResultPage(screen);
+  nfc_felica_polling_result_page->display(idm, pmm, sys_code);
+}
+void Gui::nfc_cleanup() {
+  delete nfc_polling_result_page;
+  nfc_polling_result_page = nullptr;
+  delete nfc_dump_result_page;
+  nfc_dump_result_page = nullptr;
+  delete nfc_write_result_page;
+  nfc_write_result_page = nullptr;
+  delete nfc_format_result_page;
+  nfc_format_result_page = nullptr;
+  delete nfc_bruteforce_tag_page;
+  nfc_bruteforce_tag_page = nullptr;
 }
 
 void Gui::click_element(int pos, void callback()) {
@@ -190,6 +298,16 @@ void Gui::click_element(int pos, void callback()) {
     wifi_page->click(pos, callback);
   else if (ble_page != nullptr)
     ble_page->click(pos, callback);
+  else if (nfc_page_visible())
+    nfc_main_page->click(pos, callback);
+  else if(nfc_dump_result_page_visible())
+    nfc_dump_result_page->click(pos, callback);
+  else if(nfc_format_page_visible())
+    nfc_format_result_page->click(pos, callback);
+  else if (nfc_polling_result_page_visible())
+    nfc_polling_result_page->click(pos, callback);
+  else if(nfc_felica_polling_result_page_visible())
+    nfc_felica_polling_result_page->click(pos, callback);
 }
 
 void Gui::up() {
@@ -202,7 +320,7 @@ void Gui::up() {
     return;
   }
   int tmp_current_position = current_position - position_increment;
-  if (tmp_current_position >= 0) {
+  if (tmp_current_position >= lower_limit) {
     set_selected_widget(current_position, false);
     current_position = tmp_current_position;
   }
@@ -218,7 +336,6 @@ void Gui::down() {
     wifi_sniff_page->down();
     return;
   }
- 
   int tmp_current_position = current_position + position_increment;
   if (tmp_current_position <= position_limit) {
     set_selected_widget(current_position, false);

@@ -186,6 +186,7 @@ uint8_t NFCAttacks::write_tag(NFCTag *tag, int starting_block)
             }
             else
             {
+                unwritable++;
                 LOG_ERROR("Error during writing block.");
             };
         }
@@ -295,11 +296,10 @@ bool NFCAttacks::felica_read(uint8_t service_length, uint16_t *service_codes, ui
     return nfc_framework.felica_read_without_encryption(service_length, service_codes, num_blocks, block_list, data);
 }
 
-bool NFCAttacks::felica_read(uint8_t num_blocks, uint16_t *block_list, uint8_t data[][16]) {
+int NFCAttacks::felica_read(uint8_t num_blocks, uint16_t *block_list, uint8_t data[][16]) {
     uint16_t default_service_code[1] = { 0x000B };   // Default service code for reading. Should works for every card
     return nfc_framework.felica_read_without_encryption(1, default_service_code, num_blocks, block_list, data);
 }
-
 
 bool NFCAttacks::felica_write(uint8_t service_codes_list_length, uint16_t *service_codes, 
                             uint8_t block_number, uint16_t *block_list, uint8_t data[][16]) {
@@ -308,9 +308,95 @@ bool NFCAttacks::felica_write(uint8_t service_codes_list_length, uint16_t *servi
                                                     block_number, block_list, data);
 }
 
-bool NFCAttacks::felica_write(uint8_t block_number, uint16_t *block_list, uint8_t data[][16]) {
+int NFCAttacks::felica_write(uint8_t block_number, uint16_t *block_list, uint8_t data[][16]) {
     uint16_t default_service_code[1] = { 0x0009 };   // Default service code for writing. Should works for every card
     return nfc_framework.felica_write_without_encryption(1, default_service_code,block_number, block_list, data);
+}
+
+int NFCAttacks::felica_write(NFCTag *tag) {
+    uint8_t blocks[14][16] = {0};
+    tag->get_felica_data(blocks);
+    for (uint16_t i = 0x8000; i < 0x8000 + 16; i++)
+    {
+        uint16_t block_list[1] = { i };
+        felica_write(i, block_list, &blocks[i]);
+    }
+    return 0;
+}
+
+uint8_t NFCAttacks::felica_format(uint8_t blocks) {
+    uint8_t unformattable = 0;
+    for (uint16_t i = 0x8000; i < 0x8000 + blocks; i++)
+    {
+        uint16_t block_list[1] = { i };
+        uint8_t block_data[1][16] = { 0 };
+        int res = felica_write(1, block_list, block_data);
+        Serial0.printf("Write result: %d\n", res);
+        if(res != 1) {
+            unformattable++;
+        }
+    }
+    return unformattable;
+}
+
+NFCTag NFCAttacks::felica_dump(int blocks, uint8_t *unreadable) {
+    uint8_t data[14][16];
+    uint8_t _idm[8];
+    uint8_t _pmm[8];
+    uint16_t _sys_code;
+    if(detect_felica(_idm, _pmm, &_sys_code)) {
+        for (uint16_t i = 0x8000; i < 0x8000 + blocks; i++)
+        {
+            uint16_t block_list[1] = { i };
+            uint8_t block_data[1][16] = { 0 };
+            int res = felica_read(1, block_list, block_data);
+            Serial0.printf("Write result: %d\n", res);
+            if(res != 1) {
+                *unreadable++;
+                memset(&data[i][0], 0, 16);
+            }else {
+                memcpy(&data[i][0], &block_data[0][0], 16);
+            }
+        }
+    } else {
+        uint8_t empty[14][16] = {0};
+        return NFCTag(_idm, _pmm, _sys_code, empty);
+    }
+    Serial0.println("FInished");
+    return NFCTag(_idm, _pmm, _sys_code, data);
+}
+
+uint8_t NFCAttacks::felica_dump(int blocks, uint8_t data[][16]) {
+    uint8_t unreadable = 0;
+    for (uint16_t i = 0x8000; i < 0x8000 + blocks; i++)
+    {
+        uint16_t block_list[1] = { i };
+        uint8_t block_data[1][16] = { 0 };
+        int res = felica_read(1, block_list, block_data);
+        Serial0.printf("Write result: %d\n", res);
+        if(res != 1) {
+            unreadable++;
+            memset(&data[i][0], 0, 16);
+        }else {
+            memcpy(&data[i][0], &block_data[0][0], 16);
+        }
+    }
+    return unreadable;
+}
+
+bool NFCAttacks::felica_clone(NFCTag *tag) {
+    uint8_t data[14][16] = { 0 };
+    tag->get_felica_data(data);
+    bool status = true;
+    for (uint16_t i = 0; i < 14; i++)
+    {
+        uint16_t block_list[1] = { i };
+        int res = felica_write(i, block_list, &data[i]);
+        Serial0.printf("Write result: %d\n", res);
+        status = res == 1 && status;
+    }
+
+    return status;
 }
 
 #define NFC_CONFIG_FILE "/nfc/config.json"
@@ -320,15 +406,47 @@ NFCTag NFCAttacks::get_tag_towrite(uint8_t uid_length) {
     File nfc_config = open(NFC_CONFIG_FILE, "r");
     StaticJsonDocument<256> doc;
     DeserializationError error = deserializeJson(doc, nfc_config);
-    uint8_t empty[1024];
     if (error) {
+        uint8_t empty[1024];
         LOG_ERROR("Invalid NFC configuration");
         return NFCTag(empty, 7);
     }
     // if uid_length == 7 search ntag
     File nfc_saved_tag = open(doc["ISO14443A"]["ntag_ultralight"]["tag_to_write"], "r");
+    if(!nfc_saved_tag.available()) {
+        uint8_t empty[1024];
+        LOG_ERROR("Invalid NFC dump");
+        return NFCTag(empty, 7);
+    }
     const size_t tag_size = TAG_SIZE(uid_length);
     byte buffer[tag_size] = { 0 };
     nfc_saved_tag.read(buffer, tag_size);
     return NFCTag(buffer, uid_length, NTAG213_PAGES);
+}
+
+NFCTag NFCAttacks::get_felica_towrite() {
+    File nfc_config = open(NFC_CONFIG_FILE, "r");
+    uint8_t idm[8] = { 0 };
+    uint8_t pmm[8] = { 0 };
+    uint16_t sys_code = 0;
+    StaticJsonDocument<256> doc;
+    DeserializationError error = deserializeJson(doc, nfc_config);
+    if (error) {
+        uint8_t empty[1024];
+        LOG_ERROR("Invalid NFC configuration");
+        return NFCTag(empty, 7);
+    }
+    File nfc_saved_tag = open(doc["ISO18092"]["tag_to_write"], "r");
+    if(!nfc_saved_tag.available()) {
+        uint8_t empty[1024];
+        LOG_ERROR("Invalid NFC dump");
+        return NFCTag(empty, 7);
+    }
+    byte buffer[14*16] = { 0 };
+    nfc_saved_tag.read(buffer, 14*16);
+    uint8_t data[14][16] = { 0 };
+    for (uint8_t i = 0; i < 14; i++) {
+        memcpy(&data[i][0], &buffer[i*16], 16);
+    }
+    return NFCTag(idm, pmm, sys_code, data);
 }

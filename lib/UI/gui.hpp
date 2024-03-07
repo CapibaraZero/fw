@@ -31,6 +31,14 @@
 #include "pages/network_attacks/NetworkAttacksPage.hpp"
 #include "pages/network_attacks/DHCPGluttonPage.hpp"
 #include "pages/network_attacks/EvilPortalPage.hpp"
+#include "pages/NFC/NFCMainPage.hpp"
+#include "pages/NFC/NFCPollingWaitingPage.hpp"
+#include "pages/NFC/NFCPollingResultPage.hpp"
+#include "pages/NFC/NFCDumpResultPage.hpp"
+#include "pages/NFC/NFCWriteResultPage.hpp"
+#include "pages/NFC/NFCFormatResultPage.hpp"
+#include "pages/NFC/NFCBruteforceTagPage.hpp"
+#include "pages/NFC/FeliCaPages/NFCFelicaPollingResultPage.hpp"
 #include "wifi_attack.hpp"
 
 #ifndef GUI_H
@@ -60,7 +68,17 @@ class Gui {
   RectText *badusb;
 #endif
   RectText *SubGhz;
+  // NFC
   RectText *NFC;
+  NFCMainPage *nfc_main_page = nullptr;
+  NFCPollingWaitingPage *nfc_polling_waiting_page = nullptr;
+  NFCPollingResultPage *nfc_polling_result_page = nullptr;
+  NFCDumpResultPage *nfc_dump_result_page = nullptr;
+  NFCWriteResultPage *nfc_write_result_page = nullptr;
+  NFCFormatResultPage *nfc_format_result_page = nullptr;
+  NFCBruteforceTagPage *nfc_bruteforce_tag_page = nullptr;
+  NFCFelicaPollingResultPage *nfc_felica_polling_result_page = nullptr;
+  // NFC
   RectText *IR;
   // Network attacks
   RectText *net_attacks;
@@ -72,6 +90,7 @@ class Gui {
   Grid *grid;
   int current_position = 0;
   int position_limit = 7;	// Maximum number of widgets in the page
+  int lower_limit = 0;		// Start position
   int position_increment = 4;	// Maximum increment of position by a single button
   void init_icons();
   void init_text();
@@ -265,6 +284,54 @@ class Gui {
   };
   void set_evilportal_requests(int req);
   void set_evilportal_ip(String ip);
+
+/******************** NFC GUI FUNCTIONS ************************/
+  void init_nfc_gui();
+  bool nfc_page_visible() { return nfc_main_page != nullptr; };
+  void init_nfc_polling_waiting_gui();  
+  void destroy_nfc_polling_gui() {
+    delete nfc_polling_result_page;
+    nfc_polling_result_page = nullptr;
+  }
+  bool nfc_polling_waiting_page_visible() { return nfc_polling_waiting_page != nullptr; };
+  void init_nfc_polling_result_gui(uint8_t *uid, uint8_t length);
+  bool nfc_polling_result_page_visible() { return nfc_polling_result_page != nullptr; };
+  void init_nfc_dump_result_gui();
+  void destroy_nfc_dump_result_gui() {
+    delete nfc_dump_result_page;
+    nfc_dump_result_page = nullptr;
+  };
+  void return_to_nfc_polling_gui();
+  bool nfc_dump_result_page_visible() { return nfc_dump_result_page != nullptr; };
+  void set_dumped_sectors(int sectors) { nfc_dump_result_page->set_dumped(sectors); };
+  void set_unreadable_sectors(int sectors) { nfc_dump_result_page->set_unreadable(sectors); };
+  void set_unauthenticated_sectors(int sectors) { nfc_dump_result_page->set_unauthenticated(sectors); };
+  void init_nfc_write_result_gui();
+  void set_unwritable_sectors(uint8_t tot, uint8_t sectors) { 
+    nfc_write_result_page->set_wrote_sectors(tot - sectors);
+    nfc_write_result_page->set_unwritable_sectors(sectors);
+  };
+  void init_nfc_format_result_gui();
+  void set_unformatted_sectors(uint8_t tot, uint8_t unformatted) {
+    nfc_format_result_page->set_formatted(tot - unformatted);
+    nfc_format_result_page->set_unauthenticated(unformatted);
+  }
+  void destroy_nfc_format_result_gui() {
+    delete nfc_format_result_page;
+    nfc_format_result_page = nullptr;
+  };
+  bool nfc_format_page_visible() { return nfc_format_result_page != nullptr; };
+  void nfc_cleanup();
+  void init_nfc_bruteforce_gui();
+  void destroy_nfc_bruteforce_gui() {
+    delete nfc_bruteforce_tag_page;
+    nfc_bruteforce_tag_page = nullptr;
+  }
+  void nfc_bruteforce_found_key(bool status) { nfc_bruteforce_tag_page->set_found_key(status); };
+  void nfc_bruteforce_set_tried_key(uint8_t attemps) { nfc_bruteforce_tag_page->update_tried_keys(attemps); };
+  bool nfc_bruteforce_page_visible() { return nfc_bruteforce_tag_page != nullptr; };
+  void init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm, uint16_t sys_code);
+  bool nfc_felica_polling_result_page_visible() { return nfc_felica_polling_result_page != nullptr; };
 };
 
 #endif

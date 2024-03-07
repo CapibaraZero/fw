@@ -1,0 +1,3 @@
+#define NFC_FORMATTING_TAG_KEY "nfc_formatting_tag_key"
+#define NFC_FORMATTED_SECTORS_KEY "nfc_formatted_sectors_key"
+#define NFC_UNAUTHENTICATED_SECTORS_KEY "nfc_unauthenticated_sectors_key"

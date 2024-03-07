@@ -49,10 +49,15 @@ public:
     bool detect_felica(uint8_t *idm, uint8_t *pmm, uint16_t *sys_code);
     bool felica_read(uint8_t service_length, uint16_t *service_codes, uint8_t num_blocks, 
                             uint16_t *block_list, uint8_t data[][16]);
-    bool felica_read(uint8_t num_blocks, uint16_t *block_list, uint8_t data[][16]);
+    int felica_read(uint8_t num_blocks, uint16_t *block_list, uint8_t data[][16]);
+    int felica_write(NFCTag *tag);
     bool felica_write(uint8_t service_codes_list_length, uint16_t *service_codes, 
                             uint8_t block_number, uint16_t *block_list, uint8_t data[][16]);
-    bool felica_write(uint8_t block_number, uint16_t *block_list, uint8_t data[][16]);
+    int felica_write(uint8_t block_number, uint16_t *block_list, uint8_t data[][16]);
+    uint8_t felica_format(uint8_t blocks);
+    uint8_t felica_dump(int blocks, uint8_t data[][16]);
+    NFCTag felica_dump(int blocks, uint8_t *unreadable);
+    bool felica_clone(NFCTag *tag);
     void printHex(uint8_t *payload) { nfc_framework.printHex(payload, sizeof(payload) / sizeof(payload[0])); }
     void printHex(uint8_t *payload, size_t size) { nfc_framework.printHex(payload, size); }
 
@@ -61,6 +66,7 @@ public:
     };
     NFCTag *get_scanned_tag() { return current_tag; };
     NFCTag get_tag_towrite(uint8_t uid_length);
+    NFCTag get_felica_towrite();
     uint8_t get_tried_keys() { return tried_keys; };
     bool get_bruteforce_status() { return bruteforce_status; };
 };

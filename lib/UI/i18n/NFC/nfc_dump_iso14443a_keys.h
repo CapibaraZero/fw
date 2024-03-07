@@ -1,0 +1,5 @@
+#define NFC_DUMPING_TAG_KEY "nfc_dumping_tag_key"
+#define NFC_DUMPED_SECTORS_KEY "nfc_dumped_sectors_key"
+#define NFC_UNREADABLE_SECTORS_KEY "nfc_unreadable_sectors_key"
+#define NFC_UNAUTHENTICATED_SECTORS_KEY "nfc_unauthenticated_sectors_key"
+#define NFC_SAVE_TO_SD_KEY "nfc_save_to_sd_key"

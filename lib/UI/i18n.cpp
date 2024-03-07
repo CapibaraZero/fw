@@ -29,6 +29,13 @@
 #include "i18n/network_attacks/net_attacks_main_page.h"
 #include "i18n/network_attacks/evilportal_keys.h"
 #include "i18n/network_attacks/dhcpglutton_keys.h"
+#include "i18n/NFC/nfc_main_page_keys.h"
+#include "i18n/NFC/nfc_dump_iso14443a_keys.h"
+#include "i18n/NFC/nfc_bruteforce_page_key.h"
+#include "i18n/NFC/nfc_format_page_keys.h"
+#include "i18n/NFC/nfc_polling_result_page_keys.h"
+#include "i18n/NFC/nfc_polling_waiting_page.h"
+#include "i18n/NFC/nfc_felica_polling_page_keys.h"
 
 std::map<const char *, const char *> *english_words;
 
@@ -82,4 +89,33 @@ void init_english_dict() {
     english_words->insert({RUNNING_DHCPGLUTTON_KEY, "Running DHCP Starvation..."});
     english_words->insert({CREATED_DHCPGLUTTON_CLIENTS_KEY, "Created clients: "});
     // Net attacks
+
+    // NFC
+    english_words->insert({POLLING_ISO14443A_KEY, "Polling ISO14443A tag"});
+    english_words->insert({POLLING_ISO18092_KEY, "Polling ISO18092 tag"});
+    english_words->insert({NFC_POLLING_GO_BACK_KEY, "Go back"});
+    english_words->insert({NFC_DUMPING_TAG_KEY, "Dumping tag to SD..."});
+    english_words->insert({NFC_DUMPED_SECTORS_KEY, "Dumped sectors: "});
+    english_words->insert({NFC_UNREADABLE_SECTORS_KEY, "Unreadable sectors: "});
+    english_words->insert({NFC_UNAUTHENTICATED_SECTORS_KEY, "Unauthenticated sectors: "});
+    english_words->insert({NFC_SAVE_TO_SD_KEY, "Save to SD"});
+    english_words->insert({NFC_BRUTEFORCING_TAG_KEY, "Bruteforcing tag..."});
+    english_words->insert({NFC_TRIED_KEYS_KEY, "Tried keys: "});
+    english_words->insert({NFC_FOUND_KEYS_KEY, "Found keys: "});
+    english_words->insert({NFC_FORMATTING_TAG_KEY, "Formatting tag..."});
+    english_words->insert({NFC_FORMATTED_SECTORS_KEY, "Formatted sectors: "});
+    english_words->insert({NFC_UNAUTHENTICATED_SECTORS_KEY, "Unauthenticated sectors: "});
+    english_words->insert({NFC_MIFARE_CLASSIC_FOUND_KEY, "MIFARE classic tag found!"});
+    english_words->insert({NFC_MIFARE_ULTRALIGHT_FOUND_KEY, "MIFARE Ult./NTAG found!"});
+    english_words->insert({NFC_UID_KEY, "UID: "});
+    english_words->insert({NFC_DUMP_TAG_TO_SD, "Dump tag to SD"});
+    english_words->insert({NFC_FORMAT_TAG_TO_SD, "Format tag to SD"});
+    english_words->insert({NFC_BRUTEFORCE_TAG_KEY, "Bruteforce tag"});
+    // english_words->insert({NFC_GO_BACK_KEY, "Go back"});
+    english_words->insert({NFC_POLLING_PROGRESS_KEY, "Polling in progress..."});
+    english_words->insert({NFC_TAG_NEAR_KEY, "Please, place tag near capibaraZero"});
+    english_words->insert({NFC_FELICA_POLLING_TAG_FOUND_KEY, "FeliCa tag found!"});
+    english_words->insert({NFC_FELICA_IDM_KEY, "ID: "});
+    english_words->insert({NFC_FELICA_PMM_KEY, "PMm: "});
+    english_words->insert({NFC_FELICA_SYSTEM_CODE_KEY, "System Code: "});
 }
