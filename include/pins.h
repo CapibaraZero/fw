@@ -16,21 +16,21 @@
  */
 
 // Define buttons pins
-#define OK_BTN_PIN 3
-#define UP_BTN_PIN 6
-#define DOWN_BTN_PIN 7
-#define LEFT_BTN_PIN 15
-#define RIGHT_BTN_PIN 16
+#define OK_BTN_PIN 40
+#define UP_BTN_PIN 47
+#define DOWN_BTN_PIN 41
+#define LEFT_BTN_PIN 39
+#define RIGHT_BTN_PIN 42
 
 // Display pins
-#define TFT_DC 4
-#define TFT_RST 5
+#define TFT_RST 4
+#define TFT_DC 5
 #define TFT_CS 10
 #define TFT_MOSI 11
 #define TFT_SCLK 13
 
 // SD card
-#define SD_CARD_CS 14
+#define SD_CARD_CS 21
 #define SD_CARD_MOSI 35
 #define SD_CARD_SCK 36
 #define SD_CARD_MISO 37 
