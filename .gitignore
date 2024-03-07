@@ -6,3 +6,7 @@
 
 # VSCode Cmake stuff
 build
+
+# Seeed-Studio libs
+lib/PN532
+lib/PN532_I2C
