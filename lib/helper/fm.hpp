@@ -25,6 +25,6 @@ using namespace std;
 
 vector<String> readlines(File file);
 bool save_file(const char *path_name, uint8_t *payload);
-bool save_file(const char *path_name, uint8_t *payload, size_t sizeof_paload);
+void save_file(const char *path_name, uint8_t *payload, size_t sizeof_paload);
 
 #endif

@@ -31,8 +31,6 @@ vector<String> readlines(File file)
 bool save_file(const char *path_name, uint8_t *payload)
 {
     File fptr = open(path_name, "w"); // Save to file
-    if (!fptr.available())
-        return false;
     if (fptr.write(payload, sizeof(payload)) > 0)
     {
         fptr.close();
@@ -42,16 +40,9 @@ bool save_file(const char *path_name, uint8_t *payload)
         return false;
 }
 
-bool save_file(const char *path_name, uint8_t *payload, size_t sizeof_payload)
+void save_file(const char *path_name, uint8_t *payload, size_t sizeof_payload)
 {
     File fptr = open(path_name, "w"); // Save to file
-    if (!fptr.available())
-        return false;
-    if (fptr.write(payload, sizeof_payload) > 0)
-    {
-        fptr.close();
-        return true;
-    }
-    else
-        return false;
+    fptr.write(payload, sizeof_payload);
+    fptr.close();
 }
