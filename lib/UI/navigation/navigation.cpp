@@ -19,11 +19,13 @@
 #include "gui.hpp"
 #include "wifi/wifi_navigation.hpp"
 #include "BLE/ble_navigation.hpp"
+#include "BadUSB/BadUSBNavigation.hpp"
 #include "network_attacks/network_attacks_navigation.hpp"
 #include "NFC/NFCNavigation.hpp"
 
 #define WIFI_MODULE_POS 0
 #define BLE_MODULE_POS 1
+#define BADUSB_MODULE_POS 2
 #define NFC_MODULE_POS 4
 #define NETWORK_ATTACKS_MODULE_POS 6
 
@@ -49,6 +51,10 @@ void main_menu_handler(int pos) {
     case BLE_MODULE_POS:
       init_ble_navigation(gui);
       gui->ok(goto_ble_gui);
+      break;
+    case BADUSB_MODULE_POS:
+      init_badusb_navigation(gui);
+      gui->ok(goto_badusb_gui);
       break;
     case NFC_MODULE_POS:
       init_nfc_navigation(gui);
@@ -109,6 +115,11 @@ static void handle_ok() {
 
   if(gui->ble_spam_visible()) {
     handle_ble_spam_stop();
+    return;
+  }
+
+  if(gui->badusb_browser_visible()) {
+    badusb_selection_handler(pos);
     return;
   }
 

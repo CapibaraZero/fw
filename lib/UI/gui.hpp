@@ -31,6 +31,7 @@
 #include "pages/network_attacks/NetworkAttacksPage.hpp"
 #include "pages/network_attacks/DHCPGluttonPage.hpp"
 #include "pages/network_attacks/EvilPortalPage.hpp"
+#include "pages/BadUSB/BadUSBPayloadBrowserPage.hpp"
 #include "pages/NFC/NFCMainPage.hpp"
 #include "pages/NFC/NFCPollingWaitingPage.hpp"
 #include "pages/NFC/NFCPollingResultPage.hpp"
@@ -66,6 +67,7 @@ class Gui {
 #endif
 #if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
   RectText *badusb;
+  BadUSBPayloadBrowserPage *badusb_payload_browser_page = nullptr;
 #endif
   RectText *SubGhz;
   // NFC
@@ -167,6 +169,9 @@ class Gui {
     current_position = pos;
     }
 
+  void set_position_limit(int limit) {
+    position_limit = limit;
+  }
 
   /// @brief Return if grid is visible or not(sub menu displayed)
   /// @return submenu visible or not
@@ -284,6 +289,15 @@ class Gui {
   };
   void set_evilportal_requests(int req);
   void set_evilportal_ip(String ip);
+
+/******************** BadUSB FUNCTIONS ************************/
+
+void init_badusb_browser_gui(std::list<std::string> *files);
+bool badusb_browser_visible() { return badusb_payload_browser_page!= nullptr; };
+void destroy_badusb_browser_gui() {
+  delete badusb_payload_browser_page;
+  badusb_payload_browser_page = nullptr;
+}
 
 /******************** NFC GUI FUNCTIONS ************************/
   void init_nfc_gui();

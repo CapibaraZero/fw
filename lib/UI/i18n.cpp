@@ -36,6 +36,7 @@
 #include "i18n/NFC/nfc_polling_result_page_keys.h"
 #include "i18n/NFC/nfc_polling_waiting_page.h"
 #include "i18n/NFC/nfc_felica_polling_page_keys.h"
+#include "i18n/BadUSB/badusb_keys.h"
 
 std::map<const char *, const char *> *english_words;
 
@@ -118,4 +119,8 @@ void init_english_dict() {
     english_words->insert({NFC_FELICA_IDM_KEY, "ID: "});
     english_words->insert({NFC_FELICA_PMM_KEY, "PMm: "});
     english_words->insert({NFC_FELICA_SYSTEM_CODE_KEY, "System Code: "});
+#if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
+    english_words->insert({BADUSB_TITLE_KEY, "Bad USB Payload Browser"});
+    english_words->insert({BADUSB_GO_BACK_KEY, "Go back"});
+#endif
 }

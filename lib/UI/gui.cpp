@@ -22,6 +22,7 @@
 #include "i18n.hpp"
 #include "i18n/main_page_keys.h"
 #include "style.h"
+#include <list>
 
 void Gui::init_icons() {
   wifi = new RectText(screen, english_words->at(WIFI_HOME_KEY), HOME_TEXT_SIZE, HOME_TEXT_COLOR, HOME_ICON_HEIGHT, HOME_ICON_RADIUS, HOME_ICON_COLOR);
@@ -191,6 +192,8 @@ void Gui::set_selected_widget(int pos, bool selected) {
     nfc_polling_result_page->set_selected(pos, selected);
   else if(nfc_felica_polling_result_page_visible())
     nfc_felica_polling_result_page->set_selected(pos, selected);
+  else if(badusb_browser_visible())
+    badusb_payload_browser_page->set_selected(pos, selected);
 }
 
 /******************** NFC GUI FUNCTIONS ************************/
@@ -291,6 +294,17 @@ void Gui::nfc_cleanup() {
   nfc_bruteforce_tag_page = nullptr;
 }
 
+/******************** BadUSB FUNCTIONS ************************/
+void Gui::init_badusb_browser_gui(std::list<std::string> *files) {
+    delete grid;
+    grid = nullptr;
+    lower_limit = 1;
+    position_limit = 2; // To adjust dynamically
+    position_increment = 1;
+    badusb_payload_browser_page = new BadUSBPayloadBrowserPage(screen);
+    badusb_payload_browser_page->display(files);
+};
+
 void Gui::click_element(int pos, void callback()) {
   if (grid != nullptr)
     grid->click(pos, callback);
@@ -308,6 +322,8 @@ void Gui::click_element(int pos, void callback()) {
     nfc_polling_result_page->click(pos, callback);
   else if(nfc_felica_polling_result_page_visible())
     nfc_felica_polling_result_page->click(pos, callback);
+  else if(badusb_browser_visible())
+    badusb_payload_browser_page->click(pos, callback);
 }
 
 void Gui::up() {
