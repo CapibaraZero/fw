@@ -8,6 +8,23 @@ This repo contains the main firmware that make capibaraZero works.
 
 Most of attacks are separated in repository to isolate them from GUI to make project structure more readable.
 
+Docs: https://capibarazero.github.io/docs/
+
+## Build firmware
+
+To build project just must have PlatformIO installed and a working version of GNU Bison and Flex
+
+Before building project you must execute init_nfc_libs.sh to prepare PN532 libs
+
+```bash
+bash init_nfc_libs.sh   # Init NFC libs
+pio run
+# To upload firmware
+pio run -t upload
+```
+
+[You can use the precompiled firmware from releases](https://github.com/CapibaraZero/fw/releases)
+
 ## Status
 
 The project is BETA! 🎉
@@ -28,4 +45,13 @@ WIP features:
 
 More details in the project view: https://github.com/orgs/CapibaraZero/projects/2/views/1
 
-Docs: https://capibarazero.github.io/docs/
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+If you wanna port project to other ESP boards, we have made a little guide here: https://capibarazero.github.io/docs/docs/development/porting_to_others_boards/new_porting
+
+## License
+
+[GPL-3](https://www.gnu.org/licenses/gpl-3.0.html)
