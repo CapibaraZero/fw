@@ -27,4 +27,5 @@ WIP features:
 - Add more network attacks
 
 More details in the project view: https://github.com/orgs/CapibaraZero/projects/2/views/1
+
 Docs: https://capibarazero.github.io/docs/
