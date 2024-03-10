@@ -6,7 +6,7 @@ CapibaraZero aim to be a cheap alternative to FlipperZero™. It's based on ESP3
 
 This repo contains the main firmware that make capibaraZero works.
 
-Most of attacks are separated in repository to isolate them from GUI and make project structure more readable.
+Most of attacks are separated in repository to isolate them from GUI to make project structure more readable.
 
 ## Status
 
