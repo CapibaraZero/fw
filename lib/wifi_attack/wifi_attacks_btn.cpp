@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// This file contains implementation of functions that starts wifiAttack on button click
+// This file contains implementation of functions that starts wifiAttack on
+// button click
 
 #include <Arduino.h>
 
@@ -34,25 +35,31 @@ void scan_wifi(Gui *gui, WifiAttack *wifiAttack) {
   gui->reset();
   gui->init_wifi_scan_gui();
   /* We delete this after usage, so we need to recreate struct every time */
-  wifi_ui_task_params = (WiFiUITaskParameters *)malloc(sizeof(WiFiUITaskParameters));
+  wifi_ui_task_params =
+      (WiFiUITaskParameters *)malloc(sizeof(WiFiUITaskParameters));
   wifi_ui_task_params->wifi_attack = wifiAttack;
   wifi_ui_task_params->gui = gui;
-  xTaskCreate(&wifi_scan_task, "wifi_scan", TASK_STACK_SIZE, (void *)wifiAttack, 5, NULL);
-  xTaskCreate(&update_wifi_scan_progress, "wifi_scan_gui_updater", 4000, (void *)wifi_ui_task_params, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(&wifi_scan_task, "wifi_scan", TASK_STACK_SIZE, (void *)wifiAttack,
+              5, NULL);
+  xTaskCreate(&update_wifi_scan_progress, "wifi_scan_gui_updater", 4000,
+              (void *)wifi_ui_task_params, tskIDLE_PRIORITY, NULL);
 }
 
 void sniff_wifi(Gui *gui, WifiAttack *wifiAttack) {
   gui->reset();
   gui->show_wifi_sniff_page();
-  xTaskCreate(&wifi_sniff_task, "wifi_sniff", 4000, (void *)wifiAttack, 5, NULL);
+  xTaskCreate(&wifi_sniff_task, "wifi_sniff", 4000, (void *)wifiAttack, 5,
+              NULL);
   while (!wifiAttack->sniffer_running()) {
     delay(1);  // Wait for sniffer initialization
   }
   /* We delete this after usage, so we need to recreate struct every time */
-  wifi_ui_task_params = (WiFiUITaskParameters *)malloc(sizeof(WiFiUITaskParameters));
+  wifi_ui_task_params =
+      (WiFiUITaskParameters *)malloc(sizeof(WiFiUITaskParameters));
   wifi_ui_task_params->wifi_attack = wifiAttack;
   wifi_ui_task_params->gui = gui;
-  xTaskCreate(&update_wifi_sniff_packets, "update_wifi_sniff", 3000, (void *)wifi_ui_task_params, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(&update_wifi_sniff_packets, "update_wifi_sniff", 3000,
+              (void *)wifi_ui_task_params, tskIDLE_PRIORITY, NULL);
 }
 
 BSSIDSniff bssid_sniff;
@@ -64,20 +71,27 @@ void sniff_bssid(Gui *gui, WifiAttack *wifiAttack) {
   bssid_sniff.attack = wifiAttack;
   bssid_sniff.ch = gui->get_current_network().get_channel();
   bssid_sniff.bssid = gui->get_current_network().get_bssid();
-  xTaskCreate(&wifi_sniff_bssid, "wifi_sniff_bssid", 4000, (void *)&bssid_sniff, 5, NULL);
+  xTaskCreate(&wifi_sniff_bssid, "wifi_sniff_bssid", 4000, (void *)&bssid_sniff,
+              5, NULL);
   while (!wifiAttack->sniffer_running()) {
     delay(1);  // Wait for sniffer initialization
   }
   /* We delete this after usage, so we need to recreate struct every time */
-  wifi_ui_task_params = (WiFiUITaskParameters *)malloc(sizeof(WiFiUITaskParameters));
+  wifi_ui_task_params =
+      (WiFiUITaskParameters *)malloc(sizeof(WiFiUITaskParameters));
   wifi_ui_task_params->wifi_attack = wifiAttack;
   wifi_ui_task_params->gui = gui;
-  xTaskCreate(&update_wifi_sniff_packets, "update_wifi_sniff", 3000, (void *)wifi_ui_task_params, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(&update_wifi_sniff_packets, "update_wifi_sniff", 3000,
+              (void *)wifi_ui_task_params, tskIDLE_PRIORITY, NULL);
 }
 
-void return_to_net_list(Gui * gui) {
+void return_to_net_list(Gui *gui) {
   // Go back to networks list
   gui->reset();
-  gui->destroy_wifi_scan_result();       // We need to trigger get_wifi_scan_result_visible. TODO: Evaluate if it would be better to use another way to trigger that function
-  gui->init_wifi_networks_gui(nullptr);  // Pass nullptr since this page is already created
+  gui->destroy_wifi_scan_result();  // We need to trigger
+                                    // get_wifi_scan_result_visible. TODO:
+                                    // Evaluate if it would be better to use
+                                    // another way to trigger that function
+  gui->init_wifi_networks_gui(
+      nullptr);  // Pass nullptr since this page is already created
 }

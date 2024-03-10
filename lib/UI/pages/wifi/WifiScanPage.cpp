@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,18 @@
  */
 
 #include "WifiScanPage.hpp"
+
 #include "../../i18n.hpp"
 #include "../../i18n/wifi/wifi_scan_keys.h"
 
-WifiScanPage::WifiScanPage(GFXForms *_screen) {
-    screen = _screen;
-}
+WifiScanPage::WifiScanPage(GFXForms *_screen) { screen = _screen; }
 
-WifiScanPage::~WifiScanPage() {
-}
+WifiScanPage::~WifiScanPage() {}
 
 void WifiScanPage::display() {
   wifi_scan_grid = new Grid(screen, 3, 1);
-  wifi_scan_text = new Text(screen, ST77XX_WHITE, english_words->at(WIFI_SCANNING_KEY));
+  wifi_scan_text =
+      new Text(screen, ST77XX_WHITE, english_words->at(WIFI_SCANNING_KEY));
   wifi_scan_progress = new Text(screen, ST77XX_WHITE, "10%");
   wifi_scan_current_ch = new Text(screen, ST77XX_WHITE, "1");
   wifi_scan_grid->add(wifi_scan_text);

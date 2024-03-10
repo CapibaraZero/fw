@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Grid.hpp"
-#include "Text.hpp"
-#include "List.hpp"
 #include "../Page.hpp"
+#include "Grid.hpp"
+#include "List.hpp"
+#include "Text.hpp"
 
 #ifndef NFC_WRITE_RESULT_PAGE_H
 #define NFC_WRITE_RESULT_PAGE_H
@@ -36,13 +36,11 @@ class NFCWriteResultPage : public Page {
   NFCWriteResultPage(GFXForms *_screen);
   ~NFCWriteResultPage();
   void display();
-  void up(){};
-  void down(){};
-  void left(){};
-  void right(){};
-  void click(int pos, void callback()) {
-    nfc_grid->click(pos, callback);
-  };
+  void up() {};
+  void down() {};
+  void left() {};
+  void right() {};
+  void click(int pos, void callback()) { nfc_grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
     nfc_grid->set_selected(pos, status);
   };

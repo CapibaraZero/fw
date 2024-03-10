@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,26 +16,32 @@
  */
 
 #include "WifiNetworksPage.hpp"
+
 #include "../../i18n.hpp"
 #include "../../i18n/wifi/wifi_network_details_keys.h"
 
-WifiNetworksPage::WifiNetworksPage(GFXForms *_screen, vector<WifiNetwork> *_networks) {
+WifiNetworksPage::WifiNetworksPage(GFXForms *_screen,
+                                   vector<WifiNetwork> *_networks) {
   screen = _screen;
   networks = _networks;
   set_network();
 }
 
-WifiNetworksPage::~WifiNetworksPage() {
-}
+WifiNetworksPage::~WifiNetworksPage() {}
 
 void WifiNetworksPage::set_network() {
-  if(networks->at(current_network).get_ssid() != "")
-    current_ssid = String(english_words->at(WIFI_SSID_KEY)) + networks->at(current_network).get_ssid();
+  if (networks->at(current_network).get_ssid() != "")
+    current_ssid = String(english_words->at(WIFI_SSID_KEY)) +
+                   networks->at(current_network).get_ssid();
   else
-    current_ssid = String(english_words->at(WIFI_SSID_KEY)) + String(english_words->at(WIFI_SSID_HIDDEN_KEY)); 
-  current_rssi = String(english_words->at(WIFI_RSSI_KEY)) + String(networks->at(current_network).get_rssi());
-  current_ch = String(english_words->at(WIFI_CH_KEY)) + String(networks->at(current_network).get_channel());
-  current_bssid = String(english_words->at(WIFI_BSSID_KEY)) + mac_to_string(networks->at(current_network).get_bssid());
+    current_ssid = String(english_words->at(WIFI_SSID_KEY)) +
+                   String(english_words->at(WIFI_SSID_HIDDEN_KEY));
+  current_rssi = String(english_words->at(WIFI_RSSI_KEY)) +
+                 String(networks->at(current_network).get_rssi());
+  current_ch = String(english_words->at(WIFI_CH_KEY)) +
+               String(networks->at(current_network).get_channel());
+  current_bssid = String(english_words->at(WIFI_BSSID_KEY)) +
+                  mac_to_string(networks->at(current_network).get_bssid());
   set_auth();
 }
 
@@ -52,16 +58,14 @@ void WifiNetworksPage::previous_network() {
 }
 
 void WifiNetworksPage::left() {
-  if (get_current_network_index() == 0)
-    return;
+  if (get_current_network_index() == 0) return;
   screen->reset();
   previous_network();
   return;
 }
 
 void WifiNetworksPage::right() {
-  if (get_current_network_index() == (get_total_network() - 1))
-    return;
+  if (get_current_network_index() == (get_total_network() - 1)) return;
   screen->reset();
   next_network();
 }
@@ -95,34 +99,44 @@ void WifiNetworksPage::set_auth() {
   WifiNetwork network = networks->at(current_network);
   switch (network.get_auth_mode()) {
     case WIFI_AUTH_OPEN:
-      current_auth = String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_OPEN;
+      current_auth =
+          String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_OPEN;
       break;
     case WIFI_AUTH_WEP:
-      current_auth = String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WEP;
+      current_auth =
+          String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WEP;
       break;
     case WIFI_AUTH_WPA_PSK:
-      current_auth = String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WPA_PSK;
+      current_auth =
+          String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WPA_PSK;
       break;
     case WIFI_AUTH_WPA2_PSK:
-      current_auth = String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WPA2_PSK;
+      current_auth =
+          String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WPA2_PSK;
       break;
     case WIFI_AUTH_WPA_WPA2_PSK:
-      current_auth = String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WPA_WPA2_PSK;
+      current_auth = String(english_words->at(WIFI_AUTH_KEY)) +
+                     STRING_WIFI_AUTH_WPA_WPA2_PSK;
       break;
     case WIFI_AUTH_WPA2_ENTERPRISE:
-      current_auth = String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WPA2_ENTERPRISE;
+      current_auth = String(english_words->at(WIFI_AUTH_KEY)) +
+                     STRING_WIFI_AUTH_WPA2_ENTERPRISE;
       break;
     case WIFI_AUTH_WPA3_PSK:
-      current_auth = String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WPA3_PSK;
+      current_auth =
+          String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WPA3_PSK;
       break;
     case WIFI_AUTH_WPA2_WPA3_PSK:
-      current_auth = String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WPA2_WPA3_PSK;
+      current_auth = String(english_words->at(WIFI_AUTH_KEY)) +
+                     STRING_WIFI_AUTH_WPA2_WPA3_PSK;
       break;
     case WIFI_AUTH_WAPI_PSK:
-      current_auth = String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WAPI_PSK;
+      current_auth =
+          String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_WAPI_PSK;
       break;
     case WIFI_AUTH_MAX:
-      current_auth = String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_MAX;
+      current_auth =
+          String(english_words->at(WIFI_AUTH_KEY)) + STRING_WIFI_AUTH_MAX;
       break;
     default:
       break;

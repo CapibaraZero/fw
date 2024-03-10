@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,20 +16,20 @@
  */
 
 #include "NetworkAttacksPage.hpp"
+
 #include "../../i18n.hpp"
 #include "../../i18n/network_attacks/net_attacks_main_page.h"
 
-NetworkAttacksPage::NetworkAttacksPage(GFXForms *_screen) {
-  screen = _screen;
-}
+NetworkAttacksPage::NetworkAttacksPage(GFXForms *_screen) { screen = _screen; }
 
-NetworkAttacksPage::~NetworkAttacksPage() {
-}
+NetworkAttacksPage::~NetworkAttacksPage() {}
 
 void NetworkAttacksPage::display() {
   net_attacks_grid = new Grid(screen, 1, 1);
-  evilportal = new List(screen, english_words->at(EVILPORTAL_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  dhcpglutton = new List(screen, english_words->at(DHCP_GLUTTON_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  evilportal = new List(screen, english_words->at(EVILPORTAL_KEY), 2,
+                        ST77XX_WHITE, 20, ST77XX_BLACK);
+  dhcpglutton = new List(screen, english_words->at(DHCP_GLUTTON_KEY), 2,
+                         ST77XX_WHITE, 20, ST77XX_BLACK);
   net_attacks_grid->add(dhcpglutton);
   net_attacks_grid->add(evilportal);
   net_attacks_grid->set_selected(0, true);

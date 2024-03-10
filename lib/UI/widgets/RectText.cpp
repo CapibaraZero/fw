@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,9 +17,10 @@
 
 #include "widgets/RectText.hpp"
 
-RectText::RectText(GFXForms *display, const char *text, int font_size, uint16_t font_color, int _heigth, int radius, uint16_t rect_color)
-{
-  box = new Rect(display, 0 , _heigth , 0, 0, 8, rect_color);
+RectText::RectText(GFXForms *display, const char *text, int font_size,
+                   uint16_t font_color, int _heigth, int radius,
+                   uint16_t rect_color) {
+  box = new Rect(display, 0, _heigth, 0, 0, 8, rect_color);
   text_widget = new Text(display, font_color, text);
   text_widget->set_size(2);
   text_widget->set_wrap(true);
@@ -31,6 +32,4 @@ RectText::RectText(GFXForms *display, const char *text, int font_size, uint16_t 
   container->add(text_widget);
 }
 
-RectText::~RectText()
-{
-}
+RectText::~RectText() {}

@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,22 +16,19 @@
  */
 
 #include <ESPAsyncWebServer.h>
+
 #include "Arduino.h"
 
 int captured_requests = 0;
 
-void captive_portal_callback(AsyncWebServerRequest* request) {
-    for (size_t i = 0; i < request->args(); i++) {
-        Serial0.printf("%s: %s\n", request->argName(i), request->arg(i));
-        request->send(200);
-        captured_requests++;
-    } 
+void captive_portal_callback(AsyncWebServerRequest *request) {
+  for (size_t i = 0; i < request->args(); i++) {
+    Serial0.printf("%s: %s\n", request->argName(i), request->arg(i));
+    request->send(200);
+    captured_requests++;
+  }
 }
 
-int get_captured_requests() {
-    return captured_requests;
-}
+int get_captured_requests() { return captured_requests; }
 
-void reset_captured_requests() {
-    captured_requests = 0;
-}
+void reset_captured_requests() { captured_requests = 0; }

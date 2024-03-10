@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,33 +16,34 @@
  */
 
 #include <Arduino.h>
-#include "bluetooth_attacks.hpp"
-#include "ui_tasks/BLE/ble_ui_tasks_types.h"
-#include "posixsd.hpp"
 
-void ble_scan_task(void *pv){
-    BLEUITaskParameters *params = static_cast<BLEUITaskParameters *>(pv);
-    params->ble_attack->scan(get_current_fs());
-    vTaskDelete(NULL);
+#include "bluetooth_attacks.hpp"
+#include "posixsd.hpp"
+#include "ui_tasks/BLE/ble_ui_tasks_types.h"
+
+void ble_scan_task(void *pv) {
+  BLEUITaskParameters *params = static_cast<BLEUITaskParameters *>(pv);
+  params->ble_attack->scan(get_current_fs());
+  vTaskDelete(NULL);
 }
 
-void ble_sniff_task(void *pv){
-    BLEUITaskParameters *params = static_cast<BLEUITaskParameters *>(pv);
-    params->ble_attack->sniff(get_current_fs());
-    vTaskDelete(NULL); 
+void ble_sniff_task(void *pv) {
+  BLEUITaskParameters *params = static_cast<BLEUITaskParameters *>(pv);
+  params->ble_attack->sniff(get_current_fs());
+  vTaskDelete(NULL);
 }
 
 void applejuice_task(void *pv) {
-    BluetoothAttack *ble_attack = static_cast<BluetoothAttack *>(pv);
-    ble_attack->appleJuiceAttack();
+  BluetoothAttack *ble_attack = static_cast<BluetoothAttack *>(pv);
+  ble_attack->appleJuiceAttack();
 };
 
 void samsung_ble_spam_task(void *pv) {
-    BluetoothAttack *ble_attack = static_cast<BluetoothAttack *>(pv);
-    ble_attack->samsungBleSpamAttack();
+  BluetoothAttack *ble_attack = static_cast<BluetoothAttack *>(pv);
+  ble_attack->samsungBleSpamAttack();
 };
 
 void swift_pair_spam_task(void *pv) {
-    BluetoothAttack *ble_attack = static_cast<BluetoothAttack *>(pv);
-    ble_attack->swiftPairSpamAttack();
+  BluetoothAttack *ble_attack = static_cast<BluetoothAttack *>(pv);
+  ble_attack->swiftPairSpamAttack();
 }

@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,4 +20,4 @@
 #define WIFI_SSID_HIDDEN_KEY "wifi_ssid_hidden"
 #define WIFI_BSSID_KEY "wifi_bssid"
 #define WIFI_RSSI_KEY "wifi_rssi"
-#define WIFI_CH_KEY   "wifi_ch"
+#define WIFI_CH_KEY "wifi_ch"

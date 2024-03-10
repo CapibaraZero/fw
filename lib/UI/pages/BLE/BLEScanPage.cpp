@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,18 @@
  */
 
 #include "BLEScanPage.hpp"
+
 #include "../../i18n.hpp"
 #include "../../i18n/BLE/ble_scan_keys.h"
 
-BLEScanPage::BLEScanPage(GFXForms *_screen) {
-    screen = _screen;
-}
+BLEScanPage::BLEScanPage(GFXForms *_screen) { screen = _screen; }
 
-BLEScanPage::~BLEScanPage() {
-}
+BLEScanPage::~BLEScanPage() {}
 
 void BLEScanPage::display() {
   ble_scan_grid = new Grid(screen, 3, 1);
-  ble_scan_text = new Text(screen, ST77XX_WHITE, english_words->at(BLE_SCANNING_KEY));
+  ble_scan_text =
+      new Text(screen, ST77XX_WHITE, english_words->at(BLE_SCANNING_KEY));
   ble_scan_progress = new Text(screen, ST77XX_WHITE, "10%");
   ble_scan_adv_devices = new Text(screen, ST77XX_WHITE, "0");
   ble_scan_grid->add(ble_scan_text);

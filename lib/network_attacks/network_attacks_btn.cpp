@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,13 +16,14 @@
  */
 
 #include <Arduino.h>
-#include "ui_tasks/network_attacks/net_attacks_ui_tasks_types.h"
+
 #include "GFXForms.hpp"  // Fix building errors
-#include "wifi_attack.hpp"
 #include "gui.hpp"
 #include "network_attacks.hpp"
 #include "network_attacks_tasks.hpp"
 #include "ui_tasks/network_attacks/net_attacks_ui_tasks.hpp"
+#include "ui_tasks/network_attacks/net_attacks_ui_tasks_types.h"
+#include "wifi_attack.hpp"
 
 static NetAttacksTaskArg *task_arg = NULL;
 static TaskHandle_t dhcp_glutton_handle = NULL;
@@ -33,15 +34,17 @@ void start_dhcpglutton(Gui *gui, NetworkAttacks *attack) {
   task_arg = (NetAttacksTaskArg *)malloc(sizeof(NetAttacksTaskArg));
   task_arg->attack = attack;
   task_arg->gui = gui;
-  xTaskCreate(&dhcp_starvation_task, "dhcp_glutton", 4000, (void *)attack, 5, &dhcp_glutton_handle);
-  xTaskCreate(&update_dhcp_glutton_clients, "dhcp_glutton_ui_updater", 4000,(void *)task_arg, tskIDLE_PRIORITY, &dhcp_glutton_ui_handle);
+  xTaskCreate(&dhcp_starvation_task, "dhcp_glutton", 4000, (void *)attack, 5,
+              &dhcp_glutton_handle);
+  xTaskCreate(&update_dhcp_glutton_clients, "dhcp_glutton_ui_updater", 4000,
+              (void *)task_arg, tskIDLE_PRIORITY, &dhcp_glutton_ui_handle);
 }
 
 /// @brief Kill DHCP Glutton tasks
 void kill_dhcpglutton() {
-    vTaskDelete(dhcp_glutton_handle);
-    vTaskDelete(dhcp_glutton_ui_handle);
-    WiFi.disconnect();
+  vTaskDelete(dhcp_glutton_handle);
+  vTaskDelete(dhcp_glutton_ui_handle);
+  WiFi.disconnect();
 }
 
 void start_evilportal(Gui *gui, NetworkAttacks *attack) {
@@ -50,11 +53,14 @@ void start_evilportal(Gui *gui, NetworkAttacks *attack) {
   task_arg = (NetAttacksTaskArg *)malloc(sizeof(NetAttacksTaskArg));
   task_arg->attack = attack;
   task_arg->gui = gui;
-  xTaskCreate(&evilportal_task, "evilportal_processor", 4000, (void *)attack, 5, &evilportal_task_handle);
-  xTaskCreate(&update_evilportal_requests, "evilportal_requests_updater", 4000, (void *)task_arg, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(&evilportal_task, "evilportal_processor", 4000, (void *)attack, 5,
+              &evilportal_task_handle);
+  xTaskCreate(&update_evilportal_requests, "evilportal_requests_updater", 4000,
+              (void *)task_arg, tskIDLE_PRIORITY, NULL);
 }
 
 void kill_evilportal(NetworkAttacks *attack) {
-  attack->stop_evilportal();  // Set evilportal to false so update_evilportal_requests kill evilportal
+  attack->stop_evilportal();  // Set evilportal to false so
+                              // update_evilportal_requests kill evilportal
   vTaskDelete(evilportal_task_handle);  // This task would ran always
 }

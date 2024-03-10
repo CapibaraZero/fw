@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,24 +16,27 @@
  */
 
 #include "BLEPage.hpp"
+
 #include "../../i18n.hpp"
 #include "../../i18n/BLE/BLE_submenu_keys.h"
 
-BLEPage::BLEPage(GFXForms *_screen) {
-  screen = _screen;
-}
+BLEPage::BLEPage(GFXForms *_screen) { screen = _screen; }
 
-BLEPage::~BLEPage() {
-}
+BLEPage::~BLEPage() {}
 
 void BLEPage::display() {
   ble_grid = new Grid(screen, 2, 1);
-//  ble_list = new List(screen, english_words->at(BLE_SCAN_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  ble_sniff = new List(screen, english_words->at(BLE_SNIFF_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  apple_juice = new List(screen, "AppleJuice", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  samsung_ble = new List(screen, "Samsung BLE spam", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  swift_pair = new List(screen, "Swift pair spam", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-//  ble_grid->add(ble_list);
+  //  ble_list = new List(screen, english_words->at(BLE_SCAN_KEY), 2,
+  //  ST77XX_WHITE, 20, ST77XX_BLACK);
+  ble_sniff = new List(screen, english_words->at(BLE_SNIFF_KEY), 2,
+                       ST77XX_WHITE, 20, ST77XX_BLACK);
+  apple_juice =
+      new List(screen, "AppleJuice", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  samsung_ble =
+      new List(screen, "Samsung BLE spam", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  swift_pair =
+      new List(screen, "Swift pair spam", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  //  ble_grid->add(ble_list);
   ble_grid->add(ble_sniff);
   ble_grid->add(apple_juice);
   ble_grid->add(samsung_ble);

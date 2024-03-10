@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,12 +21,13 @@
 #include "bluetooth_attacks.hpp"
 
 void update_ble_sniffed_packets(void *pv) {
-  BLEUITaskParameters *params = static_cast<BLEUITaskParameters *>(pv);  
+  BLEUITaskParameters *params = static_cast<BLEUITaskParameters *>(pv);
   while (params->ble_attack->is_sniffing()) {
-    params->gui->update_ble_packets_count(params->ble_attack->get_sniffed_packets());
+    params->gui->update_ble_packets_count(
+        params->ble_attack->get_sniffed_packets());
     delay(1000);
   }
-  free(pv);  // Free some space 
+  free(pv);  // Free some space
   vTaskDelete(NULL);
 }
 
@@ -38,11 +39,12 @@ void update_ble_scan_progress(void *pv) {
   double progress = progress_step;
   while (progress < lower_limit)  // Until 100%
   {
-    params->gui->set_ble_progress((char *)(String(progress) + String("%")).c_str());
-    params->gui->set_ble_adv_devices_text(params->ble_attack->get_scanned_devices());
+    params->gui->set_ble_progress(
+        (char *)(String(progress) + String("%")).c_str());
+    params->gui->set_ble_adv_devices_text(
+        params->ble_attack->get_scanned_devices());
     progress += progress_step;
-    delay(progress_step);       // scan time
+    delay(progress_step);  // scan time
   }
   vTaskDelete(NULL);
 }
-

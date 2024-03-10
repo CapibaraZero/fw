@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,22 +16,19 @@
  */
 
 #include <Arduino.h>
-#include "gui.hpp"
-#include "wifi_position.h"
-#include "wifi_attacks_btn.hpp"
-#include "wifi_tasks.hpp"
+
 #include "../navigation.hpp"
+#include "gui.hpp"
+#include "wifi_attacks_btn.hpp"
+#include "wifi_position.h"
+#include "wifi_tasks.hpp"
 
 static Gui *gui;
 static WifiAttack wifiAttack = WifiAttack();
 
-static void goto_scan_wifi() {
-  scan_wifi(gui, &wifiAttack);
-}
+static void goto_scan_wifi() { scan_wifi(gui, &wifiAttack); }
 
-static void goto_sniff_wifi() {
-  sniff_wifi(gui, &wifiAttack);
-}
+static void goto_sniff_wifi() { sniff_wifi(gui, &wifiAttack); }
 
 void init_wifi_gui() {
   gui->reset();
@@ -63,8 +60,7 @@ void stop_wifi_sniffer() {
 #endif
   /* Stop sniffer */
   wifiAttack.stop_sniff();
-  if(wifiAttack.get_networks().size() > 0)
-    wifiAttack.clean_networks();
+  if (wifiAttack.get_networks().size() > 0) wifiAttack.clean_networks();
   init_main_gui();
 }
 
@@ -85,6 +81,4 @@ void handle_wifi_network_selection() {
   }
 }
 
-void init_wifi_navigation(Gui *_gui) {
-    gui = _gui;
-}
+void init_wifi_navigation(Gui *_gui) { gui = _gui; }

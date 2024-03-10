@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,4 +23,4 @@
 void scan_wifi(Gui *gui, WifiAttack *wifiAttack);
 void sniff_wifi(Gui *gui, WifiAttack *wifiAttack);
 void sniff_bssid(Gui *gui, WifiAttack *wifiAttack);
-void return_to_net_list(Gui * gui);
+void return_to_net_list(Gui *gui);

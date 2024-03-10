@@ -1,9 +1,9 @@
-#include "nfc_attacks.hpp"
-#include "GFXForms.hpp" // Fix building errors
-#include "wifi_attack.hpp"
+#include "GFXForms.hpp"  // Fix building errors
 #include "gui.hpp"
+#include "nfc_attacks.hpp"
+#include "wifi_attack.hpp"
 
 typedef struct {
-    NFCAttacks *attacks;
-    Gui *gui;
+  NFCAttacks *attacks;
+  Gui *gui;
 } NFCTasksParams;

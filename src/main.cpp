@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,18 +18,20 @@
 #include <Adafruit_GFX.h>     // Core graphics library
 #include <Adafruit_ST7789.h>  // Hardware-specific library for ST7735
 #include <Arduino.h>
+
 #include <GFXForms.hpp>
+
 #include "SPI.h"
 #include "ble_hid/BLEHid.hpp"  // Without this build fails
 #include "debug.h"
 #include "freertos/task.h"
 #include "gui.hpp"
 #include "i18n.hpp"
+#include "navigation/buttons/btn_routines.hpp"
+#include "navigation/navigation.hpp"
 #include "pins.h"
 #include "posixsd.hpp"
 #include "style.h"
-#include "navigation/buttons/btn_routines.hpp"
-#include "navigation/navigation.hpp"
 
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
@@ -68,10 +70,11 @@ void setup() {
   init_navigation_btn(OK_BTN_PIN, handle_ok_button);
 
   main_gui->set_selected_widget(0, true);
-  xTaskCreate(&set_selected_listener, "set_selected_listener", TASK_STACK_SIZE, (void *)main_gui, 1, NULL);
+  xTaskCreate(&set_selected_listener, "set_selected_listener", TASK_STACK_SIZE,
+              (void *)main_gui, 1, NULL);
 }
 
 void loop() {
-  Serial0.println("Loop");	// Avoid FreeRTOS watchdog trigger
+  Serial0.println("Loop");  // Avoid FreeRTOS watchdog trigger
   delay(1000);
 }

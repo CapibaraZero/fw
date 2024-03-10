@@ -9,6 +9,6 @@ void write_felica_tag(Gui *gui, NFCAttacks *attacks, NFCTag *tag);
 void format_iso14443a(Gui *gui, NFCAttacks *attacks);
 void format_felica(Gui *gui, NFCAttacks *attacks);
 void bruteforce_tag(Gui *gui, NFCAttacks *attacks);
-void reset_uid(void);   // From nfc_tasks.cpp
+void reset_uid(void);  // From nfc_tasks.cpp
 void reset_felica(void);
 void destroy_tasks();

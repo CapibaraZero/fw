@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <list>
+
+#include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
 #include "Text.hpp"
-#include "../Page.hpp"
-#include <list>
 
 #ifndef BADUSB_PAYLOAD_BROWSER_PAGE_H
 #define BADUSB_PAYLOAD_BROWSER_PAGE_H
@@ -35,16 +36,14 @@ class BadUSBPayloadBrowserPage : public Page {
   ~BadUSBPayloadBrowserPage();
   void display();
   void display(std::list<std::string> *files);
-  void click(int pos, void callback()) {
-    badusb_grid->click(pos, callback);
-  };
+  void click(int pos, void callback()) { badusb_grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
     badusb_grid->set_selected(pos, status);
   };
-  void up(){};
-  void down(){};
-  void left(){};
-  void right(){};
+  void up() {};
+  void down() {};
+  void left() {};
+  void right() {};
 };
 
 #endif

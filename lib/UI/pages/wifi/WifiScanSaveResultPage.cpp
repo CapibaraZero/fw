@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,29 +22,31 @@
 
 WifiScanSaveResultPage::WifiScanSaveResultPage(GFXForms *_screen) {
   selection = new Grid(_screen, 4, 1);
-  save_sd = new List(_screen, english_words->at(WIFI_SCAN_SAVE_SD_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  sniff_filter = new List(_screen, english_words->at(WIFI_SCAN_SNIFF_FILTER_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  go_back = new List(_screen, english_words->at(WIFI_SCAN_GO_BACK_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  exit_btn = new List(_screen, english_words->at(WIFI_SCAN_EXIT_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  save_sd = new List(_screen, english_words->at(WIFI_SCAN_SAVE_SD_KEY), 2,
+                     ST77XX_WHITE, 20, ST77XX_BLACK);
+  sniff_filter =
+      new List(_screen, english_words->at(WIFI_SCAN_SNIFF_FILTER_KEY), 2,
+               ST77XX_WHITE, 20, ST77XX_BLACK);
+  go_back = new List(_screen, english_words->at(WIFI_SCAN_GO_BACK_KEY), 2,
+                     ST77XX_WHITE, 20, ST77XX_BLACK);
+  exit_btn = new List(_screen, english_words->at(WIFI_SCAN_EXIT_KEY), 2,
+                      ST77XX_WHITE, 20, ST77XX_BLACK);
   selection->add(save_sd);
   selection->add(sniff_filter);
   selection->add(go_back);
   selection->add(exit_btn);
 }
 
-WifiScanSaveResultPage::~WifiScanSaveResultPage() {
-}
+WifiScanSaveResultPage::~WifiScanSaveResultPage() {}
 
 void WifiScanSaveResultPage::up() {
-  if (selection_index == 0)
-    return;
+  if (selection_index == 0) return;
   selection->set_selected(selection_index, false);
   selection_index--;
   selection->set_selected(selection_index, true);
 }
 void WifiScanSaveResultPage::down() {
-  if (selection_index == 3)
-    return;
+  if (selection_index == 3) return;
   selection->set_selected(selection_index, false);
   selection_index++;
   selection->set_selected(selection_index, true);

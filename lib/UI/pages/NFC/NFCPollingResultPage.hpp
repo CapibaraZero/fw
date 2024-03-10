@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Grid.hpp"
-#include "Text.hpp"
-#include "List.hpp"
 #include "../Page.hpp"
+#include "Grid.hpp"
+#include "List.hpp"
+#include "Text.hpp"
 
 #ifndef NFC_POLLING_RESULT_PAGE_H
 #define NFC_POLLING_RESULT_PAGE_H
@@ -37,20 +37,16 @@ class NFCPollingResultPage : public Page {
  public:
   NFCPollingResultPage(GFXForms *_screen);
   ~NFCPollingResultPage();
-  void display(){
-    nfc_grid->display();
-  };
+  void display() { nfc_grid->display(); };
   void display(uint8_t *uid, uint8_t length);
-  void up(){};
-  void down(){};
-  void left(){};
-  void right(){};
+  void up() {};
+  void down() {};
+  void left() {};
+  void right() {};
   void set_selected(int pos, bool status) {
     nfc_grid->set_selected(pos, status);
   };
-  void click(int pos, void callback()) {
-    nfc_grid->click(pos, callback);
-  };
+  void click(int pos, void callback()) { nfc_grid->click(pos, callback); };
 };
 
 #endif

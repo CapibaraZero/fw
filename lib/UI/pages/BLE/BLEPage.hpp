@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
-#include "../Page.hpp"
 
 #ifndef BLE_PAGE_H
 #define BLE_PAGE_H
 
 class BLEPage : public Page {
  private:
-//  List *ble_list;
+  //  List *ble_list;
   List *ble_sniff;
   List *apple_juice;
   List *samsung_ble;
@@ -35,16 +35,14 @@ class BLEPage : public Page {
   BLEPage(GFXForms *_screen);
   ~BLEPage();
   void display();
-  void click(int pos, void callback()) {
-    ble_grid->click(pos, callback);
-  };
+  void click(int pos, void callback()) { ble_grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
     ble_grid->set_selected(pos, status);
   };
-  void up(){};
-  void down(){};
-  void left(){};
-  void right(){};
+  void up() {};
+  void down() {};
+  void left() {};
+  void right() {};
 };
 
 #endif

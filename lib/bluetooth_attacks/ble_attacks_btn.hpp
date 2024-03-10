@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 #ifndef BLE_ATTACK_BTN_H
 #define BLE_ATTACK_BTN_H
 
-#include "gui.hpp"
-#include "bluetooth_attacks.hpp"
 #include "FS.h"
+#include "bluetooth_attacks.hpp"
+#include "gui.hpp"
 
 void scan_ble(Gui *gui, BluetoothAttack *attack);
 void sniff_ble(Gui *gui, BluetoothAttack *attack);

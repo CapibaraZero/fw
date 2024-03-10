@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 #ifndef WIFI_NETWORKS_PAGE
 #define WIFI_NETWORKS_PAGE
 
-#include "Grid.hpp"
 #include "../Page.hpp"
+#include "Grid.hpp"
 #include "Text.hpp"
 #include "wifi_attack.hpp"
 
@@ -55,13 +55,13 @@ class WifiNetworksPage : public Page {
   void set_auth();
   String mac_to_string(uint8_t *mac) {
     String mac_str = "";
-    for (size_t i = 0; i < 6; i++)
-    {
+    for (size_t i = 0; i < 6; i++) {
       mac_str += (String(mac[i], HEX) + ":");
     }
     mac_str[17] = '\0';
     return mac_str;
   }
+
  public:
   WifiNetworksPage(GFXForms *_screen, vector<WifiNetwork> *_networks);
   ~WifiNetworksPage();

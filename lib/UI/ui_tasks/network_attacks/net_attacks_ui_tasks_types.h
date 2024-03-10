@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 #define NETWORK_ATTACKS_UI_TASKS_TYPES_H
 
 #include "GFXForms.hpp"  // Fix building errors
-#include "wifi_attack.hpp"
 #include "gui.hpp"
 #include "network_attacks.hpp"
+#include "wifi_attack.hpp"
 
 typedef struct {
-    Gui *gui;
-    NetworkAttacks *attack;
+  Gui *gui;
+  NetworkAttacks *attack;
 } NetAttacksTaskArg;
 
 #endif

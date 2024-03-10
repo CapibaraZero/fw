@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,18 +16,20 @@
  */
 
 #include "BLESpamPage.hpp"
+
 #include "../../i18n.hpp"
 #include "../../i18n/BLE/ble_spam_keys.h"
 
 BLESpamPage::BLESpamPage(GFXForms *_screen) {
-  text = new Text(_screen, ST77XX_WHITE, english_words->at(BLE_SPAM_PROGRESS_KEY));
+  text =
+      new Text(_screen, ST77XX_WHITE, english_words->at(BLE_SPAM_PROGRESS_KEY));
   details_grid = new Grid(_screen, 2, 1);
-  save = new List(_screen, english_words->at(BLE_SPAM_STOP_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  save = new List(_screen, english_words->at(BLE_SPAM_STOP_KEY), 2,
+                  ST77XX_WHITE, 20, ST77XX_BLACK);
   details_grid->add(text);
   details_grid->add(save);
   details_grid->set_selected(1, true);
   details_grid->set_y_spacing(20);
 }
 
-BLESpamPage::~BLESpamPage() {
-}
+BLESpamPage::~BLESpamPage() {}

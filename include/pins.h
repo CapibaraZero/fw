@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,4 +33,4 @@
 #define SD_CARD_CS 21
 #define SD_CARD_MOSI 35
 #define SD_CARD_SCK 36
-#define SD_CARD_MISO 37 
+#define SD_CARD_MISO 37

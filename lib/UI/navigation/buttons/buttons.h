@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,12 +19,12 @@
 #define BUTTONS_H
 
 typedef enum {
-    NULL_BTN = -1,  // reset value
-    UP_BTN = 0,
-    DOWN_BTN = 1,
-    LEFT_BTN = 2,
-    RIGHT_BTN = 3,
-    OK_BTN = 4
+  NULL_BTN = -1,  // reset value
+  UP_BTN = 0,
+  DOWN_BTN = 1,
+  LEFT_BTN = 2,
+  RIGHT_BTN = 3,
+  OK_BTN = 4
 } Buttons;
 
 #endif

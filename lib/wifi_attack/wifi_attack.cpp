@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,22 +23,20 @@
 #include "ArduinoJson.h"
 #include "posixsd.hpp"
 
-#define MAX_WIFI_CHANNEL 13       // Max channel that ESP32 will use for scanning
+#define MAX_WIFI_CHANNEL 13  // Max channel that ESP32 will use for scanning
 #define CHANGE_CHANNEL_TIME 5000  // Switch channel every 5 seconds
 #define PCAP_TYPE String("wifi")
 #define SCAN_FILENAME String(String("/wifi/scan_") + millis() + String(".json"))
 
-WifiAttack::WifiAttack(/* args */) {
-}
+WifiAttack::WifiAttack(/* args */) {}
 
-WifiAttack::~WifiAttack() {
-  Serial0.println("Destroyed");
-}
+WifiAttack::~WifiAttack() { Serial0.println("Destroyed"); }
 
 void WifiAttack::scan() {
   int n = WiFi.scanNetworks(false, true, false, 1000);
   for (int i = 0; i < n; i++) {
-    WifiNetwork network = WifiNetwork(WiFi.SSID(i), WiFi.RSSI(i), WiFi.BSSID(i), WiFi.channel(i), WiFi.encryptionType(i));
+    WifiNetwork network = WifiNetwork(WiFi.SSID(i), WiFi.RSSI(i), WiFi.BSSID(i),
+                                      WiFi.channel(i), WiFi.encryptionType(i));
     networks.push_back(network);
   }
 }
@@ -64,7 +62,8 @@ void WifiAttack::save_scan() {
 void WifiAttack::rotate_all_channels(int max_ch, int wait_time) {
   for (int i = 1; i < max_ch; i++) {
     esp_wifi_set_channel(i, (wifi_second_chan_t)NULL);
-    delay(wait_time);  // Wait before changing channel, sniffer will sniff meanwhile.
+    delay(wait_time);  // Wait before changing channel, sniffer will sniff
+                       // meanwhile.
   }
 }
 
@@ -87,4 +86,3 @@ void WifiAttack::sniff_channel(int channel, int time, FS sd) {
 void WifiAttack::sniff_bssid(uint8_t *bssid, int ch, FS sd) {
   sniffer = new WifiSniffer(PCAP_FILE(PCAP_TYPE).c_str(), sd, bssid, ch);
 }
-

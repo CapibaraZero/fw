@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ class WifiAttack {
   WifiSniffer *sniffer;
   void rotate_all_channels(int max_ch, int wait_time);
   vector<WifiNetwork> networks;
+
  public:
   WifiAttack(/* args */);
   ~WifiAttack();
@@ -54,23 +55,21 @@ class WifiAttack {
   /// @param ch Channel of network to sniff
   /// @param sd SD object
   void sniff_bssid(uint8_t *bssid, int ch, FS sd);
-  
+
   /// @brief Stop sniffer
   void stop_sniff() {
     delete sniffer;
     sniffer = nullptr;
   };
-  
+
   /// @brief Return if sniffer is running or not
   /// @return Sniffer status
   bool sniffer_running() { return sniffer != nullptr; };
-  
+
   /// @brief Get total sniffed packets
   /// @return all packets sniffed, since sniffer started
-  int get_sniffed_packets() {
-    return sniffer->get_sniffed_packets();
-  }
-  
+  int get_sniffed_packets() { return sniffer->get_sniffed_packets(); }
+
   /// @brief Sniff a specific WiFi channel range and save it to SD
   /// @param max_ch Maximium channel that it will scan
   /// @param delay Time before switch to another channel
@@ -85,8 +84,9 @@ class WifiAttack {
 
   /// @brief Get scanned network. Invoke this when scan is not running
   /// @return Get all the networks scanned
-  vector<WifiNetwork> get_networks() { return networks; }; 
-  /// @brief Clean the networks scanned. Call this when you want to do more than one scan
+  vector<WifiNetwork> get_networks() { return networks; };
+  /// @brief Clean the networks scanned. Call this when you want to do more than
+  /// one scan
   void clean_networks() { networks.clear(); };
 };
 

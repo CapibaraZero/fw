@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
-#include "../Page.hpp"
 
 #ifndef WIFI_PAGE_H
 #define WIFI_PAGE_H
@@ -32,16 +32,14 @@ class WifiPage : public Page {
   WifiPage(GFXForms *_screen);
   ~WifiPage();
   void display();
-  void click(int pos, void callback()) {
-    wifi_grid->click(pos, callback);
-  };
+  void click(int pos, void callback()) { wifi_grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
     wifi_grid->set_selected(pos, status);
   };
-  void up(){};
-  void down(){};
-  void left(){};
-  void right(){};
+  void up() {};
+  void down() {};
+  void left() {};
+  void right() {};
 };
 
 #endif

@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui.hpp"
 #include "../navigation.hpp"
-#include "nfc_attacks_btn.hpp"
 #include "fm.hpp"
+#include "gui.hpp"
+#include "nfc_attacks_btn.hpp"
 
 static Gui *gui;
 static NFCAttacks *nfc_attacks = nullptr;
 
-#define DUMP_SAVE_PATH ((String)"/NFC/dumps/" + (String)millis() + (String)".hex").c_str()  // TODO: Use UID + millis as identifier
+#define DUMP_SAVE_PATH                                          \
+  ((String) "/NFC/dumps/" + (String)millis() + (String) ".hex") \
+      .c_str()  // TODO: Use UID + millis as identifier
 
 void goto_nfc_gui() {
   gui->reset();
@@ -156,16 +158,16 @@ void nfc_dump_submenu_handler(int pos) {
       Serial0.println("Start polling");
       gui->ok(save_dump_to_sd);
       break;
-  //   case DUMP_GO_BACK_POS:
-  //     Serial0.println("Return to NFC");
-  //     gui->destroy_nfc_dump_result_gui();
-  //     gui->ok(return_to_nfc_polling_gui);
-  //     break;
-    // case DUMP_GO_HOME_POS:
-    //   Serial0.println("GOTO HOME");
-    //   gui->ok(goto_home);
-    //   gui->destroy_nfc_polling_gui();
-    //   break;
+      //   case DUMP_GO_BACK_POS:
+      //     Serial0.println("Return to NFC");
+      //     gui->destroy_nfc_dump_result_gui();
+      //     gui->ok(return_to_nfc_polling_gui);
+      //     break;
+      // case DUMP_GO_HOME_POS:
+      //   Serial0.println("GOTO HOME");
+      //   gui->ok(goto_home);
+      //   gui->destroy_nfc_polling_gui();
+      //   break;
     default:
       break;
   }
@@ -181,7 +183,7 @@ void nfc_format_submenu_handler(int pos) {
   //     gui->destroy_nfc_format_result_gui();
   //     break;
   //   case FORMAT_GO_HOME:
-      // gui->ok(goto_home);
+  // gui->ok(goto_home);
   //     break;
   // }
 }
@@ -213,35 +215,34 @@ void write_felica_tag() {
 
 void nfc_felica_polling_submenu_handler(int pos) {
   Serial0.printf("NFC FELICA POSITION: %d\n", pos);
-  switch (pos)
-  {
-  case FELICA_DUMP_TO_SD:
-    Serial0.println("DUmp FeliCa SD");
-    gui->ok(goto_nfc_dump_result_gui);
-    dump_felica(gui, nfc_attacks);
-    break;
-  case FELICA_GO_BACK:
-    gui->ok(goto_nfc_gui);
-    gui->destroy_nfc_polling_gui();
-    reset_felica();
-    break;
-  // case FELICA_WRITE_TAG:
-  //   Serial0.println("Write FeliCa Tag");
-  //   gui->ok(write_felica_tag);
-  //   // write_felica(gui, nfc_attacks);
-  //   break;
-  // case FELICA_FORMAT_TAG:
-  //   Serial0.println("Format FeliCa Tag");
-  //   gui->ok(format_tag);
-  //   format_felica(gui, nfc_attacks);
-  //   break;
-  default:
-    break;
+  switch (pos) {
+    case FELICA_DUMP_TO_SD:
+      Serial0.println("DUmp FeliCa SD");
+      gui->ok(goto_nfc_dump_result_gui);
+      dump_felica(gui, nfc_attacks);
+      break;
+    case FELICA_GO_BACK:
+      gui->ok(goto_nfc_gui);
+      gui->destroy_nfc_polling_gui();
+      reset_felica();
+      break;
+    // case FELICA_WRITE_TAG:
+    //   Serial0.println("Write FeliCa Tag");
+    //   gui->ok(write_felica_tag);
+    //   // write_felica(gui, nfc_attacks);
+    //   break;
+    // case FELICA_FORMAT_TAG:
+    //   Serial0.println("Format FeliCa Tag");
+    //   gui->ok(format_tag);
+    //   format_felica(gui, nfc_attacks);
+    //   break;
+    default:
+      break;
   }
 }
 
 void init_nfc_navigation(Gui *_gui) {
-    Serial0.println("Init NFC Navigation");
-    gui = _gui;
-    nfc_attacks = new NFCAttacks();
+  Serial0.println("Init NFC Navigation");
+  gui = _gui;
+  nfc_attacks = new NFCAttacks();
 }

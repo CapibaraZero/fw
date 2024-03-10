@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Grid.hpp"
-#include "Text.hpp"
-#include "List.hpp"
-#include "../Page.hpp"
 #include "../../i18n.hpp"
 #include "../../i18n/NFC/nfc_format_page_keys.h"
+#include "../Page.hpp"
+#include "Grid.hpp"
+#include "List.hpp"
+#include "Text.hpp"
 
 #ifndef NFC_FORMAT_RESULT_PAGE_H
 #define NFC_FORMAT_RESULT_PAGE_H
 
-class NFCFormatResultPage: public Page {
+class NFCFormatResultPage : public Page {
  private:
   Text *dumping_to_sd;
   Text *formatted_sectors;
@@ -38,21 +38,22 @@ class NFCFormatResultPage: public Page {
   NFCFormatResultPage(GFXForms *_screen);
   ~NFCFormatResultPage();
   void display();
-  void up(){};
-  void down(){};
-  void left(){};
-  void right(){};
-  void click(int pos, void callback()) {
-    nfc_grid->click(pos, callback);
-  };
+  void up() {};
+  void down() {};
+  void left() {};
+  void right() {};
+  void click(int pos, void callback()) { nfc_grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
     nfc_grid->set_selected(pos, status);
   };
   void set_formatted(int formatted) {
-    formatted_sectors->set_text(english_words->at(NFC_FORMATTED_SECTORS_KEY) + (String)formatted);
+    formatted_sectors->set_text(english_words->at(NFC_FORMATTED_SECTORS_KEY) +
+                                (String)formatted);
   }
   void set_unauthenticated(int unauthenticated) {
-    unauthenticated_sectors->set_text(english_words->at(NFC_UNAUTHENTICATED_SECTORS_KEY) + (String)unauthenticated);
+    unauthenticated_sectors->set_text(
+        english_words->at(NFC_UNAUTHENTICATED_SECTORS_KEY) +
+        (String)unauthenticated);
   }
 };
 

@@ -1,6 +1,6 @@
 /*
- * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or https://capibarazero.github.io/).
- * Copyright (c) 2024 Andrea Canale.
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,14 +16,19 @@
  */
 
 #include "BLESniffPage.hpp"
+
 #include "../../i18n.hpp"
 #include "../../i18n/wifi/wifi_sniff_keys.h"
 
 BLESniffPage::BLESniffPage(GFXForms *_screen) {
-  text = new Text(_screen, ST77XX_WHITE, english_words->at(WIFI_SNIFFING_INFO_KEY));
-  packet_count = new Text(_screen, ST77XX_WHITE, english_words->at(WIFI_SNIFFING_SNIFFED_KEY) + String(0));
+  text = new Text(_screen, ST77XX_WHITE,
+                  english_words->at(WIFI_SNIFFING_INFO_KEY));
+  packet_count =
+      new Text(_screen, ST77XX_WHITE,
+               english_words->at(WIFI_SNIFFING_SNIFFED_KEY) + String(0));
   details_grid = new Grid(_screen, 3, 1);
-  save = new List(_screen, english_words->at(WIFI_SNIFFING_SAVE_KEY), 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  save = new List(_screen, english_words->at(WIFI_SNIFFING_SAVE_KEY), 2,
+                  ST77XX_WHITE, 20, ST77XX_BLACK);
   details_grid->add(text);
   details_grid->add(packet_count);
   details_grid->add(save);
@@ -31,9 +36,9 @@ BLESniffPage::BLESniffPage(GFXForms *_screen) {
   details_grid->set_y_spacing(20);
 }
 
-BLESniffPage::~BLESniffPage() {
-}
+BLESniffPage::~BLESniffPage() {}
 
 void BLESniffPage::update_packet_count(int count) {
-  packet_count->set_text(english_words->at(WIFI_SNIFFING_SNIFFED_KEY) + String(count));
+  packet_count->set_text(english_words->at(WIFI_SNIFFING_SNIFFED_KEY) +
+                         String(count));
 }
