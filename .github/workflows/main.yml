@@ -19,5 +19,7 @@ jobs:
           python-version: '3.12'
       - name: Install PlatformIO Core
         run: pip install --upgrade platformio
+      - name: Prepare PN532 libraries
+        run: bash init_nfc_libs.sh
       - name: Build PlatformIO Project
         run: pio run
