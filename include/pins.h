@@ -27,10 +27,18 @@
 #define TFT_DC 5
 #define TFT_CS 10
 #define TFT_MOSI 11
-#define TFT_SCLK 13
+#define TFT_SCLK 12
 
 // SD card
-#define SD_CARD_CS 21
+#define SD_CARD_CS 13
 #define SD_CARD_MOSI 35
 #define SD_CARD_SCK 36
 #define SD_CARD_MISO 37
+
+// CC1101 pins
+#define CC1101_CSN 1
+#define CC1101_GDO0 2
+#define CC1101_MOSI 35
+#define CC1101_SCK 36
+#define CC1101_MISO 37
+#define CC1101_DGO2 RADIOLIB_NC // Not used
