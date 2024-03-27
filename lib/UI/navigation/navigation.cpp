@@ -22,6 +22,7 @@
 #include "gui.hpp"
 #include "network_attacks/network_attacks_navigation.hpp"
 #include "wifi/wifi_navigation.hpp"
+#include "debug.h"
 
 #define WIFI_MODULE_POS 0
 #define BLE_MODULE_POS 1
@@ -41,7 +42,7 @@ void init_main_gui() {
 
 void main_menu_handler(int pos) {
 #ifdef CONFIG_DEBUG_WIFI_MENU
-  Serial0.println("Submenu1");
+  LOG_INFO("Submenu1");
 #endif
   switch (pos) {
     case WIFI_MODULE_POS:  // Open Wi-Fi submenu
@@ -66,7 +67,7 @@ void main_menu_handler(int pos) {
       break;
     default:
 #ifdef CONFIG_DEBUG_WIFI_MENU
-      Serial0.println("Not implemented");
+      LOG_INFO("Not implemented");
 #endif
       break;
   }
@@ -75,7 +76,6 @@ void main_menu_handler(int pos) {
 
 static void handle_ok() {
   int pos = gui->get_current_position();
-  Serial0.println(pos);
   /* Main menu handler */
   if (!gui->submenu_visible()) {
     main_menu_handler(pos);
@@ -159,7 +159,7 @@ static void handle_ok() {
   }
 
   if (gui->nfc_bruteforce_page_visible()) {
-    Serial0.println("nfc_bruteforce_page_visible");
+    // LOG_INFO("nfc_bruteforce_page_visible");
     nfc_bruteforce_submenu_handler(pos);
     return;
   }

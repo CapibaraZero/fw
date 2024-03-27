@@ -20,6 +20,7 @@
 #include "ble_attacks_btn.hpp"
 #include "bluetooth_attacks.hpp"
 #include "gui.hpp"
+#include "debug.h"
 
 #define BLE_DEVICE_NAME "capibaraZero"
 
@@ -62,11 +63,11 @@ void goto_samsung_spam() { init_spam_gui(); }
 void goto_swift_spam() { init_spam_gui(); }
 
 void ble_submenu_handler(int pos) {
-  Serial0.println("Here");
-  Serial0.printf("BLE POS: %i", pos);
+  LOG_INFO("Here");
+  Serial.printf("BLE POS: %i", pos);
   switch (pos) {
     case 0:  // Start scan
-      Serial0.println("Start sniff");
+      LOG_INFO("Start sniff");
       gui->ok(goto_ble_sniff_gui);
       break;
     case 1:  // Start spam
@@ -85,7 +86,7 @@ void ble_submenu_handler(int pos) {
 
 void stop_ble_sniffer() {
 #ifdef CONFIG_DEBUG_WIFI_MENU
-  Serial0.println("Sniff menu");
+  LOG_INFO("Sniff menu");
 #endif
   /* Stop sniffer */
   attack->stop_sniff();
@@ -125,7 +126,7 @@ void handle_ble_spam_stop() {
 }
 
 void init_ble_navigation(Gui *_gui) {
-  Serial0.println("Init BLE Navigation");
+  LOG_INFO("Init BLE Navigation");
   gui = _gui;
   NimBLEDevice::init(BLE_DEVICE_NAME);
 }

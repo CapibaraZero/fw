@@ -26,6 +26,7 @@
 #include "ui_tasks/wifi/wifi_ui_tasks_types.h"
 #include "wifi_sniff_task_types.h"
 #include "wifi_tasks.hpp"
+#include "debug.h"
 
 #define TASK_STACK_SIZE 16000
 
@@ -67,7 +68,7 @@ BSSIDSniff bssid_sniff;
 void sniff_bssid(Gui *gui, WifiAttack *wifiAttack) {
   gui->reset();
   gui->show_wifi_sniff_page();
-  Serial0.println(gui->get_current_network().get_ssid());
+  LOG_INFO(gui->get_current_network().get_ssid());
   bssid_sniff.attack = wifiAttack;
   bssid_sniff.ch = gui->get_current_network().get_channel();
   bssid_sniff.bssid = gui->get_current_network().get_bssid();

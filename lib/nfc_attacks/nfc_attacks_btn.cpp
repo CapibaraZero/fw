@@ -1,6 +1,7 @@
 #include "nfc_attacks.hpp"
 #include "nfc_tasks.hpp"
 #include "nfc_tasks_types.h"
+#include "debug.h"
 
 static NFCTasksParams *params = NULL;
 static TaskHandle_t polling_task_handle = NULL;
@@ -46,14 +47,14 @@ void dump_felica(Gui *gui, NFCAttacks *attacks) {
 
 void write_tag(Gui *gui, NFCAttacks *attacks, NFCTag *tag) {
   if (tag->is_ntag()) {
-    Serial0.println("Tag is NTAG");
+    LOG_INFO("Tag is NTAG");
     uint8_t unwritable = attacks->write_ntag(tag);
-    Serial0.printf("Unwritable sectors: %d\n", unwritable);
+    Serial.printf("Unwritable sectors: %d\n", unwritable);
     gui->set_unwritable_sectors(tag->get_blocks_count(), unwritable);
   } else {
-    Serial0.println("Tag is not NTAG");
+    LOG_INFO("Tag is not NTAG");
     uint8_t unwritable = attacks->write_tag(tag);
-    Serial0.printf("Unwritable sectors: %d\n", unwritable);
+    Serial.printf("Unwritable sectors: %d\n", unwritable);
     gui->set_unwritable_sectors(tag->get_blocks_count(), unwritable);
   }
 }

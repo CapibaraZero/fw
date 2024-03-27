@@ -19,6 +19,7 @@
 #include "fm.hpp"
 #include "gui.hpp"
 #include "nfc_attacks_btn.hpp"
+#include "debug.h"
 
 static Gui *gui;
 static NFCAttacks *nfc_attacks = nullptr;
@@ -155,16 +156,16 @@ void nfc_polling_submenu_handler(int pos) {
 void nfc_dump_submenu_handler(int pos) {
   switch (pos) {
     case SAVE_DUMP_TO_SD_POS:  // Start polling
-      Serial0.println("Start polling");
+      LOG_INFO("Start polling");
       gui->ok(save_dump_to_sd);
       break;
       //   case DUMP_GO_BACK_POS:
-      //     Serial0.println("Return to NFC");
+      //     LOG_INFO("Return to NFC");
       //     gui->destroy_nfc_dump_result_gui();
       //     gui->ok(return_to_nfc_polling_gui);
       //     break;
       // case DUMP_GO_HOME_POS:
-      //   Serial0.println("GOTO HOME");
+      //   LOG_INFO("GOTO HOME");
       //   gui->ok(goto_home);
       //   gui->destroy_nfc_polling_gui();
       //   break;
@@ -214,10 +215,10 @@ void write_felica_tag() {
 }
 
 void nfc_felica_polling_submenu_handler(int pos) {
-  Serial0.printf("NFC FELICA POSITION: %d\n", pos);
+  Serial.printf("NFC FELICA POSITION: %d\n", pos);
   switch (pos) {
     case FELICA_DUMP_TO_SD:
-      Serial0.println("DUmp FeliCa SD");
+      LOG_INFO("DUmp FeliCa SD");
       gui->ok(goto_nfc_dump_result_gui);
       dump_felica(gui, nfc_attacks);
       break;
@@ -227,12 +228,12 @@ void nfc_felica_polling_submenu_handler(int pos) {
       reset_felica();
       break;
     // case FELICA_WRITE_TAG:
-    //   Serial0.println("Write FeliCa Tag");
+    //   LOG_INFO("Write FeliCa Tag");
     //   gui->ok(write_felica_tag);
     //   // write_felica(gui, nfc_attacks);
     //   break;
     // case FELICA_FORMAT_TAG:
-    //   Serial0.println("Format FeliCa Tag");
+    //   LOG_INFO("Format FeliCa Tag");
     //   gui->ok(format_tag);
     //   format_felica(gui, nfc_attacks);
     //   break;
@@ -242,7 +243,7 @@ void nfc_felica_polling_submenu_handler(int pos) {
 }
 
 void init_nfc_navigation(Gui *_gui) {
-  Serial0.println("Init NFC Navigation");
+  LOG_INFO("Init NFC Navigation");
   gui = _gui;
   nfc_attacks = new NFCAttacks();
 }

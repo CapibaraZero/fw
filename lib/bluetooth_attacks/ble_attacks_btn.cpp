@@ -23,6 +23,7 @@
 #include "ui_tasks/BLE/ble_ui_tasks.hpp"
 #include "ui_tasks/BLE/ble_ui_tasks_types.h"
 #include "wifi_attack.hpp"  // Fix building errors. TODO: Try to remove it
+#include "debug.h"
 
 #define TASK_STACK_SIZE 4000  // Calculated with uxTaskGetStackHighWaterMark()
 #define SPAM_TASK_STACK_SIZE \
@@ -36,7 +37,7 @@ static TaskHandle_t samsung_ble_spam_handle = NULL;
 static TaskHandle_t swift_pair_spam_handle = NULL;
 
 void scan_ble(Gui *gui, BluetoothAttack *attack) {
-  Serial0.println("Start scanning BLE");
+  LOG_INFO("Start scanning BLE");
   /* We delete this after usage, so we need to recreate struct every time */
   ble_ui_task_params =
       (BLEUITaskParameters *)malloc(sizeof(BLEUITaskParameters));

@@ -98,7 +98,7 @@ bool NFCAttacks::bruteforce() {
 }
 
 void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length) {
-  Serial0.println("Read UID: ");
+  LOG_INFO("Read UID: ");
   if (!nfc_framework.get_tag_uid(uid, uid_length)) {
     uid = NULL;
     uid_length = NULL;
@@ -133,7 +133,7 @@ uint8_t NFCAttacks::write_tag(NFCTag *tag) {
   uint8_t uid_length;
   if (nfc_framework.get_tag_uid(uid, uid_length)) {
     for (size_t i = 0; i < tag->get_blocks_count(); i++) {
-      Serial0.printf("Writing block: %i\n", i);
+      Serial.printf("Writing block: %i\n", i);
       uint8_t block[BLOCK_SIZE] = {0};
       tag->get_block(i, block);
       if (nfc_framework.write_tag(i, block, key_universal)) {
@@ -144,7 +144,7 @@ uint8_t NFCAttacks::write_tag(NFCTag *tag) {
       };
     }
   } else {
-    Serial0.println("Unable to find card");
+    LOG_INFO("Unable to find card");
   }
   return unwritable;
 }
@@ -158,7 +158,7 @@ uint8_t NFCAttacks::write_tag(NFCTag *tag, int starting_block) {
   // Avoid crashing if no card is present
   if (nfc_framework.get_tag_uid(uid, uid_length)) {
     for (size_t i = starting_block; i < tag->get_blocks_count(); i++) {
-      Serial0.printf("Writing block: %i\n", i);
+      Serial.printf("Writing block: %i\n", i);
       uint8_t block[BLOCK_SIZE] = {0};
       tag->get_block(i, block);
       if (nfc_framework.write_tag(i, block, key_universal)) {
@@ -169,14 +169,14 @@ uint8_t NFCAttacks::write_tag(NFCTag *tag, int starting_block) {
       };
     }
   } else {
-    Serial0.println("Unable to find card");
+    LOG_INFO("Unable to find card");
   }
   return unwritable;
 }
 
 void NFCAttacks::write_tag(NFCTag *tag, uint8_t *key) {
   for (size_t i = 0; i < tag->get_blocks_count(); i++) {
-    Serial0.printf("Writing block: %i\n", i);
+    Serial.printf("Writing block: %i\n", i);
     uint8_t block[BLOCK_SIZE] = {0};
     tag->get_block(i, block);
     if (nfc_framework.write_tag(i, block, key)) {
@@ -189,7 +189,7 @@ void NFCAttacks::write_tag(NFCTag *tag, uint8_t *key) {
 
 void NFCAttacks::write_tag(NFCTag *tag, uint8_t *key, int starting_block) {
   for (size_t i = starting_block; i < tag->get_blocks_count(); i++) {
-    Serial0.printf("Writing block: %i\n", i);
+    Serial.printf("Writing block: %i\n", i);
     uint8_t block[BLOCK_SIZE] = {0};
     tag->get_block(i, block);
     if (nfc_framework.write_tag(i, block, key)) {
@@ -229,7 +229,7 @@ uint8_t NFCAttacks::write_ntag(NFCTag *tag) {
   if (nfc_framework.get_tag_uid(uid, uid_length)) {
     /* Skip non-user sectors since it's not writable */
     for (size_t i = 4; i != tag_size - reserved_pages; i++) {
-      Serial0.printf("Writing block: %i\n", i);
+      Serial.printf("Writing block: %i\n", i);
       uint8_t block[4];
       tag->get_block(i, block);
       if (nfc_framework.write_ntag2xx_page(i, block)) {
@@ -240,7 +240,7 @@ uint8_t NFCAttacks::write_ntag(NFCTag *tag) {
       };
     }
   } else {
-    Serial0.println("Unable to find card");
+    LOG_INFO("Unable to find card");
   }
   return unwritable;
 }
@@ -302,7 +302,7 @@ uint8_t NFCAttacks::felica_format(uint8_t blocks) {
     uint16_t block_list[1] = {i};
     uint8_t block_data[1][16] = {0};
     int res = felica_write(1, block_list, block_data);
-    Serial0.printf("Write result: %d\n", res);
+    Serial.printf("Write result: %d\n", res);
     if (res != 1) {
       unformattable++;
     }
@@ -320,7 +320,7 @@ NFCTag NFCAttacks::felica_dump(int blocks, uint8_t *unreadable) {
       uint16_t block_list[1] = {i};
       uint8_t block_data[1][16] = {0};
       int res = felica_read(1, block_list, block_data);
-      Serial0.printf("Write result: %d\n", res);
+      Serial.printf("Write result: %d\n", res);
       if (res != 1) {
         *unreadable++;
         memset(&data[i][0], 0, 16);
@@ -332,7 +332,7 @@ NFCTag NFCAttacks::felica_dump(int blocks, uint8_t *unreadable) {
     uint8_t empty[14][16] = {0};
     return NFCTag(_idm, _pmm, _sys_code, empty);
   }
-  Serial0.println("FInished");
+  LOG_INFO("FInished");
   return NFCTag(_idm, _pmm, _sys_code, data);
 }
 
@@ -342,7 +342,7 @@ uint8_t NFCAttacks::felica_dump(int blocks, uint8_t data[][16]) {
     uint16_t block_list[1] = {i};
     uint8_t block_data[1][16] = {0};
     int res = felica_read(1, block_list, block_data);
-    Serial0.printf("Write result: %d\n", res);
+    Serial.printf("Write result: %d\n", res);
     if (res != 1) {
       unreadable++;
       memset(&data[i][0], 0, 16);
@@ -360,7 +360,7 @@ bool NFCAttacks::felica_clone(NFCTag *tag) {
   for (uint16_t i = 0; i < 14; i++) {
     uint16_t block_list[1] = {i};
     int res = felica_write(i, block_list, &data[i]);
-    Serial0.printf("Write result: %d\n", res);
+    Serial.printf("Write result: %d\n", res);
     status = res == 1 && status;
   }
 

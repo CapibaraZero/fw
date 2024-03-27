@@ -22,6 +22,7 @@
 #include "wifi_attacks_btn.hpp"
 #include "wifi_position.h"
 #include "wifi_tasks.hpp"
+#include "debug.h"
 
 static Gui *gui;
 static WifiAttack wifiAttack = WifiAttack();
@@ -37,7 +38,7 @@ void init_wifi_gui() {
 
 void wifi_submenu_handler(int pos) {
 #ifdef CONFIG_DEBUG_WIFI_MENU
-  Serial0.println("Sub menu2");
+  LOG_INFO("Sub menu2");
 #endif
   switch (pos) {
     case WIFI_SCAN_POS:  // Start scan
@@ -48,7 +49,7 @@ void wifi_submenu_handler(int pos) {
       break;
     default:
 #ifdef CONFIG_DEBUG_WIFI_MENU
-      Serial0.println("Not implemented");
+      LOG_INFO("Not implemented");
 #endif
       break;
   }
@@ -56,7 +57,7 @@ void wifi_submenu_handler(int pos) {
 
 void stop_wifi_sniffer() {
 #ifdef CONFIG_DEBUG_WIFI_MENU
-  Serial0.println("Sniff menu");
+  LOG_INFO("Sniff menu");
 #endif
   /* Stop sniffer */
   wifiAttack.stop_sniff();

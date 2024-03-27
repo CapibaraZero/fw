@@ -36,7 +36,7 @@ class NetworkAttacksPage : public Page {
     net_attacks_grid->click(pos, callback);
   };
   void set_selected(int pos, bool status) {
-    Serial0.println("Set selected");
+    LOG_INFO("Set selected");
     net_attacks_grid->set_selected(pos, status);
   };
   void up() {};

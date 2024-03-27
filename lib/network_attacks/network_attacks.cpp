@@ -44,9 +44,9 @@ void NetworkAttacks::connect_to_wifi() {
   }
   WiFi.mode(WIFI_STA);
   WiFi.begin((const char *)doc["ssid"], (const char *)doc["password"]);
-  Serial0.println("Connecting to WiFi network");
+  LOG_INFO("Connecting to WiFi network");
   while (WiFi.status() != WL_CONNECTED);
-  Serial0.println("Connected! Starting DoS");
+  LOG_INFO("Connected! Starting DoS");
 }
 
 void NetworkAttacks::create_default_ap() {
