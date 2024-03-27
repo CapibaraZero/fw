@@ -4,9 +4,13 @@
 #include "parser.hpp"
 #include "posixsd.hpp"
 #include "sdcard_helper.hpp"
+#include "usb_hid/USBHid.hpp"
+#include "debug.h"
 
 static Gui *_gui;
 std::list<std::string> files;
+
+extern USBHid hid;
 
 void goto_badusb_gui() {
   files = list_dir(open("/ducky", "r"));
@@ -26,12 +30,13 @@ void badusb_selection_handler(int pos) {
     _gui->set_selected_widget(0, true);
     return;
   }
+  hid.begin();
   auto selected_file = files.begin();
   std::advance(selected_file, pos - 1);
-  Serial0.printf("Selected file: %s\n", selected_file->c_str());
+  Serial.printf("Selected file: %s\n", selected_file->c_str());
   FILE *file = fopen(("/sd/ducky/" + *selected_file).c_str(), "r");
   if (!file) {
-    Serial0.println("Failed to open file");
+    LOG_ERROR("Failed to open file");
     return;
   }
   yyin = file;
