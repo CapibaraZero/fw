@@ -19,7 +19,7 @@
 #include "fm.hpp"
 #include "gui.hpp"
 #include "nfc_attacks_btn.hpp"
-#include "debug.h"
+#include "../../../../include/debug.h"
 
 static Gui *gui;
 static NFCAttacks *nfc_attacks = nullptr;

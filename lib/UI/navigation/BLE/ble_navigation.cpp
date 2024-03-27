@@ -20,7 +20,7 @@
 #include "ble_attacks_btn.hpp"
 #include "bluetooth_attacks.hpp"
 #include "gui.hpp"
-#include "debug.h"
+#include "../../../../include/debug.h"
 
 #define BLE_DEVICE_NAME "capibaraZero"
 

@@ -1,5 +1,6 @@
 #include "nfc_attacks.hpp"
 #include "nfc_tasks_types.h"
+#include "../../include/debug.h"
 
 bool polling_in_progress = false;
 bool dump_in_progress = false;
@@ -27,12 +28,12 @@ void reset_felica(void) {
 void mifare_polling_task(void *pv) {
   polling_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  Serial0.println("Start polling task");
+  LOG_INFO("Start polling task");
   while (uid_length == 0) {
     params->attacks->read_uid(uid, &uid_length);
     delay(500);
   }
-  Serial0.println("Card found");
+  LOG_INFO("Card found");
   params->gui->reset();
   params->gui->set_current_position(2);
   params->gui->init_nfc_polling_result_gui(uid, uid_length);
@@ -44,14 +45,18 @@ void mifare_polling_task(void *pv) {
 void felica_polling_task(void *pv) {
   polling_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  Serial0.println("Start polling task");
+  LOG_INFO("Start polling task");
   while (sys_code == 0) {
     params->attacks->detect_felica(idm, pmm, &sys_code);
     delay(500);
   }
-  Serial0.print("Sys code: ");
+  LOG_INFO("Sys code: ");
+#ifdef ARDUINO_NANO_ESP32
+  Serial.println(sys_code, HEX);
+#else
   Serial0.println(sys_code, HEX);
-  // Serial0.println("Card found");
+#endif
+  // LOG_INFO("Card found");
   params->gui->reset();
   params->gui->init_nfc_felica_polling_result_gui(idm, pmm, sys_code);
   params->gui->set_current_position(4);
@@ -104,8 +109,8 @@ void dump_felica_task(void *pv) {
   // DumpResult *result = (DumpResult *)malloc(sizeof(DumpResult));
   uint8_t unreadable = 0;
   NFCTag tag = params->attacks->felica_dump(14, &unreadable);
-  Serial0.println("Finished2");
-  Serial0.printf("Felica dump: %d\n", unreadable);
+  LOG_INFO("Finished2");
+  Serial.printf("Felica dump: %d\n", unreadable);
   params->gui->set_dumped_sectors(14 - unreadable);
   params->gui->set_unreadable_sectors(unreadable);
   params->attacks->set_scanned_tag(&tag);
@@ -124,7 +129,7 @@ void format_iso14443a_task(void *pv) {
     unformattable = params->attacks->format_ntag(NTAG213_PAGES);
   else
     unformattable = params->attacks->format_tag();
-  Serial0.printf("Unformattable sectors: %d\n", unformattable);
+  Serial.printf("Unformattable sectors: %d\n", unformattable);
   params->gui->set_unformatted_sectors(
       uid_length == 4 ? MIFARE_CLASSIC_BLOCKS : NTAG213_PAGES, unformattable);
   delay(10000);

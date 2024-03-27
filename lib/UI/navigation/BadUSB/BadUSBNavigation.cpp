@@ -5,7 +5,7 @@
 #include "posixsd.hpp"
 #include "sdcard_helper.hpp"
 #include "usb_hid/USBHid.hpp"
-#include "debug.h"
+#include "../../../../include/debug.h"
 
 static Gui *_gui;
 std::list<std::string> files;

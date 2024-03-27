@@ -22,7 +22,7 @@
 #include "wifi_attacks_btn.hpp"
 #include "wifi_position.h"
 #include "wifi_tasks.hpp"
-#include "debug.h"
+#include "../../../../include/debug.h"
 
 static Gui *gui;
 static WifiAttack wifiAttack = WifiAttack();

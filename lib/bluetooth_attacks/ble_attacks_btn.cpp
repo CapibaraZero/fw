@@ -23,7 +23,7 @@
 #include "ui_tasks/BLE/ble_ui_tasks.hpp"
 #include "ui_tasks/BLE/ble_ui_tasks_types.h"
 #include "wifi_attack.hpp"  // Fix building errors. TODO: Try to remove it
-#include "debug.h"
+#include "../../include/debug.h"
 
 #define TASK_STACK_SIZE 4000  // Calculated with uxTaskGetStackHighWaterMark()
 #define SPAM_TASK_STACK_SIZE \

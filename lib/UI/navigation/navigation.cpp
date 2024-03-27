@@ -22,7 +22,7 @@
 #include "gui.hpp"
 #include "network_attacks/network_attacks_navigation.hpp"
 #include "wifi/wifi_navigation.hpp"
-#include "debug.h"
+#include "../../../include/debug.h"
 
 #define WIFI_MODULE_POS 0
 #define BLE_MODULE_POS 1

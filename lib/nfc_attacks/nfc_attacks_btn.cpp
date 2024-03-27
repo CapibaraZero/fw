@@ -1,7 +1,7 @@
 #include "nfc_attacks.hpp"
 #include "nfc_tasks.hpp"
 #include "nfc_tasks_types.h"
-#include "debug.h"
+#include "../../include/debug.h"
 
 static NFCTasksParams *params = NULL;
 static TaskHandle_t polling_task_handle = NULL;

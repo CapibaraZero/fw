@@ -18,6 +18,7 @@
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
+#include "../../../../include/debug.h"
 
 #ifndef NetworkAttacks_PAGE_H
 #define NetworkAttacks_PAGE_H

@@ -26,7 +26,7 @@
 #include "ui_tasks/wifi/wifi_ui_tasks_types.h"
 #include "wifi_sniff_task_types.h"
 #include "wifi_tasks.hpp"
-#include "debug.h"
+#include "../../include/debug.h"
 
 #define TASK_STACK_SIZE 16000
 
