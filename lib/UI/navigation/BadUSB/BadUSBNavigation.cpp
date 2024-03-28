@@ -10,9 +10,13 @@
 static Gui *_gui;
 std::list<std::string> files;
 
-extern USBHid hid;
+extern USBHid hid;  // From DuckyESP
 
 void goto_badusb_gui() {
+#ifdef ARDUINO_NANO_ESP32
+  Serial.end();
+#endif
+  hid.begin();
   files = list_dir(open("/ducky", "r"));
   _gui->reset();
   _gui->set_current_position(1);
@@ -23,6 +27,7 @@ void goto_badusb_gui() {
 extern FILE *yyin;
 void badusb_selection_handler(int pos) {
   if (pos == files.size() + 1) {  // Means return to main menu
+    hid.end();
     _gui->reset();
     _gui->destroy_badusb_browser_gui();
     _gui->init_gui();
@@ -30,7 +35,6 @@ void badusb_selection_handler(int pos) {
     _gui->set_selected_widget(0, true);
     return;
   }
-  hid.begin();
   auto selected_file = files.begin();
   std::advance(selected_file, pos - 1);
   Serial.printf("Selected file: %s\n", selected_file->c_str());
