@@ -49,6 +49,8 @@ void scan_ble(Gui *gui, BluetoothAttack *attack) {
               (void *)ble_ui_task_params, tskIDLE_PRIORITY, NULL);
 }
 
+TaskHandle_t ble_sniffer_updater = NULL;
+
 void sniff_ble(Gui *gui, BluetoothAttack *attack) {
   /* We delete this after usage, so we need to recreate struct every time */
   ble_ui_task_params =
@@ -58,7 +60,11 @@ void sniff_ble(Gui *gui, BluetoothAttack *attack) {
   xTaskCreate(&ble_sniff_task, "ble_sniff", TASK_STACK_SIZE,
               (void *)ble_ui_task_params, 5, NULL);
   xTaskCreate(&update_ble_sniffed_packets, "ble_sniff_gui_updater", 4000,
-              (void *)ble_ui_task_params, tskIDLE_PRIORITY, NULL);
+              (void *)ble_ui_task_params, tskIDLE_PRIORITY, &ble_sniffer_updater);
+}
+
+void stop_sniffer_updater() {
+  vTaskDelete(ble_sniffer_updater);
 }
 
 void start_applejuice(BluetoothAttack *attack) {

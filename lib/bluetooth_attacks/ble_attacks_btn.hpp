@@ -24,6 +24,7 @@
 
 void scan_ble(Gui *gui, BluetoothAttack *attack);
 void sniff_ble(Gui *gui, BluetoothAttack *attack);
+void stop_sniffer_updater();
 void start_applejuice(BluetoothAttack *attack);
 void start_samsung_ble_spam(BluetoothAttack *attack);
 void start_swift_pair_spam(BluetoothAttack *attack);

@@ -90,8 +90,7 @@ void stop_ble_sniffer() {
 #endif
   /* Stop sniffer */
   attack->stop_sniff();
-  /* if(wifiAttack.get_networks().size() > 0)
-     wifiAttack.clean_networks(); */
+  stop_sniffer_updater();
   gui->destroy_ble_sniff_gui();
   init_main_gui();
   NimBLEDevice::deinit();  // Save some resources
