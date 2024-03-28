@@ -61,7 +61,9 @@ void stop_wifi_sniffer() {
 #endif
   /* Stop sniffer */
   wifiAttack.stop_sniff();
-  if (wifiAttack.get_networks().size() > 0) wifiAttack.clean_networks();
+  stop_wifi_sniffer_updater();  // Delete updater task to avoid UI crash
+  wifiAttack.clean_networks();
+  gui->wifi_cleanup();
   init_main_gui();
 }
 
@@ -70,6 +72,7 @@ void handle_wifi_network_selection() {
     // Save to SD
     wifiAttack.save_scan();  // TODO: Create a task for this to create better UX
     wifiAttack.clean_networks();  // Clean previous scan
+    gui->wifi_cleanup();  // Remove WiFi pages
     init_main_gui();
   } else if (gui->get_selection_index() == WIFI_SCAN_SNIFF_BSSID_POS) {
     // Sniff only selected BSSID

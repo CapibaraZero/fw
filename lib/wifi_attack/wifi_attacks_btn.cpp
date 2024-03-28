@@ -46,10 +46,13 @@ void scan_wifi(Gui *gui, WifiAttack *wifiAttack) {
               (void *)wifi_ui_task_params, tskIDLE_PRIORITY, NULL);
 }
 
+#define SNIFF_TASK_SIZE 4000  // Estimated using uxTaskGetStackHighWaterMark()
+TaskHandle_t wifi_sniffer_updater = NULL;
+
 void sniff_wifi(Gui *gui, WifiAttack *wifiAttack) {
   gui->reset();
   gui->show_wifi_sniff_page();
-  xTaskCreate(&wifi_sniff_task, "wifi_sniff", 4000, (void *)wifiAttack, 5,
+  xTaskCreate(&wifi_sniff_task, "wifi_sniff", SNIFF_TASK_SIZE, (void *)wifiAttack, 5,
               NULL);
   while (!wifiAttack->sniffer_running()) {
     delay(1);  // Wait for sniffer initialization
@@ -60,7 +63,12 @@ void sniff_wifi(Gui *gui, WifiAttack *wifiAttack) {
   wifi_ui_task_params->wifi_attack = wifiAttack;
   wifi_ui_task_params->gui = gui;
   xTaskCreate(&update_wifi_sniff_packets, "update_wifi_sniff", 3000,
-              (void *)wifi_ui_task_params, tskIDLE_PRIORITY, NULL);
+              (void *)wifi_ui_task_params, tskIDLE_PRIORITY, &wifi_sniffer_updater);
+}
+
+void stop_wifi_sniffer_updater() {
+  vTaskDelete(wifi_sniffer_updater);
+  wifi_sniffer_updater = NULL;
 }
 
 BSSIDSniff bssid_sniff;
@@ -83,7 +91,7 @@ void sniff_bssid(Gui *gui, WifiAttack *wifiAttack) {
   wifi_ui_task_params->wifi_attack = wifiAttack;
   wifi_ui_task_params->gui = gui;
   xTaskCreate(&update_wifi_sniff_packets, "update_wifi_sniff", 3000,
-              (void *)wifi_ui_task_params, tskIDLE_PRIORITY, NULL);
+              (void *)wifi_ui_task_params, tskIDLE_PRIORITY, &wifi_sniffer_updater);
 }
 
 void return_to_net_list(Gui *gui) {

@@ -22,5 +22,6 @@
 
 void scan_wifi(Gui *gui, WifiAttack *wifiAttack);
 void sniff_wifi(Gui *gui, WifiAttack *wifiAttack);
+void stop_wifi_sniffer_updater();
 void sniff_bssid(Gui *gui, WifiAttack *wifiAttack);
 void return_to_net_list(Gui *gui);

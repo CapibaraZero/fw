@@ -30,7 +30,7 @@
 
 WifiAttack::WifiAttack(/* args */) {}
 
-WifiAttack::~WifiAttack() { Serial0.println("Destroyed"); }
+WifiAttack::~WifiAttack() {}
 
 void WifiAttack::scan() {
   int n = WiFi.scanNetworks(false, true, false, 1000);
@@ -45,11 +45,22 @@ void WifiAttack::save_scan() {
   DynamicJsonDocument all_networks(2048);
 
   for (auto network : networks) {
+#ifdef ARDUINO_NANO_ESP32
+    Serial.printf("SSID: %s\n", network.get_ssid());
+#else 
     Serial0.printf("SSID: %s\n", network.get_ssid());
+#endif
     DynamicJsonDocument wifi(512);
+    StaticJsonDocument<JSON_ARRAY_SIZE(6)> doc;
+    JsonArray json_bssid = doc.to<JsonArray>();
+    uint8_t *bssid = network.get_bssid();
+    for (size_t i = 0; i < 6; i++)
+    {
+      json_bssid.add(bssid[i]);
+    }
     wifi["ssid"] = network.get_ssid();
     wifi["rssi"] = network.get_rssi();
-    wifi["bssid"] = network.get_bssid();
+    wifi["bssid"] = json_bssid;
     wifi["channel"] = network.get_channel();
     wifi["auth_mode"] = network.get_auth_mode();
     all_networks.add(wifi);
