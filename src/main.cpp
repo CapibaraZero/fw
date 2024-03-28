@@ -36,16 +36,30 @@
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
 
+#ifdef ARDUINO_NANO_ESP32
+SPIClass SPI2(HSPI);
+#endif
 static void init_sd() {
-  SPI.begin(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
-  if (!init_sdcard(SD_CARD_CS)) {
-    LOG_ERROR("Error during init SD card");
-  };
+#ifdef ARDUINO_NANO_ESP32
+    SPI2.begin(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
+    SPI2.setDataMode(SPI_MODE0);
+#else
+    SPI.begin(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
+#endif
+
+#ifdef ARDUINO_NANO_ESP32
+    if (!init_sdcard_custom_spi(SD_CARD_CS, SPI2)) {
+#else
+    if (!init_sdcard(SD_CARD_CS)) {
+#endif
+        Serial.println("init_sdcard failed");
+        // LOG_ERROR("Error during init SD card");
+    };
 }
 
 void init_navigation_btn(int pin, void callback()) {
-  pinMode(pin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(pin), callback, FALLING);
+    pinMode(pin, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(pin), callback, FALLING);
 }
 
 Gui *main_gui;
@@ -53,28 +67,34 @@ Adafruit_ST7789 *display;
 GFXForms *screen;
 
 void setup() {
-  Serial0.begin(115200);
-  init_sd();
-  init_english_dict();
-  display = new Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
-  screen = new GFXForms(240, 320, display);
-  screen->set_rotation(1);
-  screen->set_background_color(HOME_BACKGROUND_COLOR);
+#ifdef ARDUINO_NANO_ESP32
+    Serial.begin(115200);
+    while (!Serial);
+    Serial.println("Test");
+#else
+    Serial0.begin(115200);
+#endif
+    init_sd();
+    init_english_dict();
+    display = new Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
+    screen = new GFXForms(240, 320, display);
+    screen->set_rotation(1);
+    screen->set_background_color(HOME_BACKGROUND_COLOR);
 
-  main_gui = new Gui(screen);
-  main_gui->init_gui();
-  init_navigation_btn(UP_BTN_PIN, handle_up_button);
-  init_navigation_btn(DOWN_BTN_PIN, handle_down_button);
-  init_navigation_btn(RIGHT_BTN_PIN, handle_right_button);
-  init_navigation_btn(LEFT_BTN_PIN, handle_left_button);
-  init_navigation_btn(OK_BTN_PIN, handle_ok_button);
+    main_gui = new Gui(screen);
+    main_gui->init_gui();
+    init_navigation_btn(UP_BTN_PIN, handle_up_button);
+    init_navigation_btn(DOWN_BTN_PIN, handle_down_button);
+    init_navigation_btn(RIGHT_BTN_PIN, handle_right_button);
+    init_navigation_btn(LEFT_BTN_PIN, handle_left_button);
+    init_navigation_btn(OK_BTN_PIN, handle_ok_button);
 
-  main_gui->set_selected_widget(0, true);
-  xTaskCreate(&set_selected_listener, "set_selected_listener", TASK_STACK_SIZE,
-              (void *)main_gui, 1, NULL);
+    main_gui->set_selected_widget(0, true);
+    xTaskCreate(&set_selected_listener, "set_selected_listener", 8192,
+                (void *)main_gui, 1, NULL);
 }
 
 void loop() {
-  Serial0.println("Loop");  // Avoid FreeRTOS watchdog trigger
-  delay(1000);
+    Serial0.println("Loop");  // Avoid FreeRTOS watchdog trigger
+    delay(1000);
 }

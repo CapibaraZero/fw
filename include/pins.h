@@ -15,6 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef ESP32S3_DEVKITC_BOARD
+
 // Define buttons pins
 #define OK_BTN_PIN 40
 #define UP_BTN_PIN 47
@@ -35,10 +37,27 @@
 #define SD_CARD_SCK 36
 #define SD_CARD_MISO 37
 
-// CC1101 pins
-#define CC1101_CSN 1
-#define CC1101_GDO0 2
-#define CC1101_MOSI 35
-#define CC1101_SCK 36
-#define CC1101_MISO 37
-#define CC1101_DGO2 RADIOLIB_NC // Not used
+
+#elif ARDUINO_NANO_ESP32
+
+// Define buttons pins
+#define OK_BTN_PIN A7
+#define UP_BTN_PIN A1
+#define DOWN_BTN_PIN A2
+#define LEFT_BTN_PIN A3
+#define RIGHT_BTN_PIN A6
+
+// Display pins
+#define TFT_RST D6
+#define TFT_DC D7
+#define TFT_CS D10
+#define TFT_MOSI D11
+#define TFT_SCLK D13
+
+// SD card
+#define SD_CARD_SCK D2
+#define SD_CARD_MISO D3
+#define SD_CARD_MOSI D4
+#define SD_CARD_CS D5
+
+#endif
