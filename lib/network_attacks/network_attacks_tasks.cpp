@@ -26,3 +26,8 @@ void evilportal_task(void *pv) {
   NetworkAttacks *params = static_cast<NetworkAttacks *>(pv);
   params->start_evilportal();
 }
+
+void arp_poisoning_task(void *pv) {
+  NetworkAttacks *params = static_cast<NetworkAttacks *>(pv);
+  params->start_arp_poisoning();
+}

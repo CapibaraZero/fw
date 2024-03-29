@@ -30,10 +30,13 @@ void NetworkAttacksPage::display() {
                         ST77XX_WHITE, 20, ST77XX_BLACK);
   dhcpglutton = new List(screen, english_words->at(DHCP_GLUTTON_KEY), 2,
                          ST77XX_WHITE, 20, ST77XX_BLACK);
+  arp_poisoner = new List(screen, "ARPoisoner", 2,
+                         ST77XX_WHITE, 20, ST77XX_BLACK);
   go_back = new List(screen, english_words->at(NET_ATTACK_GO_BACK_KEY), 2,
                          ST77XX_WHITE, 20, ST77XX_BLACK);
   net_attacks_grid->add(dhcpglutton);
   net_attacks_grid->add(evilportal);
+  net_attacks_grid->add(arp_poisoner);
   net_attacks_grid->add(go_back);
   net_attacks_grid->set_selected(0, true);
   net_attacks_grid->display();

@@ -159,7 +159,7 @@ void Gui::init_ble_spam_gui() {
 
 void Gui::init_network_attacks_gui() {
   grid_visible = false;
-  position_limit = 2;
+  position_limit = 3;
   position_increment = 1;
   net_attacks_page = new NetworkAttacksPage(screen);
   net_attacks_page->display();
@@ -195,6 +195,15 @@ void Gui::set_evilportal_requests(int req) {
 
 void Gui::set_evilportal_ip(String ip) { evilportal_page->set_portal_ip(ip); }
 
+void Gui::init_arp_poisoner_gui() {
+  delete net_attacks_page;
+  net_attacks_page = nullptr;
+  grid_visible = false;
+  position_limit = 0;  // It has just one button, so it cannot be increased
+  position_increment = 0;
+  arpoisoner_page = new ARPoisonerPage(screen);
+  arpoisoner_page->display();
+}
 void Gui::set_selected_widget(int pos, bool selected) {
   if (grid_visible)
     grid->set_selected(pos, selected);

@@ -15,13 +15,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NETWORK_ATTACKS_BTN_H
-#define NETWORK_ATTACKS_BTN_H
+#include "ARPoisonerPage.hpp"
 
-void start_dhcpglutton(Gui *gui, NetworkAttacks *attack);
-void kill_dhcpglutton();
-void start_evilportal(Gui *gui, NetworkAttacks *attack);
-void kill_evilportal(NetworkAttacks *attack);
-void start_arp_poisoning(Gui *gui, NetworkAttacks *attack);
-void kill_arp_poisoning();
-#endif
+#include "../../i18n.hpp"
+#include "../../i18n/network_attacks/dhcpglutton_keys.h"
+
+ARPoisonerPage::ARPoisonerPage(GFXForms *_screen) {
+  details_grid = new Grid(_screen, 2, 1);
+  text = new Text(_screen, ST77XX_WHITE,
+                  "ARP poisoning running");
+  stop = new List(_screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+
+  details_grid->add(text);
+  details_grid->add(stop);
+  details_grid->set_selected(1, true);
+  details_grid->set_y_spacing(20);
+}
+
+ARPoisonerPage::~ARPoisonerPage() {}

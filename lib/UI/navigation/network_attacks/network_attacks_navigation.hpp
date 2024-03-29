@@ -22,6 +22,7 @@ void goto_net_attacks_gui();
 void network_attacks_submenu_handler(int pos);
 void stop_dhcpglutton();
 void stop_evilportal();
+void stop_arp_poisoner();
 void init_network_attacks_navigation(Gui *_gui);
 
 #endif

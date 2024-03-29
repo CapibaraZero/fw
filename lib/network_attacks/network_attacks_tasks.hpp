@@ -20,5 +20,6 @@
 
 void dhcp_starvation_task(void *pv);
 void evilportal_task(void *pv);
+void arp_poisoning_task(void *pv);
 
 #endif

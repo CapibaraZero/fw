@@ -141,6 +141,11 @@ Serial.println("WiFI4");
     return;
   }
 
+  if(gui->arp_poisoner_page_visible()){
+    stop_arp_poisoner();
+    return;
+  }
+
   if (gui->nfc_page_visible()) {
     nfc_submenu_handler(pos);
     return;

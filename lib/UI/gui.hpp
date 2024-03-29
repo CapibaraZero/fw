@@ -34,6 +34,7 @@
 #include "pages/network_attacks/DHCPGluttonPage.hpp"
 #include "pages/network_attacks/EvilPortalPage.hpp"
 #include "pages/network_attacks/NetworkAttacksPage.hpp"
+#include "pages/network_attacks/ARPoisonerPage.hpp"
 #include "pages/wifi/WifiNetworksPage.hpp"
 #include "pages/wifi/WifiPage.hpp"
 #include "pages/wifi/WifiScanPage.hpp"
@@ -87,6 +88,7 @@ class Gui {
   NetworkAttacksPage *net_attacks_page = nullptr;
   DHCPGluttonPage *dhcp_glutton_page = nullptr;
   EvilPortalPage *evilportal_page = nullptr;
+  ARPoisonerPage *arpoisoner_page = nullptr;
   // Network attacks
   RectText *settings;
   Grid *grid = nullptr;
@@ -289,6 +291,14 @@ class Gui {
   void set_evilportal_requests(int req);
   void set_evilportal_ip(String ip);
 
+
+  /******************** ARP Poisoner FUNCTIONS ************************/
+  void init_arp_poisoner_gui();
+  bool arp_poisoner_page_visible() { return arpoisoner_page != nullptr; };
+  void destroy_arp_poisoner_gui() {
+    delete arpoisoner_page;
+    arpoisoner_page = nullptr;
+  }
   /******************** BadUSB FUNCTIONS ************************/
 
   void init_badusb_browser_gui(std::list<std::string> *files);

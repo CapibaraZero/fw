@@ -64,3 +64,14 @@ void kill_evilportal(NetworkAttacks *attack) {
                               // update_evilportal_requests kill evilportal
   vTaskDelete(evilportal_task_handle);  // This task would ran always
 }
+
+TaskHandle_t arp_poisoner_task_handle = NULL;
+
+void start_arp_poisoning(Gui *gui, NetworkAttacks *attack) {
+  xTaskCreate(&arp_poisoning_task, "arp_poisoner_task", 4000, (void *)attack, 5,
+              &arp_poisoner_task_handle);
+}
+
+void kill_arp_poisoning() {
+  vTaskDelete(arp_poisoner_task_handle);
+}

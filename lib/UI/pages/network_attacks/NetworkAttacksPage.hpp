@@ -27,6 +27,7 @@ class NetworkAttacksPage : public Page {
  private:
   List *dhcpglutton;
   List *evilportal;
+  List *arp_poisoner;
   List *go_back;
   Grid *net_attacks_grid;
 

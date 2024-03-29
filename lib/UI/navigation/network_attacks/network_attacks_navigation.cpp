@@ -43,12 +43,18 @@ void goto_evilportal_gui() {
   start_evilportal(gui, attack);
 }
 
+static void goto_arp_poisoner_gui() {
+  gui->reset();
+  gui->set_current_position(0);
+  gui->init_arp_poisoner_gui();
+  start_arp_poisoning(gui, attack);
+}
+
 static void net_attacks_goto_home() {
   gui->destroy_network_attacks_gui();
   init_main_gui();
 }
 
-// Will be used in future
 void network_attacks_submenu_handler(int pos) {
   switch (pos) {
     case 0:
@@ -58,6 +64,9 @@ void network_attacks_submenu_handler(int pos) {
       goto_evilportal_gui();
       break;
     case 2:
+      goto_arp_poisoner_gui();
+      break;
+    case 3:
       net_attacks_goto_home();
       break;
     default:
@@ -76,6 +85,13 @@ void stop_evilportal() {
   gui->destroy_evilportal_gui();
   init_main_gui();
 }
+
+void stop_arp_poisoner() {
+  kill_arp_poisoning();
+  gui->destroy_arp_poisoner_gui();
+  init_main_gui();
+}
+
 void init_network_attacks_navigation(Gui *_gui) {
   gui = _gui;
   attack = new NetworkAttacks();
