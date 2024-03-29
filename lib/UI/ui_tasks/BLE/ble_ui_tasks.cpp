@@ -27,7 +27,6 @@ void update_ble_sniffed_packets(void *pv) {
         params->ble_attack->get_sniffed_packets());
     delay(1000);
   }
-  free(pv);  // Free some space
   vTaskDelete(NULL);
 }
 

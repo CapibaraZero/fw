@@ -88,6 +88,7 @@ void handle_wifi_network_selection() {
   } else if (gui->get_selection_index() == WIFI_SCAN_GO_BACK_POS) {
     return_to_net_list(gui);  // Go back to network selection
   } else {
+    gui->wifi_cleanup();
     // Go to main menu
     init_main_gui();
   }

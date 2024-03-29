@@ -89,13 +89,19 @@ void Gui::init_gui() {
   position_increment = 4;
   lower_limit = 0;
   position_limit = 7;
-  init_icons();
-  init_text();
+  if(grid == nullptr) {
+    Serial.println("Allocating grid");
+    init_icons();
+    init_text();
+  } else {
+    grid->display();
+    init_text();
+  }
+  grid_visible = true;
 }
 
 void Gui::init_wifi_gui() {
-  delete grid;  // Free some spaces
-  grid = nullptr;
+  grid_visible = false;
   position_limit = 2;
   position_increment = 1;
   wifi_page = new WifiPage(screen);
@@ -121,8 +127,7 @@ void Gui::init_wifi_networks_gui(vector<WifiNetwork> *networks) {
 /*********************** BLE GUI FUNCTIONS *************************/
 
 void Gui::init_ble_gui() {
-  delete grid;
-  grid = nullptr;
+  grid_visible = false;
   position_limit = 4;
   position_increment = 1;
   ble_page = new BLEPage(screen);
@@ -153,8 +158,7 @@ void Gui::init_ble_spam_gui() {
 /****************** NET ATTACKS GUI FUNCTIONS *********************/
 
 void Gui::init_network_attacks_gui() {
-  delete grid;
-  grid = nullptr;
+  grid_visible = false;
   position_limit = 2;
   position_increment = 1;
   net_attacks_page = new NetworkAttacksPage(screen);
@@ -192,7 +196,7 @@ void Gui::set_evilportal_requests(int req) {
 void Gui::set_evilportal_ip(String ip) { evilportal_page->set_portal_ip(ip); }
 
 void Gui::set_selected_widget(int pos, bool selected) {
-  if (grid != nullptr)
+  if (grid_visible)
     grid->set_selected(pos, selected);
   else if (wifi_page != nullptr)
     wifi_page->set_selected(pos, selected);
@@ -216,8 +220,7 @@ void Gui::set_selected_widget(int pos, bool selected) {
 
 /******************** NFC GUI FUNCTIONS ************************/
 void Gui::init_nfc_gui() {
-  delete grid;
-  grid = nullptr;
+  grid_visible = false;
   position_limit = 2;
   position_increment = 1;
   nfc_main_page = new NFCMainPage(screen);
@@ -315,8 +318,7 @@ void Gui::nfc_cleanup() {
 
 /******************** BadUSB FUNCTIONS ************************/
 void Gui::init_badusb_browser_gui(std::list<std::string> *files) {
-  delete grid;
-  grid = nullptr;
+  grid_visible = false;
   lower_limit = 1;
   position_limit = 2;  // To adjust dynamically
   position_increment = 1;
@@ -325,7 +327,7 @@ void Gui::init_badusb_browser_gui(std::list<std::string> *files) {
 };
 
 void Gui::click_element(int pos, void callback()) {
-  if (grid != nullptr)
+  if (grid_visible)
     grid->click(pos, callback);
   else if (wifi_page != nullptr)
     wifi_page->click(pos, callback);

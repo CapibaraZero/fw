@@ -10,7 +10,6 @@ void update_wifi_sniff_packets(void *pv) {
         params->wifi_attack->get_sniffed_packets());
     delay(1000);
   }
-  free(pv);  // Free some space
   vTaskDelete(NULL);
 }
 

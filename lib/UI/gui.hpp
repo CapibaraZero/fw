@@ -89,7 +89,8 @@ class Gui {
   EvilPortalPage *evilportal_page = nullptr;
   // Network attacks
   RectText *settings;
-  Grid *grid;
+  Grid *grid = nullptr;
+  bool grid_visible = false;
   int current_position = 0;
   int position_limit = 7;  // Maximum number of widgets in the page
   int lower_limit = 0;     // Start position
@@ -166,12 +167,12 @@ class Gui {
 
   /// @brief Return if grid is visible or not(sub menu displayed)
   /// @return submenu visible or not
-  bool submenu_visible() { return grid == nullptr; }
+  bool submenu_visible() { return !grid_visible; }
 
   /*********************** WIFI GUI FUNCTIONS *************************/
   /// @brief Return if wifi initial sub menu is visible or not
   /// @return wifi sub menu visible or not
-  bool get_wifi_sub_menu() { return wifi_page != nullptr && grid == nullptr; }
+  bool get_wifi_sub_menu() { return wifi_page != nullptr && submenu_visible(); }
 
   /// @brief Return if WiFi networks selection is visible or not
   /// @return WiFI network selection visible or not
