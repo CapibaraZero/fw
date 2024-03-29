@@ -96,7 +96,7 @@ void Gui::init_gui() {
 void Gui::init_wifi_gui() {
   delete grid;  // Free some spaces
   grid = nullptr;
-  position_limit = 1;
+  position_limit = 2;
   position_increment = 1;
   wifi_page = new WifiPage(screen);
   wifi_page->display();
@@ -123,7 +123,7 @@ void Gui::init_wifi_networks_gui(vector<WifiNetwork> *networks) {
 void Gui::init_ble_gui() {
   delete grid;
   grid = nullptr;
-  position_limit = 3;
+  position_limit = 4;
   position_increment = 1;
   ble_page = new BLEPage(screen);
   ble_page->display();
@@ -155,7 +155,7 @@ void Gui::init_ble_spam_gui() {
 void Gui::init_network_attacks_gui() {
   delete grid;
   grid = nullptr;
-  position_limit = 1;
+  position_limit = 2;
   position_increment = 1;
   net_attacks_page = new NetworkAttacksPage(screen);
   net_attacks_page->display();
@@ -434,6 +434,16 @@ void Gui::show_wifi_scan_result_dialog() {
 }
 void Gui::wifi_cleanup() {
   current_position = 0;
+  if(wifi_page != nullptr) {
+    delete wifi_page;
+    wifi_page = nullptr;
+  }
+
+  if(wifi_scan_page != nullptr) {
+    delete wifi_scan_page;
+    wifi_scan_page = nullptr;
+  }
+  
   if (wifi_networks_page != nullptr) {
     delete wifi_networks_page;
     wifi_networks_page = nullptr;

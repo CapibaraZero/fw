@@ -26,6 +26,7 @@ class WifiPage : public Page {
  private:
   List *wifi_list;
   List *wifi_sniff;
+  List *go_back;
   Grid *wifi_grid;
 
  public:

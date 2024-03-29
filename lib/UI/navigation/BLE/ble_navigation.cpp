@@ -62,6 +62,10 @@ void goto_samsung_spam() { init_spam_gui(); }
 
 void goto_swift_spam() { init_spam_gui(); }
 
+static void ble_goto_home() {
+  gui->destroy_ble_gui();
+  init_main_gui();
+}
 void ble_submenu_handler(int pos) {
   LOG_INFO("Here");
   Serial.printf("BLE POS: %i", pos);
@@ -78,6 +82,9 @@ void ble_submenu_handler(int pos) {
       break;
     case 3:
       gui->ok(goto_swift_spam);
+      break;
+    case 4:
+      gui->ok(ble_goto_home);
       break;
     default:
       break;

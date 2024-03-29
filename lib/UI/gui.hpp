@@ -228,6 +228,10 @@ class Gui {
   /*********************** BLE GUI FUNCTIONS *************************/
 
   void init_ble_gui();
+  void destroy_ble_gui() {
+    delete ble_page;
+    ble_page = nullptr;
+  }
   bool get_ble_sub_menu() { return ble_page != nullptr; }
   void init_ble_scan_gui();
   void set_ble_adv_devices_text(int adv_devices) {
@@ -255,6 +259,10 @@ class Gui {
   /****************** NET ATTACKS GUI FUNCTIONS *********************/
 
   void init_network_attacks_gui();
+  void destroy_network_attacks_gui() {
+    delete net_attacks_page;
+    net_attacks_page = nullptr;
+  }
   bool network_attacks_submenu_visible() {
     return net_attacks_page != nullptr;
   };

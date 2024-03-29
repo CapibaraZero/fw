@@ -60,6 +60,7 @@ void init_english_dict() {
   // WiFi
   english_words->insert({WIFI_SCAN_KEY, "Scan"});
   english_words->insert({WIFI_SNIFF_KEY, "Sniff"});
+  english_words->insert({WIFI_GO_BACK_KEY, "Go back"});
   english_words->insert({WIFI_SCANNING_KEY, "Scanning Wi-Fi network..."});
   english_words->insert({WIFI_AUTH_KEY, "Auth: "});
   english_words->insert({WIFI_SSID_KEY, "SSID: "});
@@ -79,6 +80,7 @@ void init_english_dict() {
 #ifndef CONFIG_IDF_TARGET_ESP32S2  // ESP32S2 doesn't support BLE
   english_words->insert({BLE_SCAN_KEY, "Scan"});
   english_words->insert({BLE_SNIFF_KEY, "Sniff"});
+  english_words->insert({BLE_GO_BACK_KEY, "Go back"});
   english_words->insert({BLE_SCANNING_KEY, "Scanning BLE devices..."});
   english_words->insert({BLE_SPAM_PROGRESS_KEY, "Spam attack in progress..."});
   english_words->insert({BLE_SPAM_STOP_KEY, "Stop spam"});
@@ -87,6 +89,7 @@ void init_english_dict() {
   // Net attacks
   english_words->insert({EVILPORTAL_KEY, "EvilPortal"});
   english_words->insert({DHCP_GLUTTON_KEY, "DHCPGlutton"});
+  english_words->insert({NET_ATTACK_GO_BACK_KEY, "Go back"});
   english_words->insert({RUNNING_EVILPORTAL_KEY, "Running EvilPortal..."});
   english_words->insert({EVILPORTAL_IP_KEY, "EvilPortal IP: "});
   english_words->insert(

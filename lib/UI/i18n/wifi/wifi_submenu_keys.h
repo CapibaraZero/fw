@@ -17,3 +17,4 @@
 
 #define WIFI_SCAN_KEY "wifi_scan"
 #define WIFI_SNIFF_KEY "wifi_sniff"
+#define WIFI_GO_BACK_KEY "wifi_go_back"

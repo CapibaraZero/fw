@@ -25,22 +25,25 @@ BLEPage::BLEPage(GFXForms *_screen) { screen = _screen; }
 BLEPage::~BLEPage() {}
 
 void BLEPage::display() {
-  ble_grid = new Grid(screen, 2, 1);
-  //  ble_list = new List(screen, english_words->at(BLE_SCAN_KEY), 2,
-  //  ST77XX_WHITE, 20, ST77XX_BLACK);
-  ble_sniff = new List(screen, english_words->at(BLE_SNIFF_KEY), 2,
-                       ST77XX_WHITE, 20, ST77XX_BLACK);
-  apple_juice =
-      new List(screen, "AppleJuice", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  samsung_ble =
-      new List(screen, "Samsung BLE spam", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  swift_pair =
-      new List(screen, "Swift pair spam", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  //  ble_grid->add(ble_list);
-  ble_grid->add(ble_sniff);
-  ble_grid->add(apple_juice);
-  ble_grid->add(samsung_ble);
-  ble_grid->add(swift_pair);
-  ble_grid->set_selected(0, true);
-  ble_grid->display();
+    ble_grid = new Grid(screen, 5, 1);
+    //  ble_list = new List(screen, english_words->at(BLE_SCAN_KEY), 2,
+    //  ST77XX_WHITE, 20, ST77XX_BLACK);
+    ble_sniff = new List(screen, english_words->at(BLE_SNIFF_KEY), 2,
+                         ST77XX_WHITE, 20, ST77XX_BLACK);
+    apple_juice =
+        new List(screen, "AppleJuice", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+    samsung_ble =
+        new List(screen, "Samsung BLE spam", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+    swift_pair =
+        new List(screen, "Swift pair spam", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+    go_back = new List(screen, english_words->at(BLE_GO_BACK_KEY), 2, ST77XX_WHITE,
+                       20, ST77XX_BLACK);
+    //  ble_grid->add(ble_list);
+    ble_grid->add(ble_sniff);
+    ble_grid->add(apple_juice);
+    ble_grid->add(samsung_ble);
+    ble_grid->add(swift_pair);
+    ble_grid->add(go_back);
+    ble_grid->set_selected(0, true);
+    ble_grid->display();
 }

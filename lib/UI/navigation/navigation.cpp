@@ -81,22 +81,25 @@ static void handle_ok() {
     main_menu_handler(pos);
     return;
   }
-
+Serial.println("WiFI1");
   /* Wi-Fi submenu handler */
   if (gui->get_wifi_sub_menu()) {
     wifi_submenu_handler(pos);
     return;
   }
+Serial.println("WiFI2");
 
   if (gui->get_wifi_sniff_menu()) {
     stop_wifi_sniffer();
     return;
   }
+Serial.println("WiFI3");
 
   if (gui->wifi_scan_save_visible()) {
     handle_wifi_network_selection();
     return;
   }
+Serial.println("WiFI4");
 
   if (gui->get_wifi_scan_result_visible()) {
     gui->show_wifi_scan_result_dialog();

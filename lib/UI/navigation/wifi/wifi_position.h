@@ -17,6 +17,7 @@
 
 #define WIFI_SCAN_POS 0
 #define WIFI_SNIFF_POS 1
+#define WIFI_GO_BACK_POS 2
 
 #define WIFI_SCAN_SAVE_TO_SD_POS 0
 #define WIFI_SCAN_SNIFF_BSSID_POS 1

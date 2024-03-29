@@ -43,6 +43,11 @@ void goto_evilportal_gui() {
   start_evilportal(gui, attack);
 }
 
+static void net_attacks_goto_home() {
+  gui->destroy_network_attacks_gui();
+  init_main_gui();
+}
+
 // Will be used in future
 void network_attacks_submenu_handler(int pos) {
   switch (pos) {
@@ -51,6 +56,9 @@ void network_attacks_submenu_handler(int pos) {
       break;
     case 1:
       goto_evilportal_gui();
+      break;
+    case 2:
+      net_attacks_goto_home();
       break;
     default:
       break;

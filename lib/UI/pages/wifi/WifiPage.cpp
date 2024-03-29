@@ -25,14 +25,16 @@ WifiPage::WifiPage(GFXForms *_screen) { screen = _screen; }
 WifiPage::~WifiPage() {}
 
 void WifiPage::display() {
-  wifi_grid = new Grid(screen, 2, 1);
+  wifi_grid = new Grid(screen, 3, 1);
   wifi_list = new List(screen, english_words->at(WIFI_SCAN_KEY), 2,
                        ST77XX_WHITE, 20, ST77XX_BLACK);
   wifi_sniff = new List(screen, english_words->at(WIFI_SNIFF_KEY), 2,
                         ST77XX_WHITE, 20, ST77XX_BLACK);
+  go_back = new List(screen, english_words->at(WIFI_GO_BACK_KEY), 2,
+                        ST77XX_WHITE, 20, ST77XX_BLACK);
   wifi_grid->add(wifi_list);
   wifi_grid->add(wifi_sniff);
-  wifi_grid->display();
+  wifi_grid->add(go_back);
   wifi_grid->set_selected(0, true);
   wifi_grid->display();
 }

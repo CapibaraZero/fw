@@ -17,3 +17,4 @@
 
 #define BLE_SCAN_KEY "ble_scan"
 #define BLE_SNIFF_KEY "ble_sniff"
+#define BLE_GO_BACK_KEY "ble_go_back"

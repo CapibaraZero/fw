@@ -25,13 +25,16 @@ NetworkAttacksPage::NetworkAttacksPage(GFXForms *_screen) { screen = _screen; }
 NetworkAttacksPage::~NetworkAttacksPage() {}
 
 void NetworkAttacksPage::display() {
-  net_attacks_grid = new Grid(screen, 1, 1);
+  net_attacks_grid = new Grid(screen, 3, 1);
   evilportal = new List(screen, english_words->at(EVILPORTAL_KEY), 2,
                         ST77XX_WHITE, 20, ST77XX_BLACK);
   dhcpglutton = new List(screen, english_words->at(DHCP_GLUTTON_KEY), 2,
                          ST77XX_WHITE, 20, ST77XX_BLACK);
+  go_back = new List(screen, english_words->at(NET_ATTACK_GO_BACK_KEY), 2,
+                         ST77XX_WHITE, 20, ST77XX_BLACK);
   net_attacks_grid->add(dhcpglutton);
   net_attacks_grid->add(evilportal);
+  net_attacks_grid->add(go_back);
   net_attacks_grid->set_selected(0, true);
   net_attacks_grid->display();
 }

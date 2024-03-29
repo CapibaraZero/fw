@@ -29,6 +29,7 @@ class BLEPage : public Page {
   List *apple_juice;
   List *samsung_ble;
   List *swift_pair;
+  List *go_back;
   Grid *ble_grid;
 
  public:

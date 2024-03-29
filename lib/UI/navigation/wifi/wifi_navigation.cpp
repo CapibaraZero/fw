@@ -36,6 +36,11 @@ void init_wifi_gui() {
   gui->init_wifi_gui();
 }
 
+static void wifi_goto_home() {
+  gui->wifi_cleanup();
+  init_main_gui();
+}
+
 void wifi_submenu_handler(int pos) {
 #ifdef CONFIG_DEBUG_WIFI_MENU
   LOG_INFO("Sub menu2");
@@ -46,6 +51,9 @@ void wifi_submenu_handler(int pos) {
       break;
     case WIFI_SNIFF_POS:  // Start sniff
       gui->ok(goto_sniff_wifi);
+      break;
+    case WIFI_GO_BACK_POS:
+      gui->ok(wifi_goto_home);
       break;
     default:
 #ifdef CONFIG_DEBUG_WIFI_MENU
