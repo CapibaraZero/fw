@@ -30,6 +30,9 @@ WifiNetworksPage::WifiNetworksPage(GFXForms *_screen,
 WifiNetworksPage::~WifiNetworksPage() {}
 
 void WifiNetworksPage::set_network() {
+  if(networks->size() == 0) {
+    return;
+  }
   if (networks->at(current_network).get_ssid() != "")
     current_ssid = String(english_words->at(WIFI_SSID_KEY)) +
                    networks->at(current_network).get_ssid();

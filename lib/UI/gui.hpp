@@ -188,7 +188,7 @@ class Gui {
 
   /// @brief Create a WiFi scan final dialog(save to SD, sniff BSSID, go back or
   /// return)
-  void show_wifi_scan_result_dialog();
+  void show_wifi_scan_result_dialog(bool empty);
 
   /// @brief Get if WiFi scan final dialog is visible or not
   /// @return WiFi scan final dialog visible or not

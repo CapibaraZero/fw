@@ -31,9 +31,9 @@ class WifiScanSaveResultPage : public Page {
   List *sniff_filter;
   List *go_back;
   List *exit_btn;
-
+  bool empty = false;
  public:
-  WifiScanSaveResultPage(GFXForms *_screen);
+  WifiScanSaveResultPage(GFXForms *_screen, bool _empty);
   ~WifiScanSaveResultPage();
 
   void up();

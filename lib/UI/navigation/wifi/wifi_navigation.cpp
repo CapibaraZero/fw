@@ -76,6 +76,12 @@ void stop_wifi_sniffer() {
 }
 
 void handle_wifi_network_selection() {
+    if(wifiAttack.get_networks().size() == 0) {
+      gui->wifi_cleanup();
+      // Go to main menu
+      init_main_gui();
+      return;
+    }
   if (gui->get_selection_index() == WIFI_SCAN_SAVE_TO_SD_POS) {
     // Save to SD
     wifiAttack.save_scan();  // TODO: Create a task for this to create better UX
@@ -92,6 +98,10 @@ void handle_wifi_network_selection() {
     // Go to main menu
     init_main_gui();
   }
+}
+
+void display_wifi_scan_result() {
+  gui->show_wifi_scan_result_dialog(wifiAttack.get_networks().size() == 0);
 }
 
 void init_wifi_navigation(Gui *_gui) { gui = _gui; }

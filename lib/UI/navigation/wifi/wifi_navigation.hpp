@@ -28,6 +28,7 @@ void wifi_submenu_handler(int pos);
 void stop_wifi_sniffer();
 
 void handle_wifi_network_selection();
+void display_wifi_scan_result();
 
 void init_wifi_navigation(Gui *_gui);
 

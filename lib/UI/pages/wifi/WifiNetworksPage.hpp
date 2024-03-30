@@ -44,7 +44,7 @@ class WifiNetworksPage : public Page {
   Text *ch;
   Text *auth;
   vector<WifiNetwork> *networks;
-  String current_ssid = "";
+  String current_ssid = "No network found.";
   String current_rssi = "";
   String current_ch = "";
   String current_auth = "";

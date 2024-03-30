@@ -102,7 +102,7 @@ Serial.println("WiFI3");
 Serial.println("WiFI4");
 
   if (gui->get_wifi_scan_result_visible()) {
-    gui->show_wifi_scan_result_dialog();
+    display_wifi_scan_result();
     return;
   }
 

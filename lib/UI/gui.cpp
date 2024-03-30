@@ -435,10 +435,10 @@ void Gui::show_wifi_sniff_page() {
   wifi_sniff_page->display();
 }
 
-void Gui::show_wifi_scan_result_dialog() {
+void Gui::show_wifi_scan_result_dialog(bool empty) {
   if (wifi_networks_page != nullptr) {
     screen->reset();
-    wifi_save_result_page = new WifiScanSaveResultPage(screen);
+    wifi_save_result_page = new WifiScanSaveResultPage(screen, empty);
     wifi_save_result_page->display();
     return;
   }
