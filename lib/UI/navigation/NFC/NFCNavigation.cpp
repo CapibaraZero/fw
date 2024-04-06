@@ -20,6 +20,7 @@
 #include "gui.hpp"
 #include "nfc_attacks_btn.hpp"
 #include "../../../../include/debug.h"
+#include "../../../../include/pins.h"
 
 static Gui *gui;
 static NFCAttacks *nfc_attacks = nullptr;
@@ -49,11 +50,7 @@ void goto_nfc_dump_result_gui() {
 void goto_home() {
   reset_uid();
   reset_felica();
-  gui->reset();
   gui->nfc_cleanup();
-  // destroy_tasks();
-  // delete nfc_attacks;
-  // nfc_attacks = nullptr;
   init_main_gui();
 }
 
@@ -245,5 +242,6 @@ void nfc_felica_polling_submenu_handler(int pos) {
 void init_nfc_navigation(Gui *_gui) {
   LOG_INFO("Init NFC Navigation");
   gui = _gui;
+  Wire.begin(PN532_SDA, PN532_SCL);
   nfc_attacks = new NFCAttacks();
 }

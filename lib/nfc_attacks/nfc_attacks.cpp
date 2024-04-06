@@ -34,6 +34,7 @@ using namespace std;
 NFCAttacks::NFCAttacks() {
   if (!nfc_framework.ready()) {
     LOG_ERROR("PN532 not found, trying to restart\n");
+    ESP.restart();
   } else {
     LOG_SUCCESS("PN532 found!\n");
   }
