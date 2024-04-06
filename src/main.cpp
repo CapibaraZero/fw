@@ -69,7 +69,6 @@ GFXForms *screen;
 void setup() {
 #ifdef ARDUINO_NANO_ESP32
     Serial.begin(115200);
-    while (!Serial);
     Serial.println("Test");
 #else
     Serial0.begin(115200);
