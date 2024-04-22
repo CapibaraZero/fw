@@ -36,24 +36,10 @@
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
 
-#ifdef ARDUINO_NANO_ESP32
-SPIClass SPI2(HSPI);
-#endif
 static void init_sd() {
-#ifdef ARDUINO_NANO_ESP32
-    SPI2.begin(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
-    SPI2.setDataMode(SPI_MODE0);
-#else
     SPI.begin(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
-#endif
-
-#ifdef ARDUINO_NANO_ESP32
-    if (!init_sdcard_custom_spi(SD_CARD_CS, SPI2)) {
-#else
     if (!init_sdcard(SD_CARD_CS)) {
-#endif
         Serial.println("init_sdcard failed");
-        // LOG_ERROR("Error during init SD card");
     };
 }
 
@@ -94,6 +80,6 @@ void setup() {
 }
 
 void loop() {
-    Serial0.println("Loop");  // Avoid FreeRTOS watchdog trigger
+    Serial.println("Loop");  // Avoid FreeRTOS watchdog trigger
     delay(1000);
 }

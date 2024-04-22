@@ -50,21 +50,21 @@
 #define RIGHT_BTN_PIN A7
 
 // Display pins
-#define TFT_CS D9
-#define TFT_DC D10
-#define TFT_RST D11
-#define TFT_MOSI D12
-#define TFT_SCLK D13
+#define TFT_CS D5
+#define TFT_DC D6
+#define TFT_RST D3
+#define TFT_MOSI D4
+#define TFT_SCLK D2
 
 // SD card
-#define SD_CARD_MISO D2
-#define SD_CARD_SCK D3
-#define SD_CARD_MOSI D4
-#define SD_CARD_CS D5
+#define SD_CARD_CS D10
+#define SD_CARD_MOSI D11
+#define SD_CARD_MISO D12
+#define SD_CARD_SCK D13
 
 #define CC1101_GDO0 A0
 #define CC1101_CSN D7
 
-#define PN532_SCL A4
-#define PN532_SDA A5
+#define PN532_SCL A6
+#define PN532_SDA A7
 #endif
