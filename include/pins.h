@@ -44,10 +44,10 @@
 
 // Define buttons pins
 #define OK_BTN_PIN A3
-#define UP_BTN_PIN A1
-#define DOWN_BTN_PIN A6
-#define LEFT_BTN_PIN A2
-#define RIGHT_BTN_PIN A7
+#define UP_BTN_PIN A5
+#define DOWN_BTN_PIN A2
+#define LEFT_BTN_PIN A4
+#define RIGHT_BTN_PIN A1
 
 // Display pins
 #define TFT_CS D5
