@@ -32,6 +32,7 @@
 #include "pins.h"
 #include "posixsd.hpp"
 #include "style.h"
+#include "display_config.h"
 
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
@@ -62,7 +63,7 @@ void setup() {
     init_sd();
     init_english_dict();
     display = new Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
-    screen = new GFXForms(240, 320, display);
+    screen = new GFXForms(DISPLAY_WIDTH, DISPLAY_HEIGHT, display);
     screen->set_rotation(1);
     screen->set_background_color(HOME_BACKGROUND_COLOR);
 
