@@ -94,7 +94,7 @@ class Gui {
   Grid *grid = nullptr;
   bool grid_visible = false;
   int current_position = 0;
-  int position_limit = 7;  // Maximum number of widgets in the page
+  int position_limit = 6;  // Maximum number of widgets in the page
   int lower_limit = 0;     // Start position
   int position_increment =
       4;  // Maximum increment of position by a single button

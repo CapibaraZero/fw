@@ -48,8 +48,8 @@ void init_english_dict() {
   // Home
   english_words->insert({WIFI_HOME_KEY, "Wi-Fi"});
   english_words->insert({BLE_HOME_KEY, "BLE"});
-  english_words->insert({BADUSB_HOME_KEY, "BadUSB"});
-  english_words->insert({SUBGHZ_HOME_KEY, "SubGHz"});
+  english_words->insert({BADUSB_HOME_KEY, "USB"});
+  english_words->insert({SUBGHZ_HOME_KEY, "S.GHz"});
   english_words->insert({NFC_HOME_KEY, "NFC"});
   english_words->insert({IR_HOME_KEY, "IR"});
   english_words->insert({NET_ATTACKS_HOME_KEY, "NetAt."});
@@ -100,14 +100,14 @@ void init_english_dict() {
   // Net attacks
 
   // NFC
-  english_words->insert({POLLING_ISO14443A_KEY, "Polling ISO14443A tag"});
-  english_words->insert({POLLING_ISO18092_KEY, "Polling ISO18092 tag"});
+  english_words->insert({POLLING_ISO14443A_KEY, "Read ISO14443A tag"});
+  english_words->insert({POLLING_ISO18092_KEY, "Read ISO18092 tag"});
   english_words->insert({NFC_POLLING_GO_BACK_KEY, "Go back"});
-  english_words->insert({NFC_DUMPING_TAG_KEY, "Dumping tag to SD..."});
+  english_words->insert({NFC_DUMPING_TAG_KEY, "Dumping tag"});
   english_words->insert({NFC_DUMPED_SECTORS_KEY, "Dumped sectors: "});
   english_words->insert({NFC_UNREADABLE_SECTORS_KEY, "Unreadable sectors: "});
   english_words->insert(
-      {NFC_UNAUTHENTICATED_SECTORS_KEY, "Unauthenticated sectors: "});
+      {NFC_UNAUTHENTICATED_SECTORS_KEY, "Unauth. sectors: "});
   english_words->insert({NFC_SAVE_TO_SD_KEY, "Save to SD"});
   english_words->insert({NFC_BRUTEFORCING_TAG_KEY, "Bruteforcing tag..."});
   english_words->insert({NFC_TRIED_KEYS_KEY, "Tried keys: "});
@@ -115,14 +115,12 @@ void init_english_dict() {
   english_words->insert({NFC_FORMATTING_TAG_KEY, "Formatting tag..."});
   english_words->insert({NFC_FORMATTED_SECTORS_KEY, "Formatted sectors: "});
   english_words->insert(
-      {NFC_UNAUTHENTICATED_SECTORS_KEY, "Unauthenticated sectors: "});
+      {NFC_MIFARE_CLASSIC_FOUND_KEY, "Classic tag found!"});
   english_words->insert(
-      {NFC_MIFARE_CLASSIC_FOUND_KEY, "MIFARE classic tag found!"});
-  english_words->insert(
-      {NFC_MIFARE_ULTRALIGHT_FOUND_KEY, "MIFARE Ult./NTAG found!"});
-  english_words->insert({NFC_UID_KEY, "UID: "});
+      {NFC_MIFARE_ULTRALIGHT_FOUND_KEY, "Ult./NTAG found!"});
+  english_words->insert({NFC_UID_KEY, "ID:"});
   english_words->insert({NFC_DUMP_TAG_TO_SD, "Dump tag to SD"});
-  english_words->insert({NFC_FORMAT_TAG_TO_SD, "Format tag to SD"});
+  english_words->insert({NFC_FORMAT_TAG_TO_SD, "Format tag"});
   english_words->insert({NFC_BRUTEFORCE_TAG_KEY, "Bruteforce tag"});
   // english_words->insert({NFC_GO_BACK_KEY, "Go back"});
   english_words->insert({NFC_POLLING_PROGRESS_KEY, "Polling in progress..."});
@@ -130,11 +128,11 @@ void init_english_dict() {
       {NFC_TAG_NEAR_KEY, "Please, place tag near capibaraZero"});
   english_words->insert(
       {NFC_FELICA_POLLING_TAG_FOUND_KEY, "FeliCa tag found!"});
-  english_words->insert({NFC_FELICA_IDM_KEY, "ID: "});
-  english_words->insert({NFC_FELICA_PMM_KEY, "PMm: "});
+  english_words->insert({NFC_FELICA_IDM_KEY, ""});
+  english_words->insert({NFC_FELICA_PMM_KEY, ""});
   english_words->insert({NFC_FELICA_SYSTEM_CODE_KEY, "System Code: "});
 #if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
-  english_words->insert({BADUSB_TITLE_KEY, "Bad USB Payload Browser"});
+  english_words->insert({BADUSB_TITLE_KEY, "Payload Browser"});
   english_words->insert({BADUSB_GO_BACK_KEY, "Go back"});
 #endif
 }
