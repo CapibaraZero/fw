@@ -237,6 +237,7 @@ void Gui::set_selected_widget(int pos, bool selected) {
 void Gui::init_nfc_gui() {
   grid_visible = false;
   position_limit = 2;
+  lower_limit = 0;
   position_increment = 1;
   nfc_main_page = new NFCMainPage(screen);
   nfc_main_page->display();
