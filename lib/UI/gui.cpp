@@ -229,8 +229,6 @@ void Gui::set_selected_widget(int pos, bool selected) {
     nfc_felica_polling_result_page->set_selected(pos, selected);
   else if (badusb_browser_visible())
     badusb_payload_browser_page->set_selected(pos, selected);
-  else if(subghz_page_visible())
-    subghz_page->set_selected(pos, selected);
 }
 
 /******************** NFC GUI FUNCTIONS ************************/
