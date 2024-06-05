@@ -128,8 +128,8 @@ void init_english_dict() {
       {NFC_TAG_NEAR_KEY, "Please, place tag near capibaraZero"});
   english_words->insert(
       {NFC_FELICA_POLLING_TAG_FOUND_KEY, "FeliCa tag found!"});
-  english_words->insert({NFC_FELICA_IDM_KEY, "ID: "});
-  english_words->insert({NFC_FELICA_PMM_KEY, "PMm: "});
+  english_words->insert({NFC_FELICA_IDM_KEY, ""});
+  english_words->insert({NFC_FELICA_PMM_KEY, ""});
   english_words->insert({NFC_FELICA_SYSTEM_CODE_KEY, "System Code: "});
 #if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
   english_words->insert({BADUSB_TITLE_KEY, "Payload Browser"});
