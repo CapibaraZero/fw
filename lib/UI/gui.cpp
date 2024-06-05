@@ -68,7 +68,7 @@ void Gui::init_icons() {
   grid->add(NFC);
   grid->add(IR);
   grid->add(net_attacks);
-  grid->add(settings);
+  // grid->add(settings);
   grid->set_pos(0, 10);
   grid->set_space_between(10);
   grid->set_padding(0, 20);
@@ -88,7 +88,11 @@ void Gui::init_text() {
 void Gui::init_gui() {
   position_increment = 4;
   lower_limit = 0;
-  position_limit = 7;
+#ifdef CONFIG_IDF_TARGET_ESP32S2
+  position_limit = 5;
+#else
+  position_limit = 6;
+#endif
   if(grid == nullptr) {
     Serial.println("Allocating grid");
     init_icons();
@@ -225,6 +229,8 @@ void Gui::set_selected_widget(int pos, bool selected) {
     nfc_felica_polling_result_page->set_selected(pos, selected);
   else if (badusb_browser_visible())
     badusb_payload_browser_page->set_selected(pos, selected);
+  else if(subghz_page_visible())
+    subghz_page->set_selected(pos, selected);
 }
 
 /******************** NFC GUI FUNCTIONS ************************/
@@ -329,7 +335,7 @@ void Gui::nfc_cleanup() {
 void Gui::init_badusb_browser_gui(std::list<std::string> *files) {
   grid_visible = false;
   lower_limit = 1;
-  position_limit = 2;  // To adjust dynamically
+  position_limit = 2;  // TODO: To adjust dynamically
   position_increment = 1;
   badusb_payload_browser_page = new BadUSBPayloadBrowserPage(screen);
   badusb_payload_browser_page->display(files);
@@ -419,7 +425,7 @@ void Gui::right() {
   if (wifi_page != nullptr || ble_page != nullptr) {
     return;
   }
-  if (current_position >= 0 && current_position < 7) {
+  if (current_position >= 0 && current_position < position_limit) {
     set_selected_widget(current_position, false);
     current_position++;
   }
