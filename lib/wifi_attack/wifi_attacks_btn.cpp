@@ -67,6 +67,10 @@ void sniff_wifi(Gui *gui, WifiAttack *wifiAttack) {
 }
 
 void stop_wifi_sniffer_updater() {
+  while(get_sniffer_lock()) {
+    /* Wait until GUI is updated to avoid graphical glitches */
+    NOP();
+  }
   vTaskDelete(wifi_sniffer_updater);
   wifi_sniffer_updater = NULL;
 }
