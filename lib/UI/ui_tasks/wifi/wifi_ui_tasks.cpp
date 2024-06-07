@@ -3,11 +3,20 @@
 #include "wifi_tasks.hpp"
 #include "wifi_ui_tasks_types.h"
 
+// Simple lock for sniff GUI task
+static bool sniff_progress_lock = false;
+
+bool get_sniffer_lock() {
+  return sniff_progress_lock;
+}
+
 void update_wifi_sniff_packets(void *pv) {
   WiFiUITaskParameters *params = static_cast<WiFiUITaskParameters *>(pv);
   while (params->wifi_attack->sniffer_running()) {
+    sniff_progress_lock = true;
     params->gui->update_packets_count(
         params->wifi_attack->get_sniffed_packets());
+    sniff_progress_lock = false;
     delay(1000);
   }
   vTaskDelete(NULL);
