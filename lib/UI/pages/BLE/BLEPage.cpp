@@ -36,6 +36,8 @@ void BLEPage::display() {
         new List(screen, "Samsung BLE spam", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
     swift_pair =
         new List(screen, "Swift pair spam", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+    fast_pair = new List(screen, "Fast pair spam", 2, ST77XX_WHITE, 20,
+                         ST77XX_BLACK);
     go_back = new List(screen, english_words->at(BLE_GO_BACK_KEY), 2, ST77XX_WHITE,
                        20, ST77XX_BLACK);
     //  ble_grid->add(ble_list);
@@ -43,6 +45,7 @@ void BLEPage::display() {
     ble_grid->add(apple_juice);
     ble_grid->add(samsung_ble);
     ble_grid->add(swift_pair);
+    ble_grid->add(fast_pair);
     ble_grid->add(go_back);
     ble_grid->set_selected(0, true);
     ble_grid->display();

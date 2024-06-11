@@ -31,5 +31,7 @@ void start_swift_pair_spam(BluetoothAttack *attack);
 void kill_applejuice_task();
 void kill_samsung_ble_spam();
 void kill_swift_pair_spam();
+void start_fast_pair_spam(BluetoothAttack *attack);
+void kill_fast_pair_spam();
 
 #endif

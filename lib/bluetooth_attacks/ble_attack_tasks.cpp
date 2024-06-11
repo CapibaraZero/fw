@@ -47,3 +47,8 @@ void swift_pair_spam_task(void *pv) {
   BluetoothAttack *ble_attack = static_cast<BluetoothAttack *>(pv);
   ble_attack->swiftPairSpamAttack();
 }
+
+void fast_pair_spam_task(void *pv) {
+  BluetoothAttack *ble_attack = static_cast<BluetoothAttack *>(pv);
+  ble_attack->fastPairSpamAttack();
+}

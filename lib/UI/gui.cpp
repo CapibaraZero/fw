@@ -132,7 +132,7 @@ void Gui::init_wifi_networks_gui(vector<WifiNetwork> *networks) {
 
 void Gui::init_ble_gui() {
   grid_visible = false;
-  position_limit = 4;
+  position_limit = 5;
   position_increment = 1;
   ble_page = new BLEPage(screen);
   ble_page->display();

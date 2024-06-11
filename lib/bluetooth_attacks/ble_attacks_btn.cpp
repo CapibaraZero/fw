@@ -87,3 +87,10 @@ void start_swift_pair_spam(BluetoothAttack *attack) {
 }
 
 void kill_swift_pair_spam() { vTaskDelete(swift_pair_spam_handle); }
+
+void start_fast_pair_spam(BluetoothAttack *attack) {
+  xTaskCreate(&fast_pair_spam_task, "fast_pair_spam_task",
+              SPAM_TASK_STACK_SIZE, (void *)attack, 5, &applejuice_handle);
+}
+
+void kill_fast_pair_spam() { vTaskDelete(applejuice_handle); }
