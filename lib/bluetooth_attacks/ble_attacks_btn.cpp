@@ -35,6 +35,7 @@ BLEUITaskParameters *ble_ui_task_params = NULL;
 static TaskHandle_t applejuice_handle = NULL;
 static TaskHandle_t samsung_ble_spam_handle = NULL;
 static TaskHandle_t swift_pair_spam_handle = NULL;
+static TaskHandle_t fast_pair_spam_handle = NULL;
 
 void scan_ble(Gui *gui, BluetoothAttack *attack) {
   LOG_INFO("Start scanning BLE");
@@ -76,21 +77,21 @@ void kill_applejuice_task() { vTaskDelete(applejuice_handle); };
 
 void start_samsung_ble_spam(BluetoothAttack *attack) {
   xTaskCreate(&samsung_ble_spam_task, "samsung_ble_spam_task",
-              SPAM_TASK_STACK_SIZE, (void *)attack, 5, &applejuice_handle);
+              SPAM_TASK_STACK_SIZE, (void *)attack, 5, &samsung_ble_spam_handle);
 }
 
 void kill_samsung_ble_spam() { vTaskDelete(samsung_ble_spam_handle); }
 
 void start_swift_pair_spam(BluetoothAttack *attack) {
   xTaskCreate(&swift_pair_spam_task, "swift_pair_spam_task",
-              SPAM_TASK_STACK_SIZE, (void *)attack, 5, &applejuice_handle);
+              SPAM_TASK_STACK_SIZE, (void *)attack, 5, &swift_pair_spam_handle);
 }
 
 void kill_swift_pair_spam() { vTaskDelete(swift_pair_spam_handle); }
 
 void start_fast_pair_spam(BluetoothAttack *attack) {
   xTaskCreate(&fast_pair_spam_task, "fast_pair_spam_task",
-              SPAM_TASK_STACK_SIZE, (void *)attack, 5, &applejuice_handle);
+              SPAM_TASK_STACK_SIZE, (void *)attack, 5, &fast_pair_spam_handle);
 }
 
-void kill_fast_pair_spam() { vTaskDelete(applejuice_handle); }
+void kill_fast_pair_spam() { vTaskDelete(fast_pair_spam_handle); }
