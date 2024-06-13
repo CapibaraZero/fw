@@ -1,6 +1,7 @@
 #include "nfc_attacks.hpp"
 #include "nfc_tasks_types.h"
 #include "../../include/debug.h"
+#include "navigation/navigation.hpp"
 
 bool polling_in_progress = false;
 bool dump_in_progress = false;
@@ -78,12 +79,9 @@ void get_card_info(uint8_t *_idm, uint8_t *_pmm, uint16_t *_sys_code) {
 
 void goto_home(NFCTasksParams *params) {
   // Go to home. TODO: Port this in NFCNavigation
-  params->gui->reset();
-  params->gui->init_gui();
   params->gui->nfc_cleanup();
-  params->gui->set_current_position(0);
-  params->gui->set_selected_widget(0, true);
   reset_uid();
+  init_main_gui();
 }
 
 void dump_iso14443a_task(void *pv) {
@@ -153,8 +151,9 @@ void format_felica_task(void *pv) {
 void bruteforce_iso14443a_task(void *pv) {
   bruteforce_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  params->gui->nfc_bruteforce_found_key(params->attacks->bruteforce());
-  delay(10000);
+  params->attacks->bruteforce();
+  params->gui->nfc_bruteforce_found_key();
+  delay(2000);
   goto_home(params);
   free(pv);
   bruteforce_in_progress = false;

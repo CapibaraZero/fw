@@ -52,48 +52,111 @@ bool NFCAttacks::is_there_null_blocks(NFCTag *tag) {
   return false;
 }
 
+static void c_array_to_jsonarray(uint8_t *arr, JsonArray *json_array, size_t len) {
+  for (size_t i = 0; i < len; i++)
+  {
+    json_array->add(arr[i]);
+  }
+}
+
+void bruteforce_res_to_sd(std::map<uint8_t, SectorResult> *bruteforce_result) {
+  StaticJsonDocument<1600> bruteforce_result_json;
+  Serial.println("Saving to SD");
+  JsonArray uid = bruteforce_result_json.createNestedArray("uid");
+  c_array_to_jsonarray(bruteforce_result->at(0).uid, &uid, bruteforce_result->at(0).uid_len);
+  JsonArray result = bruteforce_result_json.createNestedArray("result");
+  for (auto sector_res_raw : *bruteforce_result) {
+    JsonObject sector_res_json = result.createNestedObject();
+    SectorResult sector_res = sector_res_raw.second;
+    sector_res_json["id"] = sector_res_raw.first;
+    sector_res_json["key_a_found"] = sector_res.key_a_found;
+    sector_res_json["key_b_found"] = sector_res.key_b_found;
+    JsonArray key_a = sector_res_json.createNestedArray("key_a");
+    c_array_to_jsonarray(sector_res.key_a, &key_a, 6);
+    JsonArray key_b = sector_res_json.createNestedArray("key_b");
+    c_array_to_jsonarray(sector_res.key_b, &key_b, 6);
+    Serial.println(uxTaskGetStackHighWaterMark(NULL));
+  }
+  String final_res = "";
+  serializeJsonPretty(bruteforce_result_json, final_res);
+  // Name: result_uid.json UID is got at index 0 because we save only in sector 0
+  File res = open("/NFC/result_" + String(millis()) + ".json", "w");
+  Serial.println(uxTaskGetStackHighWaterMark(NULL));
+  if(res.available()) {
+    res.print(final_res);
+    res.close();
+  }
+  Serial.println(uxTaskGetStackHighWaterMark(NULL));
+}
+
+static void parse_str_to_arr(String *str, uint8_t *out, size_t len) {
+  for (size_t i = 0; i < 6; i++) {
+    out[i] = strtol(str->substring(0,2).c_str(), NULL, 16);
+    if(str->length() != 2)
+      str->remove(0, 2);
+  }
+}
+
+void NFCAttacks::auth_sector(uint8_t sector, uint8_t *key, KeyType key_type, uint8_t *out_key, bool *key_found) {
+  *key_found = nfc_framework.auth_tag(key, sector, key_type);
+  if(*key_found)
+    memcpy(out_key, key, 6);
+}
+
 bool NFCAttacks::bruteforce() {
   bruteforce_status = true;
   File keys = open(NFC_KEYS_FILE, "r");
+  std::map<uint8_t, SectorResult> bruteforce_result;
+  list<uint8_t> know_sector = {
+    0,  // Sector 0
+    4,  // Sector 1
+    8,  // Sector 2
+    12, // Sector 3
+    16  // Sector 4
+  };
   if (keys.available()) {
     LOG_INFO("File found!\n");
     vector<String> lines = readlines(keys);  // Read all lines
-    size_t key_index = 0;  // Index for the current key in keys
     for (String line : lines) {
       if (line[0] == '#')  // If is a comment, skip
-        continue;
+        continue; 
       vector<String> raw_key = string_split(
           (char *)line.c_str(), " ");  // String string for each space
       uint8_t parsed_key[6];
-      size_t i = 0;  // byte index counter
-      for (auto key_byte : raw_key) {
-        parsed_key[i++] =
-            strtol(key_byte.c_str(), NULL, 16);  // Convert hex to uint8_t
+      for (String key_byte : raw_key) {
         SERIAL_DEVICE.printf("%s\n", key_byte.c_str());
+        parse_str_to_arr(&key_byte, parsed_key, 6);
       }
-
-      uint8_t uid[7];
-      uint8_t uid_length;
-
-      nfc_framework.get_tag_uid(uid, &uid_length);
-
-      LOG_INFO("Found a new tag!\n");
-      LOG_INFO("Tag UID: ");
-      nfc_framework.printHex(uid, 7);
-
-      tried_keys++;  // For statistics use
-      DumpResult dump_result;
-      NFCTag tag = dump_tag(parsed_key, &dump_result);
-      if (dump_result.unauthenticated == 0) {
-        LOG_SUCCESS("Key found!");
+      for (uint8_t sector : know_sector)
+      {
+        if(bruteforce_result.find(sector) == bruteforce_result.end()){
+          bruteforce_result.insert({sector, SectorResult()});
+          if(sector == 0) // Save time by saving uid only in sector 0(it's the same in all sectors)
+            nfc_framework.get_tag_uid(bruteforce_result[sector].uid, &bruteforce_result[sector].uid_len);
+        }
+        if(!bruteforce_result[sector].key_a_found){
+          auth_sector(sector, parsed_key, KEY_A, bruteforce_result[sector].key_a, &bruteforce_result[sector].key_a_found);
+        }
+        if(!bruteforce_result[sector].key_b_found){
+          auth_sector(sector, parsed_key, KEY_B, bruteforce_result[sector].key_b, &bruteforce_result[sector].key_b_found);
+          Serial.println(uxTaskGetStackHighWaterMark(NULL));
+        }
+        if(bruteforce_result[sector].key_a_found && bruteforce_result[sector].key_b_found) {
+            know_sector.remove(sector); 
+        }
+        Serial.println(uxTaskGetStackHighWaterMark(NULL));
+      }
+      if(know_sector.size() == 0){
         bruteforce_status = false;
+        bruteforce_res_to_sd(&bruteforce_result);
         return true;
       }
-      key_index++;  // Go to next key
+      tried_keys++;  // For statistics use
     }
   } else {
     LOG_ERROR("Keys file not found.\n");
   }
+  bruteforce_res_to_sd(&bruteforce_result);
   bruteforce_status = false;
   return false;
 }
