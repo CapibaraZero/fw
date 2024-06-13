@@ -364,8 +364,8 @@ class Gui {
     delete nfc_bruteforce_tag_page;
     nfc_bruteforce_tag_page = nullptr;
   }
-  void nfc_bruteforce_found_key(bool status) {
-    nfc_bruteforce_tag_page->set_found_key(status);
+  void nfc_bruteforce_found_key() {
+    nfc_bruteforce_tag_page->set_found_key();
   };
   void nfc_bruteforce_set_tried_key(uint8_t attemps) {
     nfc_bruteforce_tag_page->update_tried_keys(attemps);
