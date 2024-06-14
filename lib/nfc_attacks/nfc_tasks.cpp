@@ -30,14 +30,20 @@ void mifare_polling_task(void *pv) {
   polling_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   LOG_INFO("Start polling task");
+  uint16_t atqa = 0;
+  uint8_t sak = 0;
   while (uid_length == 0) {
-    params->attacks->read_uid(uid, &uid_length);
+    params->attacks->read_uid(uid, &uid_length, &atqa, &sak);
     delay(500);
   }
   LOG_INFO("Card found");
+  Serial.print("ATQA: ");
+  Serial.println(atqa, HEX);
+  Serial.print("SAK: ");
+  Serial.println(sak, HEX);
   params->gui->reset();
   params->gui->set_current_position(2);
-  params->gui->init_nfc_polling_result_gui(uid, uid_length);
+  params->gui->init_nfc_polling_result_gui(uid, uid_length, NFCFramework::lookup_tag(atqa, sak, uid_length).name);
   free(pv);
   polling_in_progress = false;
   vTaskDelete(NULL);

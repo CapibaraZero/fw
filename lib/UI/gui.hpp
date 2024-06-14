@@ -321,7 +321,7 @@ class Gui {
   bool nfc_polling_waiting_page_visible() {
     return nfc_polling_waiting_page != nullptr;
   };
-  void init_nfc_polling_result_gui(uint8_t *uid, uint8_t length);
+  void init_nfc_polling_result_gui(uint8_t *uid, uint8_t length, const char *name);
   bool nfc_polling_result_page_visible() {
     return nfc_polling_result_page != nullptr;
   };

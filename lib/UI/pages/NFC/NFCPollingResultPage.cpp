@@ -27,14 +27,10 @@ NFCPollingResultPage::NFCPollingResultPage(GFXForms *_screen) {
 
 NFCPollingResultPage::~NFCPollingResultPage() {}
 
-void NFCPollingResultPage::display(uint8_t *uid, uint8_t length) {
+void NFCPollingResultPage::display(uint8_t *uid, uint8_t length, const char *tag_name) {
   nfc_grid = new Grid(screen, 6, 1);
-  if (length == 4)
-    tag_info = new Text(screen, ST77XX_WHITE,
-                        english_words->at(NFC_MIFARE_CLASSIC_FOUND_KEY));
-  else
-    tag_info = new Text(screen, ST77XX_WHITE,
-                        english_words->at(NFC_MIFARE_ULTRALIGHT_FOUND_KEY), 2);
+  tag_info = new Text(screen, ST77XX_WHITE,
+                        tag_name, 2);
   uid_text = new Text(screen, ST77XX_WHITE,
                       english_words->at(NFC_UID_KEY) + hextostr(uid, length));
   dump_to_sd = new List(screen, english_words->at(NFC_DUMP_TAG_TO_SD), 2,

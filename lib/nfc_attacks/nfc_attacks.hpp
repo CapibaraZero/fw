@@ -47,6 +47,7 @@ class NFCAttacks {
   ~NFCAttacks(){};
   bool bruteforce();
   void read_uid(uint8_t *uid, uint8_t *uid_length);
+  void read_uid(uint8_t *uid, uint8_t *uid_length, uint16_t *atqa, uint8_t *sak);
   NFCTag dump_tag(DumpResult *result);
   NFCTag dump_tag(uint8_t *key, DumpResult *result);
   NFCTag dump_ntag(int pages);

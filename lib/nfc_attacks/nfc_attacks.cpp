@@ -60,7 +60,7 @@ static void c_array_to_jsonarray(uint8_t *arr, JsonArray *json_array, size_t len
 }
 
 void bruteforce_res_to_sd(std::map<uint8_t, SectorResult> *bruteforce_result) {
-  StaticJsonDocument<1600> bruteforce_result_json;
+  StaticJsonDocument<6200> bruteforce_result_json;
   Serial.println("Saving to SD");
   JsonArray uid = bruteforce_result_json.createNestedArray("uid");
   c_array_to_jsonarray(bruteforce_result->at(0).uid, &uid, bruteforce_result->at(0).uid_len);
@@ -107,13 +107,32 @@ bool NFCAttacks::bruteforce() {
   bruteforce_status = true;
   File keys = open(NFC_KEYS_FILE, "r");
   std::map<uint8_t, SectorResult> bruteforce_result;
+  // List of trailer of sector 0..63
   list<uint8_t> know_sector = {
     0,  // Sector 0
     4,  // Sector 1
     8,  // Sector 2
     12, // Sector 3
-    16  // Sector 4
+    16, // Sector 4
+    20, // Sector 5
+    24, // Sector 6
+    28, // Sector 7
+    32, // Sector 8
+    36, // Sector 9
+    40, // Sector 10
+    44, // Sector 11
+    48, // Sector 12
+    52, // Sector 13
+    56, // Sector 14
+    60  // Sector 15
   };
+  uint16_t atqa = 0;
+  uint8_t sak = 0;
+  nfc_framework.get_tag_uid(bruteforce_result[0].uid, &bruteforce_result[0].uid_len, &atqa, &sak);
+  TagType tag = NFCFramework::lookup_tag(atqa, sak, bruteforce_result[0].uid_len);
+  if(tag.blocks == 20) {
+    know_sector.resize(5);
+  }
   if (keys.available()) {
     LOG_INFO("File found!\n");
     vector<String> lines = readlines(keys);  // Read all lines
@@ -131,8 +150,6 @@ bool NFCAttacks::bruteforce() {
       {
         if(bruteforce_result.find(sector) == bruteforce_result.end()){
           bruteforce_result.insert({sector, SectorResult()});
-          if(sector == 0) // Save time by saving uid only in sector 0(it's the same in all sectors)
-            nfc_framework.get_tag_uid(bruteforce_result[sector].uid, &bruteforce_result[sector].uid_len);
         }
         if(!bruteforce_result[sector].key_a_found){
           auth_sector(sector, parsed_key, KEY_A, bruteforce_result[sector].key_a, &bruteforce_result[sector].key_a_found);
@@ -168,6 +185,15 @@ void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length) {
     uid_length = NULL;
   };
 }
+
+void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length, uint16_t *atqa, uint8_t *sak) {
+  LOG_INFO("Read UID: ");
+  if (!nfc_framework.get_tag_uid(uid, uid_length, atqa, sak)) {
+    uid = NULL;
+    uid_length = NULL;
+  };
+}
+
 NFCTag NFCAttacks::dump_tag(DumpResult *result) {
   uint8_t key_universal[6] = {0xFF, 0xFF, 0xFF,
                               0xFF, 0xFF, 0xFF};  // Universal key
