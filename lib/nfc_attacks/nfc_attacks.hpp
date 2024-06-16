@@ -26,6 +26,7 @@ typedef struct SectorResult {
   uint8_t key_a[6];
   bool key_b_found = false;
   uint8_t key_b[6];
+  bool dumped = false;
 }SectorResult;
 
 #include "NFCTag.hpp"
@@ -42,6 +43,7 @@ class NFCAttacks {
   uint8_t tried_keys = 0;
   bool bruteforce_status = true;
   void auth_sector(uint8_t sector, uint8_t *key, KeyType key_type, uint8_t *out_key, bool *key_found);
+  bool read_sector(uint8_t initial_pos, uint8_t *key, KeyType key_type, uint8_t *out);
  public:
   NFCAttacks(/* args */);
   ~NFCAttacks(){};

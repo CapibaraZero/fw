@@ -86,7 +86,7 @@ void bruteforce_tag(Gui *gui, NFCAttacks *attacks) {
   params = (NFCTasksParams *)malloc(sizeof(NFCTasksParams));
   params->attacks = attacks;
   params->gui = gui;
-  xTaskCreate(bruteforce_iso14443a_task, "bruteforce_iso14443a", 6000,
+  xTaskCreate(bruteforce_iso14443a_task, "bruteforce_iso14443a", 20000,
               (void *)params, 5, &bruteforce_task_handle);
   xTaskCreate(bruteforce_update_ui_task, "bruteforce_update_ui", 4096,
               (void *)params, 5, &bruteforce_ui_task_handle);

@@ -45,7 +45,7 @@ void NFCPollingResultPage::display(uint8_t *uid, uint8_t length, const char *tag
                        ST77XX_WHITE, 20, ST77XX_BLACK);
   nfc_grid->add(tag_info);
   nfc_grid->add(uid_text);
-  nfc_grid->add(dump_to_sd);
+  // nfc_grid->add(dump_to_sd);
   // nfc_grid->add(write_tag);
   // nfc_grid->add(format_tag);
   nfc_grid->add(bruteforce_tag);
