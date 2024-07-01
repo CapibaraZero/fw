@@ -1,0 +1,7 @@
+{
+    "frequency": 433.92,
+    "bandwidth": 650.0,
+    "deviation": 47.0,
+    "data_length": 100,
+    "data": [10, 100]
+  }

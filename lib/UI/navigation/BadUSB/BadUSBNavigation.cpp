@@ -6,6 +6,7 @@
 #include "sdcard_helper.hpp"
 #include "usb_hid/USBHid.hpp"
 #include "../../../../include/debug.h"
+#include "../../i18n/BadUSB/badusb_keys.h"
 
 static Gui *_gui;
 std::list<std::string> files;
@@ -20,7 +21,7 @@ void goto_badusb_gui() {
   files = list_dir(open("/ducky", "r"));
   _gui->reset();
   _gui->set_current_position(1);
-  _gui->init_badusb_browser_gui(&files);
+  _gui->init_file_browser_gui(english_words->at(BADUSB_TITLE_KEY), &files, true);
   _gui->set_position_limit(files.size() + 1);
 }
 
@@ -29,13 +30,13 @@ void badusb_selection_handler(int pos) {
   if (pos == files.size() + 1) {  // Means return to main menu
     hid.end();
     _gui->reset();
-    _gui->destroy_badusb_browser_gui();
+    _gui->destroy_file_browser_gui();
     _gui->init_gui();
     _gui->set_current_position(0);
     _gui->set_selected_widget(0, true);
     return;
   }
-  auto selected_file = files.begin();
+  std::list<std::string>::iterator selected_file = files.begin();
   std::advance(selected_file, pos - 1);
   Serial.printf("Selected file: %s\n", selected_file->c_str());
   FILE *file = fopen(("/sd/ducky/" + *selected_file).c_str(), "r");

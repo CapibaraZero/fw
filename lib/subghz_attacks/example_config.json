@@ -1,0 +1,12 @@
+{
+  "frequency_analyzer": {
+    "lora": false
+  },
+  "raw_record": {
+    "frequency": 433.92,
+    "bandwidth": 350.50,
+    "deviation": 47.60,
+    "modulation": 0,
+    "rssi_threshold": -90
+  }
+}

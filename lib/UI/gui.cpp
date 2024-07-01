@@ -228,7 +228,9 @@ void Gui::set_selected_widget(int pos, bool selected) {
   else if (nfc_felica_polling_result_page_visible())
     nfc_felica_polling_result_page->set_selected(pos, selected);
   else if (badusb_browser_visible())
-    badusb_payload_browser_page->set_selected(pos, selected);
+    file_browser_page->set_selected(pos, selected);
+  else if(subghz_page_visible())
+    subghz_page->set_selected(pos, selected);
 }
 
 /******************** NFC GUI FUNCTIONS ************************/
@@ -330,14 +332,50 @@ void Gui::nfc_cleanup() {
 }
 
 /******************** BadUSB FUNCTIONS ************************/
-void Gui::init_badusb_browser_gui(std::list<std::string> *files) {
+void Gui::init_file_browser_gui(const char *name, std::list<std::string> *files, bool _badusb) {
   grid_visible = false;
+  if(_badusb)
+    badusb_visible = true;
+  else
+    subghz_browser_visible = true;
   lower_limit = 1;
-  position_limit = 2;  // TODO: To adjust dynamically
+  position_limit = files->size() - 1;
   position_increment = 1;
-  badusb_payload_browser_page = new BadUSBPayloadBrowserPage(screen);
-  badusb_payload_browser_page->display(files);
+  file_browser_page = new FileBrowserPage(screen);
+  file_browser_page->display(name, files);
 };
+
+void Gui::init_subghz_gui(){
+  grid_visible = false;
+  position_limit = 3;
+  position_increment = 1;
+  subghz_page = new SubGHZPage(screen);
+  subghz_page->display();
+};
+
+void Gui::init_subghz_frequency_analyzer() {
+  grid_visible = false;
+  position_limit = 1;
+  position_increment = 0;
+  subghz_frequency_analyzer_page = new SubGHZFrequencyAnalyzerPage(screen);
+  subghz_frequency_analyzer_page->display();
+}
+
+void Gui::init_subghz_raw_record_ui() {
+  grid_visible = false;
+  position_limit = 1;
+  position_increment = 0;
+  subghz_raw_record_page = new SubGHZRAWRecordPage(screen);
+  subghz_raw_record_page->display();
+}
+
+void Gui::init_subghz_sender() {
+  grid_visible = false;
+  position_limit = 0;
+  position_increment = 0;
+  subghz_sender_page = new SubGHZSender(screen);
+  subghz_sender_page->display();
+}
 
 void Gui::click_element(int pos, void callback()) {
   if (grid_visible)
@@ -357,7 +395,7 @@ void Gui::click_element(int pos, void callback()) {
   else if (nfc_felica_polling_result_page_visible())
     nfc_felica_polling_result_page->click(pos, callback);
   else if (badusb_browser_visible())
-    badusb_payload_browser_page->click(pos, callback);
+    file_browser_page->click(pos, callback);
 }
 
 void Gui::up() {

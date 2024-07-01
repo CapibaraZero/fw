@@ -37,6 +37,10 @@
 #define SD_CARD_SCK 36
 #define SD_CARD_MISO 37
 
+#define SX1276_NSS 1
+#define SX1276_DIO2 15
+#define SX1276_DIO1 16
+
 #define PN532_SDA 8
 #define PN532_SCL 9
 
@@ -62,9 +66,12 @@
 #define SD_CARD_MISO D12
 #define SD_CARD_SCK D13
 
-#define CC1101_GDO0 A0
-#define CC1101_CSN D7
+// SX1276(SubGHZ)
+#define SX1276_DIO1 D3
+#define SX1276_NSS D7
+#define SX1276_DIO2 D8
 
+// PN532(NFC)
 #define PN532_SCL A6
 #define PN532_SDA A7
 #endif

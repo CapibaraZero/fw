@@ -40,7 +40,7 @@
 static void init_sd() {
     SPI.begin(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
     if (!init_sdcard(SD_CARD_CS)) {
-        Serial.println("init_sdcard failed");
+        LOG_ERROR("init_sdcard failed");
     };
 }
 
@@ -53,20 +53,22 @@ Gui *main_gui;
 Adafruit_ST7789 *display;
 GFXForms *screen;
 
+
 void setup() {
 #ifdef ARDUINO_NANO_ESP32
     Serial.begin(115200);
     Serial.println("Test");
+    delay(2000);
 #else
     Serial0.begin(115200);
 #endif
     init_sd();
     init_english_dict();
-    display = new Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
+
+    display = new Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, -1);
     screen = new GFXForms(DISPLAY_WIDTH, DISPLAY_HEIGHT, display);
     screen->set_rotation(1);
     screen->set_background_color(HOME_BACKGROUND_COLOR);
-
     main_gui = new Gui(screen);
     main_gui->init_gui();
     init_navigation_btn(UP_BTN_PIN, handle_up_button);
@@ -81,6 +83,6 @@ void setup() {
 }
 
 void loop() {
-    Serial.println("Loop");  // Avoid FreeRTOS watchdog trigger
+    LOG_INFO("Loop\n");  // Avoid FreeRTOS watchdog trigger
     delay(1000);
 }
