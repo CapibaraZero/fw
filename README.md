@@ -34,14 +34,13 @@ Working Features:
 - Wi-Fi support
 - BLE support
 - BadUSB support(Limited to 4-5 files in file browser)
-- NFC support(Expect bugs)
+- NFC support
 - Some network attacks
+- SubGHZ(Beta support, need more testing)
 
 WIP features:
 
-- SubGHZ
 - IR
-- Add more network attacks
 
 More details in the project view: https://github.com/orgs/CapibaraZero/projects/2/views/1
 
