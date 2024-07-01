@@ -132,7 +132,7 @@ void Gui::init_wifi_networks_gui(vector<WifiNetwork> *networks) {
 
 void Gui::init_ble_gui() {
   grid_visible = false;
-  position_limit = 4;
+  position_limit = 5;
   position_increment = 1;
   ble_page = new BLEPage(screen);
   ble_page->display();
@@ -250,15 +250,14 @@ void Gui::init_nfc_polling_waiting_gui() {
   nfc_polling_waiting_page->display();
 }
 
-void Gui::init_nfc_polling_result_gui(uint8_t *uid, uint8_t length) {
+void Gui::init_nfc_polling_result_gui(uint8_t *uid, uint8_t length, const char *name) {
   delete nfc_polling_waiting_page;
   nfc_polling_waiting_page = nullptr;
-  position_limit = 5;
-  // position_limit = 4;
+  position_limit = 3;
   lower_limit = 2;
   position_increment = 1;
   nfc_polling_result_page = new NFCPollingResultPage(screen);
-  nfc_polling_result_page->display(uid, length);
+  nfc_polling_result_page->display(uid, length, name);
 }
 
 void Gui::init_nfc_dump_result_gui() {
@@ -272,7 +271,7 @@ void Gui::init_nfc_dump_result_gui() {
 }
 
 void Gui::return_to_nfc_polling_gui() {
-  position_limit = 5;
+  position_limit = 3;
   lower_limit = 2;
   position_increment = 1;
   nfc_polling_result_page->display();

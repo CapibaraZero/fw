@@ -125,18 +125,19 @@ void nfc_submenu_handler(int pos) {
 void nfc_polling_submenu_handler(int pos) {
   switch (pos) {
     case RESULT_DUMP_POS:  // Start polling
-      gui->ok(goto_nfc_dump_result_gui);
-      dump_iso14443a(gui, nfc_attacks);
-      break;
+      // gui->ok(goto_nfc_dump_result_gui);
+    //   dump_iso14443a(gui, nfc_attacks);
+    //   break;
     // case RESULT_FORMAT_POS:
     //   // gui->ok(write_hex_to_tag);
     //   gui->ok(format_tag);
     //   format_iso14443a(gui, nfc_attacks);
     //   break;
-    case RESULT_BRUTEFORCE_POS:
+    // case RESULT_BRUTEFORCE_POS:
       gui->ok(bruteforce_tag);
       break;
-    case RESULT_GO_BACK_POS:
+    // case RESULT_GO_BACK_POS:
+    case RESULT_BRUTEFORCE_POS:
       gui->ok(goto_nfc_gui);
       gui->destroy_nfc_polling_gui();
       reset_uid();

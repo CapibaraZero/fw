@@ -121,7 +121,7 @@ void init_english_dict() {
   english_words->insert({NFC_UID_KEY, "ID:"});
   english_words->insert({NFC_DUMP_TAG_TO_SD, "Dump tag to SD"});
   english_words->insert({NFC_FORMAT_TAG_TO_SD, "Format tag"});
-  english_words->insert({NFC_BRUTEFORCE_TAG_KEY, "Bruteforce tag"});
+  english_words->insert({NFC_BRUTEFORCE_TAG_KEY, "Dump tag to SD"});
   // english_words->insert({NFC_GO_BACK_KEY, "Go back"});
   english_words->insert({NFC_POLLING_PROGRESS_KEY, "Polling in progress..."});
   english_words->insert(

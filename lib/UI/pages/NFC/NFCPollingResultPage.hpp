@@ -38,7 +38,7 @@ class NFCPollingResultPage : public Page {
   NFCPollingResultPage(GFXForms *_screen);
   ~NFCPollingResultPage();
   void display() { nfc_grid->display(); };
-  void display(uint8_t *uid, uint8_t length);
+  void display(uint8_t *uid, uint8_t length, const char *tag_name);
   void up() {};
   void down() {};
   void left() {};

@@ -17,6 +17,17 @@
 
 #ifndef NFC_ATTACKS_H
 #define NFC_ATTACKS_H
+#include <stdint.h>
+
+typedef struct SectorResult {
+  uint8_t uid[7];
+  uint8_t uid_len = 0;
+  bool key_a_found = false;
+  uint8_t key_a[6];
+  bool key_b_found = false;
+  uint8_t key_b[6];
+  bool dumped = false;
+}SectorResult;
 
 #include "NFCTag.hpp"
 #include "nfc_framework.hpp"
@@ -31,12 +42,14 @@ class NFCAttacks {
   NFCTag *current_tag = (NFCTag *)malloc(sizeof(NFCTag));
   uint8_t tried_keys = 0;
   bool bruteforce_status = true;
-
+  void auth_sector(uint8_t sector, uint8_t *key, KeyType key_type, uint8_t *out_key, bool *key_found);
+  bool read_sector(uint8_t initial_pos, uint8_t *key, KeyType key_type, uint8_t *out);
  public:
   NFCAttacks(/* args */);
   ~NFCAttacks(){};
   bool bruteforce();
   void read_uid(uint8_t *uid, uint8_t *uid_length);
+  void read_uid(uint8_t *uid, uint8_t *uid_length, uint16_t *atqa, uint8_t *sak);
   NFCTag dump_tag(DumpResult *result);
   NFCTag dump_tag(uint8_t *key, DumpResult *result);
   NFCTag dump_ntag(int pages);

@@ -23,5 +23,5 @@ void ble_sniff_task(void *pv);
 void applejuice_task(void *pv);
 void samsung_ble_spam_task(void *pv);
 void swift_pair_spam_task(void *pv);
-
+void fast_pair_spam_task(void *pv);
 #endif

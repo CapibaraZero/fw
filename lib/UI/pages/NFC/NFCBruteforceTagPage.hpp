@@ -49,13 +49,9 @@ class NFCBruteforceTagPage : public Page {
   void update_tried_keys(int keys) {
     tried_keys->set_text((String) "Tried keys: " + (String)keys);
   }
-  void set_found_key(bool found) {
-    if (found)
-      found_keys->set_color(ST77XX_WHITE);
-    else {
-      found_keys->set_text("Can't find key");
-      found_keys->set_color(ST77XX_WHITE);
-    }
+  void set_found_key() {
+    found_keys->set_text("Saving result...");
+    found_keys->set_color(ST77XX_WHITE);
   }
 };
 
