@@ -16,21 +16,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "BadUSBPayloadBrowserPage.hpp"
+#include "FileBrowserPage.hpp"
 
 #include "../../../../include/icons/file/file.h"
 #include "../../i18n.hpp"
 #include "../../i18n/BadUSB/badusb_keys.h"
 #include "Bitmap.hpp"
-BadUSBPayloadBrowserPage::BadUSBPayloadBrowserPage(GFXForms *_screen) {
+FileBrowserPage::FileBrowserPage(GFXForms *_screen) {
   screen = _screen;
 }
 
-BadUSBPayloadBrowserPage::~BadUSBPayloadBrowserPage() {}
+FileBrowserPage::~FileBrowserPage() {}
 
-void BadUSBPayloadBrowserPage::display() {
+void FileBrowserPage::display() {
   badusb_grid = new Grid(screen, 2, 1);
-  title = new Text(screen, ST77XX_WHITE, "Bad USB Payload Browser");
+  title = new Text(screen, ST77XX_WHITE, "File Browser");
   Bitmap bitmap = Bitmap(screen, (uint8_t *)file_icon, 16, 16, 100, 100);
   List file =
       List(screen, "example", 2, ST77XX_WHITE, 20, &bitmap, ST77XX_BLACK);
@@ -40,9 +40,9 @@ void BadUSBPayloadBrowserPage::display() {
   badusb_grid->display();
 }
 
-void BadUSBPayloadBrowserPage::display(std::list<std::string> *files) {
+void FileBrowserPage::display(const char *text, std::list<std::string> *files) {
   badusb_grid = new Grid(screen, 2, 1);
-  title = new Text(screen, ST77XX_WHITE, english_words->at(BADUSB_TITLE_KEY));
+  title = new Text(screen, ST77XX_WHITE, text);
   badusb_grid->add(title);
   Bitmap bitmap = Bitmap(screen, (uint8_t *)file_icon, 16, 16, 100, 100);
   List *file_list = nullptr;  // In for loop, variable got deleted

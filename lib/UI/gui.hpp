@@ -22,7 +22,11 @@
 #include "pages/BLE/BLEScanPage.hpp"
 #include "pages/BLE/BLESniffPage.hpp"
 #include "pages/BLE/BLESpamPage.hpp"
-#include "pages/BadUSB/BadUSBPayloadBrowserPage.hpp"
+#include "pages/FileBrowser/FileBrowserPage.hpp"
+#include "pages/SubGHZ/SubGHZPage.hpp"
+#include "pages/SubGHZ/SubGHZFrequencyAnalyzerPage.hpp"
+#include "pages/SubGHZ/SubGHZRAWRecordPage.hpp"
+#include "pages/SubGHZ/SubGHZSender.hpp"
 #include "pages/NFC/FeliCaPages/NFCFelicaPollingResultPage.hpp"
 #include "pages/NFC/NFCBruteforceTagPage.hpp"
 #include "pages/NFC/NFCDumpResultPage.hpp"
@@ -68,9 +72,17 @@ class Gui {
 #endif
 #if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
   RectText *badusb;
-  BadUSBPayloadBrowserPage *badusb_payload_browser_page = nullptr;
+  FileBrowserPage *file_browser_page = nullptr;
+  bool badusb_visible = false;
 #endif
+  // SubGHZ
   RectText *SubGhz;
+  SubGHZPage *subghz_page = nullptr;
+  SubGHZFrequencyAnalyzerPage *subghz_frequency_analyzer_page = nullptr;
+  SubGHZRAWRecordPage *subghz_raw_record_page = nullptr;
+  SubGHZSender *subghz_sender_page = nullptr;
+  bool subghz_browser_visible = false;
+  // SubGhz
   // NFC
   RectText *NFC;
   NFCMainPage *nfc_main_page = nullptr;
@@ -301,14 +313,69 @@ class Gui {
   }
   /******************** BadUSB FUNCTIONS ************************/
 
-  void init_badusb_browser_gui(std::list<std::string> *files);
+  void init_file_browser_gui(const char *name, std::list<std::string> *files, bool _badusb);
   bool badusb_browser_visible() {
-    return badusb_payload_browser_page != nullptr;
+    return file_browser_page != nullptr && badusb_visible;
   };
-  void destroy_badusb_browser_gui() {
-    delete badusb_payload_browser_page;
-    badusb_payload_browser_page = nullptr;
+  void destroy_file_browser_gui() {
+    delete file_browser_page;
+    file_browser_page = nullptr;
   }
+
+  /******************** SubGHZ GUI FUNCTIONS ************************/
+
+  void init_subghz_gui();
+  bool subghz_page_visible() { return subghz_page != nullptr; };
+  void init_subghz_frequency_analyzer();
+  void destroy_subghz_frequency_analyzer() {
+    delete subghz_frequency_analyzer_page;
+    subghz_frequency_analyzer_page = nullptr;
+  }
+  void destroy_subghz_gui() { 
+    delete subghz_page;
+    subghz_page = nullptr;
+  }
+  void set_subghz_freqeuncy(float freq) {
+    subghz_frequency_analyzer_page->set_frequency(freq);
+  }
+  void set_subghz_rssi(int rssi) {
+    subghz_frequency_analyzer_page->set_rssi(rssi);
+  }
+  bool subghz_frequency_analyzer_visible() { return subghz_frequency_analyzer_page != nullptr; };
+  void init_subghz_raw_record_ui();
+  bool subghz_raw_record_ui_visible() { return subghz_raw_record_page != nullptr; };
+  void set_subghz_raw_record_freq(float freq) {
+    subghz_raw_record_page->set_frequency(freq);
+  }
+  void set_subghz_raw_record_rssi(float rssi) {
+    subghz_raw_record_page->set_rssi(rssi);
+  }
+  void destroy_subghz_raw_record_ui() {
+    delete subghz_raw_record_page;
+    subghz_raw_record_page = nullptr;
+  }
+
+  bool subghz_file_browser_visible() { return file_browser_page != nullptr && subghz_browser_visible; };
+  void init_subghz_sender();
+  void set_subghz_sender_freq(float freq) {
+    subghz_sender_page->set_frequency(freq);
+  }
+  void set_subghz_sender_bandwidth(float bandwidth) {
+    subghz_sender_page->set_bandwidth(bandwidth);
+  }
+  void set_subghz_sender_deviation(float deviation) {
+    subghz_sender_page->set_deviation(deviation);
+  }
+  void set_subghz_sender_modulation(int modulation) {
+    subghz_sender_page->set_modulation(modulation);
+  }
+  bool subghz_sender_visible() { return subghz_sender_page != nullptr; };
+  void destroy_subghz_sender() {
+    delete subghz_sender_page;
+    subghz_sender_page = nullptr;
+  }
+
+  /******************** SubGHZ GUI FUNCTIONS ************************/
 
   /******************** NFC GUI FUNCTIONS ************************/
   void init_nfc_gui();

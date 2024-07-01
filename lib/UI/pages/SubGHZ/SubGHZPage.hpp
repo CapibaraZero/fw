@@ -15,23 +15,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Arduino.h>
+#include "../Page.hpp"
+#include "Grid.hpp"
+#include "List.hpp"
 
-#include "buttons.h"
+#ifndef SUBGHZ_PAGE_H
+#define SUBGHZ_PAGE_H
 
-static Buttons btn_pressed = NULL_BTN;
+class SubGHZPage : public Page {
+ private:
+  List *SubGHZ_freq_analyzer;
+  List *SubGHZ_sniff;
+  List *SubGHZ_sender;
+  List *SubGHZ_jammer;
+  List *go_back;
+  Grid *SubGHZ_grid;
 
-/* ISR routines */
-void IRAM_ATTR handle_up_button() { btn_pressed = UP_BTN; }
+ public:
+  SubGHZPage(GFXForms *_screen);
+  ~SubGHZPage();
+  void display();
+  void click(int pos, void callback()) { SubGHZ_grid->click(pos, callback); };
+  void set_selected(int pos, bool status) {
+    SubGHZ_grid->set_selected(pos, status);
+  };
+  void up() {};
+  void down() {};
+  void left() {};
+  void right() {};
+};
 
-void IRAM_ATTR handle_down_button() { btn_pressed = DOWN_BTN; }
-
-void IRAM_ATTR handle_left_button() { btn_pressed = LEFT_BTN; }
-
-void IRAM_ATTR handle_right_button() { btn_pressed = RIGHT_BTN; }
-
-void IRAM_ATTR handle_ok_button() { btn_pressed = OK_BTN; }
-
-Buttons get_btn_pressed() { return btn_pressed; }
-
-void reset_btn_state() { btn_pressed = NULL_BTN; }
+#endif

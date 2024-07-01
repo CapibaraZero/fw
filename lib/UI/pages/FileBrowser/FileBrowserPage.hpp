@@ -22,20 +22,20 @@
 #include "List.hpp"
 #include "Text.hpp"
 
-#ifndef BADUSB_PAYLOAD_BROWSER_PAGE_H
-#define BADUSB_PAYLOAD_BROWSER_PAGE_H
+#ifndef FILE_BROWSER_PAGE_H
+#define FILE_BROWSER_PAGE_H
 
-class BadUSBPayloadBrowserPage : public Page {
+class FileBrowserPage : public Page {
  private:
   Text *title;
   List *go_back;
   Grid *badusb_grid;
 
  public:
-  BadUSBPayloadBrowserPage(GFXForms *_screen);
-  ~BadUSBPayloadBrowserPage();
+  FileBrowserPage(GFXForms *_screen);
+  ~FileBrowserPage();
   void display();
-  void display(std::list<std::string> *files);
+  void display(const char *text, std::list<std::string> *files);
   void click(int pos, void callback()) { badusb_grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
     badusb_grid->set_selected(pos, status);

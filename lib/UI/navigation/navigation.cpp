@@ -17,6 +17,7 @@
 
 #include "BLE/ble_navigation.hpp"
 #include "BadUSB/BadUSBNavigation.hpp"
+#include "SubGHZ/SubGHZNavigation.hpp"
 #include "NFC/NFCNavigation.hpp"
 #include "buttons/btn_routines.hpp"
 #include "gui.hpp"
@@ -27,6 +28,7 @@
 #define WIFI_MODULE_POS 0
 #define BLE_MODULE_POS 1
 #define BADUSB_MODULE_POS 2
+#define SUBGHZ_MODULE_POS 3
 #define NFC_MODULE_POS 4
 #define NETWORK_ATTACKS_MODULE_POS 6
 
@@ -56,6 +58,10 @@ void main_menu_handler(int pos) {
     case BADUSB_MODULE_POS:
       init_badusb_navigation(gui);
       gui->ok(goto_badusb_gui);
+      break;
+    case SUBGHZ_MODULE_POS:
+      init_subghz_navigation(gui);
+      gui->ok(goto_subghz_gui);
       break;
     case NFC_MODULE_POS:
       init_nfc_navigation(gui);
@@ -123,6 +129,36 @@ Serial.println("WiFI4");
 
   if (gui->badusb_browser_visible()) {
     badusb_selection_handler(pos);
+    return;
+  }
+
+  if(gui->subghz_page_visible()) {
+    Serial.println("SUBGHZ PAGE");
+    subghz_submenu_handler(pos);
+    return;
+  }
+
+  if(gui->subghz_frequency_analyzer_visible()) {
+    Serial.println("PAGE ANALZYER");
+    stop_frequency_analyzer();
+    return;
+  }  
+
+  if(gui->subghz_raw_record_ui_visible()) {
+    Serial.println("PAGE RAW RECORD");
+    stop_subghz_raw_record();
+    return;
+  }
+
+  if(gui->subghz_sender_visible()) {
+    // SubGHZ sender haven't any button
+    return;
+  }
+
+  if(gui->subghz_file_browser_visible()) {
+    Serial.println("PAGE FILE BROWSER");
+    start_subghz_emulation(pos);
+    // stop_subghz_file_browser();
     return;
   }
 
