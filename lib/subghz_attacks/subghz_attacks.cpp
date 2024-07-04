@@ -2,6 +2,7 @@
 #include "fm.hpp"
 #include "posixsd.hpp"
 #include "subghz_tasks.hpp"
+#include "../UI/navigation/SubGHZ/SubGHZNavigation.hpp"
 
 TaskHandle_t subghz_task_handle = NULL;
 static SubGHZTaskParameters *params = NULL;
@@ -34,7 +35,7 @@ void raw_record_attack(SubGHZ *subghz, Gui *gui) {
     subghz->set_modulation(config.modulation);
     subghz->set_freq_mod(config.freq, config.bw, config.deviation);
     subghz->init_receive();
-    gui->set_subghz_raw_record_freq(config.freq);
+    set_subghz_raw_record_freq(config.freq);
     xTaskCreate(raw_record_task, "subghz_raw_record_task", 8192, params, 5,
                 &subghz_task_handle);
 }
@@ -46,10 +47,10 @@ void start_subghz_emulation_attack(SubGHZ *subghz, Gui *gui,
     params->subghz = subghz;
     params->gui = gui;
     SubGHZCapture signal = parse_json_subghz_capture(capture_path);
-    gui->set_subghz_sender_freq(signal.freq);
-    gui->set_subghz_sender_deviation(signal.deviation);
-    gui->set_subghz_sender_bandwidth(signal.bw);
-    gui->set_subghz_sender_modulation(signal.modulation);
+    set_subghz_sender_freq(signal.freq);
+    set_subghz_sender_deviation(signal.deviation);
+    set_subghz_sender_bandwidth(signal.bw);
+    set_subghz_sender_modulation(signal.modulation);
     Modulation signal_params = {
         .mode = signal.modulation,
         .deviation = signal.deviation,

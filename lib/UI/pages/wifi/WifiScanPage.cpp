@@ -19,20 +19,20 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/wifi/wifi_scan_keys.h"
-
-WifiScanPage::WifiScanPage(GFXForms *_screen) { screen = _screen; }
+#include "gui.hpp"
 
 WifiScanPage::~WifiScanPage() {}
 
 void WifiScanPage::display() {
-  wifi_scan_grid = new Grid(screen, 3, 1);
+  grid = new Grid(screen, 3, 1);
   wifi_scan_text =
       new Text(screen, ST77XX_WHITE, english_words->at(WIFI_SCANNING_KEY));
   wifi_scan_progress = new Text(screen, ST77XX_WHITE, "10%");
   wifi_scan_current_ch = new Text(screen, ST77XX_WHITE, "1");
-  wifi_scan_grid->add(wifi_scan_text);
-  wifi_scan_grid->add(wifi_scan_progress);
-  wifi_scan_grid->add(wifi_scan_current_ch);
-  wifi_scan_grid->set_y_spacing(30);
-  wifi_scan_grid->display();
+  grid->add(wifi_scan_text);
+  grid->add(wifi_scan_progress);
+  grid->add(wifi_scan_current_ch);
+  grid->set_y_spacing(30);
+  gui->set_current_page(this);
+  grid->display();
 }

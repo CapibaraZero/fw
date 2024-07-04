@@ -19,17 +19,21 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/BLE/ble_spam_keys.h"
-
-BLESpamPage::BLESpamPage(GFXForms *_screen) {
-  text =
-      new Text(_screen, ST77XX_WHITE, english_words->at(BLE_SPAM_PROGRESS_KEY));
-  details_grid = new Grid(_screen, 2, 1);
-  save = new List(_screen, english_words->at(BLE_SPAM_STOP_KEY), 2,
-                  ST77XX_WHITE, 20, ST77XX_BLACK);
-  details_grid->add(text);
-  details_grid->add(save);
-  details_grid->set_selected(1, true);
-  details_grid->set_y_spacing(20);
-}
+#include "../../navigation/BLE/ble_navigation.hpp"
+#include "gui.hpp"
 
 BLESpamPage::~BLESpamPage() {}
+
+void BLESpamPage::display() {
+    text = new Text(screen, ST77XX_WHITE,
+                    english_words->at(BLE_SPAM_PROGRESS_KEY));
+    grid = new Grid(screen, 2, 1);
+    save = new List(screen, english_words->at(BLE_SPAM_STOP_KEY), 2,
+                    ST77XX_WHITE, 20, ST77XX_BLACK, handle_ble_spam_stop);
+    grid->add(text);
+    grid->add(save);
+    grid->set_selected(1, true);
+    grid->set_y_spacing(20);
+    gui->set_current_page(this);
+    grid->display();
+}

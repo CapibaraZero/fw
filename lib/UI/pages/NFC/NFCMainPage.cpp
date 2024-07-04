@@ -19,23 +19,25 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/NFC/nfc_main_page_keys.h"
-
-NFCMainPage::NFCMainPage(GFXForms *_screen) { screen = _screen; }
+#include "../../navigation/NFC/NFCNavigation.hpp"
+#include "gui.hpp"
 
 NFCMainPage::~NFCMainPage() {}
 
 void NFCMainPage::display() {
-  nfc_grid = new Grid(screen, 3, 1);
+  init_nfc_navigation(gui);
+  grid = new Grid(screen, 3, 1);
   polling_iso14443_a =
       new List(screen, english_words->at(POLLING_ISO14443A_KEY), 2,
-               ST77XX_WHITE, 20, ST77XX_BLACK);
+               ST77XX_WHITE, 20, ST77XX_BLACK, nfc_mifare_polling);
   polling_felica = new List(screen, english_words->at(POLLING_ISO18092_KEY), 2,
-                            ST77XX_WHITE, 20, ST77XX_BLACK);
+                            ST77XX_WHITE, 20, ST77XX_BLACK, nfc_felica_polling);
   go_back = new List(screen, english_words->at(NFC_POLLING_GO_BACK_KEY), 2,
-                     ST77XX_WHITE, 20, ST77XX_BLACK);
-  nfc_grid->add(polling_iso14443_a);
-  nfc_grid->add(polling_felica);
-  nfc_grid->add(go_back);
-  nfc_grid->set_selected(0, true);
-  nfc_grid->display();
+                     ST77XX_WHITE, 20, ST77XX_BLACK, goto_home);
+  grid->add(polling_iso14443_a);
+  grid->add(polling_felica);
+  grid->add(go_back);
+  grid->set_selected(0, true);
+  gui->set_current_page(this);
+  grid->display();
 }

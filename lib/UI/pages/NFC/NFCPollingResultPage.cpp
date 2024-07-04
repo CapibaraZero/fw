@@ -20,37 +20,36 @@
 #include "../../i18n.hpp"
 #include "../../i18n/NFC/nfc_polling_result_page_keys.h"
 #include "hex2str.hpp"
-
-NFCPollingResultPage::NFCPollingResultPage(GFXForms *_screen) {
-  screen = _screen;
-}
+#include "../../navigation/NFC/NFCNavigation.hpp"
+#include "gui.hpp"
 
 NFCPollingResultPage::~NFCPollingResultPage() {}
 
 void NFCPollingResultPage::display(uint8_t *uid, uint8_t length, const char *tag_name) {
-  nfc_grid = new Grid(screen, 6, 1);
+  grid = new Grid(screen, 4, 1);
   tag_info = new Text(screen, ST77XX_WHITE,
                         tag_name, 2);
   uid_text = new Text(screen, ST77XX_WHITE,
                       english_words->at(NFC_UID_KEY) + hextostr(uid, length));
-  dump_to_sd = new List(screen, english_words->at(NFC_DUMP_TAG_TO_SD), 2,
-                        ST77XX_WHITE, 20, ST77XX_BLACK);
+  // dump_to_sd = new List(screen, english_words->at(NFC_DUMP_TAG_TO_SD), 2,
+  //                       ST77XX_WHITE, 20, ST77XX_BLACK);
   // write_tag = new List(screen, "Write tag", 2, ST77XX_WHITE, 20,
   // ST77XX_BLACK);
-  format_tag = new List(screen, english_words->at(NFC_FORMAT_TAG_TO_SD), 2,
-                        ST77XX_WHITE, 20, ST77XX_BLACK);
+  // format_tag = new List(screen, english_words->at(NFC_FORMAT_TAG_TO_SD), 2,
+  //                       ST77XX_WHITE, 20, ST77XX_BLACK);
   bruteforce_tag = new List(screen, english_words->at(NFC_BRUTEFORCE_TAG_KEY),
-                            2, ST77XX_WHITE, 20, ST77XX_BLACK);
+                            2, ST77XX_WHITE, 20, ST77XX_BLACK, bruteforce_a_tag);
   exit_page = new List(screen, english_words->at(NFC_GO_BACK_KEY), 2,
-                       ST77XX_WHITE, 20, ST77XX_BLACK);
-  nfc_grid->add(tag_info);
-  nfc_grid->add(uid_text);
-  // nfc_grid->add(dump_to_sd);
-  // nfc_grid->add(write_tag);
-  // nfc_grid->add(format_tag);
-  nfc_grid->add(bruteforce_tag);
-  nfc_grid->add(exit_page);
-  nfc_grid->set_selected(2, true);
-  nfc_grid->set_y_spacing(20);
-  nfc_grid->display();
+                       ST77XX_WHITE, 20, ST77XX_BLACK, goto_home);
+  grid->add(tag_info);
+  grid->add(uid_text);
+  // grid->add(dump_to_sd);
+  // grid->add(write_tag);
+  // grid->add(format_tag);
+  grid->add(bruteforce_tag);
+  grid->add(exit_page);
+  grid->set_selected(2, true);
+  grid->set_y_spacing(20);
+  gui->set_current_page(this);
+  grid->display();
 }

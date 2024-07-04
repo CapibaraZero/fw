@@ -27,20 +27,17 @@ class NFCMainPage : public Page {
   List *polling_iso14443_a;
   List *polling_felica;
   List *go_back;
-  Grid *nfc_grid;
 
  public:
-  NFCMainPage(GFXForms *_screen);
+  NFCMainPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~NFCMainPage();
   void display();
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
+
   void set_selected(int pos, bool status) {
-    nfc_grid->set_selected(pos, status);
+    grid->set_selected(pos, status);
   };
-  void click(int pos, void callback()) { nfc_grid->click(pos, callback); };
+  void click(int pos, void callback()) { grid->click(pos, callback); };
 };
 
 #endif

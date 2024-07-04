@@ -19,25 +19,27 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/network_attacks/net_attacks_main_page.h"
-
-NetworkAttacksPage::NetworkAttacksPage(GFXForms *_screen) { screen = _screen; }
+#include "../../navigation/network_attacks/network_attacks_navigation.hpp"
+#include "gui.hpp"
 
 NetworkAttacksPage::~NetworkAttacksPage() {}
 
 void NetworkAttacksPage::display() {
-  net_attacks_grid = new Grid(screen, 3, 1);
+  init_network_attacks_navigation(gui);
+  grid = new Grid(screen, 3, 1);
   evilportal = new List(screen, english_words->at(EVILPORTAL_KEY), 2,
-                        ST77XX_WHITE, 20, ST77XX_BLACK);
+                        ST77XX_WHITE, 20, ST77XX_BLACK, goto_evilportal_gui);
   dhcpglutton = new List(screen, english_words->at(DHCP_GLUTTON_KEY), 2,
-                         ST77XX_WHITE, 20, ST77XX_BLACK);
+                         ST77XX_WHITE, 20, ST77XX_BLACK, goto_dhcpglutton_gui);
   arp_poisoner = new List(screen, "ARPoisoner", 2,
-                         ST77XX_WHITE, 20, ST77XX_BLACK);
+                         ST77XX_WHITE, 20, ST77XX_BLACK, goto_arp_poisoner_gui);
   go_back = new List(screen, english_words->at(NET_ATTACK_GO_BACK_KEY), 2,
-                         ST77XX_WHITE, 20, ST77XX_BLACK);
-  net_attacks_grid->add(dhcpglutton);
-  net_attacks_grid->add(evilportal);
-  net_attacks_grid->add(arp_poisoner);
-  net_attacks_grid->add(go_back);
-  net_attacks_grid->set_selected(0, true);
-  net_attacks_grid->display();
+                         ST77XX_WHITE, 20, ST77XX_BLACK, net_attacks_goto_home);
+  grid->add(dhcpglutton);
+  grid->add(evilportal);
+  grid->add(arp_poisoner);
+  grid->add(go_back);
+  grid->set_selected(0, true);
+  gui->set_current_page(this);
+  grid->display();
 }

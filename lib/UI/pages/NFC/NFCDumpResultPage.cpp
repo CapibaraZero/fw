@@ -16,13 +16,13 @@
  */
 
 #include "NFCDumpResultPage.hpp"
-
-NFCDumpResultPage::NFCDumpResultPage(GFXForms *_screen) { screen = _screen; }
+#include "../../navigation/NFC/NFCNavigation.hpp"
+#include "gui.hpp"
 
 NFCDumpResultPage::~NFCDumpResultPage() {}
 
 void NFCDumpResultPage::display() {
-  nfc_grid = new Grid(screen, 6, 1);
+  grid = new Grid(screen, 6, 1);
   dumping_to_sd =
       new Text(screen, ST77XX_WHITE, english_words->at(NFC_DUMPING_TAG_KEY));
   dumped_sectors =
@@ -32,18 +32,19 @@ void NFCDumpResultPage::display() {
   unauthenticated_sectors = new Text(
       screen, ST77XX_WHITE, english_words->at(NFC_UNAUTHENTICATED_SECTORS_KEY));
   save_to_sd = new List(screen, english_words->at(NFC_SAVE_TO_SD_KEY), 2,
-                        ST77XX_WHITE, 20, ST77XX_BLUE);
+                        ST77XX_WHITE, 20, ST77XX_BLUE, save_dump_to_sd);
   // return_back = new List(screen, "Go back", 2, ST77XX_WHITE, 20,
   // ST77XX_BLACK); exit_page = new List(screen, "Exit", 2, ST77XX_WHITE, 20,
   // ST77XX_BLACK);
-  nfc_grid->add(dumping_to_sd);
-  nfc_grid->add(dumped_sectors);
-  nfc_grid->add(unauthenticated_sectors);
-  nfc_grid->add(unreadable_sectors);
-  nfc_grid->add(save_to_sd);
-  // nfc_grid->add(return_back);
-  // nfc_grid->add(exit_page);
-  nfc_grid->set_y_spacing(20);
-  // nfc_grid->set_selected(3, true);
-  nfc_grid->display();
+  grid->add(dumping_to_sd);
+  grid->add(dumped_sectors);
+  grid->add(unauthenticated_sectors);
+  grid->add(unreadable_sectors);
+  grid->add(save_to_sd);
+  // grid->add(return_back);
+  // grid->add(exit_page);
+  grid->set_y_spacing(20);
+  grid->set_selected(4, true);
+  gui->set_current_page(this);
+  grid->display();
 }

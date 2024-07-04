@@ -2,6 +2,7 @@
 #include "nfc_tasks_types.h"
 #include "../../include/debug.h"
 #include "navigation/navigation.hpp"
+#include "../UI/navigation/NFC/NFCNavigation.hpp"
 
 bool polling_in_progress = false;
 bool dump_in_progress = false;
@@ -36,14 +37,12 @@ void mifare_polling_task(void *pv) {
     params->attacks->read_uid(uid, &uid_length, &atqa, &sak);
     delay(500);
   }
-  LOG_INFO("Card found");
+  LOG_INFO("Card found\n");
   Serial.print("ATQA: ");
   Serial.println(atqa, HEX);
   Serial.print("SAK: ");
   Serial.println(sak, HEX);
-  params->gui->reset();
-  params->gui->set_current_position(2);
-  params->gui->init_nfc_polling_result_gui(uid, uid_length, NFCFramework::lookup_tag(atqa, sak, uid_length).name);
+  goto_nfc_polling_result_gui(uid, uid_length, NFCFramework::lookup_tag(atqa, sak, uid_length).name);
   free(pv);
   polling_in_progress = false;
   vTaskDelete(NULL);
@@ -65,8 +64,7 @@ void felica_polling_task(void *pv) {
 #endif
   // LOG_INFO("Card found");
   params->gui->reset();
-  params->gui->init_nfc_felica_polling_result_gui(idm, pmm, sys_code);
-  params->gui->set_current_position(4);
+  init_nfc_felica_polling_result_gui(idm, pmm, sys_code);
   free(pv);
   polling_in_progress = false;
   vTaskDelete(NULL);
@@ -85,12 +83,13 @@ void get_card_info(uint8_t *_idm, uint8_t *_pmm, uint16_t *_sys_code) {
 
 void goto_home_nfc(NFCTasksParams *params) {
   Serial.println("Going to home");
-  // Go to home. TODO: Port this in NFCNavigation
+  // Go to home. 
+  // TODO: Port this in NFCNavigation
   // params->gui->reset();
   // params->gui->init_gui();
   // params->gui->set_current_position(0);
   // params->gui->set_selected_widget(0, true);
-  params->gui->nfc_cleanup();
+  nfc_cleanup();
   reset_uid();
   init_main_gui();
   Serial.println("Going to home2");
@@ -102,9 +101,9 @@ void dump_iso14443a_task(void *pv) {
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   DumpResult *result = (DumpResult *)malloc(sizeof(DumpResult));
   NFCTag tag = params->attacks->dump_tag(result);
-  params->gui->set_dumped_sectors(tag.get_blocks_count() - result->unreadable -
+  set_dumped_sectors(tag.get_blocks_count() - result->unreadable -
                                   result->unauthenticated);
-  params->gui->set_unreadable_sectors(result->unreadable +
+  set_unreadable_sectors(result->unreadable +
                                       result->unauthenticated);
   params->attacks->set_scanned_tag(&tag);
   delay(10000);
@@ -122,8 +121,8 @@ void dump_felica_task(void *pv) {
   NFCTag tag = params->attacks->felica_dump(14, &unreadable);
   LOG_INFO("Finished2");
   Serial.printf("Felica dump: %d\n", unreadable);
-  params->gui->set_dumped_sectors(14 - unreadable);
-  params->gui->set_unreadable_sectors(unreadable);
+  set_dumped_sectors(14 - unreadable);
+  set_unreadable_sectors(unreadable);
   params->attacks->set_scanned_tag(&tag);
   delay(10000);
   goto_home_nfc(params);
@@ -141,7 +140,7 @@ void format_iso14443a_task(void *pv) {
   else
     unformattable = params->attacks->format_tag();
   Serial.printf("Unformattable sectors: %d\n", unformattable);
-  params->gui->set_unformatted_sectors(
+  set_unformatted_sectors(
       uid_length == 4 ? MIFARE_CLASSIC_BLOCKS : NTAG213_PAGES, unformattable);
   delay(10000);
   goto_home_nfc(params);
@@ -153,7 +152,7 @@ void format_iso14443a_task(void *pv) {
 void format_felica_task(void *pv) {
   format_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  params->gui->set_unformatted_sectors(14, params->attacks->felica_format(14));
+  set_unformatted_sectors(14, params->attacks->felica_format(14));
   delay(10000);
   goto_home_nfc(params);
   free(pv);
@@ -172,13 +171,13 @@ void bruteforce_iso14443a_task(void *pv) {
 void bruteforce_update_ui_task(void *pv) {
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   while (params->attacks->get_bruteforce_status()) {
-    params->gui->nfc_bruteforce_set_tried_key(
+    nfc_bruteforce_set_tried_key(
         params->attacks->get_tried_keys());
     delay(1000);
   }
   delay(1000);
-  params->gui->nfc_bruteforce_set_tried_key(params->attacks->get_tried_keys());
-  params->gui->nfc_bruteforce_found_key();
+  nfc_bruteforce_set_tried_key(params->attacks->get_tried_keys());
+  nfc_bruteforce_found_key();
   delay(2000);
   goto_home_nfc(params);
   free(pv);

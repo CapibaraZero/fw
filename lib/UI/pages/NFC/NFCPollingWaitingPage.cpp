@@ -19,24 +19,23 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/NFC/nfc_polling_waiting_page.h"
-
-NFCPollingWaitingPage::NFCPollingWaitingPage(GFXForms *_screen) {
-  screen = _screen;
-}
+#include "../../navigation/NFC/NFCNavigation.hpp"
+#include "gui.hpp"
 
 NFCPollingWaitingPage::~NFCPollingWaitingPage() {}
 
 void NFCPollingWaitingPage::display() {
-  nfc_grid = new Grid(screen, 2, 1);
+  grid = new Grid(screen, 2, 1);
   polling_in_progress = new Text(screen, ST77XX_WHITE,
                                  english_words->at(NFC_POLLING_PROGRESS_KEY));
   info_msg = new Text(screen, ST77XX_WHITE, english_words->at(NFC_TAG_NEAR_KEY),
                       2, true);  // Need wrap because text is too long
   go_back = new List(screen, english_words->at(NFC_GO_BACK_KEY), 2,
-                     ST77XX_WHITE, 20, ST77XX_BLUE);
-  nfc_grid->add(polling_in_progress);
-  nfc_grid->add(info_msg);
-  nfc_grid->add(go_back);
-  nfc_grid->set_y_spacing(40);
-  nfc_grid->display();
+                     ST77XX_WHITE, 20, ST77XX_BLUE, goto_home);
+  grid->add(polling_in_progress);
+  grid->add(info_msg);
+  grid->add(go_back);
+  grid->set_y_spacing(40);
+  gui->set_current_page(this);
+  grid->display();
 }

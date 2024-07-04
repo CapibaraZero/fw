@@ -29,23 +29,20 @@ class NetworkAttacksPage : public Page {
   List *evilportal;
   List *arp_poisoner;
   List *go_back;
-  Grid *net_attacks_grid;
 
  public:
-  NetworkAttacksPage(GFXForms *_screen);
+  NetworkAttacksPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~NetworkAttacksPage();
   void display();
   void click(int pos, void callback()) {
-    net_attacks_grid->click(pos, callback);
+    grid->click(pos, callback);
   };
   void set_selected(int pos, bool status) {
     LOG_INFO("Set selected");
-    net_attacks_grid->set_selected(pos, status);
+    grid->set_selected(pos, status);
   };
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
+
 };
 
 #endif

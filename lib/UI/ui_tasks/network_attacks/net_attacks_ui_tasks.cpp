@@ -19,13 +19,14 @@
 
 #include "captive_portal_callback.hpp"
 #include "net_attacks_ui_tasks_types.h"
+#include "../../navigation/network_attacks/network_attacks_navigation.hpp"
 
 #define UPDATE_TIME 1000  // Duration of a cycle
 
 void update_dhcp_glutton_clients(void *pv) {
   NetAttacksTaskArg *params = static_cast<NetAttacksTaskArg *>(pv);
   while (true) {
-    params->gui->set_dhcp_glutton_clients(
+    set_dhcp_glutton_clients(
         params->attack->get_generated_clients());
     delay(UPDATE_TIME);
   }
@@ -34,7 +35,7 @@ void update_dhcp_glutton_clients(void *pv) {
 void update_evilportal_requests(void *pv) {
   NetAttacksTaskArg *arg = static_cast<NetAttacksTaskArg *>(pv);
   while (arg->attack->evilportal_running()) {
-    arg->gui->set_evilportal_requests(
+    set_evilportal_requests(
         get_captured_requests());  // Update requests
     delay(UPDATE_TIME);
   }

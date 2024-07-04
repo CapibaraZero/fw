@@ -19,22 +19,24 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/wifi/wifi_submenu_keys.h"
-
-WifiPage::WifiPage(GFXForms *_screen) { screen = _screen; }
+#include "../../navigation/wifi/wifi_navigation.hpp"
+#include "gui.hpp"
 
 WifiPage::~WifiPage() {}
 
 void WifiPage::display() {
-  wifi_grid = new Grid(screen, 3, 1);
+  init_wifi_navigation(gui);
+  grid = new Grid(screen, 3, 1);
   wifi_list = new List(screen, english_words->at(WIFI_SCAN_KEY), 2,
-                       ST77XX_WHITE, 20, ST77XX_BLACK);
+                       ST77XX_WHITE, 20, ST77XX_BLACK, goto_scan_wifi);
   wifi_sniff = new List(screen, english_words->at(WIFI_SNIFF_KEY), 2,
-                        ST77XX_WHITE, 20, ST77XX_BLACK);
+                        ST77XX_WHITE, 20, ST77XX_BLACK, goto_sniff_wifi);
   go_back = new List(screen, english_words->at(WIFI_GO_BACK_KEY), 2,
-                        ST77XX_WHITE, 20, ST77XX_BLACK);
-  wifi_grid->add(wifi_list);
-  wifi_grid->add(wifi_sniff);
-  wifi_grid->add(go_back);
-  wifi_grid->set_selected(0, true);
-  wifi_grid->display();
+                        ST77XX_WHITE, 20, ST77XX_BLACK, wifi_goto_home);
+  grid->add(wifi_list);
+  grid->add(wifi_sniff);
+  grid->add(go_back);
+  grid->set_selected(0, true);
+  gui->set_current_page(this);
+  grid->display();
 }

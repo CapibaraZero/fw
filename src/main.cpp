@@ -77,7 +77,6 @@ void setup() {
     init_navigation_btn(LEFT_BTN_PIN, handle_left_button);
     init_navigation_btn(OK_BTN_PIN, handle_ok_button);
 
-    main_gui->set_selected_widget(0, true);
     xTaskCreate(&set_selected_listener, "set_selected_listener", 8192,
                 (void *)main_gui, 1, NULL);
 }

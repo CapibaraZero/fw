@@ -29,21 +29,18 @@ class FileBrowserPage : public Page {
  private:
   Text *title;
   List *go_back;
-  Grid *badusb_grid;
 
  public:
-  FileBrowserPage(GFXForms *_screen);
+  FileBrowserPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~FileBrowserPage();
   void display();
-  void display(const char *text, std::list<std::string> *files);
-  void click(int pos, void callback()) { badusb_grid->click(pos, callback); };
+  void display(const char *text, std::list<std::string> *files, std::function<void(const char *)> list_cb, std::function<void()> go_back_cb);
+  void click(int pos, void callback()) { grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
-    badusb_grid->set_selected(pos, status);
+    grid->set_selected(pos, status);
   };
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
+
 };
 
 #endif

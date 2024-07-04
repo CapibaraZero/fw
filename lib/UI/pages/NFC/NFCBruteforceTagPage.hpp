@@ -31,20 +31,16 @@ class NFCBruteforceTagPage : public Page {
   Text *found_keys;
   List *return_back;
   List *exit_page;
-  Grid *nfc_grid;
   uint8_t total_keys;
 
  public:
-  NFCBruteforceTagPage(GFXForms *_screen);
+  NFCBruteforceTagPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~NFCBruteforceTagPage();
   void display();
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
-  void click(int pos, void callback()) { nfc_grid->click(pos, callback); };
+  void click(int pos, void callback()) { grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
-    nfc_grid->set_selected(pos, status);
+    grid->set_selected(pos, status);
   };
   void update_tried_keys(int keys) {
     tried_keys->set_text((String) "Tried keys: " + (String)keys);

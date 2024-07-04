@@ -27,14 +27,13 @@
 #include "wifi_sniff_task_types.h"
 #include "wifi_tasks.hpp"
 #include "../../include/debug.h"
+#include "../UI/navigation/wifi/wifi_navigation.hpp"
 
 #define TASK_STACK_SIZE 16000
 
 WiFiUITaskParameters *wifi_ui_task_params = NULL;
 
 void scan_wifi(Gui *gui, WifiAttack *wifiAttack) {
-  gui->reset();
-  gui->init_wifi_scan_gui();
   /* We delete this after usage, so we need to recreate struct every time */
   wifi_ui_task_params =
       (WiFiUITaskParameters *)malloc(sizeof(WiFiUITaskParameters));
@@ -51,7 +50,7 @@ TaskHandle_t wifi_sniffer_updater = NULL;
 
 void sniff_wifi(Gui *gui, WifiAttack *wifiAttack) {
   gui->reset();
-  gui->show_wifi_sniff_page();
+  show_wifi_sniff_page();
   xTaskCreate(&wifi_sniff_task, "wifi_sniff", SNIFF_TASK_SIZE, (void *)wifiAttack, 5,
               NULL);
   while (!wifiAttack->sniffer_running()) {
@@ -78,12 +77,10 @@ void stop_wifi_sniffer_updater() {
 BSSIDSniff bssid_sniff;
 
 void sniff_bssid(Gui *gui, WifiAttack *wifiAttack) {
-  gui->reset();
-  gui->show_wifi_sniff_page();
-  LOG_INFO(gui->get_current_network().get_ssid());
+  LOG_INFO(get_current_network().get_ssid());
   bssid_sniff.attack = wifiAttack;
-  bssid_sniff.ch = gui->get_current_network().get_channel();
-  bssid_sniff.bssid = gui->get_current_network().get_bssid();
+  bssid_sniff.ch = get_current_network().get_channel();
+  bssid_sniff.bssid = get_current_network().get_bssid();
   xTaskCreate(&wifi_sniff_bssid, "wifi_sniff_bssid", 4000, (void *)&bssid_sniff,
               5, NULL);
   while (!wifiAttack->sniffer_running()) {
@@ -99,12 +96,4 @@ void sniff_bssid(Gui *gui, WifiAttack *wifiAttack) {
 }
 
 void return_to_net_list(Gui *gui) {
-  // Go back to networks list
-  gui->reset();
-  gui->destroy_wifi_scan_result();  // We need to trigger
-                                    // get_wifi_scan_result_visible. TODO:
-                                    // Evaluate if it would be better to use
-                                    // another way to trigger that function
-  gui->init_wifi_networks_gui(
-      nullptr);  // Pass nullptr since this page is already created
 }

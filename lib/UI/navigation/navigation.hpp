@@ -20,5 +20,15 @@
 
 void set_selected_listener(void *pv);
 void init_main_gui();
+void init_wifi_ui();
 
+void init_ble_ui();
+
+void init_badusb_ui();
+
+void init_subghz_ui();
+
+void init_nfc_ui();
+
+void init_network_attacks_ui();
 #endif

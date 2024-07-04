@@ -19,20 +19,20 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/BLE/ble_scan_keys.h"
-
-BLEScanPage::BLEScanPage(GFXForms *_screen) { screen = _screen; }
+#include "gui.hpp"
 
 BLEScanPage::~BLEScanPage() {}
 
 void BLEScanPage::display() {
-  ble_scan_grid = new Grid(screen, 3, 1);
+  grid = new Grid(screen, 3, 1);
   ble_scan_text =
       new Text(screen, ST77XX_WHITE, english_words->at(BLE_SCANNING_KEY));
   ble_scan_progress = new Text(screen, ST77XX_WHITE, "10%");
   ble_scan_adv_devices = new Text(screen, ST77XX_WHITE, "0");
-  ble_scan_grid->add(ble_scan_text);
-  ble_scan_grid->add(ble_scan_progress);
-  ble_scan_grid->add(ble_scan_adv_devices);
-  ble_scan_grid->set_y_spacing(30);
-  ble_scan_grid->display();
+  grid->add(ble_scan_text);
+  grid->add(ble_scan_progress);
+  grid->add(ble_scan_adv_devices);
+  grid->set_y_spacing(30);
+  gui->set_current_page(this);
+  grid->display();
 }

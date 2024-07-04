@@ -15,19 +15,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NETWORK_ATTACKS_NAVIGATION_H
-#define NETWORK_ATTACKS_NAVIGATION_H
+#ifndef MAIN_PAGE_H
+#define MAIN_PAGE_H
 
-void goto_net_attacks_gui();
-void stop_dhcpglutton();
-void stop_evilportal();
-void stop_arp_poisoner();
-void init_network_attacks_navigation(Gui *_gui);
-void goto_dhcpglutton_gui();
-void goto_evilportal_gui();
-void goto_arp_poisoner_gui();
-void net_attacks_goto_home();
-void set_dhcp_glutton_clients(int client);
-void set_evilportal_ip(const char *ip);
-void set_evilportal_requests(int req);
+#include "../Page.hpp"
+#include "Grid.hpp"
+#include "Text.hpp"
+#include "widgets/RectText.hpp"
+
+class MainPage : public Page {
+   private:
+    RectText *wifi;
+    RectText *ble;
+    RectText *badusb;
+    RectText *SubGhz;
+    RectText *NFC;
+    RectText *IR;
+    RectText *net_attacks;
+    RectText *settings;
+
+   public:
+    MainPage(uint8_t _position_limit, uint8_t _lower_limit,
+             uint8_t _position_increment, GFXForms *screen, Gui *_gui)
+        : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+    ~MainPage();
+    void display();
+    void left();
+    void right();
+};
+
 #endif

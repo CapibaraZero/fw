@@ -24,6 +24,7 @@
 #include "ui_tasks/network_attacks/net_attacks_ui_tasks.hpp"
 #include "ui_tasks/network_attacks/net_attacks_ui_tasks_types.h"
 #include "wifi_attack.hpp"
+#include "navigation/network_attacks/network_attacks_navigation.hpp"
 
 static NetAttacksTaskArg *task_arg = NULL;
 static TaskHandle_t dhcp_glutton_handle = NULL;
@@ -49,7 +50,7 @@ void kill_dhcpglutton() {
 
 void start_evilportal(Gui *gui, NetworkAttacks *attack) {
   attack->init_evilportal();
-  gui->set_evilportal_ip(WiFi.softAPIP().toString());
+  set_evilportal_ip(WiFi.softAPIP().toString().c_str());
   task_arg = (NetAttacksTaskArg *)malloc(sizeof(NetAttacksTaskArg));
   task_arg->attack = attack;
   task_arg->gui = gui;

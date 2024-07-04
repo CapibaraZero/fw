@@ -19,13 +19,7 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/wifi/wifi_network_details_keys.h"
-
-WifiNetworksPage::WifiNetworksPage(GFXForms *_screen,
-                                   vector<WifiNetwork> *_networks) {
-  screen = _screen;
-  networks = _networks;
-  set_network();
-}
+#include "gui.hpp"
 
 WifiNetworksPage::~WifiNetworksPage() {}
 
@@ -75,19 +69,20 @@ void WifiNetworksPage::right() {
 
 void WifiNetworksPage::display() {
   if (!displayed) {
-    page = new Grid(screen, 5, 1);
-    page->set_y_spacing(30);
+    grid = new Grid(screen, 5, 1);
+    grid->set_y_spacing(30);
     ssid = new Text(screen, ST77XX_WHITE, current_ssid);
     rssi = new Text(screen, ST77XX_WHITE, current_rssi);
     bssid = new Text(screen, ST77XX_WHITE, current_bssid);
     ch = new Text(screen, ST77XX_WHITE, current_ch);
     auth = new Text(screen, ST77XX_WHITE, current_auth);
-    page->add(ssid);
-    page->add(bssid);
-    page->add(rssi);
-    page->add(ch);
-    page->add(auth);
-    page->display();
+    grid->add(ssid);
+    grid->add(bssid);
+    grid->add(rssi);
+    grid->add(ch);
+    grid->add(auth);
+    gui->set_current_page(this);
+    grid->display();
     displayed = true;
   } else {
     ssid->set_text(current_ssid);
@@ -144,4 +139,8 @@ void WifiNetworksPage::set_auth() {
     default:
       break;
   }
+}
+
+void WifiNetworksPage::click() {
+  show_wifi_scan_result_dialog(networks->empty());
 }

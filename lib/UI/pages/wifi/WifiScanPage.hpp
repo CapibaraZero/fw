@@ -24,23 +24,19 @@
 
 class WifiScanPage : public Page {
  private:
-  Grid *wifi_scan_grid;
   Text *wifi_scan_text;
   Text *wifi_scan_progress;
   Text *wifi_scan_current_ch;
 
  public:
-  WifiScanPage(GFXForms *_screen);
+  WifiScanPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~WifiScanPage();
   void display();
   void update_progress(char *_progress) {
     wifi_scan_progress->set_text(_progress);
   };
   void set_ch_text(char *channel) { wifi_scan_current_ch->set_text(channel); }
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
 };
 
 #endif

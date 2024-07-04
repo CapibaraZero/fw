@@ -19,7 +19,7 @@
 
 RectText::RectText(GFXForms *display, const char *text, int font_size,
                    uint16_t font_color, int _heigth, int radius,
-                   uint16_t rect_color) {
+                   uint16_t rect_color, std::function<void()> _cb) {
   box = new Rect(display, 0, _heigth, 0, 0, 8, rect_color);
   text_widget = new Text(display, font_color, text);
   text_widget->set_size(2);
@@ -30,6 +30,7 @@ RectText::RectText(GFXForms *display, const char *text, int font_size,
   container = new Grid(display, 2, 1);
   container->add(box);
   container->add(text_widget);
+  cb = _cb;
 }
 
 RectText::~RectText() {}

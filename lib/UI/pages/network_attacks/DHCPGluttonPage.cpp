@@ -19,25 +19,29 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/network_attacks/dhcpglutton_keys.h"
-
-DHCPGluttonPage::DHCPGluttonPage(GFXForms *_screen) {
-  text = new Text(_screen, ST77XX_WHITE,
-                  english_words->at(RUNNING_DHCPGLUTTON_KEY));
-  client_count =
-      new Text(_screen, ST77XX_WHITE,
-               english_words->at(CREATED_DHCPGLUTTON_CLIENTS_KEY) + String(0));
-  details_grid = new Grid(_screen, 3, 1);
-  save = new List(_screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  details_grid->add(text);
-  details_grid->add(client_count);
-  details_grid->add(save);
-  details_grid->set_selected(2, true);
-  details_grid->set_y_spacing(20);
-}
+#include "../../navigation/network_attacks/network_attacks_navigation.hpp"
+#include "gui.hpp"
 
 DHCPGluttonPage::~DHCPGluttonPage() {}
 
 void DHCPGluttonPage::update_packet_count(int count) {
   client_count->set_text(english_words->at(CREATED_DHCPGLUTTON_CLIENTS_KEY) +
                          String(count));
+}
+
+void DHCPGluttonPage::display() {
+    text = new Text(screen, ST77XX_WHITE,
+                  english_words->at(RUNNING_DHCPGLUTTON_KEY));
+  client_count =
+      new Text(screen, ST77XX_WHITE,
+               english_words->at(CREATED_DHCPGLUTTON_CLIENTS_KEY) + String(0));
+  grid = new Grid(screen, 3, 1);
+  save = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK, stop_dhcpglutton);
+  grid->add(text);
+  grid->add(client_count);
+  grid->add(save);
+  grid->set_selected(2, true);
+  grid->set_y_spacing(20);
+  gui->set_current_page(this);
+  grid->display();
 }
