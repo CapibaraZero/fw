@@ -41,6 +41,5 @@ void NFCBruteforceTagPage::display() {
   // grid->add(exit_page);
   grid->set_y_spacing(20);
   // grid->set_selected(3, true);
-  gui->set_current_page(this);
   grid->display();
 }

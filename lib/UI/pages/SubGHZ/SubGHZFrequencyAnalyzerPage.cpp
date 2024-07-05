@@ -32,6 +32,5 @@ void SubGHZFrequencyAnalyzerPage::display() {
     grid->add(current_rssi);
     grid->add(stop);
     grid->set_selected(2, true);
-    gui->set_current_page(this);
     grid->display();
 }

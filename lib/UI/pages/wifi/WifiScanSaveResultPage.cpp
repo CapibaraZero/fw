@@ -59,7 +59,6 @@ void WifiScanSaveResultPage::display(bool _empty) {
     grid->add(go_back);
   }
   grid->add(exit_btn);
-  gui->set_current_page(this);
   grid->display();
   grid->set_selected(0, true);
 }

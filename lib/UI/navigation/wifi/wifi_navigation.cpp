@@ -20,14 +20,14 @@
 #include "../../../../include/debug.h"
 #include "../navigation.hpp"
 #include "gui.hpp"
-#include "wifi_attacks_btn.hpp"
-#include "wifi_position.h"
-#include "wifi_tasks.hpp"
 #include "pages/wifi/WifiNetworksPage.hpp"
 #include "pages/wifi/WifiPage.hpp"
 #include "pages/wifi/WifiScanPage.hpp"
 #include "pages/wifi/WifiScanSaveResultPage.hpp"
 #include "pages/wifi/WifiSniffPage.hpp"
+#include "wifi_attacks_btn.hpp"
+#include "wifi_position.h"
+#include "wifi_tasks.hpp"
 
 static Gui *gui;
 static WifiAttack wifiAttack = WifiAttack();
@@ -38,10 +38,9 @@ static WifiNetworksPage *wifi_networks_page = nullptr;
 static WifiScanSaveResultPage *wifi_save_result_page = nullptr;
 
 void init_wifi_scan_gui() {
-    delete wifi_page;  // Free some spaces
-    wifi_page = nullptr;
     wifi_scan_page = new WifiScanPage(0, 0, 0, gui->get_screen(), gui);
     wifi_scan_page->display();
+    wifi_page = nullptr;
 }
 
 void goto_scan_wifi() {
@@ -59,31 +58,14 @@ void init_wifi_gui() {
     gui->set_current_page(wifi_page);
 }
 
+// Clean all pointers to avoid issues with memory area
+// The pages is removed by GUI class
 void wifi_cleanup() {
-    if (wifi_page != nullptr) {
-        delete wifi_page;
-        wifi_page = nullptr;
-    }
-
-    if (wifi_scan_page != nullptr) {
-        delete wifi_scan_page;
-        wifi_scan_page = nullptr;
-    }
-
-    if (wifi_networks_page != nullptr) {
-      delete wifi_networks_page;
-      wifi_networks_page = nullptr;
-    }
-
-    if (wifi_save_result_page != nullptr) {
-      delete wifi_save_result_page;
-      wifi_save_result_page = nullptr;
-    }
-
-    if (wifi_sniff_page != nullptr) {
-        delete wifi_sniff_page;
-        wifi_sniff_page = nullptr;
-    }
+    wifi_page = nullptr;
+    wifi_scan_page = nullptr;
+    wifi_networks_page = nullptr;
+    wifi_save_result_page = nullptr;
+    wifi_sniff_page = nullptr;
 }
 
 /// @brief Update scanned WiFi channel
@@ -130,8 +112,6 @@ void sniff_only_bssid() {
 }
 
 void init_wifi_networks_gui(vector<WifiNetwork> *networks) {
-    delete wifi_scan_page;
-    wifi_scan_page = nullptr;
     if (wifi_networks_page == nullptr) /* We can use this page again, so no need
                                           to recreate a new one */
         // wifi_networks_page = new WifiNetworksPage(screen, networks);
@@ -139,6 +119,7 @@ void init_wifi_networks_gui(vector<WifiNetwork> *networks) {
             new WifiNetworksPage(0, 0, 0, gui->get_screen(), gui, networks);
     wifi_networks_page->display();
     gui->set_current_page(wifi_networks_page);
+    wifi_scan_page = nullptr;
 }
 
 /// @brief Get selected network in WiFi scan selection
@@ -162,7 +143,7 @@ void show_wifi_scan_result_dialog(bool empty) {
 
 /// @brief Destroy WiFI scan result page
 void destroy_wifi_scan_result() {
-    delete wifi_save_result_page;
+    // delete wifi_save_result_page;
     wifi_save_result_page = nullptr;
 }
 

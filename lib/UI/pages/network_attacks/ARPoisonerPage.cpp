@@ -33,6 +33,5 @@ void ARPoisonerPage::display() {
     grid->add(stop);
     grid->set_selected(1, true);
     grid->set_y_spacing(20);
-    gui->set_current_page(this);
     grid->display();
 }

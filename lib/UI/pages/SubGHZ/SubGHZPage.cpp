@@ -40,6 +40,5 @@ void SubGHZPage::display() {
     grid->add(SubGHZ_sender);
     grid->add(go_back);
     grid->set_selected(0, true);
-    gui->set_current_page(this);
     grid->display();
 }

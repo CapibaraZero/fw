@@ -26,8 +26,8 @@
 class Gui {
  private:
   GFXForms *screen;
-  Page *current_page;
-
+  Page *current_page = nullptr;
+  MainPage *main_page = nullptr;  // Never delete main_page since it's always necessary
  public:
   Gui(GFXForms *_screen) { screen = _screen; };
   ~Gui(){};
@@ -41,6 +41,7 @@ class Gui {
   void reset() { screen->reset(); }
 
   void set_current_page(Page *page) {
+    delete current_page;
     current_page = page;
   }
 

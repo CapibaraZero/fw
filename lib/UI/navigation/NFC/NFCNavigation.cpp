@@ -75,16 +75,13 @@ void goto_nfc_polling_result_gui(uint8_t *uid, uint8_t len, const char *tag_name
     nfc_polling_result_page->display(uid, len, tag_name);
 }
 
+// Clean all pointers to avoid problems with memory
+// The pages is removed by GUI class
 void nfc_cleanup() {
-    delete nfc_polling_result_page;
     nfc_polling_result_page = nullptr;
-    delete nfc_dump_result_page;
     nfc_dump_result_page = nullptr;
-    // delete nfc_write_result_page;
     // nfc_write_result_page = nullptr;
-    delete nfc_format_result_page;
     nfc_format_result_page = nullptr;
-    delete nfc_bruteforce_tag_page;
     nfc_bruteforce_tag_page = nullptr;
 }
 
@@ -157,11 +154,10 @@ void write_felica_tag() {
 
 void init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm,
                                         uint16_t sys_code) {
-    delete nfc_polling_waiting_page;
-    nfc_polling_waiting_page = nullptr;
     nfc_felica_polling_result_page =
         new NFCFelicaPollingResultPage(5, 4, 1, gui->get_screen(), gui);
     nfc_felica_polling_result_page->display(idm, pmm, sys_code);
+    nfc_polling_waiting_page = nullptr;
 }
 
 void felica_dump() {
@@ -186,10 +182,6 @@ void set_unformatted_sectors(uint8_t tot, uint8_t unformatted) {
     nfc_format_result_page->set_formatted(tot - unformatted);
     nfc_format_result_page->set_unauthenticated(unformatted);
 }
-void destroy_nfc_format_result_gui() {
-    delete nfc_format_result_page;
-    nfc_format_result_page = nullptr;
-};
 void nfc_bruteforce_found_key() { nfc_bruteforce_tag_page->set_found_key(); };
 void nfc_bruteforce_set_tried_key(uint8_t attemps) {
     nfc_bruteforce_tag_page->update_tried_keys(attemps);

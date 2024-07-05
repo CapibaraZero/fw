@@ -34,6 +34,5 @@ void BLESpamPage::display() {
     grid->add(save);
     grid->set_selected(1, true);
     grid->set_y_spacing(20);
-    gui->set_current_page(this);
     grid->display();
 }

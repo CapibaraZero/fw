@@ -49,6 +49,5 @@ void BLEPage::display() {
     grid->add(fast_pair);
     grid->add(go_back);
     grid->set_selected(0, true);
-    gui->set_current_page(this);
     grid->display();
 }

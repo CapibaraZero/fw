@@ -38,6 +38,5 @@ void NFCMainPage::display() {
   grid->add(polling_felica);
   grid->add(go_back);
   grid->set_selected(0, true);
-  gui->set_current_page(this);
   grid->display();
 }

@@ -75,30 +75,26 @@ void set_evilportal_requests(int req) {
 }
 
 void net_attacks_goto_home() {
-    delete net_attacks_page;
-    net_attacks_page = nullptr;
     init_main_gui();
+    net_attacks_page = nullptr;
 }
 
 void stop_dhcpglutton() {
     kill_dhcpglutton();
     init_main_gui();
-    delete dhcp_glutton_page;
     dhcp_glutton_page = nullptr;
 }
 
 void stop_evilportal() {
     kill_evilportal(attack);
-    delete evilportal_page;
-    evilportal_page = nullptr;
     init_main_gui();
+    evilportal_page = nullptr;
 }
 
 void stop_arp_poisoner() {
     kill_arp_poisoning();
-    delete arpoisoner_page;
-    arpoisoner_page = nullptr;
     init_main_gui();
+    arpoisoner_page = nullptr;
 }
 
 void init_network_attacks_navigation(Gui *_gui) {

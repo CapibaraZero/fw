@@ -42,6 +42,5 @@ void DHCPGluttonPage::display() {
   grid->add(save);
   grid->set_selected(2, true);
   grid->set_y_spacing(20);
-  gui->set_current_page(this);
   grid->display();
 }

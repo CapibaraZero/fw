@@ -84,7 +84,6 @@ void MainPage::display() {
     text.set_size(2);
     text.set_wrap(true);
     text.set_pos(5, 200);
-    gui->set_current_page(this);
     grid->display();
     grid->set_selected(lower_limit, true);
     text.display();

@@ -34,7 +34,6 @@ void goto_home_from_badusb() {
     Serial.begin(115200);
     #endif
     init_main_gui();
-    delete file_browser_page;
     file_browser_page = nullptr;
 }
 

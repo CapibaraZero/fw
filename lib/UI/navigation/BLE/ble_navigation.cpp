@@ -44,8 +44,8 @@ void goto_ble_gui() {
 void goto_ble_sniff_gui() {
     gui->reset();
     ble_sniffer_page = new BLESniffPage(0, 0, 0, gui->get_screen(), gui);
-    ble_sniffer_page->display();
     gui->set_current_page(ble_sniffer_page);
+    ble_sniffer_page->display();
     sniff_ble(gui, attack);
 }
 
@@ -63,7 +63,8 @@ void init_spam_gui() {
 //     ble_scan_page->update_progress(progress);
 // };
 void update_ble_packets_count(int count) {
-    ble_sniffer_page->update_packet_count(count);
+    if(ble_sniffer_page != nullptr)
+        ble_sniffer_page->update_packet_count(count);
 };
 
 void goto_applejuice() {
@@ -87,9 +88,8 @@ void goto_fastpair_spam() {
 }
 
 void ble_goto_home() {
-    delete ble_page;
-    ble_page = nullptr;
     init_main_gui();
+    ble_page = nullptr;
 }
 
 void stop_ble_sniffer() {
@@ -99,9 +99,8 @@ void stop_ble_sniffer() {
     /* Stop sniffer */
     attack->stop_sniff();
     stop_sniffer_updater();
-    delete ble_sniffer_page;
-    ble_sniffer_page = nullptr;
     init_main_gui();
+    ble_sniffer_page = nullptr;
     NimBLEDevice::deinit();  // Save some resources
 }
 
@@ -135,9 +134,8 @@ void handle_ble_spam_stop() {
     else if (attack->fast_pair_spam_running())
         stop_fast_pair_spam();
     NimBLEDevice::deinit();
-    delete ble_spam_page;
-    ble_spam_page = nullptr;
     init_main_gui();
+    ble_spam_page = nullptr;
 }
 
 // From

@@ -81,7 +81,6 @@ void WifiNetworksPage::display() {
     grid->add(rssi);
     grid->add(ch);
     grid->add(auth);
-    gui->set_current_page(this);
     grid->display();
     displayed = true;
   } else {

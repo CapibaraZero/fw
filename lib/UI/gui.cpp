@@ -27,29 +27,46 @@
 
 void Gui::init_gui() {
 #ifdef CONFIG_IDF_TARGET_ESP32S2
-  current_page = new MainPage(5, 0, 4, screen, this);
+  main_page = new MainPage(5, 0, 4, screen, this);
 #else
-  current_page = new MainPage(6, 0, 4, screen, this);
+  main_page = new MainPage(6, 0, 4, screen, this);
 #endif
-  current_page->display();
+  main_page->display();
+  delete current_page;
+  current_page = nullptr;
 }
 
 void Gui::click_element() {
-  current_page->click();
+  if(current_page != nullptr)
+    current_page->click();
+  else
+    main_page->click();
 }
 
 void Gui::up() {
-  current_page->up();
+  if(current_page != nullptr)
+    current_page->up();
+  else
+    main_page->up();
 }
 
 void Gui::down() {
-  current_page->down();
+  if(current_page != nullptr)
+    current_page->down();
+  else
+    main_page->down();
 }
 
 void Gui::left() {
-  current_page->left();
+  if(current_page != nullptr)
+    current_page->left();
+  else
+    main_page->left();
 }
 
 void Gui::right() {
-  current_page->right();
+  if(current_page != nullptr)
+    current_page->right();
+  else
+    main_page->right();
 }

@@ -50,6 +50,5 @@ void NFCPollingResultPage::display(uint8_t *uid, uint8_t length, const char *tag
   grid->add(exit_page);
   grid->set_selected(2, true);
   grid->set_y_spacing(20);
-  gui->set_current_page(this);
   grid->display();
 }

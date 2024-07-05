@@ -36,6 +36,5 @@ void NFCPollingWaitingPage::display() {
   grid->add(info_msg);
   grid->add(go_back);
   grid->set_y_spacing(40);
-  gui->set_current_page(this);
   grid->display();
 }

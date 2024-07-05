@@ -35,6 +35,5 @@ void SubGHZRAWRecordPage::display() {
     grid->add(current_lqi);
     grid->add(stop);
     grid->set_selected(3, true);
-    gui->set_current_page(this);
     grid->display();
 }

@@ -49,6 +49,5 @@ void EvilPortalPage::display() {
   grid->add(save);
   grid->set_selected(3, true);
   grid->set_y_spacing(20);
-  gui->set_current_page(this);
   grid->display();
 }

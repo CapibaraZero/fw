@@ -33,7 +33,6 @@ void set_unreadable_sectors(int sectors);
 void set_unauthenticated_sectors(int sectors);
 void set_unwritable_sectors(uint8_t tot, uint8_t sectors);
 void set_unformatted_sectors(uint8_t tot, uint8_t unformatted);
-void destroy_nfc_format_result_gui();
 void nfc_bruteforce_found_key();
 void nfc_bruteforce_set_tried_key(uint8_t attemps);
 void goto_nfc_dump_result_gui();
