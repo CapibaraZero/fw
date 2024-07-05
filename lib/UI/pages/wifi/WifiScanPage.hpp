@@ -36,7 +36,10 @@ class WifiScanPage : public Page {
   void update_progress(char *_progress) {
     wifi_scan_progress->set_text(_progress);
   };
-  void set_ch_text(char *channel) { wifi_scan_current_ch->set_text(channel); }
+  void set_ch_text(char *channel) { wifi_scan_current_ch->set_text(channel); };
+  // Up and down are not necessary here so overload with methods that do nothing
+  void up() {};
+  void down() {};
 };
 
 #endif
