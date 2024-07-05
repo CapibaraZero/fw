@@ -41,10 +41,10 @@ class Gui {
   /// @brief Clean the screen(fill black color)
   void reset() { screen->reset(); }
 
-  void set_current_page(Page *page) {
-    delete current_page;
-    current_page = page;
-  }
+  /// @brief Set current page and display it
+  /// @param page Reference to the created page
+  /// @param display if true, call page->display(). If false, page->display() is not called in this method. By default display is true
+  void set_current_page(Page *page, bool display = true);
 
   /// @brief Generate arrrow-up event and propagate to current page
   void up();

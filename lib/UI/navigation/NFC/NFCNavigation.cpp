@@ -48,7 +48,6 @@ void goto_nfc_gui() {
     gui->reset();
     nfc_main_page = new NFCMainPage(2, 0, 1, gui->get_screen(), gui);
     gui->set_current_page(nfc_main_page);
-    nfc_main_page->display();
 }
 
 void goto_nfc_polling_waiting_gui() {
@@ -56,7 +55,6 @@ void goto_nfc_polling_waiting_gui() {
     nfc_polling_waiting_page =
         new NFCPollingWaitingPage(0, 0, 0, gui->get_screen(), gui);
     gui->set_current_page(nfc_polling_waiting_page);
-    nfc_polling_waiting_page->display();
 }
 
 void goto_nfc_dump_result_gui() {
@@ -64,14 +62,13 @@ void goto_nfc_dump_result_gui() {
     nfc_dump_result_page =
         new NFCDumpResultPage(4, 4, 0, gui->get_screen(), gui);
     gui->set_current_page(nfc_dump_result_page);
-    nfc_dump_result_page->display();
 }
 
 void goto_nfc_polling_result_gui(uint8_t *uid, uint8_t len, const char *tag_name) {
     gui->reset();
     nfc_polling_result_page =
         new NFCPollingResultPage(3, 2, 1, gui->get_screen(), gui);
-    gui->set_current_page(nfc_polling_result_page);
+    gui->set_current_page(nfc_polling_result_page, false);
     nfc_polling_result_page->display(uid, len, tag_name);
 }
 
@@ -112,7 +109,6 @@ void format_tag() {
     nfc_format_result_page =
         new NFCFormatResultPage(0, 0, 0, gui->get_screen(), gui);
     gui->set_current_page(nfc_format_result_page);
-    nfc_format_result_page->display();
 }
 
 void bruteforce_a_tag() {
@@ -120,7 +116,6 @@ void bruteforce_a_tag() {
     nfc_bruteforce_tag_page =
         new NFCBruteforceTagPage(0, 0, 0, gui->get_screen(), gui);
     gui->set_current_page(nfc_bruteforce_tag_page);
-    nfc_bruteforce_tag_page->display();
     bruteforce_tag(gui, nfc_attacks);
 }
 
@@ -157,6 +152,7 @@ void init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm,
     nfc_felica_polling_result_page =
         new NFCFelicaPollingResultPage(5, 4, 1, gui->get_screen(), gui);
     nfc_felica_polling_result_page->display(idm, pmm, sys_code);
+    gui->set_current_page(nfc_felica_polling_result_page, false);
     nfc_polling_waiting_page = nullptr;
 }
 

@@ -33,6 +33,5 @@ void WifiScanPage::display() {
   grid->add(wifi_scan_progress);
   grid->add(wifi_scan_current_ch);
   grid->set_y_spacing(30);
-  gui->set_current_page(this);
   grid->display();
 }

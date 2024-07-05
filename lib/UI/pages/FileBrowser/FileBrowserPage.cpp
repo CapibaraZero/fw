@@ -37,7 +37,6 @@ void FileBrowserPage::display() {
     grid->add(title);
     grid->add(&file);
     grid->set_y_spacing(20);
-    gui->set_current_page(this);
     grid->display();
 }
 
@@ -60,6 +59,5 @@ void FileBrowserPage::display(const char *text, std::list<std::string> *files,
     grid->add(go_back);
     grid->set_selected(1, true);
     grid->set_y_spacing(20);
-    gui->set_current_page(this);
     grid->display();
 }

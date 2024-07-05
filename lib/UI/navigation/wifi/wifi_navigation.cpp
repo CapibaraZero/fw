@@ -39,7 +39,7 @@ static WifiScanSaveResultPage *wifi_save_result_page = nullptr;
 
 void init_wifi_scan_gui() {
     wifi_scan_page = new WifiScanPage(0, 0, 0, gui->get_screen(), gui);
-    wifi_scan_page->display();
+    gui->set_current_page(wifi_scan_page);
     wifi_page = nullptr;
 }
 
@@ -54,7 +54,6 @@ void goto_sniff_wifi() { sniff_wifi(gui, &wifiAttack); }
 void init_wifi_gui() {
     gui->reset();
     wifi_page = new WifiPage(2, 0, 1, gui->get_screen(), gui);
-    wifi_page->display();
     gui->set_current_page(wifi_page);
 }
 
@@ -107,7 +106,6 @@ void sniff_only_bssid() {
     gui->reset();
     wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen(), gui);
     gui->set_current_page(wifi_sniff_page);
-    wifi_sniff_page->display();
     sniff_bssid(gui, &wifiAttack);
 }
 
@@ -117,7 +115,6 @@ void init_wifi_networks_gui(vector<WifiNetwork> *networks) {
         // wifi_networks_page = new WifiNetworksPage(screen, networks);
         wifi_networks_page =
             new WifiNetworksPage(0, 0, 0, gui->get_screen(), gui, networks);
-    wifi_networks_page->display();
     gui->set_current_page(wifi_networks_page);
     wifi_scan_page = nullptr;
 }
@@ -136,7 +133,7 @@ void show_wifi_scan_result_dialog(bool empty) {
         wifi_save_result_page =
             new WifiScanSaveResultPage(0, 0, 0, gui->get_screen(), gui);
         wifi_save_result_page->display(empty);
-        gui->set_current_page(wifi_save_result_page);
+        gui->set_current_page(wifi_save_result_page, false);
         return;
     }
 }
@@ -159,10 +156,8 @@ void go_back_to_net_list() {
 }
 
 void show_wifi_sniff_page() {
-    delete wifi_page;
-    wifi_page = nullptr;
     wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen(), gui);
-    wifi_sniff_page->display();
+    gui->set_current_page(wifi_sniff_page);
 }
 
 void display_wifi_scan_result() {

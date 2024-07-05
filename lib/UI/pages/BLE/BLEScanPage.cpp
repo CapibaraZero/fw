@@ -33,6 +33,5 @@ void BLEScanPage::display() {
   grid->add(ble_scan_progress);
   grid->add(ble_scan_adv_devices);
   grid->set_y_spacing(30);
-  gui->set_current_page(this);
   grid->display();
 }

@@ -34,6 +34,5 @@ void SubGHZSender::display() {
     grid->add(current_modulation);
     grid->add(current_bw);
     grid->add(current_deviation);
-    gui->set_current_page(this);
     grid->display();
 }

@@ -46,6 +46,7 @@ void goto_badusb_gui() {
   _gui->reset();
   file_browser_page = new FileBrowserPage(files.size() + 1, 1, 1, _gui->get_screen(), _gui);
   file_browser_page->display("BadUSB Payload Browser", &files, badusb_selection_handler, goto_home_from_badusb);
+  _gui->set_current_page(file_browser_page, false);
 }
 
 void init_badusb_navigation(Gui *__gui) { _gui = __gui; }

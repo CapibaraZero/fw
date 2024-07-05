@@ -57,6 +57,5 @@ void NFCFelicaPollingResultPage::display(uint8_t *idm, uint8_t *pmm,
   grid->add(exit_page);
   grid->set_selected(4, true);
   grid->set_y_spacing(20);
-  gui->set_current_page(this);
   grid->display();
 }

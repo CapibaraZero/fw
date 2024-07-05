@@ -38,21 +38,18 @@ void goto_ble_gui() {
     gui->reset();
     ble_page = new BLEPage(5, 0, 1, gui->get_screen(), gui);
     gui->set_current_page(ble_page);
-    ble_page->display();
 }
 
 void goto_ble_sniff_gui() {
     gui->reset();
     ble_sniffer_page = new BLESniffPage(0, 0, 0, gui->get_screen(), gui);
     gui->set_current_page(ble_sniffer_page);
-    ble_sniffer_page->display();
     sniff_ble(gui, attack);
 }
 
 void init_spam_gui() {
     gui->reset();
     ble_spam_page = new BLESpamPage(0, 0, 0, gui->get_screen(), gui);
-    ble_spam_page->display();
     gui->set_current_page(ble_spam_page);
 }
 

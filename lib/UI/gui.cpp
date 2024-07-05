@@ -70,3 +70,10 @@ void Gui::right() {
   else
     main_page->right();
 }
+
+void Gui::set_current_page(Page *page, bool display) {
+  delete current_page;
+  current_page = page;
+  if(display)
+    page->display();
+}

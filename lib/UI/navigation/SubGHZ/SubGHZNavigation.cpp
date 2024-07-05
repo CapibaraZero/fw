@@ -25,7 +25,6 @@ void goto_subghz_gui() {
     gui->reset();
     subghz_page = new SubGHZPage(3, 0, 1, gui->get_screen(), gui);
     gui->set_current_page(subghz_page);
-    subghz_page->display();
 }
 
 static inline void destroy_subghz_gui() {
@@ -38,7 +37,6 @@ void start_frequency_analyzer() {
         new SubGHZFrequencyAnalyzerPage(2, 2, 0, gui->get_screen(), gui);
     gui->set_current_page(subghz_frequency_analyzer_page);
     destroy_subghz_gui();
-    subghz_frequency_analyzer_page->display();
     frequency_analyzer_attack(subghz_module, gui);
 }
 
@@ -55,7 +53,6 @@ void start_raw_record() {
         new SubGHZRAWRecordPage(1, 0, 0, gui->get_screen(), gui);
     gui->set_current_page(subghz_raw_record_page);
     destroy_subghz_gui();
-    subghz_raw_record_page->display();
     raw_record_attack(subghz_module, gui);
 }
 
@@ -103,7 +100,6 @@ void start_subghz_emulation(const char *path) {
     gui->reset();
     subghz_sender_page = new SubGHZSender(0, 0, 0, gui->get_screen(), gui);
     gui->set_current_page(subghz_sender_page);
-    subghz_sender_page->display();
     file_browser_page = nullptr;
     start_subghz_emulation_attack(
         subghz_module, gui,
@@ -123,7 +119,7 @@ void subghz_sender_file_browser() {
     subghz_files = list_dir(open("/subghz/raw_signals", "r"));
     file_browser_page = new FileBrowserPage(subghz_files.size() + 1, 1, 1,gui->get_screen(), gui); 
     file_browser_page->display("SubGHZ File Browser", &subghz_files, start_subghz_emulation, goto_home_from_subghz);
-    gui->set_current_page(file_browser_page);
+    gui->set_current_page(file_browser_page, false);
     destroy_subghz_gui();
 }
 

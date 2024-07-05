@@ -35,14 +35,12 @@ void goto_net_attacks_gui() {
     gui->reset();
     net_attacks_page = new NetworkAttacksPage(3, 0, 1, gui->get_screen(), gui);
     gui->set_current_page(net_attacks_page);
-    net_attacks_page->display();
 }
 
 void goto_dhcpglutton_gui() {
     gui->reset();
     dhcp_glutton_page = new DHCPGluttonPage(0, 0, 0, gui->get_screen(), gui);
     gui->set_current_page(dhcp_glutton_page);
-    dhcp_glutton_page->display();
     start_dhcpglutton(gui, attack);
 }
 
@@ -50,7 +48,6 @@ void goto_evilportal_gui() {
     gui->reset();
     evilportal_page = new EvilPortalPage(0, 0, 0, gui->get_screen(), gui);
     gui->set_current_page(evilportal_page);
-    evilportal_page->display();
     start_evilportal(gui, attack);
 }
 
@@ -58,7 +55,6 @@ void goto_arp_poisoner_gui() {
     gui->reset();
     arpoisoner_page = new ARPoisonerPage(0, 0, 0, gui->get_screen(), gui);
     gui->set_current_page(arpoisoner_page);
-    arpoisoner_page->display();
     start_arp_poisoning(gui, attack);
 }
 
