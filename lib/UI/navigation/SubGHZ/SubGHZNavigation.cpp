@@ -151,6 +151,6 @@ void set_subghz_sender_modulation(int modulation) {
 
 void init_subghz_navigation(Gui *_gui) {
     gui = _gui;
-    subghz_module = new SubGHZ(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI,
+    subghz_module = new SubGHZ(SD_CARD_SCK, SX1276_MISO, SD_CARD_MOSI,
                                SX1276_NSS, SX1276_DIO1, SX1276_DIO2);
 }

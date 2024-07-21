@@ -3,7 +3,10 @@
 #include <vector>
 #include "../../include/pins.h"
 
-SX1276 radio = new Module(SX1276_NSS, RADIOLIB_NC, RADIOLIB_NC, SX1276_DIO1);
+SPIClass SPI2(HSPI);
+
+// TODO: Initialize SPI(and SX1276) in constructor of SubGHZ class
+SX1276 radio = new Module(SX1276_NSS, RADIOLIB_NC, RADIOLIB_NC, SX1276_DIO1, SPI2);
 
 // this function is called when a new bit is received
 void IRAM_ATTR readBit(void) {
@@ -14,6 +17,7 @@ void IRAM_ATTR readBit(void) {
 SubGHZ::SubGHZ(uint8_t sck, uint8_t miso, uint8_t mosi, uint8_t csn,
                uint8_t gdo0, uint8_t gdo2) {
     if (initialized) return;
+    SPI2.begin(SD_CARD_SCK, SX1276_MISO, SD_CARD_MOSI, csn);
     int state = radio.beginFSK();
     if (state == RADIOLIB_ERR_NONE) {
         Serial.println(F("success!"));
