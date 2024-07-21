@@ -13,3 +13,8 @@ lib/PN532_I2C
 
 # MacOS useless file
 .DS_Store
+
+# clangd files
+.cache/
+compile_commands.json
+compiler_defines.h
