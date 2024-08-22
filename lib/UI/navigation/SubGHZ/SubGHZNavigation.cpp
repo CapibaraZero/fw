@@ -12,7 +12,7 @@
 #include "pages/SubGHZ/SubGHZSender.hpp"
 #include "pages/FileBrowser/FileBrowserPage.hpp"
 #include <LittleFS.h>
-#include "debug.h"
+#include "../../../../include/debug.h"
 
 static Gui *gui;
 SubGHZ *subghz_module = nullptr;
