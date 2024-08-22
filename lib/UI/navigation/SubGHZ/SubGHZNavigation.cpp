@@ -11,6 +11,8 @@
 #include "pages/SubGHZ/SubGHZRAWRecordPage.hpp"
 #include "pages/SubGHZ/SubGHZSender.hpp"
 #include "pages/FileBrowser/FileBrowserPage.hpp"
+#include <LittleFS.h>
+#include "debug.h"
 
 static Gui *gui;
 SubGHZ *subghz_module = nullptr;
@@ -43,7 +45,6 @@ void start_frequency_analyzer() {
 void stop_frequency_analyzer() {
     stop_subghz_attack();
     subghz_module->stop_receive();
-    init_main_gui();
     subghz_frequency_analyzer_page = nullptr;
 }
 
@@ -71,19 +72,29 @@ void make_dump_file() {
     }
     Serial.println("Saving file");
 
+#ifdef ARDUINO_NANO_ESP32
+    // Save to LittleFS since SD doesn't work until SX1276 perform a reset(never on Arduino ESP32)
+    // On Arduino Nano ESP32 we don't have enough pin to connect RST to GPIO to perform a reset of SX1276
+    // On other board a reset must be performed to make SX1276 stop using SPI bus. We can also separate SPI bus between SX1276 and SD card
+    File file = LittleFS.open("/littlefs/tmp.json", "w", true);
+#else
     File file = open(((String) "/subghz/raw_signals/" + (String)millis() +
                       (String) "_capture.json"),
                      "w");
-    Serial.println("Saving file14");
-    serializeJsonPretty(doc, file);
-    Serial.println("Saving file4");
+#endif
 
+    if(file) {
+        LOG_INFO("Saving file14\n");
+        serializeJsonPretty(doc, file);
+        LOG_INFO("Saving file4\n");
+    } else {
+        LOG_ERROR("Can't save file to LittleFS\n");
+    }
     file.close();
 }
 
 void stop_subghz_raw_record() {
     stop_subghz_attack();
-    init_main_gui();
     subghz_raw_record_page = nullptr;
     make_dump_file();
     subghz_module->stop_receive();

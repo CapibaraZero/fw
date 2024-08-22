@@ -17,14 +17,8 @@ void IRAM_ATTR readBit(void) {
 SubGHZ::SubGHZ(uint8_t sck, uint8_t miso, uint8_t mosi, uint8_t csn,
                uint8_t gdo0, uint8_t gdo2) {
     if (initialized) return;
-    SPI2.begin(SD_CARD_SCK, SX1276_MISO, SD_CARD_MOSI, csn);
-    int state = radio.beginFSK();
-    if (state == RADIOLIB_ERR_NONE) {
-        Serial.println(F("success!"));
-    } else {
-        Serial.print(F("failed, code "));
-        Serial.println(state);
-    }
+    pinMode(csn, OUTPUT);
+    _csn = csn;
     _gdo0 = gdo0;
     _gdo2 = gdo2;
     initialized = true;
@@ -44,6 +38,8 @@ void SubGHZ::error_check(const char *operation, int16_t status_code) {
 void SubGHZ::init_receive() {
     if (_modulation == 2)   // LoRa doesn't require anything
         return;
+    SPI2.begin(SD_CARD_SCK, SX1276_MISO, SD_CARD_MOSI, _csn);
+    radio.beginFSK();
     radio.setCRC(false);
     radio.setAFC(true);
     radio.setDirectSyncWord(0x555512AD, 0);
@@ -51,7 +47,15 @@ void SubGHZ::init_receive() {
     radio.receiveDirect();
 }
 
-void SubGHZ::stop_receive() { radio.clearDio1Action(); }
+void SubGHZ::stop_receive() {
+#ifdef ESP32S3_DEVKITC_BOARD
+    radio.clearDio1Action();
+    radio.clearDio0Action();
+#endif
+#ifdef ARDUINO_NANO_ESP32
+    ESP.restart();  // Dirty hack to reset SX1276. SX1276 when read the packet never stops to use SPI even after a radio.sleep()
+#endif
+}
 
 void SubGHZ::set_freq_mod(float freq, float bw, float deviation) {
     int state = radio.setFrequency(freq);

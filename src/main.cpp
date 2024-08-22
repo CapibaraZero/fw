@@ -18,6 +18,7 @@
 #include <Adafruit_GFX.h>     // Core graphics library
 #include <Adafruit_ST7789.h>  // Hardware-specific library for ST7735
 #include <Arduino.h>
+#include <LittleFS.h>
 
 #include <GFXForms.hpp>
 
@@ -37,11 +38,13 @@
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
 
-static void init_sd() {
+static bool init_sd() {
     SPI.begin(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
-    if (!init_sdcard(SD_CARD_CS)) {
+    bool status = init_sdcard(SD_CARD_CS);
+    if (!status) {
         LOG_ERROR("init_sdcard failed");
     };
+    return status;
 }
 
 void init_navigation_btn(int pin, void callback()) {
@@ -53,16 +56,52 @@ Gui *main_gui;
 Adafruit_ST7789 *display;
 GFXForms *screen;
 
+// Check if a SubGHZ record needs to be saved in SD(Arduino Nano ESP32)
+static void merge_littlefs_to_sd(void *pv) {
+    if(LittleFS.exists("/littlefs/tmp.json")){
+        LOG_INFO("tmp.json exists, copying to SD\n");
+        File file = LittleFS.open("/littlefs/tmp.json");
+        File to_copy = SD.open("/subghz/" + (String)millis() + ".json", "w", true);
+        vector<uint8_t> text;
+        uint8_t textseg;
+        while (file.available()){ 
+            file.read(&textseg,1);
+            text.push_back(textseg);
+        }
+        if(!to_copy.write(text.data(), text.size())) {
+            LOG_ERROR("Failed to write file in SD\n");
+        }else {
+            LOG_INFO("Write successfully to file\n");
+        }
+        file.close();
+        to_copy.close();
+        if(!LittleFS.remove("/littlefs/tmp.json")) {
+            LOG_ERROR("Failed to remove file from LittleFS\n");
+        };
+    }
+    vTaskDelete(NULL);
+}
+
+static bool init_littlefs() {
+    bool status = LittleFS.begin(true);
+    if (!status) {
+        LOG_ERROR("LittleFS Mount Failed");
+    }
+    return status;
+}
 
 void setup() {
 #ifdef ARDUINO_NANO_ESP32
     Serial.begin(115200);
     Serial.println("Test");
     delay(2000);
+    if(init_sd() && init_littlefs()) {
+        xTaskCreate(merge_littlefs_to_sd, "merge_littlefs_to_sd", 4000, NULL, 5, NULL);
+    }
 #else
     Serial0.begin(115200);
-#endif
     init_sd();
+#endif
     init_english_dict();
 
     display = new Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);

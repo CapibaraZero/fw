@@ -29,7 +29,7 @@ void SubGHZRAWRecordPage::display() {
     current_frequency = new Text(screen, ST77XX_WHITE, "Frequency: 0 MHz");
     current_rssi = new Text(screen, ST77XX_WHITE, "RSSI: 0 dBm");
     current_lqi = new Text(screen, ST77XX_WHITE, "LQI: 0");
-    stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLUE, goto_home_from_subghz);
+    stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLUE, stop_subghz_raw_record);
     grid->add(current_frequency);
     grid->add(current_rssi);
     grid->add(current_lqi);
