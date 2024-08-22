@@ -46,7 +46,7 @@ static void init_sd() {
 
 void init_navigation_btn(int pin, void callback()) {
     pinMode(pin, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(pin), callback, FALLING);
+    attachInterrupt(pin, callback, FALLING);
 }
 
 Gui *main_gui;
@@ -65,7 +65,7 @@ void setup() {
     init_sd();
     init_english_dict();
 
-    display = new Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, -1);
+    display = new Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
     screen = new GFXForms(DISPLAY_WIDTH, DISPLAY_HEIGHT, display);
     screen->set_rotation(1);
     screen->set_background_color(HOME_BACKGROUND_COLOR);

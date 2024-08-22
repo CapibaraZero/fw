@@ -57,7 +57,7 @@
 // Display pins
 #define TFT_CS D6
 #define TFT_DC D5
-#define TFT_RST D3
+#define TFT_RST -1
 #define TFT_MOSI D2
 #define TFT_SCLK D4
 
