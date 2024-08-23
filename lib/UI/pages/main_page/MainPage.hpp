@@ -33,7 +33,7 @@ class MainPage : public Page {
     RectText *IR;
     RectText *net_attacks;
     RectText *settings;
-
+    Text *battery_level;
    public:
     MainPage(uint8_t _position_limit, uint8_t _lower_limit,
              uint8_t _position_increment, GFXForms *screen, Gui *_gui)
@@ -42,6 +42,9 @@ class MainPage : public Page {
     void display();
     void left();
     void right();
+    void set_battery_level(int level) {
+        battery_level->set_text("Battery: " + String(level) + "%");
+    };
 };
 
 #endif

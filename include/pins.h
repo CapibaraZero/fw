@@ -45,6 +45,8 @@
 #define PN532_SDA 8
 #define PN532_SCL 9
 
+#define BATTERY_MONITOR 2
+
 #elif ARDUINO_NANO_ESP32
 
 // Define buttons pins
@@ -76,4 +78,7 @@
 // PN532(NFC)
 #define PN532_SCL A6
 #define PN532_SDA A7
+
+#define BATTERY_MONITOR A0
+
 #endif

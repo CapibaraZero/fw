@@ -25,6 +25,7 @@
 #include "gui.hpp"
 #include "i18n/main_page_keys.h"
 #include "style.h"
+#include "battery_monitor.hpp"
 
 MainPage::~MainPage() {}
 
@@ -79,14 +80,18 @@ void MainPage::display() {
     grid->set_space_between(10);
     grid->set_padding(0, 20);
     Text text = Text(screen, HOME_INFO_COLOR,
-                     String(english_words->at(VERSION_KEY)) + String(VERSION) +
-                         String(" - ") + String(DEVICE));
+                     String(english_words->at(VERSION_KEY)) + String(VERSION));
     text.set_size(2);
     text.set_wrap(true);
     text.set_pos(5, 200);
+    battery_level = new Text(screen, HOME_INFO_COLOR, "Battery: 0%");
+    int level = read_battery_level();
+    set_battery_level(level);
+    battery_level->set_pos(5, 220);
     grid->display();
     grid->set_selected(lower_limit, true);
     text.display();
+    battery_level->display();
 }
 
 void MainPage::right() {

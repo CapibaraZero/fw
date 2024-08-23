@@ -19,6 +19,7 @@
 #include "GFXForms.hpp"
 #include "widgets/RectText.hpp"
 #include "pages/main_page/MainPage.hpp"
+#include "./ui_tasks/battery_monitor/battery_monitor_task_types.h"
 
 #ifndef GUI_H
 #define GUI_H
@@ -29,6 +30,7 @@ class Gui {
   Page *current_page = nullptr;
   MainPage *main_page = nullptr;  // Never delete main_page since it's always necessary
                                   // Reduce memory fragmentation
+  BatteryMonitorTaskParams battery_monitor_task_params;
  public:
   Gui(GFXForms *_screen) { screen = _screen; };
   ~Gui(){};

@@ -34,6 +34,7 @@
 #include "posixsd.hpp"
 #include "style.h"
 #include "display_config.h"
+#include "battery_monitor.hpp"
 
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
@@ -103,7 +104,7 @@ void setup() {
     init_sd();
 #endif
     init_english_dict();
-
+    pinMode(BATTERY_MONITOR, INPUT);
     display = new Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
     screen = new GFXForms(DISPLAY_WIDTH, DISPLAY_HEIGHT, display);
     screen->set_rotation(1);

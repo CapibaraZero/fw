@@ -24,16 +24,25 @@
 #include "i18n.hpp"
 #include "i18n/main_page_keys.h"
 #include "style.h"
+#include "./ui_tasks/battery_monitor/battery_monitor_task.hpp"
 
 void Gui::init_gui() {
-#ifdef CONFIG_IDF_TARGET_ESP32S2
-  main_page = new MainPage(5, 0, 4, screen, this);
-#else
-  main_page = new MainPage(6, 0, 4, screen, this);
-#endif
-  main_page->display();
-  delete current_page;
-  current_page = nullptr;
+  Serial.println("Init"); // For some really strange reason this is needed to avoid UI glitches
+  if(main_page == nullptr) {
+  #ifdef CONFIG_IDF_TARGET_ESP32S2
+    main_page = new MainPage(5, 0, 4, screen, this);
+  #else
+    main_page = new MainPage(6, 0, 4, screen, this);
+  #endif
+    main_page->display();
+    battery_monitor_task_params.page = main_page;
+    xTaskCreate(battery_monitor_task, "battery_monitor_ui", 2000, &battery_monitor_task_params, tskIDLE_PRIORITY, NULL);
+  }else {
+    main_page->display();
+    delete current_page;
+    current_page = nullptr;
+  }
+  battery_monitor_task_params.visible = true;
 }
 
 void Gui::click_element() {
@@ -72,8 +81,12 @@ void Gui::right() {
 }
 
 void Gui::set_current_page(Page *page, bool display) {
+  while(battery_monitor_task_params.lock) {
+    NOP();  // Wait
+  }
+  battery_monitor_task_params.visible = false;
   delete current_page;
   current_page = page;
-  if(display)
+  if(display) 
     page->display();
 }
