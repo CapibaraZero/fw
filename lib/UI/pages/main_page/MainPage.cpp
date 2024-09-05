@@ -52,7 +52,7 @@ void MainPage::display() {
                        HOME_ICON_COLOR, init_nfc_ui);
     IR = new RectText(screen, english_words->at(IR_HOME_KEY), HOME_TEXT_SIZE,
                       HOME_TEXT_COLOR, HOME_ICON_HEIGHT, HOME_ICON_RADIUS,
-                      HOME_ICON_COLOR, section_not_ready);
+                      HOME_ICON_COLOR, init_ir_ui);
     net_attacks = new RectText(screen, english_words->at(NET_ATTACKS_HOME_KEY),
                                HOME_TEXT_SIZE, HOME_TEXT_COLOR,
                                HOME_ICON_HEIGHT, HOME_ICON_RADIUS,
@@ -79,19 +79,23 @@ void MainPage::display() {
     grid->set_pos(0, 10);
     grid->set_space_between(10);
     grid->set_padding(0, 20);
-    Text text = Text(screen, HOME_INFO_COLOR,
+    text = new Text(screen, HOME_INFO_COLOR,
                      String(english_words->at(VERSION_KEY)) + String(VERSION));
-    text.set_size(2);
-    text.set_wrap(true);
-    text.set_pos(5, 200);
-    battery_level = new Text(screen, HOME_INFO_COLOR, "Battery: 0%");
-    int level = read_battery_level();
-    set_battery_level(level);
-    battery_level->set_pos(5, 220);
+    text->set_size(2);
+    text->set_wrap(true);
+    text->set_pos(5, 200);
+    // Text battery_level = Text(screen, HOME_INFO_COLOR, "Battery: 0%", 2U, true);
+    
+    // battery_level.set_pos(5, 220);
     grid->display();
     grid->set_selected(lower_limit, true);
-    text.display();
-    battery_level->display();
+    text->display();
+    // battery_level.display();
+    set_battery_level();
+}
+
+int MainPage::read_bat_level() {
+    return read_battery_level();
 }
 
 void MainPage::right() {

@@ -33,7 +33,9 @@ class MainPage : public Page {
     RectText *IR;
     RectText *net_attacks;
     RectText *settings;
-    Text *battery_level;
+    Text *text;
+    int read_bat_level();
+   // Text *battery_level;
    public:
     MainPage(uint8_t _position_limit, uint8_t _lower_limit,
              uint8_t _position_increment, GFXForms *screen, Gui *_gui)
@@ -42,8 +44,11 @@ class MainPage : public Page {
     void display();
     void left();
     void right();
-    void set_battery_level(int level) {
-        battery_level->set_text("Battery: " + String(level) + "%");
+    void set_battery_level() {
+        int level = read_bat_level();
+        Text battery_level = Text(screen, 0xFFFF, "Battery:" + (String)level + "%", 2U, true);
+        battery_level.set_pos(5, 220);
+        battery_level.display();
     };
 };
 

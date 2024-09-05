@@ -26,8 +26,7 @@ void battery_monitor_task(void *pv) {
     while (true) {
         if(params->visible) {
             params->lock = true;
-            int level = read_battery_level();
-            params->page->set_battery_level(level);
+            params->page->set_battery_level();
             params->lock = false;
         }
         delay(TASK_POLLING_RATE);
