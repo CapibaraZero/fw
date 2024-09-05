@@ -27,7 +27,6 @@
 #include "./ui_tasks/battery_monitor/battery_monitor_task.hpp"
 
 void Gui::init_gui() {
-  Serial.println("Init"); // For some really strange reason this is needed to avoid UI glitches
   if(main_page == nullptr) {
   #ifdef CONFIG_IDF_TARGET_ESP32S2
     main_page = new MainPage(5, 0, 4, screen, this);
@@ -36,7 +35,7 @@ void Gui::init_gui() {
   #endif
     main_page->display();
     battery_monitor_task_params.page = main_page;
-    xTaskCreate(battery_monitor_task, "battery_monitor_ui", 2000, &battery_monitor_task_params, tskIDLE_PRIORITY, NULL);
+ //   xTaskCreate(battery_monitor_task, "battery_monitor_ui", 3000, &battery_monitor_task_params, 23, NULL);
   }else {
     main_page->display();
     delete current_page;
