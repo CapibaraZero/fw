@@ -32,9 +32,9 @@ void raw_record_attack(SubGHZ *subghz, Gui *gui) {
     params->subghz = subghz;
     params->gui = gui;
     params->rssi_threshold = config.rssi_threshold;
+    subghz->init_receive();
     subghz->set_modulation(config.modulation);
     subghz->set_freq_mod(config.freq, config.bw, config.deviation);
-    subghz->init_receive();
     set_subghz_raw_record_freq(config.freq);
     xTaskCreate(raw_record_task, "subghz_raw_record_task", 8192, params, 5,
                 &subghz_task_handle);
