@@ -31,7 +31,7 @@ class Page {
     uint8_t lower_limit = 0;
     uint8_t position_increment = 0;
     uint8_t current_position = 0;
-    Grid *grid;
+    Grid *grid = nullptr;
     Gui *gui;
     Page(uint8_t _position_limit, uint8_t _lower_limit,
          uint8_t _position_increment, GFXForms *_screen, Gui *_gui) {

@@ -25,15 +25,15 @@
 
 class MainPage : public Page {
    private:
-    RectText *wifi;
-    RectText *ble;
-    RectText *badusb;
-    RectText *SubGhz;
-    RectText *NFC;
-    RectText *IR;
-    RectText *net_attacks;
-    RectText *settings;
-    Text *text;
+    RectText *wifi = nullptr;
+    RectText *ble = nullptr;
+    RectText *badusb = nullptr;
+    RectText *SubGhz = nullptr;
+    RectText *NFC = nullptr;
+    RectText *IR = nullptr;
+    RectText *net_attacks = nullptr;
+    RectText *settings = nullptr;
+    Text *text = nullptr;
     int read_bat_level();
    // Text *battery_level;
    public:
