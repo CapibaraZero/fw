@@ -31,6 +31,8 @@ MainPage::~MainPage() {}
 
 void section_not_ready() { LOG_ERROR("Section not ready"); }
 void MainPage::display() {
+    current_position = 0;
+
     wifi = new RectText(screen, english_words->at(WIFI_HOME_KEY),
                         HOME_TEXT_SIZE, HOME_TEXT_COLOR, HOME_ICON_HEIGHT,
                         HOME_ICON_RADIUS, HOME_ICON_COLOR, init_wifi_ui);
