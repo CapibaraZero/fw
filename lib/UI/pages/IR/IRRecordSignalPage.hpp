@@ -43,7 +43,7 @@ class IRRecordSignalPage : public Page {
     grid->set_selected(pos, status);
   };
   void click(int pos, void callback()) { grid->click(pos, callback); };
-  void set_signal(String _protocol, int _addr, int _cmd, uint32_t len);
+  void set_signal(String _protocol, uint16_t _addr, uint16_t _cmd, uint32_t len);
 };
 
 #endif

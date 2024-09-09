@@ -39,13 +39,17 @@ void IRRecordSignalPage::display() {
   grid->display();
 }
 
-void IRRecordSignalPage::set_signal(String _protocol, int _addr, int _cmd, uint32_t _len) {
+void IRRecordSignalPage::set_signal(String _protocol, uint16_t _addr, uint16_t _cmd, uint32_t _len) {
   grid->set_selected(1, false);
   screen->reset();
   grid->remove(1);  // Remove stop
-  if(_addr != -1 && _cmd != -1) {
-    addr = new Text(screen, ST77XX_WHITE, "Address: " + _addr);
-    cmd = new Text(screen, ST77XX_WHITE, "CMD:" + _cmd);
+  String addr_str = String(_addr, HEX);
+  String cmd_str = String(_cmd, HEX);
+  addr_str.toUpperCase();
+  cmd_str.toUpperCase();
+  if(_addr != 0 && _cmd != 0) {
+    addr = new Text(screen, ST77XX_WHITE, "Address: 0x" + addr_str);
+    cmd = new Text(screen, ST77XX_WHITE, "CMD: 0x" + cmd_str);
     grid->add(addr);
     grid->add(cmd);
   }
@@ -57,8 +61,8 @@ void IRRecordSignalPage::set_signal(String _protocol, int _addr, int _cmd, uint3
   grid->add(save);
   grid->add(retry);
   grid->add(stop);
-  size_t selected_widget = _addr == -1 ? 2 : 4;
-  size_t limit = _addr == -1 ? 4 : 6;
+  size_t selected_widget = _addr == 0 ? 2 : 4;
+  size_t limit = _addr == 0 ? 4 : 6;
   grid->set_selected(selected_widget, true);
   current_position = selected_widget;
   protocol->set_text("Protocol: " + _protocol);
