@@ -5,6 +5,7 @@
 #include "pages/IR/IRMainPage.hpp"
 #include "pages/IR/IREmulateRC.hpp"
 #include "pages/IR/IRRecordSignalPage.hpp"
+#include "pages/IR/IRListsProgress.hpp"
 #include "pages/FileBrowser/FileBrowserPage.hpp"
 #include "../navigation.hpp"
 #include "ir_attacks.hpp"
@@ -18,6 +19,7 @@ static IRMainPage *ir_main_page = nullptr;
 IRRecordSignalPage *ir_record_signal_page = nullptr;
 static IREmulateRC *ir_emulate_rc = nullptr;
 static IrFramework *ir_framework = nullptr;
+static IRListsProgress *ir_list_progress = nullptr;
 static FileBrowserPage *file_browser_page = nullptr;
 
 void goto_ir_gui() {
@@ -67,8 +69,24 @@ void save_record_to_sd() {
 #include <list>
 
 static std::list<string> ir_signal_files;
+static TaskHandle_t list_sender_task_handle;
+
 void send_signal(const char *path) {
-    ir_send_signal(ir_framework, ("/IR/signals/" + (String)path).c_str());
+    File rc_file = open("/IR/signals/" + (String)path, "r");
+    JsonDocument *signal = new JsonDocument();
+    deserializeJson(*signal, rc_file);
+    if(signal->is<JsonArray>()) {
+        gui->reset();
+        ir_list_progress = new IRListsProgress(1, 1, 0, gui->get_screen(), gui);
+        gui->set_current_page(ir_list_progress, true, false);
+    }
+    ir_send_signal(ir_framework, signal, ir_list_progress, &list_sender_task_handle);
+}
+
+void stop_list_sender() {
+    vTaskDelete(list_sender_task_handle);
+    gui->reset();
+    gui->set_current_page(file_browser_page, true, false);
 }
 
 static std::list<string> ir_rc_files;
@@ -99,7 +117,12 @@ void goto_ir_rc_browser() {
 void emulate_ir_rc() {
     size_t current_signal_index = ir_emulate_rc->get_current_element();
     JsonDocument current_signal = rc_signals[current_signal_index];
-    ir_send_signal(ir_framework, current_signal);
+    ir_send_signal(ir_framework, &current_signal);
+}
+
+void go_back_to_ir_browser() {
+    gui->reset();
+    gui->set_current_page(file_browser_page, true, false);
 }
 
 void goto_ir_send() {
@@ -113,4 +136,5 @@ void goto_ir_send() {
 void init_ir_navigation(Gui *_gui) {
     gui = _gui;
     ir_framework = new IrFramework(IR_RECEIVER_PIN, IR_EMITTER_PIN);
+    // TODO: Delete std::list
 }

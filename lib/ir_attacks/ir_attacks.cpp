@@ -36,24 +36,18 @@ RecordedSignal json_to_signal(JsonDocument signal) {
     return parsed_signal;
 }
 
-void ir_send_signal(IrFramework *framework, const char *signal_path) {
-    File signal_file = open(signal_path, "r");
-    JsonDocument signal_doc;
-    deserializeJson(signal_doc, signal_file);
-    if(signal_doc.is<JsonArray>()) {
-        Serial.println("JsonArray");
-        for(JsonDocument signal : signal_doc.as<JsonArray>()) {
-            RecordedSignal parsed_signal = json_to_signal(signal);
-            
+void ir_send_signal(IrFramework *framework, JsonDocument *signal_doc, IRListsProgress *progress_page, TaskHandle_t *list_handler) {
+    RecordedSignal parsed_signal = json_to_signal(*signal_doc);
+    if(signal_doc->is<JsonArray>()) {
+            IrAttackTaskParams params = {
+                .ir_framework = framework,
+                .signal = signal_doc,
+                .progress_page = progress_page
+            };
+            xTaskCreate(ir_list_emit, "ir_list_emit", 20000, &params, 5, list_handler);
+        } else {
+            RecordedSignal parsed_signal = json_to_signal(*signal_doc);
             framework->send_protocol_signal(parsed_signal);
         }
-    } else {
-        RecordedSignal parsed_signal = json_to_signal(signal_doc);
-        framework->send_protocol_signal(parsed_signal);
-    }
-}
-
-void ir_send_signal(IrFramework *framework, JsonDocument signal_doc) {
-    RecordedSignal parsed_signal = json_to_signal(signal_doc);
     framework->send_protocol_signal(parsed_signal);
 }
