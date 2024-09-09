@@ -2,6 +2,7 @@
 
 #include "wifi_tasks.hpp"
 #include "wifi_ui_tasks_types.h"
+#include "../../navigation/wifi/wifi_navigation.hpp"
 
 // Simple lock for sniff GUI task
 static bool sniff_progress_lock = false;
@@ -14,7 +15,7 @@ void update_wifi_sniff_packets(void *pv) {
   WiFiUITaskParameters *params = static_cast<WiFiUITaskParameters *>(pv);
   while (params->wifi_attack->sniffer_running()) {
     sniff_progress_lock = true;
-    params->gui->update_packets_count(
+    update_packets_count(
         params->wifi_attack->get_sniffed_packets());
     sniff_progress_lock = false;
     delay(1000);
@@ -30,8 +31,8 @@ void update_wifi_scan_progress(void *pv) {
   int ch = 1;
   while (progress < lower_limit)  // Until 100%
   {
-    params->gui->set_progress((char *)(String(progress) + String("%")).c_str());
-    params->gui->set_wifi_channel_text(
+    set_progress((char *)(String(progress) + String("%")).c_str());
+    set_wifi_channel_text(
         (char *)(String("Channel: ") + String(ch)).c_str());
     ch++;
     progress += progress_step;  // 13 ch scan
@@ -42,6 +43,6 @@ void update_wifi_scan_progress(void *pv) {
   }
   params->gui->reset();
   vector<WifiNetwork> networks = params->wifi_attack->get_networks();
-  params->gui->init_wifi_networks_gui(&networks);
+  init_wifi_networks_gui(&networks);
   vTaskDelete(NULL);
 }

@@ -31,20 +31,17 @@ class BLEPage : public Page {
   List *swift_pair;
   List *fast_pair;
   List *go_back;
-  Grid *ble_grid;
 
  public:
-  BLEPage(GFXForms *_screen);
+  BLEPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~BLEPage();
   void display();
-  void click(int pos, void callback()) { ble_grid->click(pos, callback); };
+  void click(int pos, void callback()) { grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
-    ble_grid->set_selected(pos, status);
+    grid->set_selected(pos, status);
   };
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
+
 };
 
 #endif

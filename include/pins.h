@@ -40,9 +40,12 @@
 #define SX1276_NSS 1
 #define SX1276_DIO2 15
 #define SX1276_DIO1 16
+#define SX1276_MISO 7
 
 #define PN532_SDA 8
 #define PN532_SCL 9
+
+#define BATTERY_MONITOR 2
 
 #elif ARDUINO_NANO_ESP32
 
@@ -54,11 +57,11 @@
 #define RIGHT_BTN_PIN A1
 
 // Display pins
-#define TFT_CS D5
-#define TFT_DC D6
-#define TFT_RST D3
-#define TFT_MOSI D4
-#define TFT_SCLK D2
+#define TFT_CS D6
+#define TFT_DC D5
+#define TFT_RST -1
+#define TFT_MOSI D2
+#define TFT_SCLK D4
 
 // SD card
 #define SD_CARD_CS D10
@@ -70,8 +73,12 @@
 #define SX1276_DIO1 D3
 #define SX1276_NSS D7
 #define SX1276_DIO2 D8
+#define SX1276_MISO D9
 
 // PN532(NFC)
 #define PN532_SCL A6
 #define PN532_SDA A7
+
+#define BATTERY_MONITOR A0
+
 #endif

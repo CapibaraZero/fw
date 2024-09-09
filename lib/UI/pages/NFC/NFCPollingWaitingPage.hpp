@@ -28,18 +28,15 @@ class NFCPollingWaitingPage : public Page {
   Text *polling_in_progress;
   Text *info_msg;
   List *go_back;
-  Grid *nfc_grid;
 
  public:
-  NFCPollingWaitingPage(GFXForms *_screen);
+  NFCPollingWaitingPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~NFCPollingWaitingPage();
   void display();
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
+
   void set_selected(int pos, bool status) {
-    nfc_grid->set_selected(pos, status);
+    grid->set_selected(pos, status);
   };
 };
 

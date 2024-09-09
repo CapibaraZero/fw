@@ -2,6 +2,7 @@
 #include "subghz_tasks_type.h"
 #include "fm.hpp"
 #include <vector>
+#include "../UI/navigation/SubGHZ/SubGHZNavigation.hpp"
 
 #define TIME_BETWEEN_SCAN 400
 
@@ -12,8 +13,8 @@ void frequency_analyzer(void *pv) {
         {
             SignalStrength result = params->subghz->scan_frequency(freq);
             if (result.rssi > -74) {
-                params->gui->set_subghz_freqeuncy(freq);
-                params->gui->set_subghz_rssi(result.rssi);
+                set_subghz_freqeuncy(freq);
+                set_subghz_rssi(result.rssi);
             }
         }
     }

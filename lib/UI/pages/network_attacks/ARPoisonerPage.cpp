@@ -19,17 +19,19 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/network_attacks/dhcpglutton_keys.h"
-
-ARPoisonerPage::ARPoisonerPage(GFXForms *_screen) {
-  details_grid = new Grid(_screen, 2, 1);
-  text = new Text(_screen, ST77XX_WHITE,
-                  "ARP poisoning running");
-  stop = new List(_screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-
-  details_grid->add(text);
-  details_grid->add(stop);
-  details_grid->set_selected(1, true);
-  details_grid->set_y_spacing(20);
-}
+#include "../../navigation/network_attacks/network_attacks_navigation.hpp"
+#include "gui.hpp"
 
 ARPoisonerPage::~ARPoisonerPage() {}
+
+void ARPoisonerPage::display() {
+    grid = new Grid(screen, 2, 1);
+    text = new Text(screen, ST77XX_WHITE, "ARP poisoning running");
+    stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK, stop_arp_poisoner);
+
+    grid->add(text);
+    grid->add(stop);
+    grid->set_selected(1, true);
+    grid->set_y_spacing(20);
+    grid->display();
+}

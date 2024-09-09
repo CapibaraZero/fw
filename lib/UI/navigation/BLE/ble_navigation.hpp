@@ -21,7 +21,15 @@
 #include "gui.hpp"
 
 void goto_ble_gui();
-void ble_submenu_handler(int pos);
+void goto_ble_sniff_gui();
+void goto_applejuice();
+void goto_samsung_spam();
+void goto_swift_spam();
+void goto_fastpair_spam();
+// void set_ble_adv_devices_text(int adv_devices);
+// void set_ble_progress(char *progress);
+void update_ble_packets_count(int count);
+void ble_goto_home();
 void init_ble_navigation(Gui *_gui);
 void stop_ble_sniffer();
 void stop_applejuice();

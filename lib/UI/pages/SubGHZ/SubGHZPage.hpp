@@ -29,20 +29,17 @@ class SubGHZPage : public Page {
   List *SubGHZ_sender;
   List *SubGHZ_jammer;
   List *go_back;
-  Grid *SubGHZ_grid;
 
  public:
-  SubGHZPage(GFXForms *_screen);
+  SubGHZPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~SubGHZPage();
   void display();
-  void click(int pos, void callback()) { SubGHZ_grid->click(pos, callback); };
+  
+  void click(int pos, void callback()) { grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
-    SubGHZ_grid->set_selected(pos, status);
+    grid->set_selected(pos, status);
   };
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
 };
 
 #endif

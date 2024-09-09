@@ -30,19 +30,16 @@ class NFCWriteResultPage : public Page {
   Text *unwritable_sectors;
   List *return_back;
   List *exit_page;
-  Grid *nfc_grid;
 
  public:
-  NFCWriteResultPage(GFXForms *_screen);
+  NFCWriteResultPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~NFCWriteResultPage();
   void display();
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
-  void click(int pos, void callback()) { nfc_grid->click(pos, callback); };
+
+  void click(int pos, void callback()) { grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
-    nfc_grid->set_selected(pos, status);
+    grid->set_selected(pos, status);
   };
   void set_wrote_sectors(int sectors) {
     wrote_sectors->set_text("Wrote sectors: " + (String)sectors);

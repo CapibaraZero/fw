@@ -28,6 +28,7 @@ class SubGHZ {
   byte jammer_payload[8] = {0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF};
   int _gdo0 = -1;
   int _gdo2 = -1;
+  int _csn = -1;
   float _frequency;
   float _bw;
   float _deviation;

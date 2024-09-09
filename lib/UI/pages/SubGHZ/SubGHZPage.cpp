@@ -18,26 +18,27 @@
 #include "SubGHZPage.hpp"
 
 #include "../../i18n.hpp"
-
-SubGHZPage::SubGHZPage(GFXForms *_screen) { screen = _screen; }
+#include "../../navigation/SubGHZ/SubGHZNavigation.hpp"
+#include "gui.hpp"
 
 SubGHZPage::~SubGHZPage() {}
 
 void SubGHZPage::display() {
-    SubGHZ_grid = new Grid(screen, 4, 1);
+    init_subghz_navigation(gui);
+    grid = new Grid(screen, 4, 1);
     SubGHZ_freq_analyzer = new List(screen, "Frequency analyzer", 2,
-                                    ST77XX_WHITE, 20, ST77XX_BLACK);
+                                    ST77XX_WHITE, 20, ST77XX_BLACK, start_frequency_analyzer);
     SubGHZ_sniff =
-        new List(screen, "Record RAW", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+        new List(screen, "Record RAW", 2, ST77XX_WHITE, 20, ST77XX_BLACK, start_raw_record);
     SubGHZ_sender =
-        new List(screen, "Sender", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-    SubGHZ_jammer =
-        new List(screen, "Jammer", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-    go_back = new List(screen, "Go back", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-    SubGHZ_grid->add(SubGHZ_freq_analyzer);
-    SubGHZ_grid->add(SubGHZ_sniff);
-    SubGHZ_grid->add(SubGHZ_sender);
-    SubGHZ_grid->add(go_back);
-    SubGHZ_grid->set_selected(0, true);
-    SubGHZ_grid->display();
+        new List(screen, "Sender", 2, ST77XX_WHITE, 20, ST77XX_BLACK, subghz_sender_file_browser);
+    // SubGHZ_jammer =
+    //     new List(screen, "Jammer", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+    go_back = new List(screen, "Go back", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_home_from_subghz);
+    grid->add(SubGHZ_freq_analyzer);
+    grid->add(SubGHZ_sniff);
+    grid->add(SubGHZ_sender);
+    grid->add(go_back);
+    grid->set_selected(0, true);
+    grid->display();
 }

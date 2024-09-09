@@ -21,37 +21,48 @@
 #include "ble_attacks_btn.hpp"
 #include "bluetooth_attacks.hpp"
 #include "gui.hpp"
+#include "pages/BLE/BLEPage.hpp"
+#include "pages/BLE/BLEScanPage.hpp"
+#include "pages/BLE/BLESniffPage.hpp"
+#include "pages/BLE/BLESpamPage.hpp"
 
 #define BLE_DEVICE_NAME "capibaraZero"
 
 static Gui *gui;
 static BluetoothAttack *attack = new BluetoothAttack();
+static BLEPage *ble_page;
+static BLESniffPage *ble_sniffer_page;
+static BLESpamPage *ble_spam_page;
 
 void goto_ble_gui() {
     gui->reset();
-    gui->set_current_position(0);
-    gui->init_ble_gui();
+    ble_page = new BLEPage(5, 0, 1, gui->get_screen(), gui);
+    gui->set_current_page(ble_page);
 }
-
-/* void goto_ble_scan_gui() {
-    gui->reset();
-    gui->set_current_position(0);
-    gui->init_ble_scan_gui();
-    scan_ble(gui, attack, get_current_fs());
-} */
 
 void goto_ble_sniff_gui() {
     gui->reset();
-    gui->set_current_position(0);
-    gui->init_ble_sniff_gui();
+    ble_sniffer_page = new BLESniffPage(0, 0, 0, gui->get_screen(), gui);
+    gui->set_current_page(ble_sniffer_page);
     sniff_ble(gui, attack);
 }
 
 void init_spam_gui() {
     gui->reset();
-    gui->set_current_position(0);
-    gui->init_ble_spam_gui();
+    ble_spam_page = new BLESpamPage(0, 0, 0, gui->get_screen(), gui);
+    gui->set_current_page(ble_spam_page);
 }
+
+// void set_ble_adv_devices_text(int adv_devices) {
+//     ble_scan_page->set_adv_devices_text(String(adv_devices).c_str());
+// }
+// void set_ble_progress(char *progress) {
+//     ble_scan_page->update_progress(progress);
+// };
+void update_ble_packets_count(int count) {
+    if(ble_sniffer_page != nullptr)
+        ble_sniffer_page->update_packet_count(count);
+};
 
 void goto_applejuice() {
     init_spam_gui();
@@ -69,40 +80,13 @@ void goto_swift_spam() {
 }
 
 void goto_fastpair_spam() {
-  init_spam_gui();
-  start_fast_pair_spam(attack);
+    init_spam_gui();
+    start_fast_pair_spam(attack);
 }
 
-static void ble_goto_home() {
-    gui->destroy_ble_gui();
+void ble_goto_home() {
     init_main_gui();
-}
-void ble_submenu_handler(int pos) {
-    LOG_INFO("Here");
-    Serial.printf("BLE POS: %i", pos);
-    switch (pos) {
-        case 0:  // Start scan
-            LOG_INFO("Start sniff");
-            gui->ok(goto_ble_sniff_gui);
-            break;
-        case 1:  // Start spam
-            gui->ok(goto_applejuice);
-            break;
-        case 2:
-            gui->ok(goto_samsung_spam);
-            break;
-        case 3:
-            gui->ok(goto_swift_spam);
-            break;
-        case 4:
-            gui->ok(goto_fastpair_spam);
-            break;
-        case 5:
-            gui->ok(ble_goto_home);
-            break;
-        default:
-            break;
-    }
+    ble_page = nullptr;
 }
 
 void stop_ble_sniffer() {
@@ -112,8 +96,8 @@ void stop_ble_sniffer() {
     /* Stop sniffer */
     attack->stop_sniff();
     stop_sniffer_updater();
-    gui->destroy_ble_sniff_gui();
     init_main_gui();
+    ble_sniffer_page = nullptr;
     NimBLEDevice::deinit();  // Save some resources
 }
 
@@ -144,14 +128,15 @@ void handle_ble_spam_stop() {
         stop_samsung_ble_spam();
     else if (attack->swift_pair_spam_running())
         stop_swift_pair_spam();
-    else if(attack->fast_pair_spam_running())
+    else if (attack->fast_pair_spam_running())
         stop_fast_pair_spam();
     NimBLEDevice::deinit();
-    gui->destroy_ble_spam_gui();
     init_main_gui();
+    ble_spam_page = nullptr;
 }
 
-// From https://github.com/Spooks4576/ESP32Marauder/blob/c8005f6c52e565c74e619924da851728e734f0b4/esp32_marauder/WiFiScan.cpp#L1641
+// From
+// https://github.com/Spooks4576/ESP32Marauder/blob/c8005f6c52e565c74e619924da851728e734f0b4/esp32_marauder/WiFiScan.cpp#L1641
 void generateRandomMac(uint8_t *mac) {
     // Set the locally administered bit and unicast bit for the first byte
     mac[0] = 0x02;  // The locally administered bit is the second least

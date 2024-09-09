@@ -21,6 +21,14 @@ static void param_check(float value, const char *name, float initial_range, floa
     }
 }
 
+static void param_check_int(float value, const char *name, float initial_range, float end_range, float default_value, int *var) {
+    if(value >= initial_range && value <= end_range){
+        *var = value;
+    }else {
+        Serial.printf("Invalid value for %s. Using default value %f\n", name, default_value);
+    }
+}
+
 #define CONFIG_SIZE 300
 
 bool parse_lora_freq_analyzer() {
@@ -31,7 +39,7 @@ bool parse_lora_freq_analyzer() {
         Serial.println("Error: Subghz configuration file not exists");
         return false;
     }
-    StaticJsonDocument<CONFIG_SIZE> doc;
+    JsonDocument doc;
     DeserializationError error = deserializeJson(doc, subghz_config_file);
     if (error) {
         Serial.printf("Error: %s", error.c_str());
@@ -41,6 +49,8 @@ bool parse_lora_freq_analyzer() {
         return false;
     }
     JsonObject freq_analyzer_config = doc["frequency_analyzer"];
+    subghz_config_file.close();
+
     return freq_analyzer_config["lora"];
 }
 
@@ -59,7 +69,7 @@ SubGHZRAWRecorderConfig parse_raw_record_config() {
         Serial.println("Error: Subghz configuration file not exists");
         return params;
     }
-    StaticJsonDocument<CONFIG_SIZE> doc;
+    JsonDocument doc;
     DeserializationError error = deserializeJson(doc, subghz_config_file);
     if (error) {
         Serial.printf("Error: %s", error.c_str());
@@ -106,7 +116,7 @@ SubGHZRAWRecorderConfig parse_raw_record_config() {
     if(raw_record_config["modulation"].isNull()){
         Serial.printf("Modulation is null. Using default modulation: %d\n", DEFAULT_MODULATION);
     } else {
-        param_check(raw_record_config_modulation, "Modulation", 0, 4, DEFAULT_MODULATION, (float *)&params.modulation);
+        param_check_int(raw_record_config_modulation, "Modulation", 0, 4, DEFAULT_MODULATION, &params.modulation);
     }
 
     if(raw_record_config["rssi_threshold"].isNull())
@@ -123,13 +133,14 @@ SubGHZRAWRecorderConfig parse_raw_record_config() {
     Serial.printf("Deviation: %f\n", params.deviation);
     Serial.printf("Modulation: %d\n", params.modulation);
     Serial.printf("RSSI Threshold: %f\n", params.rssi_threshold);
-    
+    subghz_config_file.close();
+
     return params;
 }
 
 SubGHZCapture parse_json_subghz_capture(std::string path) {
     File file = open(path.c_str(), "r");
-    DynamicJsonDocument doc(file.size() + 90);
+    JsonDocument doc;
     SubGHZCapture capture;
     DeserializationError error = deserializeJson(doc, file);
     if (error) {

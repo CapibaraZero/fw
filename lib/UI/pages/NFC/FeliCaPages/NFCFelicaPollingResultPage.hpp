@@ -19,6 +19,7 @@
 #include "Grid.hpp"
 #include "List.hpp"
 #include "Text.hpp"
+#include "../../../../include/debug.h"
 
 #ifndef NFC_FELICA_POLLING_RESULT_PAGE_H
 #define NFC_FELICA_POLLING_RESULT_PAGE_H
@@ -34,21 +35,20 @@ class NFCFelicaPollingResultPage : public Page {
   List *format_tag;
   List *bruteforce_tag;
   List *exit_page;
-  Grid *nfc_grid;
 
  public:
-  NFCFelicaPollingResultPage(GFXForms *_screen);
+  NFCFelicaPollingResultPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~NFCFelicaPollingResultPage();
-  void display() { nfc_grid->display(); };
-  void display(uint8_t *idm, uint8_t *pmm, uint16_t sys_code);
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
-  void set_selected(int pos, bool status) {
-    nfc_grid->set_selected(pos, status);
+  void display() {
+    LOG_ERROR("NFCFelicaPollingResultPage::display() not implemented");
   };
-  void click(int pos, void callback()) { nfc_grid->click(pos, callback); };
+  void display(uint8_t *idm, uint8_t *pmm, uint16_t sys_code);
+void set_selected(int pos, bool status) {
+    grid->set_selected(pos, status);
+  };
+  void click(int pos, void callback()) { grid->click(pos, callback); };
+  
 };
 
 #endif

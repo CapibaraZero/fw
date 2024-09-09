@@ -13,18 +13,15 @@ class EvilPortalPage : public Page {
   Text *client_count;
   Text *portal_ip;
   List *save;
-  Grid *details_grid;
 
  public:
-  EvilPortalPage(GFXForms *_screen);
+  EvilPortalPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~EvilPortalPage();
-  void display() { details_grid->display(); }
+  void display();
   void update_requests_count(int count);
   void set_portal_ip(String ip);
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
+
 };
 
 #endif

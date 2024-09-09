@@ -16,21 +16,59 @@
  */
 
 #include "GFXForms.hpp"
+#include "Grid.hpp"
 
 #ifndef PAGE_H
 #define PAGE_H
 
+class Gui;
+
 /* Virtual class that describes a capibaraZero page */
 class Page {
- protected:
-  GFXForms *screen;
+   protected:
+    GFXForms *screen;
+    uint8_t position_limit = 0;
+    uint8_t lower_limit = 0;
+    uint8_t position_increment = 0;
+    uint8_t current_position = 0;
+    Grid *grid = nullptr;
+    Gui *gui;
+    Page(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *_screen, Gui *_gui) {
+        this->position_limit = _position_limit;
+        this->lower_limit = _lower_limit;
+        this->position_increment = _position_increment;
+        this->current_position = _lower_limit;
+        this->screen = _screen;
+        this->gui = _gui;
+    }
 
- public:
-  virtual void display() = 0;
-  virtual void up() = 0;
-  virtual void down() = 0;
-  virtual void left() = 0;
-  virtual void right() = 0;
+   public:
+    virtual void display() = 0;
+    virtual void up() {
+        if(position_increment == 0)
+            return;
+        int tmp_current_position = current_position - position_increment;
+        if (tmp_current_position <= position_limit &&
+            tmp_current_position >= lower_limit) {
+            grid->set_selected(current_position, false);
+            current_position = tmp_current_position;
+        }
+        grid->set_selected(current_position, true);
+    };
+    virtual void down() {
+        if(position_increment == 0)
+            return;
+        int tmp_current_position = current_position + position_increment;
+        if (tmp_current_position <= position_limit) {
+            grid->set_selected(current_position, false);
+            current_position = tmp_current_position;
+        }
+        grid->set_selected(current_position, true);
+    };
+    virtual void left() {};
+    virtual void right() {};
+    virtual void click() { grid->click(); };
 };
 
 #endif

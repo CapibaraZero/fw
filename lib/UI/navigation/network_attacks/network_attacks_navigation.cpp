@@ -19,80 +19,81 @@
 #include "gui.hpp"
 #include "network_attacks.hpp"
 #include "network_attacks_btn.hpp"
+#include "pages/network_attacks/DHCPGluttonPage.hpp"
+#include "pages/network_attacks/EvilPortalPage.hpp"
+#include "pages/network_attacks/NetworkAttacksPage.hpp"
+#include "pages/network_attacks/ARPoisonerPage.hpp"
 
 static Gui *gui;
 static NetworkAttacks *attack;
+static NetworkAttacksPage *net_attacks_page;
+static DHCPGluttonPage *dhcp_glutton_page;
+static EvilPortalPage *evilportal_page;
+static ARPoisonerPage *arpoisoner_page;
 
 void goto_net_attacks_gui() {
-  gui->reset();
-  gui->set_current_position(0);
-  gui->init_network_attacks_gui();
+    gui->reset();
+    net_attacks_page = new NetworkAttacksPage(3, 0, 1, gui->get_screen(), gui);
+    gui->set_current_page(net_attacks_page);
 }
 
 void goto_dhcpglutton_gui() {
-  gui->reset();
-  gui->set_current_position(0);
-  gui->init_dhcp_glutton_gui();
-  start_dhcpglutton(gui, attack);
+    gui->reset();
+    dhcp_glutton_page = new DHCPGluttonPage(0, 0, 0, gui->get_screen(), gui);
+    gui->set_current_page(dhcp_glutton_page);
+    start_dhcpglutton(gui, attack);
 }
 
 void goto_evilportal_gui() {
-  gui->reset();
-  gui->set_current_position(0);
-  gui->init_evilportal_gui();
-  start_evilportal(gui, attack);
+    gui->reset();
+    evilportal_page = new EvilPortalPage(0, 0, 0, gui->get_screen(), gui);
+    gui->set_current_page(evilportal_page);
+    start_evilportal(gui, attack);
 }
 
-static void goto_arp_poisoner_gui() {
-  gui->reset();
-  gui->set_current_position(0);
-  gui->init_arp_poisoner_gui();
-  start_arp_poisoning(gui, attack);
+void goto_arp_poisoner_gui() {
+    gui->reset();
+    arpoisoner_page = new ARPoisonerPage(0, 0, 0, gui->get_screen(), gui);
+    gui->set_current_page(arpoisoner_page);
+    start_arp_poisoning(gui, attack);
 }
 
-static void net_attacks_goto_home() {
-  gui->destroy_network_attacks_gui();
-  init_main_gui();
+void set_dhcp_glutton_clients(int client) {
+  dhcp_glutton_page->update_packet_count(client);
 }
 
-void network_attacks_submenu_handler(int pos) {
-  switch (pos) {
-    case 0:
-      goto_dhcpglutton_gui();
-      break;
-    case 1:
-      goto_evilportal_gui();
-      break;
-    case 2:
-      goto_arp_poisoner_gui();
-      break;
-    case 3:
-      net_attacks_goto_home();
-      break;
-    default:
-      break;
-  }
+void set_evilportal_ip(const char *ip) {
+    evilportal_page->set_portal_ip(ip);
+}
+
+void set_evilportal_requests(int req) {
+  evilportal_page->update_requests_count(req);
+}
+
+void net_attacks_goto_home() {
+    init_main_gui();
+    net_attacks_page = nullptr;
 }
 
 void stop_dhcpglutton() {
-  kill_dhcpglutton();
-  init_main_gui();
-  gui->destroy_dhcp_glutton_gui();
+    kill_dhcpglutton();
+    init_main_gui();
+    dhcp_glutton_page = nullptr;
 }
 
 void stop_evilportal() {
-  kill_evilportal(attack);
-  gui->destroy_evilportal_gui();
-  init_main_gui();
+    kill_evilportal(attack);
+    init_main_gui();
+    evilportal_page = nullptr;
 }
 
 void stop_arp_poisoner() {
-  kill_arp_poisoning();
-  gui->destroy_arp_poisoner_gui();
-  init_main_gui();
+    kill_arp_poisoning();
+    init_main_gui();
+    arpoisoner_page = nullptr;
 }
 
 void init_network_attacks_navigation(Gui *_gui) {
-  gui = _gui;
-  attack = new NetworkAttacks();
+    gui = _gui;
+    attack = new NetworkAttacks();
 }

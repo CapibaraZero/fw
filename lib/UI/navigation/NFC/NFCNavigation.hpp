@@ -19,12 +19,24 @@
 #define NFC_NAVIGATION_H
 
 void init_nfc_navigation(Gui *_gui);
-void nfc_submenu_handler(int pos);
-void nfc_polling_submenu_handler(int pos);
-void nfc_dump_submenu_handler(int pos);
-void nfc_format_submenu_handler(int pos);
 void goto_nfc_gui();
 void stop_nfc_polling();
-void nfc_bruteforce_submenu_handler(int pos);
-void nfc_felica_polling_submenu_handler(int pos);
+void save_dump_to_sd();
+void nfc_mifare_polling();
+void nfc_felica_polling();
+void goto_home();
+void bruteforce_a_tag();
+void init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm,
+                                        uint16_t sys_code);
+void set_dumped_sectors(int sectors);
+void set_unreadable_sectors(int sectors);
+void set_unauthenticated_sectors(int sectors);
+void set_unwritable_sectors(uint8_t tot, uint8_t sectors);
+void set_unformatted_sectors(uint8_t tot, uint8_t unformatted);
+void nfc_bruteforce_found_key();
+void nfc_bruteforce_set_tried_key(uint8_t attemps);
+void goto_nfc_dump_result_gui();
+void goto_nfc_polling_result_gui(uint8_t *uid, uint8_t len, const char *tag_name);
+void felica_dump();
+void nfc_cleanup();
 #endif

@@ -19,22 +19,20 @@
 #include "SubGHZSender.hpp"
 
 #include "../../i18n.hpp"
-// #include "../../i18n/SubGHZ/SubGHZ_submenu_keys.h"
-
-SubGHZSender::SubGHZSender(GFXForms *_screen) { screen = _screen; }
+#include "gui.hpp"
 
 SubGHZSender::~SubGHZSender() {}
 
 void SubGHZSender::display() {
-    SubGHZ_grid = new Grid(screen, 4, 1);
-    SubGHZ_grid->set_y_spacing(30);
+    grid = new Grid(screen, 4, 1);
+    grid->set_y_spacing(30);
     current_frequency = new Text(screen, ST77XX_WHITE, "Frequency: 0 MHz");
     current_modulation = new Text(screen, ST77XX_WHITE, "Modulation: ");
     current_bw = new Text(screen, ST77XX_WHITE, "Bandwidth: ");
     current_deviation = new Text(screen, ST77XX_WHITE, "Deviation: ");
-    SubGHZ_grid->add(current_frequency);
-    SubGHZ_grid->add(current_modulation);
-    SubGHZ_grid->add(current_bw);
-    SubGHZ_grid->add(current_deviation);
-    SubGHZ_grid->display();
+    grid->add(current_frequency);
+    grid->add(current_modulation);
+    grid->add(current_bw);
+    grid->add(current_deviation);
+    grid->display();
 }

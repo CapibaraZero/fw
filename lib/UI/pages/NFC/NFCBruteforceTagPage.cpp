@@ -18,15 +18,13 @@
 #include "NFCBruteforceTagPage.hpp"
 
 #include "../../i18n.hpp"
-
-NFCBruteforceTagPage::NFCBruteforceTagPage(GFXForms *_screen) {
-  screen = _screen;
-}
+#include "../../navigation/NFC/NFCNavigation.hpp"
+#include "gui.hpp"
 
 NFCBruteforceTagPage::~NFCBruteforceTagPage() {}
 
 void NFCBruteforceTagPage::display() {
-  nfc_grid = new Grid(screen, 3, 1);
+  grid = new Grid(screen, 3, 1);
   bruteforce_info = new Text(screen, ST77XX_WHITE,
                              english_words->at(NFC_BRUTEFORCING_TAG_KEY));
   tried_keys =
@@ -36,12 +34,12 @@ void NFCBruteforceTagPage::display() {
   // return_back = new List(screen, "Go back", 2, ST77XX_WHITE, 20,
   // ST77XX_BLACK); exit_page = new List(screen, "Exit", 2, ST77XX_WHITE, 20,
   // ST77XX_BLUE);
-  nfc_grid->add(bruteforce_info);
-  nfc_grid->add(tried_keys);
-  nfc_grid->add(found_keys);
-  // nfc_grid->add(return_back);
-  // nfc_grid->add(exit_page);
-  nfc_grid->set_y_spacing(20);
-  // nfc_grid->set_selected(3, true);
-  nfc_grid->display();
+  grid->add(bruteforce_info);
+  grid->add(tried_keys);
+  grid->add(found_keys);
+  // grid->add(return_back);
+  // grid->add(exit_page);
+  grid->set_y_spacing(20);
+  // grid->set_selected(3, true);
+  grid->display();
 }

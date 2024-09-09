@@ -28,16 +28,13 @@ class BLESpamPage : public Page {
  private:
   Text *text;
   List *save;
-  Grid *details_grid;
 
  public:
-  BLESpamPage(GFXForms *_screen);
+  BLESpamPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~BLESpamPage();
-  void display() { details_grid->display(); }
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
+  void display();
+
 };
 
 #endif

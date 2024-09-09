@@ -27,15 +27,16 @@ class SubGHZFrequencyAnalyzerPage : public Page {
     Text *current_frequency;
     Text *current_rssi;
     List *stop;
-    Grid *SubGHZ_grid;
 
    public:
-    SubGHZFrequencyAnalyzerPage(GFXForms *_screen);
+    SubGHZFrequencyAnalyzerPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
     ~SubGHZFrequencyAnalyzerPage();
     void display();
-    void click(int pos, void callback()) { SubGHZ_grid->click(pos, callback); };
+    
+    void click(int pos, void callback()) { grid->click(pos, callback); };
     void set_selected(int pos, bool status) {
-        SubGHZ_grid->set_selected(pos, status);
+        grid->set_selected(pos, status);
     };
     void set_rssi(int rssi) {
         current_rssi->set_text("RSSI: " + String(rssi));
@@ -43,10 +44,6 @@ class SubGHZFrequencyAnalyzerPage : public Page {
     void set_frequency(float frequency) {
         current_frequency->set_text("Frequency: " + String(frequency) + "MHz");
     }
-    void up() {};
-    void down() {};
-    void left() {};
-    void right() {};
 };
 
 #endif

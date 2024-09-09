@@ -18,23 +18,22 @@
 #include "SubGHZRAWRecordPage.hpp"
 
 #include "../../i18n.hpp"
-// #include "../../i18n/SubGHZ/SubGHZ_submenu_keys.h"
-
-SubGHZRAWRecordPage::SubGHZRAWRecordPage(GFXForms *_screen) { screen = _screen; }
+#include "../../navigation/SubGHZ/SubGHZNavigation.hpp"
+#include "gui.hpp"
 
 SubGHZRAWRecordPage::~SubGHZRAWRecordPage() {}
 
 void SubGHZRAWRecordPage::display() {
- SubGHZ_grid = new Grid(screen, 3, 1);
-    SubGHZ_grid->set_y_spacing(30);
+ grid = new Grid(screen, 3, 1);
+    grid->set_y_spacing(30);
     current_frequency = new Text(screen, ST77XX_WHITE, "Frequency: 0 MHz");
     current_rssi = new Text(screen, ST77XX_WHITE, "RSSI: 0 dBm");
     current_lqi = new Text(screen, ST77XX_WHITE, "LQI: 0");
-    stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLUE);
-    SubGHZ_grid->add(current_frequency);
-    SubGHZ_grid->add(current_rssi);
-    SubGHZ_grid->add(current_lqi);
-    SubGHZ_grid->add(stop);
-    // SubGHZ_grid->set_selected(0, true);
-    SubGHZ_grid->display();
+    stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLUE, stop_subghz_raw_record);
+    grid->add(current_frequency);
+    grid->add(current_rssi);
+    grid->add(current_lqi);
+    grid->add(stop);
+    grid->set_selected(3, true);
+    grid->display();
 }

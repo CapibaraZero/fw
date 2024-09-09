@@ -32,19 +32,16 @@ class NFCFormatResultPage : public Page {
   Text *unauthenticated_sectors;
   List *return_back;
   List *exit_page;
-  Grid *nfc_grid;
 
  public:
-  NFCFormatResultPage(GFXForms *_screen);
+  NFCFormatResultPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~NFCFormatResultPage();
   void display();
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
-  void click(int pos, void callback()) { nfc_grid->click(pos, callback); };
+
+  void click(int pos, void callback()) { grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
-    nfc_grid->set_selected(pos, status);
+    grid->set_selected(pos, status);
   };
   void set_formatted(int formatted) {
     formatted_sectors->set_text(english_words->at(NFC_FORMATTED_SECTORS_KEY) +

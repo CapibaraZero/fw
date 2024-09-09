@@ -34,19 +34,16 @@ class NFCDumpResultPage : public Page {
   List *save_to_sd;
   List *return_back;
   List *exit_page;
-  Grid *nfc_grid;
 
  public:
-  NFCDumpResultPage(GFXForms *_screen);
+  NFCDumpResultPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
   ~NFCDumpResultPage();
   void display();
-  void up() {};
-  void down() {};
-  void left() {};
-  void right() {};
-  void click(int pos, void callback()) { nfc_grid->click(pos, callback); };
+
+  void click(int pos, void callback()) { grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
-    nfc_grid->set_selected(pos, status);
+    grid->set_selected(pos, status);
   };
   void set_dumped(int dumped) {
     dumped_sectors->set_text(english_words->at(NFC_DUMPED_SECTORS_KEY) +

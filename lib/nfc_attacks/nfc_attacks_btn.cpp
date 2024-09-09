@@ -50,12 +50,12 @@ void write_tag(Gui *gui, NFCAttacks *attacks, NFCTag *tag) {
     LOG_INFO("Tag is NTAG");
     uint8_t unwritable = attacks->write_ntag(tag);
     Serial.printf("Unwritable sectors: %d\n", unwritable);
-    gui->set_unwritable_sectors(tag->get_blocks_count(), unwritable);
+    // gui->set_unwritable_sectors(tag->get_blocks_count(), unwritable);
   } else {
     LOG_INFO("Tag is not NTAG");
     uint8_t unwritable = attacks->write_tag(tag);
     Serial.printf("Unwritable sectors: %d\n", unwritable);
-    gui->set_unwritable_sectors(tag->get_blocks_count(), unwritable);
+    // gui->set_unwritable_sectors(tag->get_blocks_count(), unwritable);
   }
 }
 

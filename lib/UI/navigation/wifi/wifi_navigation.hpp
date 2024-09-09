@@ -23,13 +23,36 @@
 
 void init_wifi_gui();
 
-void wifi_submenu_handler(int pos);
-
 void stop_wifi_sniffer();
 
-void handle_wifi_network_selection();
 void display_wifi_scan_result();
 
 void init_wifi_navigation(Gui *_gui);
+void goto_scan_wifi();
+void goto_sniff_wifi();
+void wifi_goto_home();
+void save_wifi_scan_to_sd();
 
+void sniff_only_bssid();
+
+void go_back_to_net_list();
+/// @brief Update scanned WiFi channel
+/// @param channel Channel to display in text
+void set_wifi_channel_text(char *channel);
+
+/// @brief Update WiFi scan progress
+/// @param progress
+void set_progress(char *progress);
+void init_wifi_networks_gui(vector<WifiNetwork> *networks);
+/// @brief Get selected network in WiFi scan selection
+/// @return selected network in WiFi scan selection
+WifiNetwork get_current_network();
+/// @brief Create a WiFi scan final dialog(save to SD, sniff BSSID, go back or
+/// return)
+void show_wifi_scan_result_dialog(bool empty);
+/// @brief Show sniffer page
+void show_wifi_sniff_page();
+/// @brief Update sniffed packets in WiFi sniffer page
+/// @param count Number of sniffed packets
+void update_packets_count(int count);
 #endif

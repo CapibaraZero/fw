@@ -19,10 +19,15 @@
 #define NETWORK_ATTACKS_NAVIGATION_H
 
 void goto_net_attacks_gui();
-void network_attacks_submenu_handler(int pos);
 void stop_dhcpglutton();
 void stop_evilportal();
 void stop_arp_poisoner();
 void init_network_attacks_navigation(Gui *_gui);
-
+void goto_dhcpglutton_gui();
+void goto_evilportal_gui();
+void goto_arp_poisoner_gui();
+void net_attacks_goto_home();
+void set_dhcp_glutton_clients(int client);
+void set_evilportal_ip(const char *ip);
+void set_evilportal_requests(int req);
 #endif
