@@ -1,4 +1,4 @@
-#define VERSION "0.4.0"  // Current FW version
+#define VERSION "0.5.0"  // Current FW version
 
 /* Device that we are building */
 #ifdef CONFIG_IDF_TARGET_ESP32
