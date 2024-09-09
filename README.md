@@ -37,10 +37,7 @@ Working Features:
 - NFC support
 - Some network attacks
 - SubGHZ(Beta support, need more testing)
-
-WIP features:
-
-- IR
+- IR(repeat support is not ready but most of the signals will works)
 
 More details in the project view: https://github.com/orgs/CapibaraZero/projects/2/views/1
 
