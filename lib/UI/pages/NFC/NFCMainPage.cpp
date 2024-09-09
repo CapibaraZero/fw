@@ -22,7 +22,11 @@
 #include "../../navigation/NFC/NFCNavigation.hpp"
 #include "gui.hpp"
 
-NFCMainPage::~NFCMainPage() {}
+NFCMainPage::~NFCMainPage() {
+  delete polling_iso14443_a;
+  delete polling_felica;
+  delete go_back;
+}
 
 void NFCMainPage::display() {
   init_nfc_navigation(gui);

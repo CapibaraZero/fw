@@ -23,7 +23,12 @@
 #include "../../navigation/NFC/NFCNavigation.hpp"
 #include "gui.hpp"
 
-NFCPollingResultPage::~NFCPollingResultPage() {}
+NFCPollingResultPage::~NFCPollingResultPage() {
+  delete tag_info;
+  delete uid_text;
+  delete bruteforce_tag;
+  delete exit_page;
+}
 
 void NFCPollingResultPage::display(uint8_t *uid, uint8_t length, const char *tag_name) {
   grid = new Grid(screen, 4, 1);

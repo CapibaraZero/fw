@@ -21,7 +21,12 @@
 #include "../../navigation/SubGHZ/SubGHZNavigation.hpp"
 #include "gui.hpp"
 
-SubGHZRAWRecordPage::~SubGHZRAWRecordPage() {}
+SubGHZRAWRecordPage::~SubGHZRAWRecordPage() {
+    delete current_frequency;
+    delete current_rssi;
+    delete current_lqi;
+    delete stop;
+}
 
 void SubGHZRAWRecordPage::display() {
  grid = new Grid(screen, 3, 1);

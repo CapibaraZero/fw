@@ -22,10 +22,11 @@
 #include "../../navigation/IR/IRNavigation.hpp"
 #include "gui.hpp"
 
-IRMainPage::~IRMainPage() {}
-
-void mock() {
-
+IRMainPage::~IRMainPage() {
+  delete record_signal;
+  delete emulate_signal;
+  delete emulate_rc;
+  delete go_back;
 }
 
 void IRMainPage::display() {

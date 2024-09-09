@@ -21,7 +21,11 @@
 #include "../../i18n/BLE/ble_scan_keys.h"
 #include "gui.hpp"
 
-BLEScanPage::~BLEScanPage() {}
+BLEScanPage::~BLEScanPage() {
+  delete ble_scan_adv_devices;
+  delete ble_scan_progress;
+  delete ble_scan_text;
+}
 
 void BLEScanPage::display() {
   grid = new Grid(screen, 3, 1);

@@ -44,6 +44,9 @@ class Page {
     }
 
    public:
+    virtual ~Page() {
+        delete grid;
+    }
     virtual void display() = 0;
     virtual void up() {
         if(position_increment == 0)

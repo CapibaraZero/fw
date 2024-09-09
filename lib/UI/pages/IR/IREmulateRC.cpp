@@ -2,6 +2,10 @@
 #include "style.h"
 #include "../../navigation/IR/IRNavigation.hpp"
 
+IREmulateRC::~IREmulateRC() {
+    delete go_back;
+}
+
 void IREmulateRC::display(const char* cmd[], size_t count)
 {
     grid = new Grid(screen, 2, 4);

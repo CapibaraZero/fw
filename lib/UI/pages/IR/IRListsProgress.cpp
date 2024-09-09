@@ -2,6 +2,11 @@
 #include "style.h"
 #include "../../navigation/IR/IRNavigation.hpp"
 
+IRListsProgress::~IRListsProgress() {
+    delete progress;
+    delete stop;
+}
+
 void IRListsProgress::display()
 {
 

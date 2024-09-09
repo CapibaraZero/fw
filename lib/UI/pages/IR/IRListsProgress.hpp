@@ -32,7 +32,7 @@ class IRListsProgress : public Page {
  public:
   IRListsProgress(uint8_t _position_limit, uint8_t _lower_limit,
          uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
-  ~IRListsProgress() {};
+  ~IRListsProgress();
   void display();
   void set_selected(int pos, bool status) {
     grid->set_selected(pos, status);

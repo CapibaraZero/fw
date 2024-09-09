@@ -22,7 +22,11 @@
 #include "../../navigation/BLE/ble_navigation.hpp"
 #include "gui.hpp"
 
-BLESniffPage::~BLESniffPage() {}
+BLESniffPage::~BLESniffPage() {
+  delete text;
+  delete packet_count;
+  delete save;
+}
 
 void BLESniffPage::display() {
     text = new Text(screen, ST77XX_WHITE,

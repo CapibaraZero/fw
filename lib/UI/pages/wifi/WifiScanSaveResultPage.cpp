@@ -22,7 +22,12 @@
 #include "../../navigation/wifi/wifi_navigation.hpp"
 #include "gui.hpp"
 
-WifiScanSaveResultPage::~WifiScanSaveResultPage() {}
+WifiScanSaveResultPage::~WifiScanSaveResultPage() {
+  delete save_sd;
+  delete sniff_filter;
+  delete go_back;
+  delete exit_btn;
+}
 
 void WifiScanSaveResultPage::up() {
   if(empty) return;

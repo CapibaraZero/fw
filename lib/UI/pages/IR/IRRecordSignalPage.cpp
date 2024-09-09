@@ -24,7 +24,8 @@
 
 IRRecordSignalPage::~IRRecordSignalPage() {
         Serial.println("Destroy");
-
+  delete protocol;
+  delete stop;
 }
 
 void IRRecordSignalPage::display() {

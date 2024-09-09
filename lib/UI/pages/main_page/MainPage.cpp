@@ -27,7 +27,9 @@
 #include "style.h"
 #include "battery_monitor.hpp"
 
-MainPage::~MainPage() {}
+MainPage::~MainPage() {
+    // MainPage never get destroyed
+}
 
 void section_not_ready() { LOG_ERROR("Section not ready"); }
 void MainPage::display() {

@@ -21,7 +21,11 @@
 #include "../../i18n/BLE/BLE_submenu_keys.h"
 #include "gui.hpp"
 
-NFCWriteResultPage::~NFCWriteResultPage() {}
+NFCWriteResultPage::~NFCWriteResultPage() {
+  delete write_info;
+  delete wrote_sectors;
+  delete unwritable_sectors;
+}
 
 void NFCWriteResultPage::display() {
   grid = new Grid(screen, 4, 1);

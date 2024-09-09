@@ -25,7 +25,6 @@
 #include "gui.hpp"
 
 FileBrowserPage::~FileBrowserPage() {
-    delete grid;
     delete title;
 }
 

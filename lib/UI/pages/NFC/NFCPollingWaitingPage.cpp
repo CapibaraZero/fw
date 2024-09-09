@@ -22,7 +22,11 @@
 #include "../../navigation/NFC/NFCNavigation.hpp"
 #include "gui.hpp"
 
-NFCPollingWaitingPage::~NFCPollingWaitingPage() {}
+NFCPollingWaitingPage::~NFCPollingWaitingPage() {
+  delete polling_in_progress;
+  delete info_msg;
+  delete go_back;
+}
 
 void NFCPollingWaitingPage::display() {
   grid = new Grid(screen, 2, 1);

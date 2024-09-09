@@ -22,7 +22,11 @@
 #include "../../navigation/wifi/wifi_navigation.hpp"
 #include "gui.hpp"
 
-WifiSniffPage::~WifiSniffPage() {}
+WifiSniffPage::~WifiSniffPage() {
+  delete text;
+  delete packet_count;
+  delete save;
+}
 
 void WifiSniffPage::update_packet_count(int count) {
   packet_count->set_text(english_words->at(WIFI_SNIFFING_SNIFFED_KEY) +
