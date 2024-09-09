@@ -54,7 +54,7 @@ void MainPage::display() {
                         HOME_ICON_COLOR, init_nfc_ui);
         IR = new RectText(screen, english_words->at(IR_HOME_KEY), HOME_TEXT_SIZE,
                         HOME_TEXT_COLOR, HOME_ICON_HEIGHT, HOME_ICON_RADIUS,
-                        HOME_ICON_COLOR, section_not_ready);
+                        HOME_ICON_COLOR, init_ir_ui);
         net_attacks = new RectText(screen, english_words->at(NET_ATTACKS_HOME_KEY),
                                 HOME_TEXT_SIZE, HOME_TEXT_COLOR,
                                 HOME_ICON_HEIGHT, HOME_ICON_RADIUS,

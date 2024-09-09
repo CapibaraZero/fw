@@ -21,16 +21,11 @@
 #include "NFC/NFCNavigation.hpp"
 #include "buttons/btn_routines.hpp"
 #include "gui.hpp"
+#include "IR/IRNavigation.hpp"
 #include "network_attacks/network_attacks_navigation.hpp"
 #include "wifi/wifi_navigation.hpp"
 #include "../../../include/debug.h"
 
-#define WIFI_MODULE_POS 0
-#define BLE_MODULE_POS 1
-#define BADUSB_MODULE_POS 2
-#define SUBGHZ_MODULE_POS 3
-#define NFC_MODULE_POS 4
-#define NETWORK_ATTACKS_MODULE_POS 6
 
 static Gui *gui;
 
@@ -62,6 +57,11 @@ void init_subghz_ui() {
 void init_nfc_ui() {
   init_nfc_navigation(gui);
   goto_nfc_gui();
+}
+
+void init_ir_ui() {
+  init_ir_navigation(gui);
+  goto_ir_gui();
 }
 
 void init_network_attacks_ui() {
