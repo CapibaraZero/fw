@@ -20,7 +20,11 @@
 #include "../../i18n.hpp"
 #include "gui.hpp"
 
-SubGHZFrequencyAnalyzerPage::~SubGHZFrequencyAnalyzerPage() {}
+SubGHZFrequencyAnalyzerPage::~SubGHZFrequencyAnalyzerPage() {
+    delete current_frequency;
+    delete current_rssi;
+    delete stop;
+}
 
 void SubGHZFrequencyAnalyzerPage::display() {
     grid = new Grid(screen, 3, 1);

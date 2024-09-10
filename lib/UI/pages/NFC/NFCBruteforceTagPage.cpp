@@ -21,7 +21,11 @@
 #include "../../navigation/NFC/NFCNavigation.hpp"
 #include "gui.hpp"
 
-NFCBruteforceTagPage::~NFCBruteforceTagPage() {}
+NFCBruteforceTagPage::~NFCBruteforceTagPage() {
+  delete bruteforce_info;
+  delete tried_keys;
+  delete found_keys;
+}
 
 void NFCBruteforceTagPage::display() {
   grid = new Grid(screen, 3, 1);

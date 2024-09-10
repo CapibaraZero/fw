@@ -21,7 +21,13 @@
 #include "../../i18n/wifi/wifi_network_details_keys.h"
 #include "gui.hpp"
 
-WifiNetworksPage::~WifiNetworksPage() {}
+WifiNetworksPage::~WifiNetworksPage() {
+  delete ssid;
+  delete rssi;
+  delete bssid;
+  delete ch;
+  delete auth;
+}
 
 void WifiNetworksPage::set_network() {
   if(networks->size() == 0) {

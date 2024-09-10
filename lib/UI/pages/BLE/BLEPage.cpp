@@ -22,7 +22,14 @@
 #include "../../navigation/BLE/ble_navigation.hpp"
 #include "gui.hpp"
 
-BLEPage::~BLEPage() {}
+BLEPage::~BLEPage() {
+    delete ble_sniff;
+    delete apple_juice;
+    delete samsung_ble;
+    delete swift_pair;
+    delete fast_pair;
+    delete go_back;
+}
 
 void BLEPage::display() {
     init_ble_navigation(gui);

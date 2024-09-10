@@ -21,7 +21,12 @@
 #include "../../i18n.hpp"
 #include "gui.hpp"
 
-SubGHZSender::~SubGHZSender() {}
+SubGHZSender::~SubGHZSender() {
+    delete current_frequency;
+    delete current_modulation;
+    delete current_bw;
+    delete current_deviation;
+}
 
 void SubGHZSender::display() {
     grid = new Grid(screen, 4, 1);

@@ -22,7 +22,12 @@
 #include "../../navigation/network_attacks/network_attacks_navigation.hpp"
 #include "gui.hpp"
 
-EvilPortalPage::~EvilPortalPage() {}
+EvilPortalPage::~EvilPortalPage() {
+  delete text;
+  delete portal_ip;
+  delete client_count;
+  delete save;
+}
 
 void EvilPortalPage::update_requests_count(int count) {
   client_count->set_text(english_words->at(EVILPORTAL_CAPTURED_REQUESTS_KEY) +

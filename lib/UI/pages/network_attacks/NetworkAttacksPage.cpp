@@ -22,7 +22,12 @@
 #include "../../navigation/network_attacks/network_attacks_navigation.hpp"
 #include "gui.hpp"
 
-NetworkAttacksPage::~NetworkAttacksPage() {}
+NetworkAttacksPage::~NetworkAttacksPage() {
+  delete evilportal;
+  delete dhcpglutton;
+  delete arp_poisoner;
+  delete go_back;
+}
 
 void NetworkAttacksPage::display() {
   init_network_attacks_navigation(gui);

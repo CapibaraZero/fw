@@ -1,3 +1,4 @@
+
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
  * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
@@ -15,33 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <list>
-
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
-#include "Text.hpp"
 
-#ifndef FILE_BROWSER_PAGE_H
-#define FILE_BROWSER_PAGE_H
+#ifndef IR_RECORD_SIGNAL_PAGE_H
+#define IR_RECORD_SIGNAL_PAGE_H
 
-class FileBrowserPage : public Page {
+class IRRecordSignalPage : public Page {
  private:
-  Text *title;
-  List *go_back;
-
+ Text *protocol = nullptr;
+ Text *addr;
+ Text *cmd;
+ Text *len;
+ List *save;
+ List *retry;
+ List *stop;
+  
  public:
-  FileBrowserPage(uint8_t _position_limit, uint8_t _lower_limit,
+  IRRecordSignalPage(uint8_t _position_limit, uint8_t _lower_limit,
          uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
-  ~FileBrowserPage();
+  ~IRRecordSignalPage();
   void display();
-  void display(const char *text, std::list<std::string> *files, std::function<void(const char *)> list_cb, std::function<void()> go_back_cb);
-  void click(int pos, void callback()) { grid->click(pos, callback); };
+
   void set_selected(int pos, bool status) {
     grid->set_selected(pos, status);
   };
-  void cleanup() { delete grid; };
-
+  void click(int pos, void callback()) { grid->click(pos, callback); };
+  void set_signal(String _protocol, uint16_t _addr, uint16_t _cmd, uint32_t len);
 };
 
 #endif

@@ -22,7 +22,11 @@
 #include "../../navigation/wifi/wifi_navigation.hpp"
 #include "gui.hpp"
 
-WifiPage::~WifiPage() {}
+WifiPage::~WifiPage() {
+  delete wifi_list;
+  delete wifi_sniff;
+  delete go_back;
+}
 
 void WifiPage::display() {
   init_wifi_navigation(gui);

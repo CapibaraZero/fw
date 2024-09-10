@@ -22,7 +22,10 @@
 #include "../../navigation/BLE/ble_navigation.hpp"
 #include "gui.hpp"
 
-BLESpamPage::~BLESpamPage() {}
+BLESpamPage::~BLESpamPage() {
+    delete text;
+    delete save;
+}
 
 void BLESpamPage::display() {
     text = new Text(screen, ST77XX_WHITE,

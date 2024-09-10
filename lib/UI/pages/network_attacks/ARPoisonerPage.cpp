@@ -22,7 +22,10 @@
 #include "../../navigation/network_attacks/network_attacks_navigation.hpp"
 #include "gui.hpp"
 
-ARPoisonerPage::~ARPoisonerPage() {}
+ARPoisonerPage::~ARPoisonerPage() {
+    delete text;
+    delete stop;
+}
 
 void ARPoisonerPage::display() {
     grid = new Grid(screen, 2, 1);

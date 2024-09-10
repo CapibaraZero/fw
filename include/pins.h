@@ -47,6 +47,9 @@
 
 #define BATTERY_MONITOR 2
 
+#define IR_RECEIVER_PIN 6
+#define IR_EMITTER_PIN 14
+
 #elif ARDUINO_NANO_ESP32
 
 // Define buttons pins
@@ -70,9 +73,9 @@
 #define SD_CARD_SCK D13
 
 // SX1276(SubGHZ)
-#define SX1276_DIO1 D3
+#define SX1276_DIO1 D0
 #define SX1276_NSS D7
-#define SX1276_DIO2 D8
+#define SX1276_DIO2 D1
 #define SX1276_MISO D9
 
 // PN532(NFC)
@@ -80,5 +83,8 @@
 #define PN532_SDA A7
 
 #define BATTERY_MONITOR A0
+
+#define IR_RECEIVER_PIN D8
+#define IR_EMITTER_PIN D3
 
 #endif

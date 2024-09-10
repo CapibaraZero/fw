@@ -1,3 +1,4 @@
+
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
  * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
@@ -15,33 +16,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <list>
-
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
-#include "Text.hpp"
+#include "widgets/RectText.hpp"
 
-#ifndef FILE_BROWSER_PAGE_H
-#define FILE_BROWSER_PAGE_H
+#ifndef IR_EMULATE_RC_PAGE_H
+#define IR_EMULATE_RC_PAGE_H
 
-class FileBrowserPage : public Page {
+class IREmulateRC : public Page {
  private:
-  Text *title;
   List *go_back;
-
+  
  public:
-  FileBrowserPage(uint8_t _position_limit, uint8_t _lower_limit,
+  IREmulateRC(uint8_t _position_limit, uint8_t _lower_limit,
          uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
-  ~FileBrowserPage();
+  ~IREmulateRC();
+  void display(const char* cmd[], size_t count);
   void display();
-  void display(const char *text, std::list<std::string> *files, std::function<void(const char *)> list_cb, std::function<void()> go_back_cb);
-  void click(int pos, void callback()) { grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
     grid->set_selected(pos, status);
   };
-  void cleanup() { delete grid; };
-
+  void click(int pos, void callback()) { grid->click(pos, callback); };
+  void left();
+  void right();
+  size_t get_current_element() { return grid->get_selected(); };
 };
 
 #endif

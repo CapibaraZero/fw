@@ -79,12 +79,13 @@ void Gui::right() {
     main_page->right();
 }
 
-void Gui::set_current_page(Page *page, bool display) {
+void Gui::set_current_page(Page *page, bool display, bool delete_page) {
   while(battery_monitor_task_params.lock) {
     NOP();  // Wait
   }
   battery_monitor_task_params.visible = false;
-  delete current_page;
+  if(delete_page)
+    delete current_page;
   current_page = page;
   if(display) 
     page->display();

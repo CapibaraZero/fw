@@ -24,19 +24,13 @@
 #include "Bitmap.hpp"
 #include "gui.hpp"
 
-FileBrowserPage::~FileBrowserPage() {}
+FileBrowserPage::~FileBrowserPage() {
+    delete title;
+}
 
 void empty_cb() {}
 
 void FileBrowserPage::display() {
-    grid = new Grid(screen, 2, 1);
-    title = new Text(screen, ST77XX_WHITE, "File Browser");
-    Bitmap bitmap = Bitmap(screen, (uint8_t *)file_icon, 16, 16, 100, 100);
-    List file = List(screen, "example", 2, ST77XX_WHITE, 20, &bitmap,
-                     ST77XX_BLACK, empty_cb);
-    grid->add(title);
-    grid->add(&file);
-    grid->set_y_spacing(20);
     grid->display();
 }
 
@@ -46,10 +40,10 @@ void FileBrowserPage::display(const char *text, std::list<std::string> *files,
     grid = new Grid(screen, 2, 1);
     title = new Text(screen, ST77XX_WHITE, text);
     grid->add(title);
-    Bitmap bitmap = Bitmap(screen, (uint8_t *)file_icon, 16, 16, 100, 100);
+    Bitmap *bitmap = new Bitmap(screen, (uint8_t *)file_icon, 16, 16, 100, 100);
     List *file_list = nullptr;  // In for loop, variable got deleted
     for (auto file : *files) {
-        file_list = new List(screen, file.c_str(), 2, ST77XX_WHITE, 20, &bitmap,
+        file_list = new List(screen, file.c_str(), 2, ST77XX_WHITE, 20, bitmap,
                              ST77XX_BLACK,
                              [list_cb, file]() { list_cb(file.c_str()); });
         grid->add(file_list);

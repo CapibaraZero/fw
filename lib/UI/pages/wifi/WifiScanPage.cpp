@@ -21,7 +21,11 @@
 #include "../../i18n/wifi/wifi_scan_keys.h"
 #include "gui.hpp"
 
-WifiScanPage::~WifiScanPage() {}
+WifiScanPage::~WifiScanPage() {
+  delete wifi_scan_text;
+  delete wifi_scan_progress;
+  delete wifi_scan_current_ch;
+}
 
 void WifiScanPage::display() {
   grid = new Grid(screen, 3, 1);

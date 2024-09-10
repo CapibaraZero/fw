@@ -1,3 +1,4 @@
+
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
  * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
@@ -15,22 +16,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NAVIGATION_H
-#define NAVIGATION_H
+#include "../Page.hpp"
+#include "Grid.hpp"
+#include "List.hpp"
 
-void set_selected_listener(void *pv);
-void init_main_gui();
-void init_wifi_ui();
+#ifndef IR_MAIN_PAGE_H
+#define IR_MAIN_PAGE_H
 
-void init_ble_ui();
+class IRMainPage : public Page {
+ private:
+  List *record_signal;
+  List *emulate_signal;
+  List *emulate_list;
+  List *emulate_rc;
+  List *go_back;
+  
+ public:
+  IRMainPage(uint8_t _position_limit, uint8_t _lower_limit,
+         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+  ~IRMainPage();
+  void display();
 
-void init_badusb_ui();
+  void set_selected(int pos, bool status) {
+    grid->set_selected(pos, status);
+  };
+  void click(int pos, void callback()) { grid->click(pos, callback); };
+};
 
-void init_subghz_ui();
-
-void init_nfc_ui();
-
-void init_ir_ui();
-
-void init_network_attacks_ui();
 #endif

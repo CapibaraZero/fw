@@ -18,7 +18,11 @@
 #include "NFCFormatResultPage.hpp"
 #include "gui.hpp"
 
-NFCFormatResultPage::~NFCFormatResultPage() {}
+NFCFormatResultPage::~NFCFormatResultPage() {
+  delete dumping_to_sd;
+  delete formatted_sectors;
+  delete unauthenticated_sectors;
+}
 
 void NFCFormatResultPage::display() {
   grid = new Grid(screen, 3, 1);

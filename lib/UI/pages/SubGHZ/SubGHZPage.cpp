@@ -21,7 +21,12 @@
 #include "../../navigation/SubGHZ/SubGHZNavigation.hpp"
 #include "gui.hpp"
 
-SubGHZPage::~SubGHZPage() {}
+SubGHZPage::~SubGHZPage() {
+    delete SubGHZ_freq_analyzer;
+    delete SubGHZ_sniff;
+    delete SubGHZ_sender;
+    delete go_back;
+}
 
 void SubGHZPage::display() {
     init_subghz_navigation(gui);

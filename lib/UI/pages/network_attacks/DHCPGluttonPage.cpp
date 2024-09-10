@@ -22,7 +22,11 @@
 #include "../../navigation/network_attacks/network_attacks_navigation.hpp"
 #include "gui.hpp"
 
-DHCPGluttonPage::~DHCPGluttonPage() {}
+DHCPGluttonPage::~DHCPGluttonPage() {
+  delete text;
+  delete client_count;
+  delete save;
+}
 
 void DHCPGluttonPage::update_packet_count(int count) {
   client_count->set_text(english_words->at(CREATED_DHCPGLUTTON_CLIENTS_KEY) +

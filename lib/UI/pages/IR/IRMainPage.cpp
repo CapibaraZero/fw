@@ -1,3 +1,4 @@
+
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
  * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
@@ -15,31 +16,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "NFCWriteResultPage.hpp"
+#include "IRMainPage.hpp"
 
 #include "../../i18n.hpp"
-#include "../../i18n/BLE/BLE_submenu_keys.h"
+#include "../../navigation/IR/IRNavigation.hpp"
 #include "gui.hpp"
 
-NFCWriteResultPage::~NFCWriteResultPage() {
-  delete write_info;
-  delete wrote_sectors;
-  delete unwritable_sectors;
+IRMainPage::~IRMainPage() {
+  delete record_signal;
+  delete emulate_signal;
+  delete emulate_rc;
+  delete go_back;
 }
 
-void NFCWriteResultPage::display() {
+void IRMainPage::display() {
   grid = new Grid(screen, 4, 1);
-  write_info = new Text(screen, ST77XX_WHITE, "Writing tag to another...");
-  wrote_sectors = new Text(screen, ST77XX_WHITE, "Written sectors: 0");
-  unwritable_sectors = new Text(screen, ST77XX_WHITE, "Unwritable sectors: 0");
-  // return_back = new List(screen, "Go back", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  // exit_page = new List(screen, "Exit", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  grid->add(write_info);
-  grid->add(wrote_sectors);
-  grid->add(unwritable_sectors);
-  grid->add(return_back);
-  grid->add(exit_page);
-  grid->set_y_spacing(20);
-  grid->set_selected(3, true);
+  record_signal = new List(screen, "Record signal", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_ir_record_signal_page);
+  emulate_signal = new List(screen, "Emulate signal", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_ir_send);
+  emulate_rc = new List(screen, "Emulate RC", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_ir_rc_browser);
+  go_back  = new List(screen, "Go back", 2, ST77XX_WHITE, 20, ST77XX_BLACK, ir_goto_home);
+
+  grid->add(record_signal);
+  grid->add(emulate_signal);
+  grid->add(emulate_rc);
+  grid->add(go_back);
+  grid->set_selected(0, true);
   grid->display();
 }
