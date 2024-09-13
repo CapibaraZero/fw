@@ -30,7 +30,9 @@ class BLEScanPage : public Page {
 
  public:
   BLEScanPage(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+              uint8_t _position_increment, GFXForms *screen, Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
   ~BLEScanPage();
   void display();
   void update_progress(char *_progress) {
@@ -39,7 +41,6 @@ class BLEScanPage : public Page {
   void set_adv_devices_text(const char *channel) {
     ble_scan_adv_devices->set_text(channel);
   }
-
 };
 
 #endif

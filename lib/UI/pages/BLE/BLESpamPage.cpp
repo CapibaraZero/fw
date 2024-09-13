@@ -23,19 +23,19 @@
 #include "gui.hpp"
 
 BLESpamPage::~BLESpamPage() {
-    delete text;
-    delete save;
+  delete text;
+  delete save;
 }
 
 void BLESpamPage::display() {
-    text = new Text(screen, ST77XX_WHITE,
-                    english_words->at(BLE_SPAM_PROGRESS_KEY));
-    grid = new Grid(screen, 2, 1);
-    save = new List(screen, english_words->at(BLE_SPAM_STOP_KEY), 2,
-                    ST77XX_WHITE, 20, ST77XX_BLACK, handle_ble_spam_stop);
-    grid->add(text);
-    grid->add(save);
-    grid->set_selected(1, true);
-    grid->set_y_spacing(20);
-    grid->display();
+  text =
+      new Text(screen, ST77XX_WHITE, english_words->at(BLE_SPAM_PROGRESS_KEY));
+  grid = new Grid(screen, 2, 1);
+  save = new List(screen, english_words->at(BLE_SPAM_STOP_KEY), 2, ST77XX_WHITE,
+                  20, ST77XX_BLACK, handle_ble_spam_stop);
+  grid->add(text);
+  grid->add(save);
+  grid->set_selected(1, true);
+  grid->set_y_spacing(20);
+  grid->display();
 }

@@ -15,8 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define MIN_ANALOG_VALUE 0  // Low analog value, read using analogRead()
-#define MAX_ANALOG_VALUE 3300   // High analog value, read using analogRead()
-#define MIN_LEVEL 0 // Minimium battery level in percentage
-#define MAX_LEVEL 100   // Maximium battery level in percentage
-#define TASK_POLLING_RATE 10000 // Level updater timeout in milliseconds(it will update every x ms)
+#define MIN_ANALOG_VALUE 0     // Low analog value, read using analogRead()
+#define MAX_ANALOG_VALUE 3300  // High analog value, read using analogRead()
+#define MIN_LEVEL 0            // Minimium battery level in percentage
+#define MAX_LEVEL 100          // Maximium battery level in percentage
+#define TASK_POLLING_RATE \
+  10000  // Level updater timeout in milliseconds(it will update every x ms)

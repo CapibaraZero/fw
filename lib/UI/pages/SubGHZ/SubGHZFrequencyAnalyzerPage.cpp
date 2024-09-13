@@ -16,25 +16,27 @@
  */
 
 #include "SubGHZFrequencyAnalyzerPage.hpp"
-#include "../../navigation/SubGHZ/SubGHZNavigation.hpp"
+
 #include "../../i18n.hpp"
+#include "../../navigation/SubGHZ/SubGHZNavigation.hpp"
 #include "gui.hpp"
 
 SubGHZFrequencyAnalyzerPage::~SubGHZFrequencyAnalyzerPage() {
-    delete current_frequency;
-    delete current_rssi;
-    delete stop;
+  delete current_frequency;
+  delete current_rssi;
+  delete stop;
 }
 
 void SubGHZFrequencyAnalyzerPage::display() {
-    grid = new Grid(screen, 3, 1);
-    grid->set_y_spacing(30);
-    current_frequency = new Text(screen, ST77XX_WHITE, "Frequency: 0 MHz");
-    current_rssi = new Text(screen, ST77XX_WHITE, "RSSI: 0 dBm");
-    stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLUE, stop_frequency_analyzer);
-    grid->add(current_frequency);
-    grid->add(current_rssi);
-    grid->add(stop);
-    grid->set_selected(2, true);
-    grid->display();
+  grid = new Grid(screen, 3, 1);
+  grid->set_y_spacing(30);
+  current_frequency = new Text(screen, ST77XX_WHITE, "Frequency: 0 MHz");
+  current_rssi = new Text(screen, ST77XX_WHITE, "RSSI: 0 dBm");
+  stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLUE,
+                  stop_frequency_analyzer);
+  grid->add(current_frequency);
+  grid->add(current_rssi);
+  grid->add(stop);
+  grid->set_selected(2, true);
+  grid->display();
 }

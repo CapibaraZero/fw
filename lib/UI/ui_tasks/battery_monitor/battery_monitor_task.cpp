@@ -15,20 +15,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "battery_monitor.hpp"
-#include "../../../../include/battery_level.h"
 #include <Arduino.h>
+
+#include "../../../../include/battery_level.h"
+#include "battery_monitor.hpp"
 #include "battery_monitor_task_types.h"
 
 void battery_monitor_task(void *pv) {
-    BatteryMonitorTaskParams *params = static_cast<BatteryMonitorTaskParams *>(pv);
+  BatteryMonitorTaskParams *params =
+      static_cast<BatteryMonitorTaskParams *>(pv);
 
-    while (true) {
-        if(params->visible) {
-            params->lock = true;
-            params->page->set_battery_level();
-            params->lock = false;
-        }
-        delay(TASK_POLLING_RATE);
+  while (true) {
+    if (params->visible) {
+      params->lock = true;
+      params->page->set_battery_level();
+      params->lock = false;
     }
+    delay(TASK_POLLING_RATE);
+  }
 }

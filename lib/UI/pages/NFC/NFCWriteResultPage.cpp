@@ -32,8 +32,9 @@ void NFCWriteResultPage::display() {
   write_info = new Text(screen, ST77XX_WHITE, "Writing tag to another...");
   wrote_sectors = new Text(screen, ST77XX_WHITE, "Written sectors: 0");
   unwritable_sectors = new Text(screen, ST77XX_WHITE, "Unwritable sectors: 0");
-  // return_back = new List(screen, "Go back", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  // exit_page = new List(screen, "Exit", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
+  // return_back = new List(screen, "Go back", 2, ST77XX_WHITE, 20,
+  // ST77XX_BLACK); exit_page = new List(screen, "Exit", 2, ST77XX_WHITE, 20,
+  // ST77XX_BLACK);
   grid->add(write_info);
   grid->add(wrote_sectors);
   grid->add(unwritable_sectors);

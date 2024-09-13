@@ -15,11 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "pages/Page.hpp"
-#include "GFXForms.hpp"
-#include "widgets/RectText.hpp"
-#include "pages/main_page/MainPage.hpp"
 #include "./ui_tasks/battery_monitor/battery_monitor_task_types.h"
+#include "GFXForms.hpp"
+#include "pages/Page.hpp"
+#include "pages/main_page/MainPage.hpp"
+#include "widgets/RectText.hpp"
 
 #ifndef GUI_H
 #define GUI_H
@@ -28,12 +28,13 @@ class Gui {
  private:
   GFXForms *screen;
   Page *current_page = nullptr;
-  MainPage *main_page = nullptr;  // Never delete main_page since it's always necessary
-                                  // Reduce memory fragmentation
+  MainPage *main_page = nullptr;  // Never delete main_page since it's always
+                                  // necessary Reduce memory fragmentation
   BatteryMonitorTaskParams battery_monitor_task_params;
+
  public:
   Gui(GFXForms *_screen) { screen = _screen; };
-  ~Gui(){};
+  ~Gui() {};
   GFXForms *get_screen() { return screen; }
   /// @brief Init main GUI
   void init_gui();
@@ -45,8 +46,10 @@ class Gui {
 
   /// @brief Set current page and display it
   /// @param page Reference to the created page
-  /// @param display if true, call page->display(). If false, page->display() is not called in this method. By default display is true
-  void set_current_page(Page *page, bool display = true, bool delete_page = true);
+  /// @param display if true, call page->display(). If false, page->display() is
+  /// not called in this method. By default display is true
+  void set_current_page(Page *page, bool display = true,
+                        bool delete_page = true);
 
   /// @brief Generate arrrow-up event and propagate to current page
   void up();

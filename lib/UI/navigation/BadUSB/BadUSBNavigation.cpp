@@ -1,14 +1,14 @@
 #include <list>
 
+#include "../../../../include/debug.h"
+#include "../../i18n/BadUSB/badusb_keys.h"
+#include "../navigation.hpp"
 #include "gui.hpp"
+#include "pages/FileBrowser/FileBrowserPage.hpp"
 #include "parser.hpp"
 #include "posixsd.hpp"
 #include "sdcard_helper.hpp"
 #include "usb_hid/USBHid.hpp"
-#include "../../../../include/debug.h"
-#include "../../i18n/BadUSB/badusb_keys.h"
-#include "../navigation.hpp"
-#include "pages/FileBrowser/FileBrowserPage.hpp"
 
 static Gui *_gui;
 std::list<std::string> files;
@@ -29,12 +29,12 @@ void badusb_selection_handler(const char *path) {
 }
 
 void goto_home_from_badusb() {
-    hid.end();
-    #ifdef ARDUINO_NANO_ESP32
-    Serial.begin(115200);
-    #endif
-    init_main_gui();
-    file_browser_page = nullptr;
+  hid.end();
+#ifdef ARDUINO_NANO_ESP32
+  Serial.begin(115200);
+#endif
+  init_main_gui();
+  file_browser_page = nullptr;
 }
 
 void goto_badusb_gui() {
@@ -44,8 +44,10 @@ void goto_badusb_gui() {
   hid.begin();
   files = list_dir(open("/ducky", "r"));
   _gui->reset();
-  file_browser_page = new FileBrowserPage(files.size() + 1, 1, 1, _gui->get_screen(), _gui);
-  file_browser_page->display("BadUSB Payload Browser", &files, badusb_selection_handler, goto_home_from_badusb);
+  file_browser_page =
+      new FileBrowserPage(files.size() + 1, 1, 1, _gui->get_screen(), _gui);
+  file_browser_page->display("BadUSB Payload Browser", &files,
+                             badusb_selection_handler, goto_home_from_badusb);
   _gui->set_current_page(file_browser_page, false);
 }
 

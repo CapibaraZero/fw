@@ -34,13 +34,14 @@ void DHCPGluttonPage::update_packet_count(int count) {
 }
 
 void DHCPGluttonPage::display() {
-    text = new Text(screen, ST77XX_WHITE,
+  text = new Text(screen, ST77XX_WHITE,
                   english_words->at(RUNNING_DHCPGLUTTON_KEY));
   client_count =
       new Text(screen, ST77XX_WHITE,
                english_words->at(CREATED_DHCPGLUTTON_CLIENTS_KEY) + String(0));
   grid = new Grid(screen, 3, 1);
-  save = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK, stop_dhcpglutton);
+  save = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
+                  stop_dhcpglutton);
   grid->add(text);
   grid->add(client_count);
   grid->add(save);

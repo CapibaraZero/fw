@@ -36,7 +36,7 @@ void WifiPage::display() {
   wifi_sniff = new List(screen, english_words->at(WIFI_SNIFF_KEY), 2,
                         ST77XX_WHITE, 20, ST77XX_BLACK, goto_sniff_wifi);
   go_back = new List(screen, english_words->at(WIFI_GO_BACK_KEY), 2,
-                        ST77XX_WHITE, 20, ST77XX_BLACK, wifi_goto_home);
+                     ST77XX_WHITE, 20, ST77XX_BLACK, wifi_goto_home);
   grid->add(wifi_list);
   grid->add(wifi_sniff);
   grid->add(go_back);

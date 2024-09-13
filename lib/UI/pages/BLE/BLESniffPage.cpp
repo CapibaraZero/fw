@@ -29,8 +29,8 @@ BLESniffPage::~BLESniffPage() {
 }
 
 void BLESniffPage::display() {
-    text = new Text(screen, ST77XX_WHITE,
-                  english_words->at(WIFI_SNIFFING_INFO_KEY));
+  text =
+      new Text(screen, ST77XX_WHITE, english_words->at(WIFI_SNIFFING_INFO_KEY));
   packet_count =
       new Text(screen, ST77XX_WHITE,
                english_words->at(WIFI_SNIFFING_SNIFFED_KEY) + String(0));

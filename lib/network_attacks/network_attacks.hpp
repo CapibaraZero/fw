@@ -45,7 +45,8 @@ class NetworkAttacks {
   /// @brief Create the AP from config or, if not provided, create the default
   /// AP
   void create_ap();
-  ARPoisonerConfig get_arp_config(); 
+  ARPoisonerConfig get_arp_config();
+
  public:
   NetworkAttacks(/* args */);
   ~NetworkAttacks();

@@ -20,14 +20,14 @@
 
 #include <Arduino.h>
 
+#include "../../include/debug.h"
 #include "../UI/gui.hpp"
+#include "../UI/navigation/wifi/wifi_navigation.hpp"
 #include "GFXForms.hpp"  // Fix building errors
 #include "ui_tasks/wifi/wifi_ui_tasks.hpp"
 #include "ui_tasks/wifi/wifi_ui_tasks_types.h"
 #include "wifi_sniff_task_types.h"
 #include "wifi_tasks.hpp"
-#include "../../include/debug.h"
-#include "../UI/navigation/wifi/wifi_navigation.hpp"
 
 #define TASK_STACK_SIZE 16000
 
@@ -51,8 +51,8 @@ TaskHandle_t wifi_sniffer_updater = NULL;
 void sniff_wifi(Gui *gui, WifiAttack *wifiAttack) {
   gui->reset();
   show_wifi_sniff_page();
-  xTaskCreate(&wifi_sniff_task, "wifi_sniff", SNIFF_TASK_SIZE, (void *)wifiAttack, 5,
-              NULL);
+  xTaskCreate(&wifi_sniff_task, "wifi_sniff", SNIFF_TASK_SIZE,
+              (void *)wifiAttack, 5, NULL);
   while (!wifiAttack->sniffer_running()) {
     delay(1);  // Wait for sniffer initialization
   }
@@ -62,11 +62,12 @@ void sniff_wifi(Gui *gui, WifiAttack *wifiAttack) {
   wifi_ui_task_params->wifi_attack = wifiAttack;
   wifi_ui_task_params->gui = gui;
   xTaskCreate(&update_wifi_sniff_packets, "update_wifi_sniff", 3000,
-              (void *)wifi_ui_task_params, tskIDLE_PRIORITY, &wifi_sniffer_updater);
+              (void *)wifi_ui_task_params, tskIDLE_PRIORITY,
+              &wifi_sniffer_updater);
 }
 
 void stop_wifi_sniffer_updater() {
-  while(get_sniffer_lock()) {
+  while (get_sniffer_lock()) {
     /* Wait until GUI is updated to avoid graphical glitches */
     NOP();
   }
@@ -92,8 +93,8 @@ void sniff_bssid(Gui *gui, WifiAttack *wifiAttack) {
   wifi_ui_task_params->wifi_attack = wifiAttack;
   wifi_ui_task_params->gui = gui;
   xTaskCreate(&update_wifi_sniff_packets, "update_wifi_sniff", 3000,
-              (void *)wifi_ui_task_params, tskIDLE_PRIORITY, &wifi_sniffer_updater);
+              (void *)wifi_ui_task_params, tskIDLE_PRIORITY,
+              &wifi_sniffer_updater);
 }
 
-void return_to_net_list(Gui *gui) {
-}
+void return_to_net_list(Gui *gui) {}

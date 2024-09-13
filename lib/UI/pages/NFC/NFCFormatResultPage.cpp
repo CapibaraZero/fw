@@ -16,6 +16,7 @@
  */
 
 #include "NFCFormatResultPage.hpp"
+
 #include "gui.hpp"
 
 NFCFormatResultPage::~NFCFormatResultPage() {

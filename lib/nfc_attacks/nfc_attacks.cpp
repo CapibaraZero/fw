@@ -54,26 +54,25 @@ bool NFCAttacks::is_there_null_blocks(NFCTag *tag) {
 
 static void parse_str_to_arr(String *str, uint8_t *out, size_t len) {
   for (size_t i = 0; i < 6; i++) {
-    out[i] = strtol(str->substring(0,2).c_str(), NULL, 16);
-    if(str->length() != 2)
-      str->remove(0, 2);
+    out[i] = strtol(str->substring(0, 2).c_str(), NULL, 16);
+    if (str->length() != 2) str->remove(0, 2);
   }
 }
 
-void NFCAttacks::auth_sector(uint8_t sector, uint8_t *key, KeyType key_type, uint8_t *out_key, bool *key_found) {
+void NFCAttacks::auth_sector(uint8_t sector, uint8_t *key, KeyType key_type,
+                             uint8_t *out_key, bool *key_found) {
   *key_found = nfc_framework.auth_tag(key, sector, key_type);
-  if(*key_found)
-    memcpy(out_key, key, 6);
+  if (*key_found) memcpy(out_key, key, 6);
 }
 
-bool NFCAttacks::read_sector(uint8_t initial_pos, uint8_t *key, KeyType key_type, uint8_t *out) {
-  bool result = true;    
+bool NFCAttacks::read_sector(uint8_t initial_pos, uint8_t *key,
+                             KeyType key_type, uint8_t *out) {
+  bool result = true;
   uint8_t block_data[16];
   memset(block_data, 0, 16);
-  for (size_t i = initial_pos; i < initial_pos + 4; i++)
-  {
+  for (size_t i = initial_pos; i < initial_pos + 4; i++) {
     result &= nfc_framework.read_block(i, key, key_type, block_data);
-    memcpy(&out[16*i], block_data, 16);
+    memcpy(&out[16 * i], block_data, 16);
   }
   return result;
 }
@@ -84,28 +83,30 @@ bool NFCAttacks::bruteforce() {
   std::map<uint8_t, SectorResult> bruteforce_result;
   // List of trailer of sector 0..63
   list<uint8_t> know_sector = {
-    0,  // Sector 0
-    4,  // Sector 1
-    8,  // Sector 2
-    12, // Sector 3
-    16, // Sector 4
-    20, // Sector 5
-    24, // Sector 6
-    28, // Sector 7
-    32, // Sector 8
-    36, // Sector 9
-    40, // Sector 10
-    44, // Sector 11
-    48, // Sector 12
-    52, // Sector 13
-    56, // Sector 14
-    60  // Sector 15
+      0,   // Sector 0
+      4,   // Sector 1
+      8,   // Sector 2
+      12,  // Sector 3
+      16,  // Sector 4
+      20,  // Sector 5
+      24,  // Sector 6
+      28,  // Sector 7
+      32,  // Sector 8
+      36,  // Sector 9
+      40,  // Sector 10
+      44,  // Sector 11
+      48,  // Sector 12
+      52,  // Sector 13
+      56,  // Sector 14
+      60   // Sector 15
   };
   uint16_t atqa = 0;
   uint8_t sak = 0;
-  nfc_framework.get_tag_uid(bruteforce_result[0].uid, &bruteforce_result[0].uid_len, &atqa, &sak);
-  TagType tag = NFCFramework::lookup_tag(atqa, sak, bruteforce_result[0].uid_len);
-  if(tag.blocks == 20) {
+  nfc_framework.get_tag_uid(bruteforce_result[0].uid,
+                            &bruteforce_result[0].uid_len, &atqa, &sak);
+  TagType tag =
+      NFCFramework::lookup_tag(atqa, sak, bruteforce_result[0].uid_len);
+  if (tag.blocks == 20) {
     know_sector.resize(5);
   }
   uint8_t tag_data[tag.blocks * 16];
@@ -115,7 +116,7 @@ bool NFCAttacks::bruteforce() {
     vector<String> lines = readlines(keys);  // Read all lines
     for (String line : lines) {
       if (line[0] == '#')  // If is a comment, skip
-        continue; 
+        continue;
       vector<String> raw_key = string_split(
           (char *)line.c_str(), " ");  // String string for each space
       uint8_t parsed_key[6];
@@ -123,34 +124,44 @@ bool NFCAttacks::bruteforce() {
         SERIAL_DEVICE.printf("%s\n", key_byte.c_str());
         parse_str_to_arr(&key_byte, parsed_key, 6);
       }
-      for (uint8_t sector : know_sector)
-      {
-        if(bruteforce_result.find(sector) == bruteforce_result.end()){
+      for (uint8_t sector : know_sector) {
+        if (bruteforce_result.find(sector) == bruteforce_result.end()) {
           bruteforce_result.insert({sector, SectorResult()});
         }
-        if(!bruteforce_result[sector].key_a_found){
-          auth_sector(sector, parsed_key, KEY_A, bruteforce_result[sector].key_a, &bruteforce_result[sector].key_a_found);
-          if(bruteforce_result[sector].key_a_found && !bruteforce_result[sector].dumped) {
-            bruteforce_result[sector].dumped = read_sector(sector, parsed_key, KEY_A, tag_data);
+        if (!bruteforce_result[sector].key_a_found) {
+          auth_sector(sector, parsed_key, KEY_A,
+                      bruteforce_result[sector].key_a,
+                      &bruteforce_result[sector].key_a_found);
+          if (bruteforce_result[sector].key_a_found &&
+              !bruteforce_result[sector].dumped) {
+            bruteforce_result[sector].dumped =
+                read_sector(sector, parsed_key, KEY_A, tag_data);
           }
-          if(bruteforce_result[sector].key_a_found && bruteforce_result[sector].dumped) {
+          if (bruteforce_result[sector].key_a_found &&
+              bruteforce_result[sector].dumped) {
             memcpy(&tag_data[(16 * (sector + 3))], parsed_key, 6);
           }
         }
-        if(!bruteforce_result[sector].key_b_found){
-          auth_sector(sector, parsed_key, KEY_B, bruteforce_result[sector].key_b, &bruteforce_result[sector].key_b_found);
-          if(bruteforce_result[sector].key_b_found && !bruteforce_result[sector].dumped) {
-            bruteforce_result[sector].dumped = read_sector(sector, parsed_key, KEY_B, tag_data);
+        if (!bruteforce_result[sector].key_b_found) {
+          auth_sector(sector, parsed_key, KEY_B,
+                      bruteforce_result[sector].key_b,
+                      &bruteforce_result[sector].key_b_found);
+          if (bruteforce_result[sector].key_b_found &&
+              !bruteforce_result[sector].dumped) {
+            bruteforce_result[sector].dumped =
+                read_sector(sector, parsed_key, KEY_B, tag_data);
           }
-          if(bruteforce_result[sector].key_b_found && bruteforce_result[sector].dumped) {
+          if (bruteforce_result[sector].key_b_found &&
+              bruteforce_result[sector].dumped) {
             memcpy(&tag_data[(16 * (sector + 3)) + 10], parsed_key, 6);
           }
-        } 
-        if(bruteforce_result[sector].key_a_found && bruteforce_result[sector].key_b_found) {
-            know_sector.remove(sector); 
+        }
+        if (bruteforce_result[sector].key_a_found &&
+            bruteforce_result[sector].key_b_found) {
+          know_sector.remove(sector);
         }
       }
-      if(know_sector.size() == 0){
+      if (know_sector.size() == 0) {
         bruteforce_status = false;
         save_file("/NFC/result.bin", tag_data, tag.blocks * 16);
         return true;
@@ -173,7 +184,8 @@ void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length) {
   };
 }
 
-void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length, uint16_t *atqa, uint8_t *sak) {
+void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length, uint16_t *atqa,
+                          uint8_t *sak) {
   LOG_INFO("Read UID: ");
   if (!nfc_framework.get_tag_uid(uid, uid_length, atqa, sak)) {
     uid = NULL;

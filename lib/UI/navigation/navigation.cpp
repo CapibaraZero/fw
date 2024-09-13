@@ -15,17 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../../../include/debug.h"
 #include "BLE/ble_navigation.hpp"
 #include "BadUSB/BadUSBNavigation.hpp"
-#include "SubGHZ/SubGHZNavigation.hpp"
+#include "IR/IRNavigation.hpp"
 #include "NFC/NFCNavigation.hpp"
+#include "SubGHZ/SubGHZNavigation.hpp"
 #include "buttons/btn_routines.hpp"
 #include "gui.hpp"
-#include "IR/IRNavigation.hpp"
 #include "network_attacks/network_attacks_navigation.hpp"
 #include "wifi/wifi_navigation.hpp"
-#include "../../../include/debug.h"
-
 
 static Gui *gui;
 

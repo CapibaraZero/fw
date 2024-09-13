@@ -33,7 +33,8 @@ class RectText : public Widget {
 
  public:
   RectText(GFXForms *display, const char *text, int font_size,
-           uint16_t font_color, int _heigth, int radius, uint16_t rect_color, std::function<void()> _cb);
+           uint16_t font_color, int _heigth, int radius, uint16_t rect_color,
+           std::function<void()> _cb);
   ~RectText();
   void set_pos(int _x, int _y) {
     x = _x;

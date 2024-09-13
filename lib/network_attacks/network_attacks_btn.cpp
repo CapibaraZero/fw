@@ -19,12 +19,12 @@
 
 #include "GFXForms.hpp"  // Fix building errors
 #include "gui.hpp"
+#include "navigation/network_attacks/network_attacks_navigation.hpp"
 #include "network_attacks.hpp"
 #include "network_attacks_tasks.hpp"
 #include "ui_tasks/network_attacks/net_attacks_ui_tasks.hpp"
 #include "ui_tasks/network_attacks/net_attacks_ui_tasks_types.h"
 #include "wifi_attack.hpp"
-#include "navigation/network_attacks/network_attacks_navigation.hpp"
 
 static NetAttacksTaskArg *task_arg = NULL;
 static TaskHandle_t dhcp_glutton_handle = NULL;
@@ -73,6 +73,4 @@ void start_arp_poisoning(Gui *gui, NetworkAttacks *attack) {
               &arp_poisoner_task_handle);
 }
 
-void kill_arp_poisoning() {
-  vTaskDelete(arp_poisoner_task_handle);
-}
+void kill_arp_poisoning() { vTaskDelete(arp_poisoner_task_handle); }

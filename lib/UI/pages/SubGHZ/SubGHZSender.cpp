@@ -22,22 +22,22 @@
 #include "gui.hpp"
 
 SubGHZSender::~SubGHZSender() {
-    delete current_frequency;
-    delete current_modulation;
-    delete current_bw;
-    delete current_deviation;
+  delete current_frequency;
+  delete current_modulation;
+  delete current_bw;
+  delete current_deviation;
 }
 
 void SubGHZSender::display() {
-    grid = new Grid(screen, 4, 1);
-    grid->set_y_spacing(30);
-    current_frequency = new Text(screen, ST77XX_WHITE, "Frequency: 0 MHz");
-    current_modulation = new Text(screen, ST77XX_WHITE, "Modulation: ");
-    current_bw = new Text(screen, ST77XX_WHITE, "Bandwidth: ");
-    current_deviation = new Text(screen, ST77XX_WHITE, "Deviation: ");
-    grid->add(current_frequency);
-    grid->add(current_modulation);
-    grid->add(current_bw);
-    grid->add(current_deviation);
-    grid->display();
+  grid = new Grid(screen, 4, 1);
+  grid->set_y_spacing(30);
+  current_frequency = new Text(screen, ST77XX_WHITE, "Frequency: 0 MHz");
+  current_modulation = new Text(screen, ST77XX_WHITE, "Modulation: ");
+  current_bw = new Text(screen, ST77XX_WHITE, "Bandwidth: ");
+  current_deviation = new Text(screen, ST77XX_WHITE, "Deviation: ");
+  grid->add(current_frequency);
+  grid->add(current_modulation);
+  grid->add(current_bw);
+  grid->add(current_deviation);
+  grid->display();
 }

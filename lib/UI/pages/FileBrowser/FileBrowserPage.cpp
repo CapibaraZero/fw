@@ -24,34 +24,30 @@
 #include "Bitmap.hpp"
 #include "gui.hpp"
 
-FileBrowserPage::~FileBrowserPage() {
-    delete title;
-}
+FileBrowserPage::~FileBrowserPage() { delete title; }
 
 void empty_cb() {}
 
-void FileBrowserPage::display() {
-    grid->display();
-}
+void FileBrowserPage::display() { grid->display(); }
 
 void FileBrowserPage::display(const char *text, std::list<std::string> *files,
                               std::function<void(const char *)> list_cb,
                               std::function<void()> go_back_cb) {
-    grid = new Grid(screen, 2, 1);
-    title = new Text(screen, ST77XX_WHITE, text);
-    grid->add(title);
-    Bitmap *bitmap = new Bitmap(screen, (uint8_t *)file_icon, 16, 16, 100, 100);
-    List *file_list = nullptr;  // In for loop, variable got deleted
-    for (auto file : *files) {
-        file_list = new List(screen, file.c_str(), 2, ST77XX_WHITE, 20, bitmap,
-                             ST77XX_BLACK,
-                             [list_cb, file]() { list_cb(file.c_str()); });
-        grid->add(file_list);
-    }
-    go_back = new List(screen, english_words->at(BADUSB_GO_BACK_KEY), 2,
-                       ST77XX_WHITE, 20, ST77XX_BLACK, go_back_cb);
-    grid->add(go_back);
-    grid->set_selected(1, true);
-    grid->set_y_spacing(20);
-    grid->display();
+  grid = new Grid(screen, 2, 1);
+  title = new Text(screen, ST77XX_WHITE, text);
+  grid->add(title);
+  Bitmap *bitmap = new Bitmap(screen, (uint8_t *)file_icon, 16, 16, 100, 100);
+  List *file_list = nullptr;  // In for loop, variable got deleted
+  for (auto file : *files) {
+    file_list =
+        new List(screen, file.c_str(), 2, ST77XX_WHITE, 20, bitmap,
+                 ST77XX_BLACK, [list_cb, file]() { list_cb(file.c_str()); });
+    grid->add(file_list);
+  }
+  go_back = new List(screen, english_words->at(BADUSB_GO_BACK_KEY), 2,
+                     ST77XX_WHITE, 20, ST77XX_BLACK, go_back_cb);
+  grid->add(go_back);
+  grid->set_selected(1, true);
+  grid->set_y_spacing(20);
+  grid->display();
 }

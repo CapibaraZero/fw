@@ -1,5 +1,5 @@
-#include "subghz_tasks_type.h"
 #include "config_struct.h"
+#include "subghz_tasks_type.h"
 
 bool parse_lora_freq_analyzer();
 SubGHZRAWRecorderConfig parse_raw_record_config();

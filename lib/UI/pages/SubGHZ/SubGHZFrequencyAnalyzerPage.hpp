@@ -23,27 +23,26 @@
 #define SUBGHZ_FREQUENCY_ANALYZER_PAGE_H
 
 class SubGHZFrequencyAnalyzerPage : public Page {
-   private:
-    Text *current_frequency;
-    Text *current_rssi;
-    List *stop;
+ private:
+  Text *current_frequency;
+  Text *current_rssi;
+  List *stop;
 
-   public:
-    SubGHZFrequencyAnalyzerPage(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
-    ~SubGHZFrequencyAnalyzerPage();
-    void display();
-    
-    void click(int pos, void callback()) { grid->click(pos, callback); };
-    void set_selected(int pos, bool status) {
-        grid->set_selected(pos, status);
-    };
-    void set_rssi(int rssi) {
-        current_rssi->set_text("RSSI: " + String(rssi));
-    }
-    void set_frequency(float frequency) {
-        current_frequency->set_text("Frequency: " + String(frequency) + "MHz");
-    }
+ public:
+  SubGHZFrequencyAnalyzerPage(uint8_t _position_limit, uint8_t _lower_limit,
+                              uint8_t _position_increment, GFXForms *screen,
+                              Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
+  ~SubGHZFrequencyAnalyzerPage();
+  void display();
+
+  void click(int pos, void callback()) { grid->click(pos, callback); };
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
+  void set_rssi(int rssi) { current_rssi->set_text("RSSI: " + String(rssi)); }
+  void set_frequency(float frequency) {
+    current_frequency->set_text("Frequency: " + String(frequency) + "MHz");
+  }
 };
 
 #endif

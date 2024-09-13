@@ -1,5 +1,6 @@
-#include "../../pages/main_page/MainPage.hpp"
 #include <mutex>
+
+#include "../../pages/main_page/MainPage.hpp"
 
 #ifndef BATTERY_MONITOR_TASK_TYPES_H
 #define BATTERY_MONITOR_TASK_TYPES_H

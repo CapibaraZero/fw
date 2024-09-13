@@ -22,23 +22,24 @@
 #include "gui.hpp"
 
 SubGHZRAWRecordPage::~SubGHZRAWRecordPage() {
-    delete current_frequency;
-    delete current_rssi;
-    delete current_lqi;
-    delete stop;
+  delete current_frequency;
+  delete current_rssi;
+  delete current_lqi;
+  delete stop;
 }
 
 void SubGHZRAWRecordPage::display() {
- grid = new Grid(screen, 3, 1);
-    grid->set_y_spacing(30);
-    current_frequency = new Text(screen, ST77XX_WHITE, "Frequency: 0 MHz");
-    current_rssi = new Text(screen, ST77XX_WHITE, "RSSI: 0 dBm");
-    current_lqi = new Text(screen, ST77XX_WHITE, "LQI: 0");
-    stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLUE, stop_subghz_raw_record);
-    grid->add(current_frequency);
-    grid->add(current_rssi);
-    grid->add(current_lqi);
-    grid->add(stop);
-    grid->set_selected(3, true);
-    grid->display();
+  grid = new Grid(screen, 3, 1);
+  grid->set_y_spacing(30);
+  current_frequency = new Text(screen, ST77XX_WHITE, "Frequency: 0 MHz");
+  current_rssi = new Text(screen, ST77XX_WHITE, "RSSI: 0 dBm");
+  current_lqi = new Text(screen, ST77XX_WHITE, "LQI: 0");
+  stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLUE,
+                  stop_subghz_raw_record);
+  grid->add(current_frequency);
+  grid->add(current_rssi);
+  grid->add(current_lqi);
+  grid->add(stop);
+  grid->set_selected(3, true);
+  grid->display();
 }

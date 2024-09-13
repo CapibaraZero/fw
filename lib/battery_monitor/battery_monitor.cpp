@@ -16,11 +16,13 @@
  */
 
 #include <Arduino.h>
+
 #include "../../include/battery_level.h"
 #include "../../include/pins.h"
 
 int read_battery_level() {
-    int battery_level = analogRead(BATTERY_MONITOR);
-    battery_level = map(battery_level, MIN_ANALOG_VALUE, MAX_ANALOG_VALUE, MIN_LEVEL, MAX_LEVEL);
-    return battery_level;
+  int battery_level = analogRead(BATTERY_MONITOR);
+  battery_level = map(battery_level, MIN_ANALOG_VALUE, MAX_ANALOG_VALUE,
+                      MIN_LEVEL, MAX_LEVEL);
+  return battery_level;
 }

@@ -42,7 +42,8 @@ void NetworkAttacks::connect_to_wifi(const char *config) {
   DeserializationError error = deserializeJson(doc, dhcp_glutton_config);
   if (error) {
     Serial.printf("Error: %s", error.c_str());
-    LOG_ERROR("Error during deserialization of configuration. Restarting ESP...");
+    LOG_ERROR(
+        "Error during deserialization of configuration. Restarting ESP...");
     ESP.restart();
   }
   if (doc["ssid"].isNull() || doc["password"].isNull()) {
@@ -90,7 +91,7 @@ ARPoisonerConfig NetworkAttacks::get_arp_config() {
     LOG_ERROR("Missing ARP poisoner configuration");
     ESP.restart();
   }
-  if(doc["target_ip"].isNull() || doc["target_mac"].isNull()) {
+  if (doc["target_ip"].isNull() || doc["target_mac"].isNull()) {
     LOG_ERROR("Invalid ARP poisoner configuration");
     ESP.restart();
   }
@@ -101,7 +102,7 @@ ARPoisonerConfig NetworkAttacks::get_arp_config() {
   for (uint8_t i = 0; i < 6; i++) {
     arp_config.dest_mac[i] = doc["target_mac"][i];
   }
-  if(!doc["send_time"].isNull()) {
+  if (!doc["send_time"].isNull()) {
     arp_config.send_time = doc["send_time"];
   }
   return arp_config;
@@ -135,8 +136,7 @@ void NetworkAttacks::start_arp_poisoning() {
   connect_to_wifi(ARP_POISONING_CONFIG_FILE);
   ARPoisonerConfig config = get_arp_config();
   ARP_poisoner poisoner = ARP_poisoner();
-  while (true)
-  {
+  while (true) {
     poisoner.send_arp_packet(config.dest_ip, config.dest_mac);
     delay(config.send_time);
   }

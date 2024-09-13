@@ -47,15 +47,14 @@ void WifiAttack::save_scan() {
   for (auto network : networks) {
 #ifdef ARDUINO_NANO_ESP32
     Serial.printf("SSID: %s\n", network.get_ssid());
-#else 
+#else
     Serial0.printf("SSID: %s\n", network.get_ssid());
 #endif
     DynamicJsonDocument wifi(512);
     StaticJsonDocument<JSON_ARRAY_SIZE(6)> doc;
     JsonArray json_bssid = doc.to<JsonArray>();
     uint8_t *bssid = network.get_bssid();
-    for (size_t i = 0; i < 6; i++)
-    {
+    for (size_t i = 0; i < 6; i++) {
       json_bssid.add(bssid[i]);
     }
     wifi["ssid"] = network.get_ssid();

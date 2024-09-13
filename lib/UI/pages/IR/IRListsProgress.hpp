@@ -28,15 +28,15 @@ class IRListsProgress : public Page {
  private:
   Text *progress;
   List *stop;
-  
+
  public:
   IRListsProgress(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+                  uint8_t _position_increment, GFXForms *screen, Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
   ~IRListsProgress();
   void display();
-  void set_selected(int pos, bool status) {
-    grid->set_selected(pos, status);
-  };
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
   void click(int pos, void callback()) { grid->click(pos, callback); };
   void left();
   void right();

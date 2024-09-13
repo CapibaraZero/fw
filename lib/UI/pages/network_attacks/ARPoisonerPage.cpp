@@ -23,18 +23,19 @@
 #include "gui.hpp"
 
 ARPoisonerPage::~ARPoisonerPage() {
-    delete text;
-    delete stop;
+  delete text;
+  delete stop;
 }
 
 void ARPoisonerPage::display() {
-    grid = new Grid(screen, 2, 1);
-    text = new Text(screen, ST77XX_WHITE, "ARP poisoning running");
-    stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK, stop_arp_poisoner);
+  grid = new Grid(screen, 2, 1);
+  text = new Text(screen, ST77XX_WHITE, "ARP poisoning running");
+  stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
+                  stop_arp_poisoner);
 
-    grid->add(text);
-    grid->add(stop);
-    grid->set_selected(1, true);
-    grid->set_y_spacing(20);
-    grid->display();
+  grid->add(text);
+  grid->add(stop);
+  grid->set_selected(1, true);
+  grid->set_y_spacing(20);
+  grid->display();
 }

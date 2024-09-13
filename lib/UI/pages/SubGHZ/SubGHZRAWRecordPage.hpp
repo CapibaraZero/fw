@@ -23,28 +23,28 @@
 #define SUBGHZ_RAW_RECORD_PAGE_H
 
 class SubGHZRAWRecordPage : public Page {
-   private:
-    Text *current_frequency;
-    Text *current_rssi;
-    Text *current_lqi;
-    Text *received_packets;
-    List *stop;
+ private:
+  Text *current_frequency;
+  Text *current_rssi;
+  Text *current_lqi;
+  Text *received_packets;
+  List *stop;
 
-   public:
-    SubGHZRAWRecordPage(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
-    ~SubGHZRAWRecordPage();
-    void display();
-    
-    void click(int pos, void callback()) { grid->click(pos, callback); };
-    void set_selected(int pos, bool status) {
-        grid->set_selected(pos, status);
-    };
-    void set_rssi(int rssi) { current_rssi->set_text("RSSI: " + String(rssi)); }
-    void set_lqi(int lqi) { current_lqi->set_text("LQI: " + String(lqi)); }
-    void set_frequency(int frequency) {
-        current_frequency->set_text("Frequency: " + String(frequency) + "MHz");
-    }
+ public:
+  SubGHZRAWRecordPage(uint8_t _position_limit, uint8_t _lower_limit,
+                      uint8_t _position_increment, GFXForms *screen, Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
+  ~SubGHZRAWRecordPage();
+  void display();
+
+  void click(int pos, void callback()) { grid->click(pos, callback); };
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
+  void set_rssi(int rssi) { current_rssi->set_text("RSSI: " + String(rssi)); }
+  void set_lqi(int lqi) { current_lqi->set_text("LQI: " + String(lqi)); }
+  void set_frequency(int frequency) {
+    current_frequency->set_text("Frequency: " + String(frequency) + "MHz");
+  }
 };
 
 #endif
