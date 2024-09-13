@@ -18,6 +18,8 @@
 #ifndef NETWORK_ATTACKS_NAVIGATION_H
 #define NETWORK_ATTACKS_NAVIGATION_H
 
+#include "gui.hpp"
+
 void goto_net_attacks_gui();
 void stop_dhcpglutton();
 void stop_evilportal();

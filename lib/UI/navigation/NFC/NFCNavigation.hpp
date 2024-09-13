@@ -36,7 +36,8 @@ void set_unformatted_sectors(uint8_t tot, uint8_t unformatted);
 void nfc_bruteforce_found_key();
 void nfc_bruteforce_set_tried_key(uint8_t attemps);
 void goto_nfc_dump_result_gui();
-void goto_nfc_polling_result_gui(uint8_t *uid, uint8_t len, const char *tag_name);
+void goto_nfc_polling_result_gui(uint8_t *uid, uint8_t len,
+                                 const char *tag_name);
 void felica_dump();
 void nfc_cleanup();
 #endif

@@ -1,8 +1,8 @@
 #include "nfc_attacks.hpp"
 #include "nfc_tasks_types.h"
 #include "../../include/debug.h"
-#include "navigation/navigation.hpp"
 #include "../UI/navigation/NFC/NFCNavigation.hpp"
+#include "navigation/navigation.hpp"
 
 bool polling_in_progress = false;
 bool dump_in_progress = false;
@@ -42,7 +42,8 @@ void mifare_polling_task(void *pv) {
   Serial.println(atqa, HEX);
   Serial.print("SAK: ");
   Serial.println(sak, HEX);
-  goto_nfc_polling_result_gui(uid, uid_length, NFCFramework::lookup_tag(atqa, sak, uid_length).name);
+  goto_nfc_polling_result_gui(
+      uid, uid_length, NFCFramework::lookup_tag(atqa, sak, uid_length).name);
   free(pv);
   polling_in_progress = false;
   vTaskDelete(NULL);
@@ -83,7 +84,7 @@ void get_card_info(uint8_t *_idm, uint8_t *_pmm, uint16_t *_sys_code) {
 
 void goto_home_nfc(NFCTasksParams *params) {
   Serial.println("Going to home");
-  // Go to home. 
+  // Go to home.
   // TODO: Port this in NFCNavigation
   // params->gui->reset();
   // params->gui->init_gui();
@@ -93,7 +94,6 @@ void goto_home_nfc(NFCTasksParams *params) {
   reset_uid();
   init_main_gui();
   Serial.println("Going to home2");
-
 }
 
 void dump_iso14443a_task(void *pv) {
@@ -102,9 +102,8 @@ void dump_iso14443a_task(void *pv) {
   DumpResult *result = (DumpResult *)malloc(sizeof(DumpResult));
   NFCTag tag = params->attacks->dump_tag(result);
   set_dumped_sectors(tag.get_blocks_count() - result->unreadable -
-                                  result->unauthenticated);
-  set_unreadable_sectors(result->unreadable +
-                                      result->unauthenticated);
+                     result->unauthenticated);
+  set_unreadable_sectors(result->unreadable + result->unauthenticated);
   params->attacks->set_scanned_tag(&tag);
   delay(10000);
   goto_home_nfc(params);
@@ -171,8 +170,7 @@ void bruteforce_iso14443a_task(void *pv) {
 void bruteforce_update_ui_task(void *pv) {
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   while (params->attacks->get_bruteforce_status()) {
-    nfc_bruteforce_set_tried_key(
-        params->attacks->get_tried_keys());
+    nfc_bruteforce_set_tried_key(params->attacks->get_tried_keys());
     delay(1000);
   }
   delay(1000);
