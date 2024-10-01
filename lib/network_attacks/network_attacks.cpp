@@ -38,7 +38,7 @@ NetworkAttacks::~NetworkAttacks() {}
 
 void NetworkAttacks::connect_to_wifi(const char *config) {
   File dhcp_glutton_config = open(config, "r");
-  StaticJsonDocument<512> doc;
+  JsonDocument doc;
   DeserializationError error = deserializeJson(doc, dhcp_glutton_config);
   if (error) {
     Serial.printf("Error: %s", error.c_str());
@@ -64,7 +64,7 @@ void NetworkAttacks::create_default_ap() {
 
 void NetworkAttacks::create_ap() {
   File evilportal_config = open(EVIL_PORTAL_CONFIG_FILE, "r");
-  StaticJsonDocument<256> doc;
+  JsonDocument doc;
   DeserializationError error = deserializeJson(doc, evilportal_config);
   if (error) {
     LOG_ERROR(
@@ -84,7 +84,7 @@ void NetworkAttacks::create_ap() {
 
 ARPoisonerConfig NetworkAttacks::get_arp_config() {
   File arp_poisoner_config = open(ARP_POISONING_CONFIG_FILE, "r");
-  StaticJsonDocument<512> doc;
+  JsonDocument doc;
   DeserializationError error = deserializeJson(doc, arp_poisoner_config);
   if (error) {
     Serial.printf("Error: %s", error.c_str());

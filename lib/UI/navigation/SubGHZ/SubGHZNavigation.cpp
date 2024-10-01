@@ -59,12 +59,12 @@ void start_raw_record() {
 void make_dump_file() {
   Serial.println("Saving file");
   extern std::vector<byte> raw_signal;
-  DynamicJsonDocument doc(110 + (32 * raw_signal.size()));
+  JsonDocument doc;
   doc["frequency"] = subghz_module->get_frequency();
   doc["bandwidth"] = subghz_module->get_bw();
   doc["deviation"] = subghz_module->get_deviation();
   doc["data_length"] = raw_signal.size();
-  JsonArray data = doc.createNestedArray("data");
+  JsonArray data = doc["data"].to<JsonArray>();
   Serial.println("Saving file");
   for (byte b : raw_signal) {
     data.add(b);

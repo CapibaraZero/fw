@@ -464,7 +464,7 @@ bool NFCAttacks::felica_clone(NFCTag *tag) {
 
 NFCTag NFCAttacks::get_tag_towrite(uint8_t uid_length) {
   File nfc_config = open(NFC_CONFIG_FILE, "r");
-  StaticJsonDocument<256> doc;
+  JsonDocument doc;
   DeserializationError error = deserializeJson(doc, nfc_config);
   if (error) {
     uint8_t empty[1024];
@@ -490,7 +490,7 @@ NFCTag NFCAttacks::get_felica_towrite() {
   uint8_t idm[8] = {0};
   uint8_t pmm[8] = {0};
   uint16_t sys_code = 0;
-  StaticJsonDocument<256> doc;
+  JsonDocument doc;
   DeserializationError error = deserializeJson(doc, nfc_config);
   if (error) {
     uint8_t empty[1024];
