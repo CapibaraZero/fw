@@ -48,6 +48,11 @@ to discuss what you would like to change.
 
 If you wanna port project to other ESP boards, we have made a little guide here: https://capibarazero.github.io/docs/docs/development/porting_to_others_boards/new_porting
 
+## Social
+
+- [Matrix server](https://matrix.to/#/#capibarazero:capibarazero.com)
+- [Discord-Matrix bridge](https://discord.gg/4uvMS843)
+
 ## License
 
 [GPL-3](https://www.gnu.org/licenses/gpl-3.0.html)
