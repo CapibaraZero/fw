@@ -6,4 +6,5 @@
 typedef struct {
   NFCAttacks *attacks;
   Gui *gui;
+  char *path;
 } NFCTasksParams;

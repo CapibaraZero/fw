@@ -45,22 +45,17 @@ void dump_felica(Gui *gui, NFCAttacks *attacks) {
               &dump_task_handle);
 }
 
-void write_tag(Gui *gui, NFCAttacks *attacks, NFCTag *tag) {
-  if (tag->is_ntag()) {
-    LOG_INFO("Tag is NTAG");
-    uint8_t unwritable = attacks->write_ntag(tag);
-    Serial.printf("Unwritable sectors: %d\n", unwritable);
-    // gui->set_unwritable_sectors(tag->get_blocks_count(), unwritable);
-  } else {
-    LOG_INFO("Tag is not NTAG");
-    uint8_t unwritable = attacks->write_tag(tag);
-    Serial.printf("Unwritable sectors: %d\n", unwritable);
-    // gui->set_unwritable_sectors(tag->get_blocks_count(), unwritable);
-  }
-}
-
 void write_felica_tag(Gui *gui, NFCAttacks *attacks, NFCTag *tag) {
   attacks->felica_write(tag);
+}
+
+void write_sectors(Gui *gui, NFCAttacks *attacks, const char *path) {
+  /* We delete this after usage, so we need to recreate struct every time */
+  params = (NFCTasksParams *)malloc(sizeof(NFCTasksParams));
+  params->attacks = attacks;
+  params->gui = gui;
+  params->path = (char *)path;
+  xTaskCreate(write_nfc_sectors, "write_nfc_sectios", 8192, (void *)params, 5, NULL);
 }
 
 void format_iso14443a(Gui *gui, NFCAttacks *attacks) {

@@ -3,6 +3,8 @@
 #include "../../include/debug.h"
 #include "../UI/navigation/NFC/NFCNavigation.hpp"
 #include "navigation/navigation.hpp"
+#include "ArduinoJson.h"
+#include "posixsd.hpp"
 
 bool polling_in_progress = false;
 bool dump_in_progress = false;
@@ -83,7 +85,6 @@ void get_card_info(uint8_t *_idm, uint8_t *_pmm, uint16_t *_sys_code) {
 }
 
 void goto_home_nfc(NFCTasksParams *params) {
-  Serial.println("Going to home");
   // Go to home.
   // TODO: Port this in NFCNavigation
   // params->gui->reset();
@@ -93,7 +94,6 @@ void goto_home_nfc(NFCTasksParams *params) {
   nfc_cleanup();
   reset_uid();
   init_main_gui();
-  Serial.println("Going to home2");
 }
 
 void dump_iso14443a_task(void *pv) {
@@ -181,5 +181,48 @@ void bruteforce_update_ui_task(void *pv) {
   free(pv);
   // We don't need free(pv) here because we share same pointer between
   // bruteforce tasks
+  vTaskDelete(NULL);
+}
+
+void write_nfc_sectors(void *pv) {
+  NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
+  JsonDocument doc;
+  File nfc_dump = open("/NFC/dumps/" + (String)params->path, "r");
+  DeserializationError error = deserializeJson(doc, nfc_dump);
+
+  if (error) {
+    Serial.print("deserializeJson() failed: ");
+    Serial.println(error.c_str());
+  } else {
+    const char *type = doc["type"]; // Type of tag
+    size_t wrote_sectors = 0;
+    size_t unwritable_sectors = 0;
+    for (JsonPair block : doc["blocks"].as<JsonObject>()) {
+      int block_key = atoi(block.key().c_str());
+
+      int block_value_key_type = block.value()["key_type"];
+
+      uint8_t key[6];
+      size_t i = 0;
+
+      for (uint8_t key_byte : block.value()["key"].as<JsonArray>()) {
+        key[i++] = key_byte;
+      }
+
+      uint8_t data[16];
+      i = 0;
+      for (uint8_t data_byte : block.value()["data"].as<JsonArray>()) {
+        data[i++] = data_byte;
+      }
+
+      if (params->attacks->write_sector(block_key, data, block_value_key_type, key)) {
+        set_wrote_sectors(++wrote_sectors);
+      } else {
+        set_unwritable_sectors(++unwritable_sectors);
+      }
+    }
+  }
+  goto_home_nfc(params);
+  free(pv);
   vTaskDelete(NULL);
 }

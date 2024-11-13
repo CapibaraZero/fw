@@ -25,13 +25,15 @@ void save_dump_to_sd();
 void nfc_mifare_polling();
 void nfc_felica_polling();
 void goto_home();
+void open_nfc_dump_browser();
 void bruteforce_a_tag();
 void init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm,
                                         uint16_t sys_code);
 void set_dumped_sectors(int sectors);
 void set_unreadable_sectors(int sectors);
 void set_unauthenticated_sectors(int sectors);
-void set_unwritable_sectors(uint8_t tot, uint8_t sectors);
+void set_wrote_sectors(size_t val);
+void set_unwritable_sectors(size_t val);
 void set_unformatted_sectors(uint8_t tot, uint8_t unformatted);
 void nfc_bruteforce_found_key();
 void nfc_bruteforce_set_tried_key(uint8_t attemps);

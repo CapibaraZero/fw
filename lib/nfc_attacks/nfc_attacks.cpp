@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2023 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -214,97 +214,44 @@ NFCTag NFCAttacks::dump_ntag(int pages) {
   return NFCTag(nfc_framework.dump_ntag2xx_tag(pages), 7, pages);
 }
 
-uint8_t NFCAttacks::write_tag(NFCTag *tag) {
-  uint8_t key_universal[6] = {0xFF, 0xFF, 0xFF,
-                              0xFF, 0xFF, 0xFF};  // Universal key
-  uint8_t unwritable = 0;
-  uint8_t uid[7];
-  uint8_t uid_length;
-  if (nfc_framework.get_tag_uid(uid, uid_length)) {
-    for (size_t i = 0; i < tag->get_blocks_count(); i++) {
-      Serial.printf("Writing block: %i\n", i);
-      uint8_t block[BLOCK_SIZE] = {0};
-      tag->get_block(i, block);
-      if (nfc_framework.write_tag(i, block, key_universal)) {
-        LOG_SUCCESS("Block written correctly\n");
-      } else {
-        unwritable++;
-        LOG_ERROR("Error during writing block.");
-      };
-    }
-  } else {
-    LOG_INFO("Unable to find card");
-  }
-  return unwritable;
-}
-
-uint8_t NFCAttacks::write_tag(NFCTag *tag, int starting_block) {
-  uint8_t key_universal[6] = {0xFF, 0xFF, 0xFF,
-                              0xFF, 0xFF, 0xFF};  // Universal key
-  uint8_t unwritable = 0;
-  uint8_t uid[7];
-  uint8_t uid_length;
-  // Avoid crashing if no card is present
-  if (nfc_framework.get_tag_uid(uid, uid_length)) {
-    for (size_t i = starting_block; i < tag->get_blocks_count(); i++) {
-      Serial.printf("Writing block: %i\n", i);
-      uint8_t block[BLOCK_SIZE] = {0};
-      tag->get_block(i, block);
-      if (nfc_framework.write_tag(i, block, key_universal)) {
-        LOG_SUCCESS("Block written correctly\n");
-      } else {
-        unwritable++;
-        LOG_ERROR("Error during writing block.");
-      };
-    }
-  } else {
-    LOG_INFO("Unable to find card");
-  }
-  return unwritable;
-}
-
-void NFCAttacks::write_tag(NFCTag *tag, uint8_t *key) {
-  for (size_t i = 0; i < tag->get_blocks_count(); i++) {
-    Serial.printf("Writing block: %i\n", i);
-    uint8_t block[BLOCK_SIZE] = {0};
-    tag->get_block(i, block);
-    if (nfc_framework.write_tag(i, block, key)) {
-      LOG_SUCCESS("Block written correctly\n");
-    } else {
-      LOG_ERROR("Error during writing block.");
-    };
-  }
-}
-
-void NFCAttacks::write_tag(NFCTag *tag, uint8_t *key, int starting_block) {
-  for (size_t i = starting_block; i < tag->get_blocks_count(); i++) {
-    Serial.printf("Writing block: %i\n", i);
-    uint8_t block[BLOCK_SIZE] = {0};
-    tag->get_block(i, block);
-    if (nfc_framework.write_tag(i, block, key)) {
-      LOG_SUCCESS("Block written correctly\n");
-    } else {
-      LOG_ERROR("Error during writing block.");
-    };
-  }
+bool NFCAttacks::write_sector(uint8_t block_number, uint8_t *data, uint8_t key_type, uint8_t *key) {
+  return nfc_framework.write_tag(block_number, data, key_type, key);
 }
 
 uint8_t NFCAttacks::format_tag(bool ultralight) {
-  LOG_INFO("Formatting tag...");
-  uint8_t empty_tag_data[ultralight ? MIFARE_ULTRALIGHT_SIZE
-                                    : MIFARE_CLASSIC_SIZE] = {0};
-  NFCTag empty_tag = NFCTag(
-      empty_tag_data, 4);  // Uid lenght is dummy here since it's an empty key
-  return write_tag(&empty_tag, ultralight ? 7 : 4);
+  /*LOG_INFO("Formatting tag...");
+  bool success = true;
+  uint8_t key[6];
+  size_t i = 0;
+  uint8_t blocks = ultralight ? MIFARE_ULTRALIGHT_BLOCKS : MIFARE_CLASSIC_BLOCKS;
+
+  // for (uint8_t key_byte : block.value()["key"].as<JsonArray>()) {
+  //   key[i++] = key_byte;
+  // }
+
+  uint8_t data[16];
+  memset(data, 0, 16 * sizeof(uint8_t));
+  for (size_t i = 0; i < blocks; i++) {
+    write_sector(i, data, KEY_A, key);
+  }
+  
+//  write_sector(block_key, data, block_value_key_type, key)
+//     set_wrote_sectors(++wrote_sectors);
+//   } else {
+// set_unwritable_sectors(++unwritable_sectors);
+//   }
+  
+  //return write_tag(&empty_tag, ultralight ? 7 : 4); */
+  return 0;
 }
 
 void NFCAttacks::format_tag(uint8_t *key, bool ultralight) {
-  LOG_INFO("Formatting tag...");
+ /* LOG_INFO("Formatting tag...");
   uint8_t empty_tag_data[ultralight ? MIFARE_ULTRALIGHT_SIZE
                                     : MIFARE_CLASSIC_SIZE] = {0};
   NFCTag empty_tag = NFCTag(
       empty_tag_data, 4);  // Uid lenght is dummy here since it's an empty key
-  write_tag(&empty_tag, key, ultralight ? 7 : 4);
+  write_tag(&empty_tag, key, ultralight ? 7 : 4); */
 }
 
 uint8_t NFCAttacks::write_ntag(NFCTag *tag) {
