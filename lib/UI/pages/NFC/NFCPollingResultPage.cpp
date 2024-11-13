@@ -36,8 +36,8 @@ void NFCPollingResultPage::display(uint8_t *uid, uint8_t length,
   tag_info = new Text(screen, ST77XX_WHITE, tag_name, 2);
   uid_text = new Text(screen, ST77XX_WHITE,
                       english_words->at(NFC_UID_KEY) + hextostr(uid, length));
-  write_tag = new List(screen, "Write tag", 2,
-               ST77XX_WHITE, 20, ST77XX_BLACK, open_nfc_dump_browser);
+  write_tag = new List(screen, "Write tag", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
+                       open_nfc_dump_browser);
   format_tag = new List(screen, english_words->at(NFC_FORMAT_TAG_TO_SD), 2,
                         ST77XX_WHITE, 20, ST77XX_BLACK, format_nfc_tag);
   bruteforce_tag =

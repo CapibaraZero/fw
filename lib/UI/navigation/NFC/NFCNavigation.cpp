@@ -19,10 +19,9 @@
 #include "../../../../include/pins.h"
 #include "../navigation.hpp"
 #include "fm.hpp"
-#include "posixsd.hpp"
-#include "sdcard_helper.hpp"
 #include "gui.hpp"
 #include "nfc_attacks_btn.hpp"
+#include "pages/FileBrowser/FileBrowserPage.hpp"
 #include "pages/NFC/FeliCaPages/NFCFelicaPollingResultPage.hpp"
 #include "pages/NFC/NFCBruteforceTagPage.hpp"
 #include "pages/NFC/NFCDumpResultPage.hpp"
@@ -31,7 +30,8 @@
 #include "pages/NFC/NFCPollingResultPage.hpp"
 #include "pages/NFC/NFCPollingWaitingPage.hpp"
 #include "pages/NFC/NFCWriteResultPage.hpp"
-#include "pages/FileBrowser/FileBrowserPage.hpp"
+#include "posixsd.hpp"
+#include "sdcard_helper.hpp"
 
 static Gui *gui;
 static NFCAttacks *nfc_attacks = nullptr;
@@ -45,7 +45,7 @@ static NFCFelicaPollingResultPage *nfc_felica_polling_result_page = nullptr;
 static FileBrowserPage *nfc_dump_file_browser_page = nullptr;
 static NFCWriteResultPage *nfc_write_result_page = nullptr;
 
-std::list<std::string> nfc_dumps_files; // NFC Dumps files
+std::list<std::string> nfc_dumps_files;  // NFC Dumps files
 
 #define DUMP_SAVE_PATH                                          \
   ((String) "/NFC/dumps/" + (String)millis() + (String) ".hex") \
@@ -89,7 +89,7 @@ void nfc_cleanup() {
   // nfc_write_result_page = nullptr;
   nfc_format_result_page = nullptr;
   nfc_bruteforce_tag_page = nullptr;
-  if(!nfc_dumps_files.empty()) {
+  if (!nfc_dumps_files.empty()) {
     nfc_dumps_files.clear();
   }
 }
@@ -118,7 +118,8 @@ void write_hex_to_tag() {
 
 void write_dump_to_tag(const char *path) {
   gui->reset();
-  nfc_write_result_page = new NFCWriteResultPage(0, 0, 0, gui->get_screen(), gui);
+  nfc_write_result_page =
+      new NFCWriteResultPage(0, 0, 0, gui->get_screen(), gui);
   gui->set_current_page(nfc_write_result_page);
   write_sectors(gui, nfc_attacks, path);
 }
@@ -126,16 +127,17 @@ void write_dump_to_tag(const char *path) {
 void open_nfc_dump_browser() {
   nfc_dumps_files = list_dir(open(NFC_DUMPS_PATH, "r"));
   gui->reset();
-  nfc_dump_file_browser_page =
-      new FileBrowserPage(nfc_dumps_files.size() + 1, 1, 1, gui->get_screen(), gui);
+  nfc_dump_file_browser_page = new FileBrowserPage(
+      nfc_dumps_files.size() + 1, 1, 1, gui->get_screen(), gui);
   nfc_dump_file_browser_page->display("NFC Dumps Browser", &nfc_dumps_files,
-                             write_dump_to_tag, goto_home);
+                                      write_dump_to_tag, goto_home);
   gui->set_current_page(nfc_dump_file_browser_page, false);
 }
 
 void format_nfc_tag() {
   gui->reset();
-  nfc_format_result_page = new NFCFormatResultPage(0, 0, 0, gui->get_screen(), gui);
+  nfc_format_result_page =
+      new NFCFormatResultPage(0, 0, 0, gui->get_screen(), gui);
   gui->set_current_page(nfc_format_result_page);
   format_iso14443a(gui, nfc_attacks);
 }
@@ -207,7 +209,9 @@ void set_unformatted_sectors(uint8_t tot, uint8_t unformatted) {
 
 void set_formatted_sectors(uint8_t tot, uint8_t formatted) {
   nfc_format_result_page->set_formatted(formatted);
-  nfc_format_result_page->set_unauthenticated(tot - formatted - (tot/4)); // Remove last block of every sector since we don't erase it
+  nfc_format_result_page->set_unauthenticated(
+      tot - formatted -
+      (tot / 4));  // Remove last block of every sector since we don't erase it
 }
 
 void nfc_bruteforce_found_key() { nfc_bruteforce_tag_page->set_found_key(); };

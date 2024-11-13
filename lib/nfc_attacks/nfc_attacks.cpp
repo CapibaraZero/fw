@@ -121,7 +121,7 @@ bool NFCAttacks::bruteforce() {
           (char *)line.c_str(), " ");  // String string for each space
       uint8_t parsed_key[6];
       for (String key_byte : raw_key) {
-       // SERIAL_DEVICE.printf("%s\n", key_byte.c_str());
+        // SERIAL_DEVICE.printf("%s\n", key_byte.c_str());
         parse_str_to_arr(&key_byte, parsed_key, 6);
       }
       for (uint8_t sector : know_sector) {
@@ -222,7 +222,7 @@ void NFCAttacks::format_tag() {
           (char *)line.c_str(), " ");  // String string for each space
       uint8_t parsed_key[6];
       for (String key_byte : raw_key) {
-        //SERIAL_DEVICE.printf("%s\n", key_byte.c_str());
+        // SERIAL_DEVICE.printf("%s\n", key_byte.c_str());
         parse_str_to_arr(&key_byte, parsed_key, 6);
       }
       for (uint8_t sector : know_sector) {
@@ -230,15 +230,15 @@ void NFCAttacks::format_tag() {
           bruteforce_result.insert({sector, SectorResult()});
         }
         if (!bruteforce_result[sector].key_a_found &&
-              !bruteforce_result[sector].dumped) {
+            !bruteforce_result[sector].dumped) {
           auth_sector(sector, parsed_key, KEY_A,
                       bruteforce_result[sector].key_a,
                       &bruteforce_result[sector].key_a_found);
           if (bruteforce_result[sector].key_a_found) {
             for (size_t i = sector; i < sector + 3; i++) {
-             bruteforce_result[sector].dumped = write_sector(i, zeros_data, KEY_A, parsed_key);
-             if(bruteforce_result[sector].dumped)
-              formatted_sectors++;
+              bruteforce_result[sector].dumped =
+                  write_sector(i, zeros_data, KEY_A, parsed_key);
+              if (bruteforce_result[sector].dumped) formatted_sectors++;
             }
           }
         }
@@ -248,17 +248,17 @@ void NFCAttacks::format_tag() {
                       &bruteforce_result[sector].key_b_found);
           if (bruteforce_result[sector].key_b_found &&
               !bruteforce_result[sector].dumped) {
-              for (size_t i = sector; i < sector + 3; i++) {
-                bruteforce_result[sector].dumped = write_sector(i, zeros_data, KEY_B, parsed_key);
-                if(bruteforce_result[sector].dumped)
-                  formatted_sectors++;
-              }
+            for (size_t i = sector; i < sector + 3; i++) {
+              bruteforce_result[sector].dumped =
+                  write_sector(i, zeros_data, KEY_B, parsed_key);
+              if (bruteforce_result[sector].dumped) formatted_sectors++;
+            }
           }
         }
         if (bruteforce_result[sector].dumped) {
           know_sector.remove(sector);
         }
-     }
+      }
       if (know_sector.size() == 0) {
         bruteforce_status = false;
       }
@@ -266,7 +266,8 @@ void NFCAttacks::format_tag() {
   } else {
     LOG_ERROR("Keys file not found.\n");
   }
-  bruteforce_status = false;  // Share bruteforce_status with bruteforce method to save some memory
+  bruteforce_status = false;  // Share bruteforce_status with bruteforce method
+                              // to save some memory
 }
 
 void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length) {
@@ -307,7 +308,8 @@ NFCTag NFCAttacks::dump_ntag(int pages) {
   return NFCTag(nfc_framework.dump_ntag2xx_tag(pages), 7, pages);
 }
 
-bool NFCAttacks::write_sector(uint8_t block_number, uint8_t *data, uint8_t key_type, uint8_t *key) {
+bool NFCAttacks::write_sector(uint8_t block_number, uint8_t *data,
+                              uint8_t key_type, uint8_t *key) {
   return nfc_framework.write_tag(block_number, data, key_type, key);
 }
 

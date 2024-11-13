@@ -1,5 +1,7 @@
 #include "ArduinoJson.h"
 #include "IrFramework.hpp"
+#include "pages/IR/IRListsProgress.hpp"
+#include "pages/IR/IRRecordSignalPage.hpp"
 
 void ir_record_signal(IRRecordSignalPage *page, IrFramework *framework);
 void ir_send_signal(IrFramework *framework, JsonDocument *signal_doc,

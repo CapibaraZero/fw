@@ -56,7 +56,8 @@ class NFCAttacks {
   NFCTag dump_tag(DumpResult *result);
   NFCTag dump_tag(uint8_t *key, DumpResult *result);
   NFCTag dump_ntag(int pages);
-  bool write_sector(uint8_t block_number, uint8_t *data, uint8_t key_type, uint8_t *key);
+  bool write_sector(uint8_t block_number, uint8_t *data, uint8_t key_type,
+                    uint8_t *key);
   uint8_t write_ntag(NFCTag *tag);
   uint8_t format_ntag(int pages);
   void format_tag();

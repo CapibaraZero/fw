@@ -4,12 +4,12 @@
 #include "ArduinoJson.h"
 #include "fm.hpp"
 #include "gui.hpp"
+#include "ir_attacks.hpp"
 #include "pages/FileBrowser/FileBrowserPage.hpp"
 #include "pages/IR/IREmulateRC.hpp"
 #include "pages/IR/IRListsProgress.hpp"
 #include "pages/IR/IRMainPage.hpp"
 #include "pages/IR/IRRecordSignalPage.hpp"
-#include "ir_attacks.hpp"
 #include "posixsd.hpp"
 #include "sdcard_helper.hpp"
 

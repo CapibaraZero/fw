@@ -18,6 +18,8 @@
 #ifndef NFC_NAVIGATION_H
 #define NFC_NAVIGATION_H
 
+#include "gui.hpp"
+
 void init_nfc_navigation(Gui *_gui);
 void goto_nfc_gui();
 void stop_nfc_polling();

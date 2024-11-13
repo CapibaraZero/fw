@@ -55,7 +55,8 @@ void write_sectors(Gui *gui, NFCAttacks *attacks, const char *path) {
   params->attacks = attacks;
   params->gui = gui;
   params->path = (char *)path;
-  xTaskCreate(write_nfc_sectors, "write_nfc_sectios", 8192, (void *)params, 5, NULL);
+  xTaskCreate(write_nfc_sectors, "write_nfc_sectios", 8192, (void *)params, 5,
+              NULL);
 }
 
 void format_iso14443a(Gui *gui, NFCAttacks *attacks) {
@@ -65,8 +66,8 @@ void format_iso14443a(Gui *gui, NFCAttacks *attacks) {
   params->gui = gui;
   xTaskCreate(format_iso14443a_task, "format_nfc_tag", 20000, (void *)params, 5,
               &format_task_handle);
-  xTaskCreate(format_update_ui_task, "format_ui_updated", 4096, (void *)params, 5,
-    &ui_updater_task_handle);
+  xTaskCreate(format_update_ui_task, "format_ui_updated", 4096, (void *)params,
+              5, &ui_updater_task_handle);
 }
 
 void format_felica(Gui *gui, NFCAttacks *attacks) {

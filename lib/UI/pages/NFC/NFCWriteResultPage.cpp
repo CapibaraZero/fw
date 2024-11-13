@@ -33,15 +33,15 @@ void NFCWriteResultPage::display() {
   wrote_sectors = new Text(screen, ST77XX_WHITE, "Writ. sectors: 0");
   unwritable_sectors = new Text(screen, ST77XX_WHITE, "Unwr. sectors: 0");
   // return_back = new List(screen, "Go back", 2, ST77XX_WHITE, 20,
-  // ST77XX_BLACK); 
-  //exit_page = new List(screen, "Exit", 2, ST77XX_WHITE, 20,
+  // ST77XX_BLACK);
+  // exit_page = new List(screen, "Exit", 2, ST77XX_WHITE, 20,
   // ST77XX_BLACK);
   grid->add(write_info);
   grid->add(wrote_sectors);
   grid->add(unwritable_sectors);
- /* grid->add(return_back);
-  grid->add(exit_page); */
+  /* grid->add(return_back);
+   grid->add(exit_page); */
   grid->set_y_spacing(20);
- // grid->set_selected(3, true);
+  // grid->set_selected(3, true);
   grid->display();
 }

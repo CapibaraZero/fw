@@ -1,9 +1,9 @@
-#include "nfc_attacks.hpp"
-#include "nfc_tasks_types.h"
 #include "../../include/debug.h"
 #include "../UI/navigation/NFC/NFCNavigation.hpp"
-#include "navigation/navigation.hpp"
 #include "ArduinoJson.h"
+#include "navigation/navigation.hpp"
+#include "nfc_attacks.hpp"
+#include "nfc_tasks_types.h"
 #include "posixsd.hpp"
 
 bool polling_in_progress = false;
@@ -133,7 +133,7 @@ void dump_felica_task(void *pv) {
 void format_iso14443a_task(void *pv) {
   format_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  params->attacks->format_tag();  
+  params->attacks->format_tag();
   delay(10000);
   format_in_progress = false;
   // We don't need free(pv) here because we share same pointer between
@@ -144,7 +144,8 @@ void format_iso14443a_task(void *pv) {
 void format_update_ui_task(void *pv) {
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   while (params->attacks->get_bruteforce_status()) {
-    set_formatted_sectors(params->attacks->get_tag_blocks(), params->attacks->get_formatted_sectors());
+    set_formatted_sectors(params->attacks->get_tag_blocks(),
+                          params->attacks->get_formatted_sectors());
     delay(1000);
   }
   delay(3000);
@@ -199,7 +200,7 @@ void write_nfc_sectors(void *pv) {
     Serial.print("deserializeJson() failed: ");
     Serial.println(error.c_str());
   } else {
-    const char *type = doc["type"]; // Type of tag
+    const char *type = doc["type"];  // Type of tag
     size_t wrote_sectors = 0;
     size_t unwritable_sectors = 0;
     for (JsonPair block : doc["blocks"].as<JsonObject>()) {
@@ -220,7 +221,8 @@ void write_nfc_sectors(void *pv) {
         data[i++] = data_byte;
       }
 
-      if (params->attacks->write_sector(block_key, data, block_value_key_type, key)) {
+      if (params->attacks->write_sector(block_key, data, block_value_key_type,
+                                        key)) {
         set_wrote_sectors(++wrote_sectors);
       } else {
         set_unwritable_sectors(++unwritable_sectors);
