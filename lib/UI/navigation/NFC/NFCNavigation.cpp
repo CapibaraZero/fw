@@ -76,7 +76,7 @@ void goto_nfc_polling_result_gui(uint8_t *uid, uint8_t len,
                                  const char *tag_name) {
   gui->reset();
   nfc_polling_result_page =
-      new NFCPollingResultPage(4, 2, 1, gui->get_screen(), gui);
+      new NFCPollingResultPage(5, 2, 1, gui->get_screen(), gui);
   gui->set_current_page(nfc_polling_result_page, false);
   nfc_polling_result_page->display(uid, len, tag_name);
 }
@@ -116,13 +116,6 @@ void write_hex_to_tag() {
   write_tag(gui, nfc_attacks, &tag_to_write);
 }
 
-void format_tag() {
-  gui->reset();
-  nfc_format_result_page =
-      new NFCFormatResultPage(0, 0, 0, gui->get_screen(), gui);
-  gui->set_current_page(nfc_format_result_page);
-}
-
 void write_dump_to_tag(const char *path) {
   gui->reset();
   nfc_write_result_page = new NFCWriteResultPage(0, 0, 0, gui->get_screen(), gui);
@@ -138,6 +131,13 @@ void open_nfc_dump_browser() {
   nfc_dump_file_browser_page->display("NFC Dumps Browser", &nfc_dumps_files,
                              write_dump_to_tag, goto_home);
   gui->set_current_page(nfc_dump_file_browser_page, false);
+}
+
+void format_nfc_tag() {
+  gui->reset();
+  nfc_format_result_page = new NFCFormatResultPage(0, 0, 0, gui->get_screen(), gui);
+  gui->set_current_page(nfc_format_result_page);
+  format_iso14443a(gui, nfc_attacks);
 }
 
 void bruteforce_a_tag() {
@@ -204,6 +204,12 @@ void set_unformatted_sectors(uint8_t tot, uint8_t unformatted) {
   nfc_format_result_page->set_formatted(tot - unformatted);
   nfc_format_result_page->set_unauthenticated(unformatted);
 }
+
+void set_formatted_sectors(uint8_t tot, uint8_t formatted) {
+  nfc_format_result_page->set_formatted(formatted);
+  nfc_format_result_page->set_unauthenticated(tot - formatted - (tot/4)); // Remove last block of every sector since we don't erase it
+}
+
 void nfc_bruteforce_found_key() { nfc_bruteforce_tag_page->set_found_key(); };
 void nfc_bruteforce_set_tried_key(uint8_t attemps) {
   nfc_bruteforce_tag_page->update_tried_keys(attemps);

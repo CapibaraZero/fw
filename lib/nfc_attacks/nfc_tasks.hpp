@@ -16,6 +16,7 @@ void dump_iso14443a_task(void *pv);
 void dump_felica_task(void *pv);
 void write_nfc_sectors(void *pv);
 void format_iso14443a_task(void *pv);
+void format_update_ui_task(void *pv);
 void format_felica_task(void *pv);
 void bruteforce_iso14443a_task(void *pv);
 void bruteforce_update_ui_task(void *pv);

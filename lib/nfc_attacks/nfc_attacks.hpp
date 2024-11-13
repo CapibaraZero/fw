@@ -38,6 +38,8 @@ class NFCAttacks {
   bool is_there_null_blocks(NFCTag *tag);
   NFCTag *current_tag = (NFCTag *)malloc(sizeof(NFCTag));
   uint8_t tried_keys = 0;
+  uint8_t formatted_sectors = 0;
+  uint8_t current_tag_blocks = 0;
   bool bruteforce_status = true;
   void auth_sector(uint8_t sector, uint8_t *key, KeyType key_type,
                    uint8_t *out_key, bool *key_found);
@@ -55,10 +57,9 @@ class NFCAttacks {
   NFCTag dump_tag(uint8_t *key, DumpResult *result);
   NFCTag dump_ntag(int pages);
   bool write_sector(uint8_t block_number, uint8_t *data, uint8_t key_type, uint8_t *key);
-  uint8_t format_tag(bool ultralight = false);
-  void format_tag(uint8_t *key, bool ultralight = false);
   uint8_t write_ntag(NFCTag *tag);
   uint8_t format_ntag(int pages);
+  void format_tag();
   bool detect_felica(uint8_t *idm, uint8_t *pmm, uint16_t *sys_code);
   bool felica_read(uint8_t service_length, uint16_t *service_codes,
                    uint8_t num_blocks, uint16_t *block_list,
@@ -87,6 +88,8 @@ class NFCAttacks {
   NFCTag get_felica_towrite();
   uint8_t get_tried_keys() { return tried_keys; };
   bool get_bruteforce_status() { return bruteforce_status; };
+  uint8_t get_formatted_sectors() { return formatted_sectors; };
+  uint8_t get_tag_blocks() { return current_tag_blocks; };
 };
 
 #endif

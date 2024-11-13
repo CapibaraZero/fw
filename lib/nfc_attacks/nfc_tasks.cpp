@@ -133,18 +133,23 @@ void dump_felica_task(void *pv) {
 void format_iso14443a_task(void *pv) {
   format_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  uint8_t unformattable = 0;
-  if (uid_length == 7)
-    unformattable = params->attacks->format_ntag(NTAG213_PAGES);
-  else
-    unformattable = params->attacks->format_tag();
-  Serial.printf("Unformattable sectors: %d\n", unformattable);
-  set_unformatted_sectors(
-      uid_length == 4 ? MIFARE_CLASSIC_BLOCKS : NTAG213_PAGES, unformattable);
+  params->attacks->format_tag();  
   delay(10000);
+  format_in_progress = false;
+  // We don't need free(pv) here because we share same pointer between
+  // bruteforce tasks
+  vTaskDelete(NULL);
+}
+
+void format_update_ui_task(void *pv) {
+  NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
+  while (params->attacks->get_bruteforce_status()) {
+    set_formatted_sectors(params->attacks->get_tag_blocks(), params->attacks->get_formatted_sectors());
+    delay(1000);
+  }
+  delay(3000);
   goto_home_nfc(params);
   free(pv);
-  format_in_progress = false;
   vTaskDelete(NULL);
 }
 
@@ -164,6 +169,8 @@ void bruteforce_iso14443a_task(void *pv) {
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   params->attacks->bruteforce();
   bruteforce_in_progress = false;
+  // We don't need free(pv) here because we share same pointer between
+  // bruteforce tasks
   vTaskDelete(NULL);
 }
 
@@ -179,8 +186,6 @@ void bruteforce_update_ui_task(void *pv) {
   delay(2000);
   goto_home_nfc(params);
   free(pv);
-  // We don't need free(pv) here because we share same pointer between
-  // bruteforce tasks
   vTaskDelete(NULL);
 }
 

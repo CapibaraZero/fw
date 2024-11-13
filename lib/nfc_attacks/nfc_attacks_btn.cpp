@@ -8,7 +8,7 @@ static TaskHandle_t polling_task_handle = NULL;
 static TaskHandle_t dump_task_handle = NULL;
 static TaskHandle_t format_task_handle = NULL;
 static TaskHandle_t bruteforce_task_handle = NULL;
-static TaskHandle_t bruteforce_ui_task_handle = NULL;
+static TaskHandle_t ui_updater_task_handle = NULL;
 
 void mifare_polling(Gui *gui, NFCAttacks *attacks) {
   /* We delete this after usage, so we need to recreate struct every time */
@@ -63,8 +63,10 @@ void format_iso14443a(Gui *gui, NFCAttacks *attacks) {
   params = (NFCTasksParams *)malloc(sizeof(NFCTasksParams));
   params->attacks = attacks;
   params->gui = gui;
-  xTaskCreate(format_iso14443a_task, "mifare_polling", 4096, (void *)params, 5,
+  xTaskCreate(format_iso14443a_task, "format_nfc_tag", 20000, (void *)params, 5,
               &format_task_handle);
+  xTaskCreate(format_update_ui_task, "format_ui_updated", 4096, (void *)params, 5,
+    &ui_updater_task_handle);
 }
 
 void format_felica(Gui *gui, NFCAttacks *attacks) {
@@ -84,7 +86,7 @@ void bruteforce_tag(Gui *gui, NFCAttacks *attacks) {
   xTaskCreate(bruteforce_iso14443a_task, "bruteforce_iso14443a", 20000,
               (void *)params, 5, &bruteforce_task_handle);
   xTaskCreate(bruteforce_update_ui_task, "bruteforce_update_ui", 4096,
-              (void *)params, 5, &bruteforce_ui_task_handle);
+              (void *)params, 5, &ui_updater_task_handle);
 }
 
 void destroy_tasks() {
@@ -97,10 +99,12 @@ void destroy_tasks() {
   } else if (format_in_progress) {
     vTaskDelete(format_task_handle);
     format_task_handle = NULL;
+    vTaskDelete(ui_updater_task_handle);
+    ui_updater_task_handle = NULL;
   } else if (bruteforce_in_progress) {
     vTaskDelete(bruteforce_task_handle);
     bruteforce_task_handle = NULL;
-    vTaskDelete(bruteforce_ui_task_handle);
-    bruteforce_ui_task_handle = NULL;
+    vTaskDelete(ui_updater_task_handle);
+    ui_updater_task_handle = NULL;
   }
 }

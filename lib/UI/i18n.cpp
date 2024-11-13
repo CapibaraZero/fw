@@ -112,7 +112,7 @@ void init_english_dict() {
   english_words->insert({NFC_TRIED_KEYS_KEY, "Tried keys: "});
   english_words->insert({NFC_FOUND_KEYS_KEY, "Found keys: "});
   english_words->insert({NFC_FORMATTING_TAG_KEY, "Formatting tag..."});
-  english_words->insert({NFC_FORMATTED_SECTORS_KEY, "Formatted sectors: "});
+  english_words->insert({NFC_FORMATTED_SECTORS_KEY, "Formatted blocks: "});
   english_words->insert({NFC_MIFARE_CLASSIC_FOUND_KEY, "Classic tag found!"});
   english_words->insert({NFC_MIFARE_ULTRALIGHT_FOUND_KEY, "Ult./NTAG found!"});
   english_words->insert({NFC_UID_KEY, "ID:"});
