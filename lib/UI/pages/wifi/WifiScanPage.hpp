@@ -42,6 +42,7 @@ class WifiScanPage : public Page {
   // Up and down are not necessary here so overload with methods that do nothing
   void up() {};
   void down() {};
+  void click() {};
 };
 
 #endif
