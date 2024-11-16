@@ -6,10 +6,13 @@
 #include "ir_attacks_types.h"
 #include "posixsd.hpp"
 
-void ir_record_signal(IRRecordSignalPage *page, IrFramework *framework) {
+TaskHandle_t record_task_handle;
+
+TaskHandle_t ir_record_signal(IRRecordSignalPage *page, IrFramework *framework) {
   IrAttackTaskParams params = {.ir_framework = framework, .page = page};
   xTaskCreate(ir_record_signal_task, "ir_record_signal_task", 8000, &params, 5,
-              NULL);
+              &record_task_handle);
+  return record_task_handle;
 }
 
 RecordedSignal json_to_signal(JsonDocument signal) {

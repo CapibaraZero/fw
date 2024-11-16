@@ -22,7 +22,13 @@ static IrFramework *ir_framework = nullptr;
 static IRListsProgress *ir_list_progress = nullptr;
 static FileBrowserPage *file_browser_page = nullptr;
 
+TaskHandle_t ir_record_task_handle = NULL;
+
 void goto_ir_gui() {
+  if(ir_record_task_handle != NULL) {
+    vTaskDelete(ir_record_task_handle);
+    ir_record_task_handle = NULL;
+  }
   gui->reset();
   ir_main_page = new IRMainPage(3, 0, 1, gui->get_screen(), gui);
   gui->set_current_page(ir_main_page);
@@ -40,7 +46,7 @@ void goto_ir_record_signal_page() {
   ir_record_signal_page =
       new IRRecordSignalPage(1, 1, 0, gui->get_screen(), gui);
   gui->set_current_page(ir_record_signal_page);
-  ir_record_signal(ir_record_signal_page, ir_framework);
+  ir_record_task_handle = ir_record_signal(ir_record_signal_page, ir_framework);
 }
 
 void save_record_to_sd() {
