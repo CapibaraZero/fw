@@ -100,6 +100,7 @@ void stop_subghz_raw_record() {
   subghz_raw_record_page = nullptr;
   make_dump_file();
   subghz_module->stop_receive();
+  goto_subghz_gui();
 }
 
 std::list<string> subghz_files;
