@@ -45,6 +45,7 @@ void stop_frequency_analyzer() {
   stop_subghz_attack();
   subghz_module->stop_receive();
   subghz_frequency_analyzer_page = nullptr;
+  goto_subghz_gui();
 }
 
 void start_raw_record() {
