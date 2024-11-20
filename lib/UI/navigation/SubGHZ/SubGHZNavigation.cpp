@@ -166,6 +166,11 @@ void set_subghz_sender_modulation(int modulation) {
 
 void init_subghz_navigation(Gui *_gui) {
   gui = _gui;
+  #ifndef CC1101_SUBGHZ
   subghz_module = new SubGHZ(SD_CARD_SCK, SX1276_MISO, SD_CARD_MOSI, SX1276_NSS,
                              SX1276_DIO1, SX1276_DIO2);
+  #else
+    subghz_module = new SubGHZ(SD_CARD_SCK, CC1101_MISO, SD_CARD_MOSI, CC1101_CS,
+                             CC1101_IO0, CC1101_IO2);
+  #endif
 }

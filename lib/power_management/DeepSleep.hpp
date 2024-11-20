@@ -1,0 +1,1 @@
+void enable_deep_sleep();

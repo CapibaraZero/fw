@@ -233,6 +233,9 @@ void set_unwritable_sectors(size_t val) {
 void init_nfc_navigation(Gui *_gui) {
   LOG_INFO("Init NFC Navigation");
   gui = _gui;
+  #ifndef LILYGO_T_EMBED_CC1101
+  // Already initialized in setup
   Wire.begin(PN532_SDA, PN532_SCL);
+  #endif
   nfc_attacks = new NFCAttacks();
 }

@@ -18,7 +18,6 @@
 #include <Adafruit_GFX.h>     // Core graphics library
 #include <Adafruit_ST7789.h>  // Hardware-specific library for ST7735
 #include <Arduino.h>
-#include <LittleFS.h>
 
 #include <GFXForms.hpp>
 
@@ -26,100 +25,66 @@
 #include "battery_monitor.hpp"
 #include "ble_hid/BLEHid.hpp"  // Without this build fails
 #include "debug.h"
-#include "display_config.h"
 #include "freertos/task.h"
 #include "gui.hpp"
 #include "i18n.hpp"
-#include "navigation/buttons/btn_routines.hpp"
-#include "navigation/navigation.hpp"
 #include "pins.h"
 #include "posixsd.hpp"
 #include "style.h"
+#include "Peripherals.hpp"
+#include "navigation/navigation.hpp"
+#include "DeepSleep.hpp"
 
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
 
-static bool init_sd() {
-  SPI.begin(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
-  bool status = init_sdcard(SD_CARD_CS);
-  if (!status) {
-    LOG_ERROR("init_sdcard failed");
-  };
-  return status;
-}
-
-void init_navigation_btn(int pin, void callback()) {
-  pinMode(pin, INPUT_PULLUP);
-  attachInterrupt(pin, callback, FALLING);
-}
-
 Gui *main_gui;
 Adafruit_ST7789 *display;
 GFXForms *screen;
+SPIClass display_spi;
 
-// Check if a SubGHZ record needs to be saved in SD(Arduino Nano ESP32)
-static void merge_littlefs_to_sd(void *pv) {
-  if (LittleFS.exists("/littlefs/tmp.json")) {
-    LOG_INFO("tmp.json exists, copying to SD\n");
-    File file = LittleFS.open("/littlefs/tmp.json");
-    File to_copy = SD.open("/subghz/" + (String)millis() + ".json", "w", true);
-    vector<uint8_t> text;
-    uint8_t textseg;
-    while (file.available()) {
-      file.read(&textseg, 1);
-      text.push_back(textseg);
-    }
-    if (!to_copy.write(text.data(), text.size())) {
-      LOG_ERROR("Failed to write file in SD\n");
-    } else {
-      LOG_INFO("Write successfully to file\n");
-    }
-    file.close();
-    to_copy.close();
-    if (!LittleFS.remove("/littlefs/tmp.json")) {
-      LOG_ERROR("Failed to remove file from LittleFS\n");
-    };
-  }
-  vTaskDelete(NULL);
-}
-
-static bool init_littlefs() {
-  bool status = LittleFS.begin(true);
-  if (!status) {
-    LOG_ERROR("LittleFS Mount Failed");
-  }
-  return status;
-}
+#ifdef ARDUINO_NANO_ESP32
+Peripherals_Arduino_Nano_ESP32 peripherals = Peripherals_Arduino_Nano_ESP32();
+#elif ESP32S3_DEVKITC_BOARD
+Peripherals_ESP32S3_DevKitC peripherals = Peripherals_ESP32S3_DevKitC();
+#elif LILYGO_T_EMBED_CC1101
+Peripherals_Lilygo_t_embed_cc1101 peripherals = Peripherals_Lilygo_t_embed_cc1101();
+#endif
 
 void setup() {
-#ifdef ARDUINO_NANO_ESP32
-  Serial.begin(115200);
-  Serial.println("Test");
+  SERIAL_DEVICE.begin(115200);
   delay(2000);
-  if (init_sd() && init_littlefs()) {
-    xTaskCreate(merge_littlefs_to_sd, "merge_littlefs_to_sd", 4000, NULL, 5,
-                NULL);
-  }
-#else
-  Serial0.begin(115200);
-  init_sd();
-#endif
+
+  peripherals.init_nfc_bus();
+
   init_english_dict();
-  pinMode(BATTERY_MONITOR, INPUT);
-  display = new Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
+  
+  #ifdef BATTERY_MONITOR
+    pinMode(BATTERY_MONITOR, INPUT);
+  #endif
+
+  display_spi.begin(TFT_SCLK, TFT_MISO, TFT_MOSI, TFT_CS);
+  
+  display = new Adafruit_ST7789(&display_spi, TFT_CS, TFT_DC, -1);
   screen = new GFXForms(DISPLAY_WIDTH, DISPLAY_HEIGHT, display);
+
   screen->set_rotation(1);
   screen->set_background_color(HOME_BACKGROUND_COLOR);
   main_gui = new Gui(screen);
   main_gui->init_gui();
-  init_navigation_btn(UP_BTN_PIN, handle_up_button);
-  init_navigation_btn(DOWN_BTN_PIN, handle_down_button);
-  init_navigation_btn(RIGHT_BTN_PIN, handle_right_button);
-  init_navigation_btn(LEFT_BTN_PIN, handle_left_button);
-  init_navigation_btn(OK_BTN_PIN, handle_ok_button);
+
+  peripherals.init_navigation();
 
   xTaskCreate(&set_selected_listener, "set_selected_listener", 8192,
               (void *)main_gui, 1, NULL);
+  #if defined(STANDBY_BTN) && defined(WAKEUP_PIN)
+  enable_deep_sleep();
+  #endif
+  display_spi.setHwCs(1);
+  #ifdef TFT_BLK
+  analogWrite(TFT_BLK, 255);
+  #endif
+  peripherals.init_sd();
 }
 
 void loop() {

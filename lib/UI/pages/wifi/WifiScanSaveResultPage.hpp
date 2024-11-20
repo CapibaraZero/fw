@@ -43,8 +43,6 @@ class WifiScanSaveResultPage : public Page {
 
   void up();
   void down();
-  void left() {};
-  void right() {};
 
   void display() {
     LOG_ERROR("WifiScanSaveResultPage::display() not implemented");

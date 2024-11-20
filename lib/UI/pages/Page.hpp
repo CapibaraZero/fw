@@ -65,8 +65,16 @@ class Page {
     }
     grid->set_selected(current_position, true);
   };
-  virtual void left() {};
-  virtual void right() {};
+  virtual void left() {
+    #if ENCODER_NAVIGATION
+    up();
+    #endif
+  };
+  virtual void right() {
+    #ifdef ENCODER_NAVIGATION
+    down();
+    #endif
+  };
   virtual void click() { grid->click(); };
 };
 

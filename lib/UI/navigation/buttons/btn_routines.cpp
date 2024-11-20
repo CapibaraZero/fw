@@ -18,9 +18,11 @@
 #include <Arduino.h>
 
 #include "buttons.h"
+#include "../../../../include/pins.h"
 
 static Buttons btn_pressed = NULL_BTN;
 
+#ifdef BTN_NAVIGATION
 /* ISR routines */
 void IRAM_ATTR handle_up_button() { btn_pressed = UP_BTN; }
 
@@ -30,7 +32,31 @@ void IRAM_ATTR handle_left_button() { btn_pressed = LEFT_BTN; }
 
 void IRAM_ATTR handle_right_button() { btn_pressed = RIGHT_BTN; }
 
-void IRAM_ATTR handle_ok_button() { btn_pressed = OK_BTN; }
+#elif defined(ENCODER_NAVIGATION)
+#include <RotaryEncoder.h>
+
+static RotaryEncoder *encoder = nullptr;
+
+void init_rotary_encoder() {
+    encoder = new RotaryEncoder(ENCODER_A_PIN, ENCODER_B_PIN, RotaryEncoder::LatchMode::TWO03);
+}
+
+static int old_pos = 0;
+
+void IRAM_ATTR handle_encoder() {
+    encoder->tick();
+    if(encoder->getPosition() < old_pos) {
+        btn_pressed = RIGHT_BTN;
+    } else {
+        btn_pressed = LEFT_BTN;
+    }
+}
+#endif
+
+void IRAM_ATTR handle_ok_button() { 
+    Serial.println("OK pRESESD");
+    btn_pressed = OK_BTN; 
+}
 
 Buttons get_btn_pressed() { return btn_pressed; }
 

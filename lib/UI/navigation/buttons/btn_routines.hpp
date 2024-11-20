@@ -19,12 +19,20 @@
 #define BTN_ROUTINES_H
 
 #include "buttons.h"
+#include "../../../../include/pins.h"
+
+#if BTN_NAVIGATION
 void handle_up_button();
 void handle_down_button();
 void handle_left_button();
 void handle_right_button();
-void handle_ok_button();
 
+#elif ENCODER_NAVIGATION
+void init_rotary_encoder();
+void handle_encoder();
+#endif
+
+void handle_ok_button();
 Buttons get_btn_pressed();
 void reset_btn_state();
 
