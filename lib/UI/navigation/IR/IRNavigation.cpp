@@ -25,10 +25,6 @@ static FileBrowserPage *file_browser_page = nullptr;
 TaskHandle_t ir_record_task_handle = NULL;
 
 void goto_ir_gui() {
-  if(ir_record_task_handle != NULL) {
-    vTaskDelete(ir_record_task_handle);
-    ir_record_task_handle = NULL;
-  }
   gui->reset();
   ir_main_page = new IRMainPage(3, 0, 1, gui->get_screen(), gui);
   gui->set_current_page(ir_main_page);
@@ -69,6 +65,12 @@ void save_record_to_sd() {
   File res = open("/IR/signals/" + (String)millis() + ".json", "w");
   serializeJsonPretty(doc, res);
   res.close();
+  goto_ir_gui();
+}
+
+void stop_ir_record() {
+  vTaskDelete(ir_record_task_handle);
+  ir_record_task_handle = NULL;
   goto_ir_gui();
 }
 
