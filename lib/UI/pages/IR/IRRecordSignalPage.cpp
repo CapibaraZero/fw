@@ -46,6 +46,9 @@ void IRRecordSignalPage::set_signal(String _protocol, uint16_t _addr,
   grid->set_selected(1, false);
   screen->reset();
   grid->remove(1);  // Remove stop
+  delete stop;
+  stop =
+      new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_ir_gui);
   String addr_str = String(_addr, HEX);
   String cmd_str = String(_cmd, HEX);
   addr_str.toUpperCase();
