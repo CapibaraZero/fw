@@ -116,8 +116,8 @@ void goto_ir_rc_emulator(const char *path) {
 }
 
 void goto_ir_rc_browser() {
-  gui->reset();
   ir_rc_files = list_dir(open("/IR/signal_rc", "r"));
+  gui->reset();
   file_browser_page =
       new FileBrowserPage(ir_rc_files.size() + 1, 1, 1, gui->get_screen(), gui);
   file_browser_page->display("IR RC Emulator", &ir_rc_files,
@@ -137,8 +137,8 @@ void go_back_to_ir_browser() {
 }
 
 void goto_ir_send() {
-  gui->reset();
   ir_signal_files = list_dir(open("/IR/signals", "r"));
+  gui->reset();
   file_browser_page = new FileBrowserPage(ir_signal_files.size() + 1, 1, 1,
                                           gui->get_screen(), gui);
   file_browser_page->display("IR File Browser", &ir_signal_files, send_signal,
