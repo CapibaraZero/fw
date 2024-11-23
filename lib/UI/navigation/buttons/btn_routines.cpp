@@ -54,7 +54,6 @@ void IRAM_ATTR handle_encoder() {
 #endif
 
 void IRAM_ATTR handle_ok_button() { 
-    Serial.println("OK pRESESD");
     btn_pressed = OK_BTN; 
 }
 
