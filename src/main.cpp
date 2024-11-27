@@ -55,7 +55,7 @@ void setup() {
   SERIAL_DEVICE.begin(115200);
   delay(2000);
 
-  peripherals.init_nfc_bus();
+  peripherals.init_i2c_bus();
 
   init_english_dict();
   

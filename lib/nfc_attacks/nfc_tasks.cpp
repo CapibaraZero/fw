@@ -5,6 +5,7 @@
 #include "nfc_attacks.hpp"
 #include "nfc_tasks_types.h"
 #include "posixsd.hpp"
+#include "flipper_zero_nfc_file_parser.hpp"
 
 bool polling_in_progress = false;
 bool dump_in_progress = false;
@@ -194,40 +195,43 @@ void write_nfc_sectors(void *pv) {
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   JsonDocument doc;
   File nfc_dump = open("/NFC/dumps/" + (String)params->path, "r");
-  DeserializationError error = deserializeJson(doc, nfc_dump);
+  if (strstr(params->path, ".json") != NULL) {
+    DeserializationError error = deserializeJson(doc, nfc_dump);
+    if (error) {
+      Serial.print("deserializeJson() failed: ");
+      Serial.println(error.c_str());
+    } else {
+      const char *type = doc["type"];  // Type of tag
+      size_t wrote_sectors = 0;
+      size_t unwritable_sectors = 0;
+      for (JsonPair block : doc["blocks"].as<JsonObject>()) {
+        int block_key = atoi(block.key().c_str());
 
-  if (error) {
-    Serial.print("deserializeJson() failed: ");
-    Serial.println(error.c_str());
-  } else {
-    const char *type = doc["type"];  // Type of tag
-    size_t wrote_sectors = 0;
-    size_t unwritable_sectors = 0;
-    for (JsonPair block : doc["blocks"].as<JsonObject>()) {
-      int block_key = atoi(block.key().c_str());
+        int block_value_key_type = block.value()["key_type"];
 
-      int block_value_key_type = block.value()["key_type"];
+        uint8_t key[6];
+        size_t i = 0;
 
-      uint8_t key[6];
-      size_t i = 0;
+        for (uint8_t key_byte : block.value()["key"].as<JsonArray>()) {
+          key[i++] = key_byte;
+        }
 
-      for (uint8_t key_byte : block.value()["key"].as<JsonArray>()) {
-        key[i++] = key_byte;
-      }
+        uint8_t data[16];
+        i = 0;
+        for (uint8_t data_byte : block.value()["data"].as<JsonArray>()) {
+          data[i++] = data_byte;
+        }
 
-      uint8_t data[16];
-      i = 0;
-      for (uint8_t data_byte : block.value()["data"].as<JsonArray>()) {
-        data[i++] = data_byte;
-      }
-
-      if (params->attacks->write_sector(block_key, data, block_value_key_type,
-                                        key)) {
-        set_wrote_sectors(++wrote_sectors);
-      } else {
-        set_unwritable_sectors(++unwritable_sectors);
+        if (params->attacks->write_sector(block_key, data, block_value_key_type,
+                                          key)) {
+          set_wrote_sectors(++wrote_sectors);
+        } else {
+          set_unwritable_sectors(++unwritable_sectors);
+        }
       }
     }
+  } else {
+    flipper_zero_nfc_parser(std::string(nfc_dump.readString().c_str()), params->attacks);
   }
   goto_home_nfc(params);
   free(pv);
