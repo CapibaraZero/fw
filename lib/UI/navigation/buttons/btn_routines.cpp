@@ -41,15 +41,21 @@ void init_rotary_encoder() {
     encoder = new RotaryEncoder(ENCODER_A_PIN, ENCODER_B_PIN, RotaryEncoder::LatchMode::TWO03);
 }
 
-static int old_pos = 0;
-
-void IRAM_ATTR handle_encoder() {
+static int pos = 0;
+void handle_encoder() {
     encoder->tick();
-    if(encoder->getPosition() < old_pos) {
-        btn_pressed = RIGHT_BTN;
-    } else {
-        btn_pressed = LEFT_BTN;
+
+    int new_pos = encoder->getPosition();
+    if (pos != new_pos) {
+        pos = new_pos;
+        RotaryEncoder::Direction direction = encoder->getDirection();
+        if(direction == RotaryEncoder::Direction::COUNTERCLOCKWISE) {
+            btn_pressed = RIGHT_BTN;
+        } else {
+            btn_pressed = LEFT_BTN;
+        }
     }
+    delay(1);
 }
 #endif
 

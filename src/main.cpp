@@ -88,6 +88,10 @@ void setup() {
 }
 
 void loop() {
-  LOG_INFO("Loop\n");  // Avoid FreeRTOS watchdog trigger
-  delay(1000);
+#if defined(ENCODER_NAVIGATION)
+  handle_encoder();
+#else
+ LOG_INFO("Loop\n");  // Avoid FreeRTOS watchdog trigger
+ delay(1000);
+#endif
 }

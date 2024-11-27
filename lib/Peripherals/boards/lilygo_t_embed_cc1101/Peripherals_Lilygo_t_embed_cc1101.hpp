@@ -56,9 +56,6 @@ class Peripherals_Lilygo_t_embed_cc1101 : public Peripherals {
   };
   void init_navigation() {
     init_rotary_encoder();
-    // Since rotary isn't really precise, tick just on Encoder A Pin interrupt
-    //attachInterrupt(ENCODER_B_PIN, handle_encoder, CHANGE);
-    attachInterrupt(ENCODER_A_PIN, handle_encoder, CHANGE);
     init_navigation_btn(OK_BTN_PIN, handle_ok_button, INPUT, HIGH);
   };
 };
