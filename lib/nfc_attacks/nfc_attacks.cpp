@@ -340,6 +340,18 @@ uint8_t NFCAttacks::write_ntag(NFCTag *tag) {
   return unwritable;
 }
 
+bool NFCAttacks::write_ntag(uint8_t page, uint8_t *data) {
+  uint8_t uid[7];
+  uint8_t uid_length;
+  bool success = false;
+
+  if (nfc_framework.get_tag_uid(uid, uid_length)) {
+    success = nfc_framework.write_ntag2xx_page(page, data);
+  }
+
+  return success;
+}
+
 uint8_t NFCAttacks::format_ntag(int pages) {
   LOG_INFO("Formatting ntag...");
   uint8_t empty_tag_data[pages * NTAG_PAGE_SIZE] = {0};

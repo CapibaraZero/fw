@@ -216,14 +216,19 @@ void write_nfc_sectors(void *pv) {
           key[i++] = key_byte;
         }
 
-        uint8_t data[16];
+        uint8_t data[type == "0" ? 16 : 4];
         i = 0;
         for (uint8_t data_byte : block.value()["data"].as<JsonArray>()) {
           data[i++] = data_byte;
         }
 
-        if (params->attacks->write_sector(block_key, data, block_value_key_type,
-                                          key)) {
+        bool success = false;
+        if (type == "0") {
+          success = params->attacks->write_sector(i++, data, 0, key);
+        } else {
+          success = params->attacks->write_ntag(i++, data);
+        }
+        if (success) {
           set_wrote_sectors(++wrote_sectors);
         } else {
           set_unwritable_sectors(++unwritable_sectors);
@@ -233,6 +238,7 @@ void write_nfc_sectors(void *pv) {
   } else {
     flipper_zero_nfc_parser(std::string(nfc_dump.readString().c_str()), params->attacks);
   }
+  delay(6000);
   goto_home_nfc(params);
   free(pv);
   vTaskDelete(NULL);

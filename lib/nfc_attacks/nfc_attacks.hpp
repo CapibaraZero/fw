@@ -59,6 +59,7 @@ class NFCAttacks {
   bool write_sector(uint8_t block_number, uint8_t *data, uint8_t key_type,
                     uint8_t *key);
   uint8_t write_ntag(NFCTag *tag);
+  bool write_ntag(uint8_t page, uint8_t *data);
   uint8_t format_ntag(int pages);
   void format_tag();
   bool detect_felica(uint8_t *idm, uint8_t *pmm, uint16_t *sys_code);
