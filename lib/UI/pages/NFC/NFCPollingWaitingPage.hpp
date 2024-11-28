@@ -19,6 +19,7 @@
 #include "Grid.hpp"
 #include "List.hpp"
 #include "Text.hpp"
+#include "../../navigation/NFC/NFCNavigation.hpp"
 
 #ifndef NFC_POLLING_WAITING_PAGE_H
 #define NFC_POLLING_WAITING_PAGE_H
@@ -39,6 +40,7 @@ class NFCPollingWaitingPage : public Page {
   void display();
 
   void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
+  void click() { grid->click(1, stop_nfc_polling); }
 };
 
 #endif

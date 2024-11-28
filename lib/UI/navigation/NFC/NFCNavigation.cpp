@@ -151,12 +151,8 @@ void bruteforce_a_tag() {
 }
 
 void stop_nfc_polling() {
-  reset_uid();
-  reset_felica();
-  gui->reset();
-  nfc_cleanup();
   destroy_tasks();
-  // gui->init_nfc_gui();
+  goto_nfc_gui();
 }
 
 void nfc_mifare_polling() {
@@ -230,12 +226,17 @@ void set_unwritable_sectors(size_t val) {
   nfc_write_result_page->set_unwritable_sectors(val);
 }
 
+static bool nfc_initialized = false;
+
 void init_nfc_navigation(Gui *_gui) {
-  LOG_INFO("Init NFC Navigation");
-  gui = _gui;
-  #ifndef LILYGO_T_EMBED_CC1101
-  // Already initialized in setup
-  Wire.begin(PN532_SDA, PN532_SCL);
-  #endif
-  nfc_attacks = new NFCAttacks();
+  if(!nfc_initialized) {
+    LOG_INFO("Init NFC Navigation");
+    gui = _gui;
+    #ifndef LILYGO_T_EMBED_CC1101
+    // Already initialized in setup
+    Wire.begin(PN532_SDA, PN532_SCL);
+    #endif
+    nfc_attacks = new NFCAttacks();
+    nfc_initialized = true;
+  }
 }

@@ -35,7 +35,7 @@ void NFCPollingWaitingPage::display() {
   info_msg = new Text(screen, ST77XX_WHITE, english_words->at(NFC_TAG_NEAR_KEY),
                       2, true);  // Need wrap because text is too long
   go_back = new List(screen, english_words->at(NFC_GO_BACK_KEY), 2,
-                     ST77XX_WHITE, 20, ST77XX_BLUE, goto_home);
+                     ST77XX_WHITE, 20, ST77XX_BLUE, stop_nfc_polling);
   grid->add(polling_in_progress);
   grid->add(info_msg);
   grid->add(go_back);
