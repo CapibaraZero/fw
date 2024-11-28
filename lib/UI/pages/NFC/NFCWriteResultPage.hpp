@@ -38,8 +38,8 @@ class NFCWriteResultPage : public Page {
         };
   ~NFCWriteResultPage();
   void display();
-
-  void click(int pos, void callback()) { grid->click(pos, callback); };
+  void click() {};
+  void click(int pos, void callback()) {};
   void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
   void set_wrote_sectors(int sectors) {
     wrote_sectors->set_text("Wrote sectors: " + (String)sectors);
