@@ -77,8 +77,39 @@ bool NFCAttacks::read_sector(uint8_t initial_pos, uint8_t *key,
   return result;
 }
 
+#define DUMP_SAVE_PATH(prefix, ext)                                          \
+  ((String) "/NFC/dumps/" + prefix + (String) ext) \
+      .c_str()  // TODO: Use UID + millis as identifier
+
+void save_json_dump(bool ultralight, uint8_t *data, size_t size, const char *filename) {
+  JsonDocument doc;
+  doc["type"] = ultralight;
+  JsonObject blocks = doc["blocks"].to<JsonObject>();
+  size_t block_cnt = 0;
+
+  for (size_t i = 0; i < size; i++) {
+    JsonObject block = blocks[(String)block_cnt++].to<JsonObject>();
+    block["key_type"] = 0;
+    JsonArray key = block["key"].to<JsonArray>();
+    for (size_t j = 0; j < 6; j++) {
+      key.add(0xff);
+    }
+  
+    JsonArray json_data = block["data"].to<JsonArray>();
+    for (size_t j = 0; j < 16; j++) {
+      json_data.add(data[j + i]);
+    }
+    doc.shrinkToFit();  // Save some memory
+    i += ultralight ? 3 : 15;
+  }
+  File dump_json = open(filename, "w");
+  serializeJsonPretty(doc, dump_json);
+  dump_json.close();
+}
+
 bool NFCAttacks::bruteforce() {
   bruteforce_status = true;
+  String prefix = (String)millis();
   File keys = open(NFC_KEYS_FILE, "r");
   std::map<uint8_t, SectorResult> bruteforce_result;
   // List of trailer of sector 0..63
@@ -163,7 +194,8 @@ bool NFCAttacks::bruteforce() {
       }
       if (know_sector.size() == 0) {
         bruteforce_status = false;
-        save_file("/NFC/result.bin", tag_data, tag.blocks * 16);
+        save_file(DUMP_SAVE_PATH(prefix, ".bin"), tag_data, tag.blocks * 16);
+        save_json_dump(tag.blocks == 20, tag_data, tag.blocks * 16, DUMP_SAVE_PATH(prefix, ".json"));
         return true;
       }
       tried_keys++;  // For statistics use
@@ -171,7 +203,8 @@ bool NFCAttacks::bruteforce() {
   } else {
     LOG_ERROR("Keys file not found.\n");
   }
-  save_file("/NFC/result.bin", tag_data, tag.blocks * 16);
+  save_file(DUMP_SAVE_PATH(prefix, ".bin"), tag_data, tag.blocks * 16);
+  save_json_dump(tag.blocks == 20, tag_data, tag.blocks * 16, DUMP_SAVE_PATH(prefix, ".json"));
   bruteforce_status = false;
   return false;
 }
