@@ -37,6 +37,7 @@ class SubGHZ {
   bool initialized = false;
   void error_check(const char *operation, int16_t status_code);
   float get_rssi();
+
  public:
   SubGHZ(uint8_t sck, uint8_t miso, uint8_t mosi, uint8_t csn, uint8_t gdo0,
          uint8_t gdo2);

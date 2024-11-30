@@ -18,9 +18,9 @@
 #include "MainPage.hpp"
 
 #include "../../i18n.hpp"
-#include "../../include/pins.h"
 #include "../../include/debug.h"
 #include "../../include/device_info.h"
+#include "../../include/pins.h"
 #include "../../navigation/navigation.hpp"
 #include "GFXForms.hpp"
 #include "battery_monitor.hpp"
@@ -81,31 +81,31 @@ void MainPage::display() {
     grid->add(NFC);
     grid->add(IR);
     grid->add(net_attacks);
-    #if DISPLAY_WIDTH == 170 && DISPLAY_HEIGHT == 320
+#if DISPLAY_WIDTH == 170 && DISPLAY_HEIGHT == 320
     btn_level = new Text(screen, HOME_TEXT_COLOR, "100%");
     grid->add(btn_level);
-    #endif
+#endif
     // grid->add(settings);
     grid->set_pos(0, 0);
     grid->set_space_between(10);
     grid->set_padding(0, 10);
   }
-  #if DISPLAY_WIDTH != 170
-    Text battery_level = Text(screen, HOME_INFO_COLOR, "Battery: 0%", 2U,true);
-    battery_level.set_pos(5, 220);
+#if DISPLAY_WIDTH != 170
+  Text battery_level = Text(screen, HOME_INFO_COLOR, "Battery: 0%", 2U, true);
+  battery_level.set_pos(5, 220);
 
-    text = new Text(screen, HOME_INFO_COLOR,
-                    String(english_words->at(VERSION_KEY)) + String(VERSION));
-    text->set_size(2);
-    text->set_wrap(true);
-    text->set_pos(5, 200);
-  #endif
+  text = new Text(screen, HOME_INFO_COLOR,
+                  String(english_words->at(VERSION_KEY)) + String(VERSION));
+  text->set_size(2);
+  text->set_wrap(true);
+  text->set_pos(5, 200);
+#endif
   grid->display();
   grid->set_selected(lower_limit, true);
-  #if DISPLAY_WIDTH != 170
+#if DISPLAY_WIDTH != 170
   text->display();
   battery_level.display();
-  #endif
+#endif
   set_battery_level();
 }
 

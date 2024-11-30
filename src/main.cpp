@@ -21,6 +21,8 @@
 
 #include <GFXForms.hpp>
 
+#include "DeepSleep.hpp"
+#include "Peripherals.hpp"
 #include "SPI.h"
 #include "battery_monitor.hpp"
 #include "ble_hid/BLEHid.hpp"  // Without this build fails
@@ -28,12 +30,10 @@
 #include "freertos/task.h"
 #include "gui.hpp"
 #include "i18n.hpp"
+#include "navigation/navigation.hpp"
 #include "pins.h"
 #include "posixsd.hpp"
 #include "style.h"
-#include "Peripherals.hpp"
-#include "navigation/navigation.hpp"
-#include "DeepSleep.hpp"
 
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
@@ -48,7 +48,8 @@ Peripherals_Arduino_Nano_ESP32 peripherals = Peripherals_Arduino_Nano_ESP32();
 #elif ESP32S3_DEVKITC_BOARD
 Peripherals_ESP32S3_DevKitC peripherals = Peripherals_ESP32S3_DevKitC();
 #elif LILYGO_T_EMBED_CC1101
-Peripherals_Lilygo_t_embed_cc1101 peripherals = Peripherals_Lilygo_t_embed_cc1101();
+Peripherals_Lilygo_t_embed_cc1101 peripherals =
+    Peripherals_Lilygo_t_embed_cc1101();
 #endif
 
 void setup() {
@@ -58,13 +59,13 @@ void setup() {
   peripherals.init_i2c_bus();
 
   init_english_dict();
-  
-  #ifdef BATTERY_MONITOR
-    pinMode(BATTERY_MONITOR, INPUT);
-  #endif
+
+#ifdef BATTERY_MONITOR
+  pinMode(BATTERY_MONITOR, INPUT);
+#endif
 
   display_spi.begin(TFT_SCLK, TFT_MISO, TFT_MOSI, TFT_CS);
-  
+
   display = new Adafruit_ST7789(&display_spi, TFT_CS, TFT_DC, -1);
   screen = new GFXForms(DISPLAY_WIDTH, DISPLAY_HEIGHT, display);
 
@@ -77,13 +78,13 @@ void setup() {
 
   xTaskCreate(&set_selected_listener, "set_selected_listener", 8192,
               (void *)main_gui, 1, NULL);
-  #if defined(STANDBY_BTN) && defined(WAKEUP_PIN)
+#if defined(STANDBY_BTN) && defined(WAKEUP_PIN)
   enable_deep_sleep();
-  #endif
+#endif
   display_spi.setHwCs(1);
-  #ifdef TFT_BLK
+#ifdef TFT_BLK
   analogWrite(TFT_BLK, 255);
-  #endif
+#endif
   peripherals.init_sd();
 }
 
@@ -91,7 +92,7 @@ void loop() {
 #if defined(ENCODER_NAVIGATION)
   handle_encoder();
 #else
- LOG_INFO("Loop\n");  // Avoid FreeRTOS watchdog trigger
- delay(1000);
+  LOG_INFO("Loop\n");  // Avoid FreeRTOS watchdog trigger
+  delay(1000);
 #endif
 }

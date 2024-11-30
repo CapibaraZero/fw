@@ -24,7 +24,8 @@
 
 static void IRAM_ATTR standby() {
   digitalWrite(15, LOW);  // Power off CC1101 and LED
-  esp_sleep_enable_ext1_wakeup(GPIO_BITMASK(WAKEUP_PIN), ESP_EXT1_WAKEUP_ANY_LOW);
+  esp_sleep_enable_ext1_wakeup(GPIO_BITMASK(WAKEUP_PIN),
+                               ESP_EXT1_WAKEUP_ANY_LOW);
   esp_deep_sleep_start();
 }
 #endif

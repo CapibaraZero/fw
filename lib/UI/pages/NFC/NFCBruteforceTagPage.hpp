@@ -41,7 +41,7 @@ class NFCBruteforceTagPage : public Page {
   ~NFCBruteforceTagPage();
   void display();
   void click() {};
-  void click(int pos, void callback()) { };
+  void click(int pos, void callback()) {};
   void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
   void update_tried_keys(int keys) {
     tried_keys->set_text((String) "Tried keys: " + (String)keys);

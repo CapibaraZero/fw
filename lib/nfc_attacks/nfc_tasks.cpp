@@ -1,11 +1,11 @@
 #include "../../include/debug.h"
 #include "../UI/navigation/NFC/NFCNavigation.hpp"
 #include "ArduinoJson.h"
+#include "flipper_zero_nfc_file_parser.hpp"
 #include "navigation/navigation.hpp"
 #include "nfc_attacks.hpp"
 #include "nfc_tasks_types.h"
 #include "posixsd.hpp"
-#include "flipper_zero_nfc_file_parser.hpp"
 
 bool polling_in_progress = false;
 bool dump_in_progress = false;
@@ -236,7 +236,8 @@ void write_nfc_sectors(void *pv) {
       }
     }
   } else {
-    flipper_zero_nfc_parser(std::string(nfc_dump.readString().c_str()), params->attacks);
+    flipper_zero_nfc_parser(std::string(nfc_dump.readString().c_str()),
+                            params->attacks);
   }
   delay(6000);
   goto_home_nfc(params);

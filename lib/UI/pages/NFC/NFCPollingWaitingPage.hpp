@@ -15,11 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../../navigation/NFC/NFCNavigation.hpp"
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
 #include "Text.hpp"
-#include "../../navigation/NFC/NFCNavigation.hpp"
 
 #ifndef NFC_POLLING_WAITING_PAGE_H
 #define NFC_POLLING_WAITING_PAGE_H

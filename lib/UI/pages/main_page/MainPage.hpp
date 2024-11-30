@@ -18,11 +18,11 @@
 #ifndef MAIN_PAGE_H
 #define MAIN_PAGE_H
 
+#include "../../include/pins.h"
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "Text.hpp"
 #include "widgets/RectText.hpp"
-#include "../../include/pins.h"
 
 class MainPage : public Page {
  private:
@@ -35,9 +35,9 @@ class MainPage : public Page {
   RectText *net_attacks = nullptr;
   RectText *settings = nullptr;
   Text *text = nullptr;
-  #if DISPLAY_WIDTH == 170 && DISPLAY_HEIGHT == 320
+#if DISPLAY_WIDTH == 170 && DISPLAY_HEIGHT == 320
   Text *btn_level = nullptr;
-  #endif
+#endif
   int read_bat_level();
   // Text *battery_level;
  public:
@@ -51,14 +51,14 @@ class MainPage : public Page {
   void right();
   void set_battery_level() {
     int level = read_bat_level();
-    #if DISPLAY_WIDTH != 170
+#if DISPLAY_WIDTH != 170
     Text battery_level =
         Text(screen, 0xFFFF, "Battery:" + (String)level + "%", 2U, true);
     battery_level.set_pos(5, 220);
     battery_level.display();
-    #else
-      btn_level->set_text((String)level + "%");
-    #endif
+#else
+    btn_level->set_text((String)level + "%");
+#endif
   };
 };
 

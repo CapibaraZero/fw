@@ -13,9 +13,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- * 
- * I2C initialization from: https://github.com/Xinyuan-LilyGO/T-Embed-CC1101/blob/master/examples/pn532_test/pn532_test.ino
- * And: https://github.com/Xinyuan-LilyGO/T-Embed-CC1101/blob/master/examples/factory_test/factory_test.ino
+ *
+ * I2C initialization from:
+ * https://github.com/Xinyuan-LilyGO/T-Embed-CC1101/blob/master/examples/pn532_test/pn532_test.ino
+ * And:
+ * https://github.com/Xinyuan-LilyGO/T-Embed-CC1101/blob/master/examples/factory_test/factory_test.ino
  */
 
 #ifndef PERIPHERALS_LILYGO_T_EMBED_CC1101_H
@@ -61,11 +63,11 @@ class Peripherals_Lilygo_t_embed_cc1101 : public Peripherals {
     }
 
     pinMode(IR_EMITTER_PIN, OUTPUT);
-    digitalWrite(IR_EMITTER_PIN, HIGH); // Power on IR
+    digitalWrite(IR_EMITTER_PIN, HIGH);  // Power on IR
 
     pinMode(BOARD_PWR_EN, OUTPUT);
     digitalWrite(BOARD_PWR_EN, HIGH);  // Power on CC1101 an
-    
+
     // NFC
     pinMode(NFC_RST, OUTPUT);
     digitalWrite(NFC_RST, HIGH);

@@ -26,17 +26,16 @@ BQ27220 bq;
 
 int read_battery_level() {
   int battery_level = 0;
-  #if defined(BATTERY_MONITOR) || defined(BQ27220_BATTERY)
-  #ifdef BATTERY_MONITOR
+#if defined(BATTERY_MONITOR) || defined(BQ27220_BATTERY)
+#ifdef BATTERY_MONITOR
   battery_level = analogRead(BATTERY_MONITOR);
   battery_level = map(battery_level, MIN_ANALOG_VALUE, MAX_ANALOG_VALUE,
                       MIN_LEVEL, MAX_LEVEL);
-  #elif defined(BQ27220_BATTERY)
+#elif defined(BQ27220_BATTERY)
   int remain_mah = bq.getRemainCap();
   int full_mah = bq.getFullChargeCap();
   battery_level = map(remain_mah, 0, full_mah, 0, 100);
-  #endif
-  #endif
+#endif
+#endif
   return battery_level;
-
 }

@@ -17,13 +17,13 @@ void frequency_analyzer(void *pv) {
   SubGHZTaskParameters *params = (SubGHZTaskParameters *)pv;
   while (true) {
     for (float freq = 139.0; freq < 1020.0; freq++) {
-      #ifdef CC1101_SUBGHZ
-        if(!(((freq >= 300.0) && (freq <= 348.0)) ||
-       ((freq >= 387.0) && (freq <= 464.0)) ||
-       ((freq >= 779.0) && (freq <= 928.0)))) {
+#ifdef CC1101_SUBGHZ
+      if (!(((freq >= 300.0) && (freq <= 348.0)) ||
+            ((freq >= 387.0) && (freq <= 464.0)) ||
+            ((freq >= 779.0) && (freq <= 928.0)))) {
         continue;
-       }
-      #endif
+      }
+#endif
       SignalStrength result = params->subghz->scan_frequency(freq);
       if (result.rssi > RSSI_LIMIT) {
         set_subghz_freqeuncy(freq);

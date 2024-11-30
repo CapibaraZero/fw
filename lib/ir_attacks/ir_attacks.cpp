@@ -8,7 +8,8 @@
 
 TaskHandle_t record_task_handle;
 
-TaskHandle_t ir_record_signal(IRRecordSignalPage *page, IrFramework *framework) {
+TaskHandle_t ir_record_signal(IRRecordSignalPage *page,
+                              IrFramework *framework) {
   IrAttackTaskParams params = {.ir_framework = framework, .page = page};
   xTaskCreate(ir_record_signal_task, "ir_record_signal_task", 8000, &params, 5,
               &record_task_handle);

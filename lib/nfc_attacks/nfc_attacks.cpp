@@ -77,11 +77,12 @@ bool NFCAttacks::read_sector(uint8_t initial_pos, uint8_t *key,
   return result;
 }
 
-#define DUMP_SAVE_PATH(prefix, ext)                                          \
-  ((String) "/NFC/dumps/" + prefix + (String) ext) \
+#define DUMP_SAVE_PATH(prefix, ext)               \
+  ((String) "/NFC/dumps/" + prefix + (String)ext) \
       .c_str()  // TODO: Use UID + millis as identifier
 
-void save_json_dump(bool ultralight, uint8_t *data, size_t size, const char *filename) {
+void save_json_dump(bool ultralight, uint8_t *data, size_t size,
+                    const char *filename) {
   JsonDocument doc;
   doc["type"] = ultralight;
   JsonObject blocks = doc["blocks"].to<JsonObject>();
@@ -94,7 +95,7 @@ void save_json_dump(bool ultralight, uint8_t *data, size_t size, const char *fil
     for (size_t j = 0; j < 6; j++) {
       key.add(0xff);
     }
-  
+
     JsonArray json_data = block["data"].to<JsonArray>();
     for (size_t j = 0; j < 16; j++) {
       json_data.add(data[j + i]);
@@ -195,7 +196,8 @@ bool NFCAttacks::bruteforce() {
       if (know_sector.size() == 0) {
         bruteforce_status = false;
         save_file(DUMP_SAVE_PATH(prefix, ".bin"), tag_data, tag.blocks * 16);
-        save_json_dump(tag.blocks == 20, tag_data, tag.blocks * 16, DUMP_SAVE_PATH(prefix, ".json"));
+        save_json_dump(tag.blocks == 20, tag_data, tag.blocks * 16,
+                       DUMP_SAVE_PATH(prefix, ".json"));
         return true;
       }
       tried_keys++;  // For statistics use
@@ -204,7 +206,8 @@ bool NFCAttacks::bruteforce() {
     LOG_ERROR("Keys file not found.\n");
   }
   save_file(DUMP_SAVE_PATH(prefix, ".bin"), tag_data, tag.blocks * 16);
-  save_json_dump(tag.blocks == 20, tag_data, tag.blocks * 16, DUMP_SAVE_PATH(prefix, ".json"));
+  save_json_dump(tag.blocks == 20, tag_data, tag.blocks * 16,
+                 DUMP_SAVE_PATH(prefix, ".json"));
   bruteforce_status = false;
   return false;
 }

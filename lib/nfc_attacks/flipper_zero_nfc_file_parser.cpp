@@ -67,7 +67,7 @@ void flipper_zero_nfc_parser(std::string file, NFCAttacks *attacks) {
     if (block.find("Failed") == std::string::npos && block != "") {
       uint8_t data[type == 0 ? 16 : 4];
       size_t substr_space = i < 10 ? 9 : 10;
-      if(type != 0) {
+      if (type != 0) {
         substr_space--;
       }
       std::string parsed_blocks = block.substr(substr_space);

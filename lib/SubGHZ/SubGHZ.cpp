@@ -55,7 +55,7 @@ void SubGHZ::init_receive() {
   radio.setAFC(true);
   radio.setDirectAction(readBit);
 #else
-  //Set antenna frequency settings
+  // Set antenna frequency settings
   pinMode(CC1101_SW1, OUTPUT);
   pinMode(CC1101_SW0, OUTPUT);
 
@@ -66,7 +66,7 @@ void SubGHZ::init_receive() {
   digitalWrite(CC1101_CS, HIGH);
 
   int state = radio.begin(315);
-  if(state != RADIOLIB_ERR_NONE) {
+  if (state != RADIOLIB_ERR_NONE) {
     Serial.print("Error initializing CC1101");
     Serial.printf("Status: %i\n", state);
   } else {
@@ -110,13 +110,13 @@ void SubGHZ::stop_receive() {
 void SubGHZ::set_freq_mod(float freq, float bw, float deviation) {
   int state = 0;
 #ifdef CC1101_SUBGHZ
-  if((freq >= 300.0) && (freq <= 348.0)) {
+  if ((freq >= 300.0) && (freq <= 348.0)) {
     digitalWrite(CC1101_SW1, HIGH);
     digitalWrite(CC1101_SW0, LOW);
-  } else if((freq >= 387.0) && (freq <= 464.0)) {
+  } else if ((freq >= 387.0) && (freq <= 464.0)) {
     digitalWrite(CC1101_SW1, HIGH);
     digitalWrite(CC1101_SW0, HIGH);
-  } else if((freq >= 779.0) && (freq <= 928.0)){
+  } else if ((freq >= 779.0) && (freq <= 928.0)) {
     digitalWrite(CC1101_SW1, LOW);
     digitalWrite(CC1101_SW0, HIGH);
   }
@@ -133,16 +133,15 @@ void SubGHZ::set_freq_mod(float freq, float bw, float deviation) {
   _bw = bw;
 #endif
   _frequency = freq;
-  
 }
 
 float SubGHZ::get_rssi() {
   float rssi = 0;
-  #ifndef CC1101_SUBGHZ
+#ifndef CC1101_SUBGHZ
   rssi = radio.getRSSI(false, false);
-  #else
+#else
   rssi = radio.getRSSI();
-  #endif
+#endif
   return rssi;
 }
 

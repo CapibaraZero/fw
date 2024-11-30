@@ -19,9 +19,9 @@
 
 #include "Arduino.h"
 #include "SPI.h"
-#include "posixsd.hpp"
 #include "navigation/buttons/btn_routines.hpp"
 #include "navigation/navigation.hpp"
+#include "posixsd.hpp"
 
 uint32_t sd_sum_Mbyte;
 uint32_t sd_used_Mbyte;
@@ -38,34 +38,35 @@ bool Peripherals::common_init_sd(size_t sck, size_t miso, size_t mosi,
   };
   uint8_t cardType = SD.cardType();
 
-    if(cardType == CARD_NONE){
-        Serial.println("No SD card attached");
-        return false;
-    }
+  if (cardType == CARD_NONE) {
+    Serial.println("No SD card attached");
+    return false;
+  }
 
-    Serial.print("SD Card Type: ");
-    if(cardType == CARD_MMC){
-        Serial.println("MMC");
-    } else if(cardType == CARD_SD){
-        Serial.println("SDSC");
-    } else if(cardType == CARD_SDHC){
-        Serial.println("SDHC");
-    } else {
-        Serial.println("UNKNOWN");
-    }
+  Serial.print("SD Card Type: ");
+  if (cardType == CARD_MMC) {
+    Serial.println("MMC");
+  } else if (cardType == CARD_SD) {
+    Serial.println("SDSC");
+  } else if (cardType == CARD_SDHC) {
+    Serial.println("SDHC");
+  } else {
+    Serial.println("UNKNOWN");
+  }
 
-    uint64_t cardSize = SD.cardSize() / (1024 * 1024);
-    sd_sum_Mbyte = (SD.totalBytes() / (1024 * 1024));
-    sd_used_Mbyte = (SD.usedBytes() / (1024 * 1024));
+  uint64_t cardSize = SD.cardSize() / (1024 * 1024);
+  sd_sum_Mbyte = (SD.totalBytes() / (1024 * 1024));
+  sd_used_Mbyte = (SD.usedBytes() / (1024 * 1024));
 
-    Serial.printf("SD Card Size: %lluMB\n", cardSize);
-    Serial.printf("Total space: %dMB\n", sd_sum_Mbyte);
-    Serial.printf("Used space: %dMB\n", sd_used_Mbyte);
+  Serial.printf("SD Card Size: %lluMB\n", cardSize);
+  Serial.printf("Total space: %dMB\n", sd_sum_Mbyte);
+  Serial.printf("Used space: %dMB\n", sd_used_Mbyte);
 
   return status;
 }
 
-void Peripherals::init_navigation_btn(int pin, void callback(), int input_mode, int isr_mode) {
+void Peripherals::init_navigation_btn(int pin, void callback(), int input_mode,
+                                      int isr_mode) {
   pinMode(pin, input_mode);
   attachInterrupt(pin, callback, isr_mode);
 }

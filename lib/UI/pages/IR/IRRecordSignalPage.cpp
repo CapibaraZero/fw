@@ -31,8 +31,8 @@ IRRecordSignalPage::~IRRecordSignalPage() {
 void IRRecordSignalPage::display() {
   grid = new Grid(screen, 3, 1);
   protocol = new Text(screen, ST77XX_WHITE, "Waiting for signal...");
-  stop =
-      new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK, stop_ir_record);
+  stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
+                  stop_ir_record);
 
   grid->add(protocol);
   grid->add(stop);

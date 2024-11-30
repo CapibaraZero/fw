@@ -18,8 +18,8 @@
 #ifndef BTN_ROUTINES_H
 #define BTN_ROUTINES_H
 
-#include "buttons.h"
 #include "../../../../include/pins.h"
+#include "buttons.h"
 
 #if BTN_NAVIGATION
 void handle_up_button();

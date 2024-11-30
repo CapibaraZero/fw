@@ -15,7 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "nfc_attacks.hpp"
 #include <string>
+
+#include "nfc_attacks.hpp"
 
 void flipper_zero_nfc_parser(std::string file, NFCAttacks *attacks);
