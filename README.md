@@ -51,7 +51,7 @@ If you wanna port project to other ESP boards, we have made a little guide here:
 ## Social
 
 - [Matrix server](https://matrix.to/#/#capibarazero:capibarazero.com)
-- [Discord-Matrix bridge](https://discord.gg/4uvMS843)
+- [Discord-Matrix bridge](https://discord.gg/77f3BHvnhf)
 
 ## License
 
