@@ -24,45 +24,45 @@
 #define SUBGHZ_SENDER_PAGE_H
 
 class SubGHZSender : public Page {
-   private:
-    Text *current_frequency;
-    Text *current_modulation;
-    Text *current_bw;
-    Text *current_deviation;
-    Text *bytes;
+ private:
+  Text *current_frequency;
+  Text *current_modulation;
+  Text *current_bw;
+  Text *current_deviation;
+  Text *bytes;
 
-   public:
-    SubGHZSender(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
-    ~SubGHZSender();
-    void display();
-    void click(int pos, void callback()) { grid->click(pos, callback); };
-    void set_selected(int pos, bool status) {
-        grid->set_selected(pos, status);
-    };
-    void set_frequency(int frequency) {
-        current_frequency->set_text("Frequency: " + String(frequency) + "MHz");
-    }
-    void set_modulation(int modulation) {
-        if(modulation == 0)
-            current_modulation->set_text("Modulation: ASK");
-        else if(modulation == 1)
-            current_modulation->set_text("Modulation: FSK");
-        else if(modulation == 2)
-            current_modulation->set_text("Modulation: LoRA");
-        else
-            current_modulation->set_text("Modulation: UNKNOWN");
-    }
-    void set_bandwidth(int bandwidth) {
-        current_bw->set_text("Bandwidth: " + String(bandwidth) + "KHz");
-    }
-    void set_deviation(int deviation) {
-        current_deviation->set_text("Deviation: " + String(deviation) + "KHz");
-    }
-    void up() {};
-    void down() {};
-    void left() {};
-    void right() {};
+ public:
+  SubGHZSender(uint8_t _position_limit, uint8_t _lower_limit,
+               uint8_t _position_increment, GFXForms *screen, Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
+  ~SubGHZSender();
+  void display();
+  void click(int pos, void callback()) { grid->click(pos, callback); };
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
+  void set_frequency(int frequency) {
+    current_frequency->set_text("Frequency: " + String(frequency) + "MHz");
+  }
+  void set_modulation(int modulation) {
+    if (modulation == 0)
+      current_modulation->set_text("Modulation: ASK");
+    else if (modulation == 1)
+      current_modulation->set_text("Modulation: FSK");
+    else if (modulation == 2)
+      current_modulation->set_text("Modulation: LoRA");
+    else
+      current_modulation->set_text("Modulation: UNKNOWN");
+  }
+  void set_bandwidth(int bandwidth) {
+    current_bw->set_text("Bandwidth: " + String(bandwidth) + "KHz");
+  }
+  void set_deviation(int deviation) {
+    current_deviation->set_text("Deviation: " + String(deviation) + "KHz");
+  }
+  void up() {};
+  void down() {};
+  void left() {};
+  void right() {};
 };
 
 #endif

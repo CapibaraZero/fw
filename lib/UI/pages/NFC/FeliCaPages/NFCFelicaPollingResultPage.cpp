@@ -19,9 +19,9 @@
 
 #include "../../../i18n.hpp"
 #include "../../../i18n/NFC/nfc_felica_polling_page_keys.h"
-#include "hex2str.hpp"
 #include "../../../navigation/NFC/NFCNavigation.hpp"
 #include "gui.hpp"
+#include "hex2str.hpp"
 
 NFCFelicaPollingResultPage::~NFCFelicaPollingResultPage() {}
 
@@ -39,8 +39,9 @@ void NFCFelicaPollingResultPage::display(uint8_t *idm, uint8_t *pmm,
       english_words->at(NFC_FELICA_SYSTEM_CODE_KEY) + String(sys_code, HEX));
   dump_to_sd = new List(screen, english_words->at(NFC_DUMP_TAG_TO_SD), 2,
                         ST77XX_WHITE, 20, ST77XX_BLACK, felica_dump);
-  // write_tag = new List(screen, "Write tag", 2, ST77XX_WHITE, 20, ST77XX_BLACK);
-  // format_tag = new List(screen, english_words->at(NFC_FORMAT_TAG_TO_SD), 2,
+  // write_tag = new List(screen, "Write tag", 2, ST77XX_WHITE, 20,
+  // ST77XX_BLACK); format_tag = new List(screen,
+  // english_words->at(NFC_FORMAT_TAG_TO_SD), 2,
   //                       ST77XX_WHITE, 20, ST77XX_BLACK);
   //   bruteforce_tag = new List(screen, "Bruteforce tag", 2, ST77XX_WHITE, 20,
   //   ST77XX_BLACK);

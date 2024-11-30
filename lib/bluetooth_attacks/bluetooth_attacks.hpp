@@ -22,9 +22,9 @@
 #include "BLEScanner.hpp"
 #include "BLESniffer.hpp"
 #include "FS.h"
+#include "fast_pair_spam.hpp"
 #include "microsoft_ble_spam.hpp"
 #include "samsung_ble_spam.hpp"
-#include "fast_pair_spam.hpp"
 
 class BluetoothAttack {
  private:
@@ -37,8 +37,8 @@ class BluetoothAttack {
   int sc_time = 15000;
 
  public:
-  BluetoothAttack(){};
-  ~BluetoothAttack(){};
+  BluetoothAttack() {};
+  ~BluetoothAttack() {};
   void appleJuiceAttack() {
     appleJuice = new AppleJuice();
     for (;;) {
@@ -88,7 +88,7 @@ class BluetoothAttack {
   bool samsung_ble_spam_running() { return samsung_ble_spam != nullptr; };
   bool swift_pair_spam_running() { return swift_pair_spam != nullptr; };
   bool fast_pair_spam_running() { return fast_pair_spam != nullptr; };
-  
+
   void sniff(FS sd);
   void stop_sniff() { sniffer->stop(); };
 

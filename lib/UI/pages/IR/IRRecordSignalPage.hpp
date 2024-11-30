@@ -25,25 +25,26 @@
 
 class IRRecordSignalPage : public Page {
  private:
- Text *protocol = nullptr;
- Text *addr;
- Text *cmd;
- Text *len;
- List *save;
- List *retry;
- List *stop;
-  
+  Text *protocol = nullptr;
+  Text *addr;
+  Text *cmd;
+  Text *len;
+  List *save;
+  List *retry;
+  List *stop;
+
  public:
   IRRecordSignalPage(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+                     uint8_t _position_increment, GFXForms *screen, Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
   ~IRRecordSignalPage();
   void display();
 
-  void set_selected(int pos, bool status) {
-    grid->set_selected(pos, status);
-  };
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
   void click(int pos, void callback()) { grid->click(pos, callback); };
-  void set_signal(String _protocol, uint16_t _addr, uint16_t _cmd, uint32_t len);
+  void set_signal(String _protocol, uint16_t _addr, uint16_t _cmd,
+                  uint32_t len);
 };
 
 #endif

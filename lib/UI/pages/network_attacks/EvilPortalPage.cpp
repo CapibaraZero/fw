@@ -39,15 +39,16 @@ void EvilPortalPage::set_portal_ip(String ip) {
 }
 
 void EvilPortalPage::display() {
-  text = new Text(screen, ST77XX_WHITE,
-                  english_words->at(RUNNING_EVILPORTAL_KEY));
+  text =
+      new Text(screen, ST77XX_WHITE, english_words->at(RUNNING_EVILPORTAL_KEY));
   portal_ip =
       new Text(screen, ST77XX_WHITE, english_words->at(EVILPORTAL_IP_KEY));
   client_count =
       new Text(screen, ST77XX_WHITE,
                english_words->at(EVILPORTAL_CAPTURED_REQUESTS_KEY) + String(0));
   grid = new Grid(screen, 4, 1);
-  save = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK, stop_evilportal);
+  save = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
+                  stop_evilportal);
   grid->add(text);
   grid->add(portal_ip);
   grid->add(client_count);

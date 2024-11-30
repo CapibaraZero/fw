@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../../navigation/NFC/NFCNavigation.hpp"
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
@@ -31,13 +32,15 @@ class NFCPollingWaitingPage : public Page {
 
  public:
   NFCPollingWaitingPage(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+                        uint8_t _position_increment, GFXForms *screen,
+                        Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
   ~NFCPollingWaitingPage();
   void display();
 
-  void set_selected(int pos, bool status) {
-    grid->set_selected(pos, status);
-  };
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
+  void click() { grid->click(1, stop_nfc_polling); }
 };
 
 #endif

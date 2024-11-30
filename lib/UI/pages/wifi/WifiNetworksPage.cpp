@@ -30,7 +30,7 @@ WifiNetworksPage::~WifiNetworksPage() {
 }
 
 void WifiNetworksPage::set_network() {
-  if(networks->size() == 0) {
+  if (networks->size() == 0) {
     return;
   }
   if (networks->at(current_network).get_ssid() != "")

@@ -1,8 +1,11 @@
+#include "../../include/debug.h"
+#include "../UI/navigation/NFC/NFCNavigation.hpp"
+#include "ArduinoJson.h"
+#include "flipper_zero_nfc_file_parser.hpp"
+#include "navigation/navigation.hpp"
 #include "nfc_attacks.hpp"
 #include "nfc_tasks_types.h"
-#include "../../include/debug.h"
-#include "navigation/navigation.hpp"
-#include "../UI/navigation/NFC/NFCNavigation.hpp"
+#include "posixsd.hpp"
 
 bool polling_in_progress = false;
 bool dump_in_progress = false;
@@ -42,7 +45,8 @@ void mifare_polling_task(void *pv) {
   Serial.println(atqa, HEX);
   Serial.print("SAK: ");
   Serial.println(sak, HEX);
-  goto_nfc_polling_result_gui(uid, uid_length, NFCFramework::lookup_tag(atqa, sak, uid_length).name);
+  goto_nfc_polling_result_gui(
+      uid, uid_length, NFCFramework::lookup_tag(atqa, sak, uid_length).name);
   free(pv);
   polling_in_progress = false;
   vTaskDelete(NULL);
@@ -82,8 +86,7 @@ void get_card_info(uint8_t *_idm, uint8_t *_pmm, uint16_t *_sys_code) {
 }
 
 void goto_home_nfc(NFCTasksParams *params) {
-  Serial.println("Going to home");
-  // Go to home. 
+  // Go to home.
   // TODO: Port this in NFCNavigation
   // params->gui->reset();
   // params->gui->init_gui();
@@ -92,8 +95,6 @@ void goto_home_nfc(NFCTasksParams *params) {
   nfc_cleanup();
   reset_uid();
   init_main_gui();
-  Serial.println("Going to home2");
-
 }
 
 void dump_iso14443a_task(void *pv) {
@@ -102,9 +103,8 @@ void dump_iso14443a_task(void *pv) {
   DumpResult *result = (DumpResult *)malloc(sizeof(DumpResult));
   NFCTag tag = params->attacks->dump_tag(result);
   set_dumped_sectors(tag.get_blocks_count() - result->unreadable -
-                                  result->unauthenticated);
-  set_unreadable_sectors(result->unreadable +
-                                      result->unauthenticated);
+                     result->unauthenticated);
+  set_unreadable_sectors(result->unreadable + result->unauthenticated);
   params->attacks->set_scanned_tag(&tag);
   delay(10000);
   goto_home_nfc(params);
@@ -134,18 +134,24 @@ void dump_felica_task(void *pv) {
 void format_iso14443a_task(void *pv) {
   format_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  uint8_t unformattable = 0;
-  if (uid_length == 7)
-    unformattable = params->attacks->format_ntag(NTAG213_PAGES);
-  else
-    unformattable = params->attacks->format_tag();
-  Serial.printf("Unformattable sectors: %d\n", unformattable);
-  set_unformatted_sectors(
-      uid_length == 4 ? MIFARE_CLASSIC_BLOCKS : NTAG213_PAGES, unformattable);
+  params->attacks->format_tag();
   delay(10000);
+  format_in_progress = false;
+  // We don't need free(pv) here because we share same pointer between
+  // bruteforce tasks
+  vTaskDelete(NULL);
+}
+
+void format_update_ui_task(void *pv) {
+  NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
+  while (params->attacks->get_bruteforce_status()) {
+    set_formatted_sectors(params->attacks->get_tag_blocks(),
+                          params->attacks->get_formatted_sectors());
+    delay(1000);
+  }
+  delay(3000);
   goto_home_nfc(params);
   free(pv);
-  format_in_progress = false;
   vTaskDelete(NULL);
 }
 
@@ -165,14 +171,15 @@ void bruteforce_iso14443a_task(void *pv) {
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   params->attacks->bruteforce();
   bruteforce_in_progress = false;
+  // We don't need free(pv) here because we share same pointer between
+  // bruteforce tasks
   vTaskDelete(NULL);
 }
 
 void bruteforce_update_ui_task(void *pv) {
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   while (params->attacks->get_bruteforce_status()) {
-    nfc_bruteforce_set_tried_key(
-        params->attacks->get_tried_keys());
+    nfc_bruteforce_set_tried_key(params->attacks->get_tried_keys());
     delay(1000);
   }
   delay(1000);
@@ -181,7 +188,59 @@ void bruteforce_update_ui_task(void *pv) {
   delay(2000);
   goto_home_nfc(params);
   free(pv);
-  // We don't need free(pv) here because we share same pointer between
-  // bruteforce tasks
+  vTaskDelete(NULL);
+}
+
+void write_nfc_sectors(void *pv) {
+  NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
+  JsonDocument doc;
+  File nfc_dump = open("/NFC/dumps/" + (String)params->path, "r");
+  if (strstr(params->path, ".json") != NULL) {
+    DeserializationError error = deserializeJson(doc, nfc_dump);
+    if (error) {
+      Serial.print("deserializeJson() failed: ");
+      Serial.println(error.c_str());
+    } else {
+      const char *type = doc["type"];  // Type of tag
+      size_t wrote_sectors = 0;
+      size_t unwritable_sectors = 0;
+      for (JsonPair block : doc["blocks"].as<JsonObject>()) {
+        int block_key = atoi(block.key().c_str());
+
+        int block_value_key_type = block.value()["key_type"];
+
+        uint8_t key[6];
+        size_t i = 0;
+
+        for (uint8_t key_byte : block.value()["key"].as<JsonArray>()) {
+          key[i++] = key_byte;
+        }
+
+        uint8_t data[type == "0" ? 16 : 4];
+        i = 0;
+        for (uint8_t data_byte : block.value()["data"].as<JsonArray>()) {
+          data[i++] = data_byte;
+        }
+
+        bool success = false;
+        if (type == "0") {
+          success = params->attacks->write_sector(i++, data, 0, key);
+        } else {
+          success = params->attacks->write_ntag(i++, data);
+        }
+        if (success) {
+          set_wrote_sectors(++wrote_sectors);
+        } else {
+          set_unwritable_sectors(++unwritable_sectors);
+        }
+      }
+    }
+  } else {
+    flipper_zero_nfc_parser(std::string(nfc_dump.readString().c_str()),
+                            params->attacks);
+  }
+  delay(6000);
+  goto_home_nfc(params);
+  free(pv);
   vTaskDelete(NULL);
 }

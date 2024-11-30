@@ -38,39 +38,39 @@ static WifiNetworksPage *wifi_networks_page = nullptr;
 static WifiScanSaveResultPage *wifi_save_result_page = nullptr;
 
 void init_wifi_scan_gui() {
-    wifi_scan_page = new WifiScanPage(0, 0, 0, gui->get_screen(), gui);
-    gui->set_current_page(wifi_scan_page);
-    wifi_page = nullptr;
+  wifi_scan_page = new WifiScanPage(0, 0, 0, gui->get_screen(), gui);
+  gui->set_current_page(wifi_scan_page);
+  wifi_page = nullptr;
 }
 
 void goto_scan_wifi() {
-    gui->reset();
-    init_wifi_scan_gui();
-    scan_wifi(gui, &wifiAttack);
+  gui->reset();
+  init_wifi_scan_gui();
+  scan_wifi(gui, &wifiAttack);
 }
 
 void goto_sniff_wifi() { sniff_wifi(gui, &wifiAttack); }
 
 void init_wifi_gui() {
-    gui->reset();
-    wifi_page = new WifiPage(2, 0, 1, gui->get_screen(), gui);
-    gui->set_current_page(wifi_page);
+  gui->reset();
+  wifi_page = new WifiPage(2, 0, 1, gui->get_screen(), gui);
+  gui->set_current_page(wifi_page);
 }
 
 // Clean all pointers to avoid issues with memory area
 // The pages is removed by GUI class
 void wifi_cleanup() {
-    wifi_page = nullptr;
-    wifi_scan_page = nullptr;
-    wifi_networks_page = nullptr;
-    wifi_save_result_page = nullptr;
-    wifi_sniff_page = nullptr;
+  wifi_page = nullptr;
+  wifi_scan_page = nullptr;
+  wifi_networks_page = nullptr;
+  wifi_save_result_page = nullptr;
+  wifi_sniff_page = nullptr;
 }
 
 /// @brief Update scanned WiFi channel
 /// @param channel Channel to display in text
 void set_wifi_channel_text(char *channel) {
-    wifi_scan_page->set_ch_text(channel);
+  wifi_scan_page->set_ch_text(channel);
 }
 
 /// @brief Update WiFi scan progress
@@ -78,95 +78,95 @@ void set_wifi_channel_text(char *channel) {
 void set_progress(char *progress) { wifi_scan_page->update_progress(progress); }
 
 void wifi_goto_home() {
-    wifi_cleanup();
-    init_main_gui();
+  wifi_cleanup();
+  init_main_gui();
 }
 
 void stop_wifi_sniffer() {
 #ifdef CONFIG_DEBUG_WIFI_MENU
-    LOG_INFO("Sniff menu");
+  LOG_INFO("Sniff menu");
 #endif
-    /* Stop sniffer */
-    wifiAttack.stop_sniff();
-    stop_wifi_sniffer_updater();  // Delete updater task to avoid UI crash
-    wifiAttack.clean_networks();
-    wifi_cleanup();
-    init_main_gui();
+  /* Stop sniffer */
+  wifiAttack.stop_sniff();
+  stop_wifi_sniffer_updater();  // Delete updater task to avoid UI crash
+  wifiAttack.clean_networks();
+  wifi_cleanup();
+  init_main_gui();
 }
 
 void save_wifi_scan_to_sd() {
-    // Save to SD
-    wifiAttack.save_scan();  // TODO: Create a task for this to create better UX
-    wifiAttack.clean_networks();  // Clean previous scan
-    wifi_cleanup();               // Remove WiFi pages
-    init_main_gui();
+  // Save to SD
+  wifiAttack.save_scan();  // TODO: Create a task for this to create better UX
+  wifiAttack.clean_networks();  // Clean previous scan
+  wifi_cleanup();               // Remove WiFi pages
+  init_main_gui();
 }
 
 void sniff_only_bssid() {
-    gui->reset();
-    wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen(), gui);
-    gui->set_current_page(wifi_sniff_page);
-    sniff_bssid(gui, &wifiAttack);
+  gui->reset();
+  wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen(), gui);
+  gui->set_current_page(wifi_sniff_page);
+  sniff_bssid(gui, &wifiAttack);
 }
 
 void init_wifi_networks_gui(vector<WifiNetwork> *networks) {
-    if (wifi_networks_page == nullptr) /* We can use this page again, so no need
-                                          to recreate a new one */
-        // wifi_networks_page = new WifiNetworksPage(screen, networks);
-        wifi_networks_page =
-            new WifiNetworksPage(0, 0, 0, gui->get_screen(), gui, networks);
-    gui->set_current_page(wifi_networks_page);
-    wifi_scan_page = nullptr;
+  if (wifi_networks_page == nullptr) /* We can use this page again, so no need
+                                        to recreate a new one */
+    // wifi_networks_page = new WifiNetworksPage(screen, networks);
+    wifi_networks_page =
+        new WifiNetworksPage(0, 0, 0, gui->get_screen(), gui, networks);
+  gui->set_current_page(wifi_networks_page);
+  wifi_scan_page = nullptr;
 }
 
 /// @brief Get selected network in WiFi scan selection
 /// @return selected network in WiFi scan selection
 WifiNetwork get_current_network() {
-    return wifi_networks_page->get_current_network();
+  return wifi_networks_page->get_current_network();
 }
 
 void show_wifi_scan_result_dialog(bool empty) {
-    if (wifi_networks_page != nullptr) {
-        gui->reset();
-        // wifi_save_result_page = new WifiScanSaveResultPage(screen, this,
-        // empty);
-        wifi_save_result_page =
-            new WifiScanSaveResultPage(0, 0, 0, gui->get_screen(), gui);
-        wifi_save_result_page->display(empty);
-        gui->set_current_page(wifi_save_result_page, false);
-        return;
-    }
+  if (wifi_networks_page != nullptr) {
+    gui->reset();
+    // wifi_save_result_page = new WifiScanSaveResultPage(screen, this,
+    // empty);
+    wifi_save_result_page =
+        new WifiScanSaveResultPage(0, 0, 0, gui->get_screen(), gui);
+    wifi_save_result_page->display(empty);
+    gui->set_current_page(wifi_save_result_page, false);
+    return;
+  }
 }
 
 /// @brief Destroy WiFI scan result page
 void destroy_wifi_scan_result() {
-    // delete wifi_save_result_page;
-    wifi_save_result_page = nullptr;
+  // delete wifi_save_result_page;
+  wifi_save_result_page = nullptr;
 }
 
 void go_back_to_net_list() {
-    // Go back to networks list
-    gui->reset();
-    destroy_wifi_scan_result();  // We need to trigger
-                                 // get_wifi_scan_result_visible. TODO:
-                                 // Evaluate if it would be better to use
-                                 // another way to trigger that function
-    init_wifi_networks_gui(
-        nullptr);  // Pass nullptr since this page is already created
+  // Go back to networks list
+  gui->reset();
+  destroy_wifi_scan_result();  // We need to trigger
+                               // get_wifi_scan_result_visible. TODO:
+                               // Evaluate if it would be better to use
+                               // another way to trigger that function
+  init_wifi_networks_gui(
+      nullptr);  // Pass nullptr since this page is already created
 }
 
 void show_wifi_sniff_page() {
-    wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen(), gui);
-    gui->set_current_page(wifi_sniff_page);
+  wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen(), gui);
+  gui->set_current_page(wifi_sniff_page);
 }
 
 void display_wifi_scan_result() {
-    show_wifi_scan_result_dialog(wifiAttack.get_networks().size() == 0);
+  show_wifi_scan_result_dialog(wifiAttack.get_networks().size() == 0);
 }
 
 /// @brief Update sniffed packets in WiFi sniffer page
 /// @param count Number of sniffed packets
 void update_packets_count(int count) {
-    wifi_sniff_page->update_packet_count(count);
+  wifi_sniff_page->update_packet_count(count);
 }
 void init_wifi_navigation(Gui *_gui) { gui = _gui; }

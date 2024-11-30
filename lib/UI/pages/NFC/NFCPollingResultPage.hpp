@@ -15,11 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../../../../include/debug.h"
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
 #include "Text.hpp"
-#include "../../../../include/debug.h"
 
 #ifndef NFC_POLLING_RESULT_PAGE_H
 #define NFC_POLLING_RESULT_PAGE_H
@@ -36,18 +36,18 @@ class NFCPollingResultPage : public Page {
 
  public:
   NFCPollingResultPage(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+                       uint8_t _position_increment, GFXForms *screen, Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
   ~NFCPollingResultPage();
   /// @brief Mock display
   /// @deprecated
-  void display() { 
+  void display() {
     LOG_ERROR("NFCPollingResultPage::display() Not implemented");
   };
   void display(uint8_t *uid, uint8_t length, const char *tag_name);
 
-  void set_selected(int pos, bool status) {
-    grid->set_selected(pos, status);
-  };
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
   void click(int pos, void callback()) { grid->click(pos, callback); };
 };
 

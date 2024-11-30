@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../../../../include/debug.h"
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
-#include "../../../../include/debug.h"
 
 #ifndef NetworkAttacks_PAGE_H
 #define NetworkAttacks_PAGE_H
@@ -32,17 +32,16 @@ class NetworkAttacksPage : public Page {
 
  public:
   NetworkAttacksPage(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+                     uint8_t _position_increment, GFXForms *screen, Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
   ~NetworkAttacksPage();
   void display();
-  void click(int pos, void callback()) {
-    grid->click(pos, callback);
-  };
+  void click(int pos, void callback()) { grid->click(pos, callback); };
   void set_selected(int pos, bool status) {
     LOG_INFO("Set selected");
     grid->set_selected(pos, status);
   };
-
 };
 
 #endif

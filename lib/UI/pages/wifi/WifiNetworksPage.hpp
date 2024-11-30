@@ -18,11 +18,11 @@
 #ifndef WIFI_NETWORKS_PAGE
 #define WIFI_NETWORKS_PAGE
 
+#include "../../navigation/wifi/wifi_navigation.hpp"
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "Text.hpp"
 #include "wifi_attack.hpp"
-#include "../../navigation/wifi/wifi_navigation.hpp"
 
 /* From esp_wifi_types.h */
 #define STRING_WIFI_AUTH_OPEN "OPEN"
@@ -37,49 +37,49 @@
 #define STRING_WIFI_AUTH_MAX "Unsupported"
 
 class WifiNetworksPage : public Page {
-   private:
-    Text *ssid;
-    Text *rssi;
-    Text *bssid;
-    Text *ch;
-    Text *auth;
-    vector<WifiNetwork> *networks;
-    String current_ssid = "No network found.";
-    String current_rssi = "";
-    String current_ch = "";
-    String current_auth = "";
-    String current_bssid = "";
-    bool displayed = false;
-    int current_network = 0;
-    void set_network();
-    void set_auth();
-    String mac_to_string(uint8_t *mac) {
-        String mac_str = "";
-        for (size_t i = 0; i < 6; i++) {
-            mac_str += (String(mac[i], HEX) + ":");
-        }
-        mac_str[17] = '\0';
-        return mac_str;
+ private:
+  Text *ssid;
+  Text *rssi;
+  Text *bssid;
+  Text *ch;
+  Text *auth;
+  vector<WifiNetwork> *networks;
+  String current_ssid = "No network found.";
+  String current_rssi = "";
+  String current_ch = "";
+  String current_auth = "";
+  String current_bssid = "";
+  bool displayed = false;
+  int current_network = 0;
+  void set_network();
+  void set_auth();
+  String mac_to_string(uint8_t *mac) {
+    String mac_str = "";
+    for (size_t i = 0; i < 6; i++) {
+      mac_str += (String(mac[i], HEX) + ":");
     }
+    mac_str[17] = '\0';
+    return mac_str;
+  }
 
-   public:
-    WifiNetworksPage(uint8_t _position_limit, uint8_t _lower_limit,
-                     uint8_t _position_increment, GFXForms *screen, Gui *_gui,
-                     vector<WifiNetwork> *_networks)
-        : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
-        networks = _networks;
-        set_network();
-    };
-    ~WifiNetworksPage();
-    void next_network();
-    void previous_network();
-    void display();
-    WifiNetwork get_current_network() { return networks->at(current_network); };
-    int get_current_network_index() { return current_network; };
-    int get_total_network() { return networks->size(); };
-    void left();
-    void right();
-    void click();
+ public:
+  WifiNetworksPage(uint8_t _position_limit, uint8_t _lower_limit,
+                   uint8_t _position_increment, GFXForms *screen, Gui *_gui,
+                   vector<WifiNetwork> *_networks)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+    networks = _networks;
+    set_network();
+  };
+  ~WifiNetworksPage();
+  void next_network();
+  void previous_network();
+  void display();
+  WifiNetwork get_current_network() { return networks->at(current_network); };
+  int get_current_network_index() { return current_network; };
+  int get_total_network() { return networks->size(); };
+  void left();
+  void right();
+  void click();
 };
 
 #endif

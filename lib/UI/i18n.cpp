@@ -106,18 +106,15 @@ void init_english_dict() {
   english_words->insert({NFC_DUMPING_TAG_KEY, "Dumping tag"});
   english_words->insert({NFC_DUMPED_SECTORS_KEY, "Dumped sectors: "});
   english_words->insert({NFC_UNREADABLE_SECTORS_KEY, "Unreadable sectors: "});
-  english_words->insert(
-      {NFC_UNAUTHENTICATED_SECTORS_KEY, "Unauth. sectors: "});
+  english_words->insert({NFC_UNAUTHENTICATED_SECTORS_KEY, "Unauth. sectors: "});
   english_words->insert({NFC_SAVE_TO_SD_KEY, "Save to SD"});
   english_words->insert({NFC_BRUTEFORCING_TAG_KEY, "Bruteforcing tag..."});
   english_words->insert({NFC_TRIED_KEYS_KEY, "Tried keys: "});
   english_words->insert({NFC_FOUND_KEYS_KEY, "Found keys: "});
   english_words->insert({NFC_FORMATTING_TAG_KEY, "Formatting tag..."});
-  english_words->insert({NFC_FORMATTED_SECTORS_KEY, "Formatted sectors: "});
-  english_words->insert(
-      {NFC_MIFARE_CLASSIC_FOUND_KEY, "Classic tag found!"});
-  english_words->insert(
-      {NFC_MIFARE_ULTRALIGHT_FOUND_KEY, "Ult./NTAG found!"});
+  english_words->insert({NFC_FORMATTED_SECTORS_KEY, "Formatted blocks: "});
+  english_words->insert({NFC_MIFARE_CLASSIC_FOUND_KEY, "Classic tag found!"});
+  english_words->insert({NFC_MIFARE_ULTRALIGHT_FOUND_KEY, "Ult./NTAG found!"});
   english_words->insert({NFC_UID_KEY, "ID:"});
   english_words->insert({NFC_DUMP_TAG_TO_SD, "Dump tag to SD"});
   english_words->insert({NFC_FORMAT_TAG_TO_SD, "Format tag"});

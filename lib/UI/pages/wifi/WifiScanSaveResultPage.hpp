@@ -15,11 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../../../../include/debug.h"
 #include "../Page.hpp"
 #include "GFXForms.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
-#include "../../../../include/debug.h"
 
 #ifndef WIFI_SCAN_SAVE_RESULTS_PAGE_H
 #define WIFI_SCAN_SAVE_RESULTS_PAGE_H
@@ -32,22 +32,23 @@ class WifiScanSaveResultPage : public Page {
   List *go_back;
   List *exit_btn;
   bool empty = false;
+
  public:
   WifiScanSaveResultPage(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+                         uint8_t _position_increment, GFXForms *screen,
+                         Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
   ~WifiScanSaveResultPage();
 
   void up();
   void down();
-  void left() {};
-  void right() {};
-  
+
   void display() {
-       LOG_ERROR("WifiScanSaveResultPage::display() not implemented");
+    LOG_ERROR("WifiScanSaveResultPage::display() not implemented");
   };
   void display(bool _empty);
   int get_index() { return selection_index; }
-  
 };
 
 #endif

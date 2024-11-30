@@ -7,6 +7,7 @@ void stop_list_sender();
 void init_ir_navigation(Gui *_gui);
 void goto_ir_record_signal_page();
 void save_record_to_sd();
+void stop_ir_record();
 void goto_ir_send();
 void goto_ir_rc_browser();
 void emulate_ir_rc();

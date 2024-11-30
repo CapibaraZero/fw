@@ -16,15 +16,16 @@
  */
 
 #include "NFCDumpResultPage.hpp"
+
 #include "../../navigation/NFC/NFCNavigation.hpp"
 #include "gui.hpp"
 
 NFCDumpResultPage::~NFCDumpResultPage() {
-    delete dumping_to_sd;
-    delete dumped_sectors;
-    delete unreadable_sectors;
-    delete unauthenticated_sectors;
-    delete save_to_sd;
+  delete dumping_to_sd;
+  delete dumped_sectors;
+  delete unreadable_sectors;
+  delete unauthenticated_sectors;
+  delete save_to_sd;
 }
 
 void NFCDumpResultPage::display() {

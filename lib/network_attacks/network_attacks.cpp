@@ -38,11 +38,12 @@ NetworkAttacks::~NetworkAttacks() {}
 
 void NetworkAttacks::connect_to_wifi(const char *config) {
   File dhcp_glutton_config = open(config, "r");
-  StaticJsonDocument<512> doc;
+  JsonDocument doc;
   DeserializationError error = deserializeJson(doc, dhcp_glutton_config);
   if (error) {
     Serial.printf("Error: %s", error.c_str());
-    LOG_ERROR("Error during deserialization of configuration. Restarting ESP...");
+    LOG_ERROR(
+        "Error during deserialization of configuration. Restarting ESP...");
     ESP.restart();
   }
   if (doc["ssid"].isNull() || doc["password"].isNull()) {
@@ -63,7 +64,7 @@ void NetworkAttacks::create_default_ap() {
 
 void NetworkAttacks::create_ap() {
   File evilportal_config = open(EVIL_PORTAL_CONFIG_FILE, "r");
-  StaticJsonDocument<256> doc;
+  JsonDocument doc;
   DeserializationError error = deserializeJson(doc, evilportal_config);
   if (error) {
     LOG_ERROR(
@@ -83,14 +84,14 @@ void NetworkAttacks::create_ap() {
 
 ARPoisonerConfig NetworkAttacks::get_arp_config() {
   File arp_poisoner_config = open(ARP_POISONING_CONFIG_FILE, "r");
-  StaticJsonDocument<512> doc;
+  JsonDocument doc;
   DeserializationError error = deserializeJson(doc, arp_poisoner_config);
   if (error) {
     Serial.printf("Error: %s", error.c_str());
     LOG_ERROR("Missing ARP poisoner configuration");
     ESP.restart();
   }
-  if(doc["target_ip"].isNull() || doc["target_mac"].isNull()) {
+  if (doc["target_ip"].isNull() || doc["target_mac"].isNull()) {
     LOG_ERROR("Invalid ARP poisoner configuration");
     ESP.restart();
   }
@@ -101,7 +102,7 @@ ARPoisonerConfig NetworkAttacks::get_arp_config() {
   for (uint8_t i = 0; i < 6; i++) {
     arp_config.dest_mac[i] = doc["target_mac"][i];
   }
-  if(!doc["send_time"].isNull()) {
+  if (!doc["send_time"].isNull()) {
     arp_config.send_time = doc["send_time"];
   }
   return arp_config;
@@ -135,8 +136,7 @@ void NetworkAttacks::start_arp_poisoning() {
   connect_to_wifi(ARP_POISONING_CONFIG_FILE);
   ARPoisonerConfig config = get_arp_config();
   ARP_poisoner poisoner = ARP_poisoner();
-  while (true)
-  {
+  while (true) {
     poisoner.send_arp_packet(config.dest_ip, config.dest_mac);
     delay(config.send_time);
   }

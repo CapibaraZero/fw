@@ -31,10 +31,14 @@ IRMainPage::~IRMainPage() {
 
 void IRMainPage::display() {
   grid = new Grid(screen, 4, 1);
-  record_signal = new List(screen, "Record signal", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_ir_record_signal_page);
-  emulate_signal = new List(screen, "Emulate signal", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_ir_send);
-  emulate_rc = new List(screen, "Emulate RC", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_ir_rc_browser);
-  go_back  = new List(screen, "Go back", 2, ST77XX_WHITE, 20, ST77XX_BLACK, ir_goto_home);
+  record_signal = new List(screen, "Record signal", 2, ST77XX_WHITE, 20,
+                           ST77XX_BLACK, goto_ir_record_signal_page);
+  emulate_signal = new List(screen, "Emulate signal", 2, ST77XX_WHITE, 20,
+                            ST77XX_BLACK, goto_ir_send);
+  emulate_rc = new List(screen, "Emulate RC", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
+                        goto_ir_rc_browser);
+  go_back = new List(screen, "Go back", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
+                     ir_goto_home);
 
   grid->add(record_signal);
   grid->add(emulate_signal);

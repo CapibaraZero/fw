@@ -30,7 +30,9 @@ class WifiScanPage : public Page {
 
  public:
   WifiScanPage(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+               uint8_t _position_increment, GFXForms *screen, Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
   ~WifiScanPage();
   void display();
   void update_progress(char *_progress) {
@@ -40,6 +42,7 @@ class WifiScanPage : public Page {
   // Up and down are not necessary here so overload with methods that do nothing
   void up() {};
   void down() {};
+  void click() {};
 };
 
 #endif

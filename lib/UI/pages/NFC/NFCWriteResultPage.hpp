@@ -33,14 +33,14 @@ class NFCWriteResultPage : public Page {
 
  public:
   NFCWriteResultPage(uint8_t _position_limit, uint8_t _lower_limit,
-         uint8_t _position_increment, GFXForms *screen, Gui *_gui) : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {};
+                     uint8_t _position_increment, GFXForms *screen, Gui *_gui)
+      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+        };
   ~NFCWriteResultPage();
   void display();
-
-  void click(int pos, void callback()) { grid->click(pos, callback); };
-  void set_selected(int pos, bool status) {
-    grid->set_selected(pos, status);
-  };
+  void click() {};
+  void click(int pos, void callback()) {};
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
   void set_wrote_sectors(int sectors) {
     wrote_sectors->set_text("Wrote sectors: " + (String)sectors);
   }

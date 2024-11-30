@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../../include/debug.h"
 #include "GFXForms.hpp"  // Fix building errors
 #include "ble_attack_tasks.hpp"
 #include "bluetooth_attacks.hpp"
@@ -23,7 +24,6 @@
 #include "ui_tasks/BLE/ble_ui_tasks.hpp"
 #include "ui_tasks/BLE/ble_ui_tasks_types.h"
 #include "wifi_attack.hpp"  // Fix building errors. TODO: Try to remove it
-#include "../../include/debug.h"
 
 #define TASK_STACK_SIZE 4000  // Calculated with uxTaskGetStackHighWaterMark()
 #define SPAM_TASK_STACK_SIZE \
@@ -61,12 +61,11 @@ void sniff_ble(Gui *gui, BluetoothAttack *attack) {
   xTaskCreate(&ble_sniff_task, "ble_sniff", TASK_STACK_SIZE,
               (void *)ble_ui_task_params, 5, NULL);
   xTaskCreate(&update_ble_sniffed_packets, "ble_sniff_gui_updater", 4000,
-              (void *)ble_ui_task_params, tskIDLE_PRIORITY, &ble_sniffer_updater);
+              (void *)ble_ui_task_params, tskIDLE_PRIORITY,
+              &ble_sniffer_updater);
 }
 
-void stop_sniffer_updater() {
-  vTaskDelete(ble_sniffer_updater);
-}
+void stop_sniffer_updater() { vTaskDelete(ble_sniffer_updater); }
 
 void start_applejuice(BluetoothAttack *attack) {
   xTaskCreate(&applejuice_task, "applejuice_task", SPAM_TASK_STACK_SIZE,
@@ -77,7 +76,8 @@ void kill_applejuice_task() { vTaskDelete(applejuice_handle); };
 
 void start_samsung_ble_spam(BluetoothAttack *attack) {
   xTaskCreate(&samsung_ble_spam_task, "samsung_ble_spam_task",
-              SPAM_TASK_STACK_SIZE, (void *)attack, 5, &samsung_ble_spam_handle);
+              SPAM_TASK_STACK_SIZE, (void *)attack, 5,
+              &samsung_ble_spam_handle);
 }
 
 void kill_samsung_ble_spam() { vTaskDelete(samsung_ble_spam_handle); }
@@ -90,8 +90,8 @@ void start_swift_pair_spam(BluetoothAttack *attack) {
 void kill_swift_pair_spam() { vTaskDelete(swift_pair_spam_handle); }
 
 void start_fast_pair_spam(BluetoothAttack *attack) {
-  xTaskCreate(&fast_pair_spam_task, "fast_pair_spam_task",
-              SPAM_TASK_STACK_SIZE, (void *)attack, 5, &fast_pair_spam_handle);
+  xTaskCreate(&fast_pair_spam_task, "fast_pair_spam_task", SPAM_TASK_STACK_SIZE,
+              (void *)attack, 5, &fast_pair_spam_handle);
 }
 
 void kill_fast_pair_spam() { vTaskDelete(fast_pair_spam_handle); }

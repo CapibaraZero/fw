@@ -23,7 +23,7 @@
 #include "gui.hpp"
 
 IRRecordSignalPage::~IRRecordSignalPage() {
-        Serial.println("Destroy");
+  Serial.println("Destroy");
   delete protocol;
   delete stop;
 }
@@ -31,7 +31,8 @@ IRRecordSignalPage::~IRRecordSignalPage() {
 void IRRecordSignalPage::display() {
   grid = new Grid(screen, 3, 1);
   protocol = new Text(screen, ST77XX_WHITE, "Waiting for signal...");
-  stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_ir_gui);
+  stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
+                  stop_ir_record);
 
   grid->add(protocol);
   grid->add(stop);
@@ -40,15 +41,19 @@ void IRRecordSignalPage::display() {
   grid->display();
 }
 
-void IRRecordSignalPage::set_signal(String _protocol, uint16_t _addr, uint16_t _cmd, uint32_t _len) {
+void IRRecordSignalPage::set_signal(String _protocol, uint16_t _addr,
+                                    uint16_t _cmd, uint32_t _len) {
   grid->set_selected(1, false);
   screen->reset();
   grid->remove(1);  // Remove stop
+  delete stop;
+  stop =
+      new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_ir_gui);
   String addr_str = String(_addr, HEX);
   String cmd_str = String(_cmd, HEX);
   addr_str.toUpperCase();
   cmd_str.toUpperCase();
-  if(_addr != 0 && _cmd != 0) {
+  if (_addr != 0 && _cmd != 0) {
     addr = new Text(screen, ST77XX_WHITE, "Address: 0x" + addr_str);
     cmd = new Text(screen, ST77XX_WHITE, "CMD: 0x" + cmd_str);
     grid->add(addr);
@@ -56,8 +61,10 @@ void IRRecordSignalPage::set_signal(String _protocol, uint16_t _addr, uint16_t _
   }
   Serial.println((String)_len);
   len = new Text(screen, ST77XX_WHITE, "Length: " + (String)_len);
-  save = new List(screen, "Save", 2, ST77XX_WHITE, 20, ST77XX_BLUE, save_record_to_sd);
-  retry = new List(screen, "Retry", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_ir_record_signal_page);
+  save = new List(screen, "Save", 2, ST77XX_WHITE, 20, ST77XX_BLUE,
+                  save_record_to_sd);
+  retry = new List(screen, "Retry", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
+                   goto_ir_record_signal_page);
   grid->add(len);
   grid->add(save);
   grid->add(retry);

@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2023 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ typedef struct SectorResult {
   bool key_b_found = false;
   uint8_t key_b[6];
   bool dumped = false;
-}SectorResult;
+} SectorResult;
 
 #include "NFCTag.hpp"
 #include "nfc_framework.hpp"
@@ -36,29 +36,32 @@ class NFCAttacks {
  private:
   NFCFramework nfc_framework = NFCFramework();
   bool is_there_null_blocks(NFCTag *tag);
-  // For internal usage(format)
-  uint8_t write_tag(NFCTag *tag, int starting_block);
-  void write_tag(NFCTag *tag, uint8_t *key, int starting_key);
   NFCTag *current_tag = (NFCTag *)malloc(sizeof(NFCTag));
   uint8_t tried_keys = 0;
+  uint8_t formatted_sectors = 0;
+  uint8_t current_tag_blocks = 0;
   bool bruteforce_status = true;
-  void auth_sector(uint8_t sector, uint8_t *key, KeyType key_type, uint8_t *out_key, bool *key_found);
-  bool read_sector(uint8_t initial_pos, uint8_t *key, KeyType key_type, uint8_t *out);
+  void auth_sector(uint8_t sector, uint8_t *key, KeyType key_type,
+                   uint8_t *out_key, bool *key_found);
+  bool read_sector(uint8_t initial_pos, uint8_t *key, KeyType key_type,
+                   uint8_t *out);
+
  public:
   NFCAttacks(/* args */);
-  ~NFCAttacks(){};
+  ~NFCAttacks() {};
   bool bruteforce();
   void read_uid(uint8_t *uid, uint8_t *uid_length);
-  void read_uid(uint8_t *uid, uint8_t *uid_length, uint16_t *atqa, uint8_t *sak);
+  void read_uid(uint8_t *uid, uint8_t *uid_length, uint16_t *atqa,
+                uint8_t *sak);
   NFCTag dump_tag(DumpResult *result);
   NFCTag dump_tag(uint8_t *key, DumpResult *result);
   NFCTag dump_ntag(int pages);
-  uint8_t write_tag(NFCTag *tag);
-  void write_tag(NFCTag *tag, uint8_t *key);
-  uint8_t format_tag(bool ultralight = false);
-  void format_tag(uint8_t *key, bool ultralight = false);
+  bool write_sector(uint8_t block_number, uint8_t *data, uint8_t key_type,
+                    uint8_t *key);
   uint8_t write_ntag(NFCTag *tag);
+  bool write_ntag(uint8_t page, uint8_t *data);
   uint8_t format_ntag(int pages);
+  void format_tag();
   bool detect_felica(uint8_t *idm, uint8_t *pmm, uint16_t *sys_code);
   bool felica_read(uint8_t service_length, uint16_t *service_codes,
                    uint8_t num_blocks, uint16_t *block_list,
@@ -87,6 +90,8 @@ class NFCAttacks {
   NFCTag get_felica_towrite();
   uint8_t get_tried_keys() { return tried_keys; };
   bool get_bruteforce_status() { return bruteforce_status; };
+  uint8_t get_formatted_sectors() { return formatted_sectors; };
+  uint8_t get_tag_blocks() { return current_tag_blocks; };
 };
 
 #endif

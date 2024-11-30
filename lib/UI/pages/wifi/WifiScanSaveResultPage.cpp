@@ -30,14 +30,14 @@ WifiScanSaveResultPage::~WifiScanSaveResultPage() {
 }
 
 void WifiScanSaveResultPage::up() {
-  if(empty) return;
+  if (empty) return;
   if (selection_index == 0) return;
   grid->set_selected(selection_index, false);
   selection_index--;
   grid->set_selected(selection_index, true);
 }
 void WifiScanSaveResultPage::down() {
-  if(empty) return;
+  if (empty) return;
   if (selection_index == 3) return;
   grid->set_selected(selection_index, false);
   selection_index++;
@@ -47,18 +47,18 @@ void WifiScanSaveResultPage::down() {
 void WifiScanSaveResultPage::display(bool _empty) {
   empty = _empty;
   grid = new Grid(screen, 4, 1);
-  if(!empty) {
+  if (!empty) {
     save_sd = new List(screen, english_words->at(WIFI_SCAN_SAVE_SD_KEY), 2,
-                      ST77XX_WHITE, 20, ST77XX_BLACK, save_wifi_scan_to_sd);
+                       ST77XX_WHITE, 20, ST77XX_BLACK, save_wifi_scan_to_sd);
     sniff_filter =
         new List(screen, english_words->at(WIFI_SCAN_SNIFF_FILTER_KEY), 2,
-                ST77XX_WHITE, 20, ST77XX_BLACK, sniff_only_bssid);
+                 ST77XX_WHITE, 20, ST77XX_BLACK, sniff_only_bssid);
     go_back = new List(screen, english_words->at(WIFI_SCAN_GO_BACK_KEY), 2,
-                      ST77XX_WHITE, 20, ST77XX_BLACK, go_back_to_net_list);
+                       ST77XX_WHITE, 20, ST77XX_BLACK, go_back_to_net_list);
   }
   exit_btn = new List(screen, english_words->at(WIFI_SCAN_EXIT_KEY), 2,
                       ST77XX_WHITE, 20, ST77XX_BLACK, wifi_goto_home);
-  if(!empty) {
+  if (!empty) {
     grid->add(save_sd);
     grid->add(sniff_filter);
     grid->add(go_back);

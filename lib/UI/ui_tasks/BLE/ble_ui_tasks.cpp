@@ -17,15 +17,14 @@
 
 #include <Arduino.h>
 
+#include "../../navigation/BLE/ble_navigation.hpp"
 #include "ble_ui_tasks_types.h"
 #include "bluetooth_attacks.hpp"
-#include "../../navigation/BLE/ble_navigation.hpp"
 
 void update_ble_sniffed_packets(void *pv) {
   BLEUITaskParameters *params = static_cast<BLEUITaskParameters *>(pv);
   while (params->ble_attack->is_sniffing()) {
-    update_ble_packets_count(
-        params->ble_attack->get_sniffed_packets());
+    update_ble_packets_count(params->ble_attack->get_sniffed_packets());
     delay(1000);
   }
   vTaskDelete(NULL);
@@ -39,10 +38,10 @@ void update_ble_scan_progress(void *pv) {
   double progress = progress_step;
   while (progress < lower_limit)  // Until 100%
   {
-  //  set_ble_progress(
-  //       (char *)(String(progress) + String("%")).c_str());
-  //  set_ble_adv_devices_text(
-  //       params->ble_attack->get_scanned_devices());
+    //  set_ble_progress(
+    //       (char *)(String(progress) + String("%")).c_str());
+    //  set_ble_adv_devices_text(
+    //       params->ble_attack->get_scanned_devices());
     progress += progress_step;
     delay(progress_step);  // scan time
   }

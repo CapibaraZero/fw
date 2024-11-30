@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2023 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,58 +54,91 @@ bool NFCAttacks::is_there_null_blocks(NFCTag *tag) {
 
 static void parse_str_to_arr(String *str, uint8_t *out, size_t len) {
   for (size_t i = 0; i < 6; i++) {
-    out[i] = strtol(str->substring(0,2).c_str(), NULL, 16);
-    if(str->length() != 2)
-      str->remove(0, 2);
+    out[i] = strtol(str->substring(0, 2).c_str(), NULL, 16);
+    if (str->length() != 2) str->remove(0, 2);
   }
 }
 
-void NFCAttacks::auth_sector(uint8_t sector, uint8_t *key, KeyType key_type, uint8_t *out_key, bool *key_found) {
+void NFCAttacks::auth_sector(uint8_t sector, uint8_t *key, KeyType key_type,
+                             uint8_t *out_key, bool *key_found) {
   *key_found = nfc_framework.auth_tag(key, sector, key_type);
-  if(*key_found)
-    memcpy(out_key, key, 6);
+  if (*key_found) memcpy(out_key, key, 6);
 }
 
-bool NFCAttacks::read_sector(uint8_t initial_pos, uint8_t *key, KeyType key_type, uint8_t *out) {
-  bool result = true;    
+bool NFCAttacks::read_sector(uint8_t initial_pos, uint8_t *key,
+                             KeyType key_type, uint8_t *out) {
+  bool result = true;
   uint8_t block_data[16];
   memset(block_data, 0, 16);
-  for (size_t i = initial_pos; i < initial_pos + 4; i++)
-  {
+  for (size_t i = initial_pos; i < initial_pos + 4; i++) {
     result &= nfc_framework.read_block(i, key, key_type, block_data);
-    memcpy(&out[16*i], block_data, 16);
+    memcpy(&out[16 * i], block_data, 16);
   }
   return result;
 }
 
+#define DUMP_SAVE_PATH(prefix, ext)               \
+  ((String) "/NFC/dumps/" + prefix + (String)ext) \
+      .c_str()  // TODO: Use UID + millis as identifier
+
+void save_json_dump(bool ultralight, uint8_t *data, size_t size,
+                    const char *filename) {
+  JsonDocument doc;
+  doc["type"] = ultralight;
+  JsonObject blocks = doc["blocks"].to<JsonObject>();
+  size_t block_cnt = 0;
+
+  for (size_t i = 0; i < size; i++) {
+    JsonObject block = blocks[(String)block_cnt++].to<JsonObject>();
+    block["key_type"] = 0;
+    JsonArray key = block["key"].to<JsonArray>();
+    for (size_t j = 0; j < 6; j++) {
+      key.add(0xff);
+    }
+
+    JsonArray json_data = block["data"].to<JsonArray>();
+    for (size_t j = 0; j < 16; j++) {
+      json_data.add(data[j + i]);
+    }
+    doc.shrinkToFit();  // Save some memory
+    i += ultralight ? 3 : 15;
+  }
+  File dump_json = open(filename, "w");
+  serializeJsonPretty(doc, dump_json);
+  dump_json.close();
+}
+
 bool NFCAttacks::bruteforce() {
   bruteforce_status = true;
+  String prefix = (String)millis();
   File keys = open(NFC_KEYS_FILE, "r");
   std::map<uint8_t, SectorResult> bruteforce_result;
   // List of trailer of sector 0..63
   list<uint8_t> know_sector = {
-    0,  // Sector 0
-    4,  // Sector 1
-    8,  // Sector 2
-    12, // Sector 3
-    16, // Sector 4
-    20, // Sector 5
-    24, // Sector 6
-    28, // Sector 7
-    32, // Sector 8
-    36, // Sector 9
-    40, // Sector 10
-    44, // Sector 11
-    48, // Sector 12
-    52, // Sector 13
-    56, // Sector 14
-    60  // Sector 15
+      0,   // Sector 0
+      4,   // Sector 1
+      8,   // Sector 2
+      12,  // Sector 3
+      16,  // Sector 4
+      20,  // Sector 5
+      24,  // Sector 6
+      28,  // Sector 7
+      32,  // Sector 8
+      36,  // Sector 9
+      40,  // Sector 10
+      44,  // Sector 11
+      48,  // Sector 12
+      52,  // Sector 13
+      56,  // Sector 14
+      60   // Sector 15
   };
   uint16_t atqa = 0;
   uint8_t sak = 0;
-  nfc_framework.get_tag_uid(bruteforce_result[0].uid, &bruteforce_result[0].uid_len, &atqa, &sak);
-  TagType tag = NFCFramework::lookup_tag(atqa, sak, bruteforce_result[0].uid_len);
-  if(tag.blocks == 20) {
+  nfc_framework.get_tag_uid(bruteforce_result[0].uid,
+                            &bruteforce_result[0].uid_len, &atqa, &sak);
+  TagType tag =
+      NFCFramework::lookup_tag(atqa, sak, bruteforce_result[0].uid_len);
+  if (tag.blocks == 20) {
     know_sector.resize(5);
   }
   uint8_t tag_data[tag.blocks * 16];
@@ -115,44 +148,56 @@ bool NFCAttacks::bruteforce() {
     vector<String> lines = readlines(keys);  // Read all lines
     for (String line : lines) {
       if (line[0] == '#')  // If is a comment, skip
-        continue; 
+        continue;
       vector<String> raw_key = string_split(
           (char *)line.c_str(), " ");  // String string for each space
       uint8_t parsed_key[6];
       for (String key_byte : raw_key) {
-        SERIAL_DEVICE.printf("%s\n", key_byte.c_str());
+        // SERIAL_DEVICE.printf("%s\n", key_byte.c_str());
         parse_str_to_arr(&key_byte, parsed_key, 6);
       }
-      for (uint8_t sector : know_sector)
-      {
-        if(bruteforce_result.find(sector) == bruteforce_result.end()){
+      for (uint8_t sector : know_sector) {
+        if (bruteforce_result.find(sector) == bruteforce_result.end()) {
           bruteforce_result.insert({sector, SectorResult()});
         }
-        if(!bruteforce_result[sector].key_a_found){
-          auth_sector(sector, parsed_key, KEY_A, bruteforce_result[sector].key_a, &bruteforce_result[sector].key_a_found);
-          if(bruteforce_result[sector].key_a_found && !bruteforce_result[sector].dumped) {
-            bruteforce_result[sector].dumped = read_sector(sector, parsed_key, KEY_A, tag_data);
+        if (!bruteforce_result[sector].key_a_found) {
+          auth_sector(sector, parsed_key, KEY_A,
+                      bruteforce_result[sector].key_a,
+                      &bruteforce_result[sector].key_a_found);
+          if (bruteforce_result[sector].key_a_found &&
+              !bruteforce_result[sector].dumped) {
+            bruteforce_result[sector].dumped =
+                read_sector(sector, parsed_key, KEY_A, tag_data);
           }
-          if(bruteforce_result[sector].key_a_found && bruteforce_result[sector].dumped) {
+          if (bruteforce_result[sector].key_a_found &&
+              bruteforce_result[sector].dumped) {
             memcpy(&tag_data[(16 * (sector + 3))], parsed_key, 6);
           }
         }
-        if(!bruteforce_result[sector].key_b_found){
-          auth_sector(sector, parsed_key, KEY_B, bruteforce_result[sector].key_b, &bruteforce_result[sector].key_b_found);
-          if(bruteforce_result[sector].key_b_found && !bruteforce_result[sector].dumped) {
-            bruteforce_result[sector].dumped = read_sector(sector, parsed_key, KEY_B, tag_data);
+        if (!bruteforce_result[sector].key_b_found) {
+          auth_sector(sector, parsed_key, KEY_B,
+                      bruteforce_result[sector].key_b,
+                      &bruteforce_result[sector].key_b_found);
+          if (bruteforce_result[sector].key_b_found &&
+              !bruteforce_result[sector].dumped) {
+            bruteforce_result[sector].dumped =
+                read_sector(sector, parsed_key, KEY_B, tag_data);
           }
-          if(bruteforce_result[sector].key_b_found && bruteforce_result[sector].dumped) {
+          if (bruteforce_result[sector].key_b_found &&
+              bruteforce_result[sector].dumped) {
             memcpy(&tag_data[(16 * (sector + 3)) + 10], parsed_key, 6);
           }
-        } 
-        if(bruteforce_result[sector].key_a_found && bruteforce_result[sector].key_b_found) {
-            know_sector.remove(sector); 
+        }
+        if (bruteforce_result[sector].key_a_found &&
+            bruteforce_result[sector].key_b_found) {
+          know_sector.remove(sector);
         }
       }
-      if(know_sector.size() == 0){
+      if (know_sector.size() == 0) {
         bruteforce_status = false;
-        save_file("/NFC/result.bin", tag_data, tag.blocks * 16);
+        save_file(DUMP_SAVE_PATH(prefix, ".bin"), tag_data, tag.blocks * 16);
+        save_json_dump(tag.blocks == 20, tag_data, tag.blocks * 16,
+                       DUMP_SAVE_PATH(prefix, ".json"));
         return true;
       }
       tried_keys++;  // For statistics use
@@ -160,9 +205,105 @@ bool NFCAttacks::bruteforce() {
   } else {
     LOG_ERROR("Keys file not found.\n");
   }
-  save_file("/NFC/result.bin", tag_data, tag.blocks * 16);
+  save_file(DUMP_SAVE_PATH(prefix, ".bin"), tag_data, tag.blocks * 16);
+  save_json_dump(tag.blocks == 20, tag_data, tag.blocks * 16,
+                 DUMP_SAVE_PATH(prefix, ".json"));
   bruteforce_status = false;
   return false;
+}
+
+void NFCAttacks::format_tag() {
+  bruteforce_status = true;
+  File keys = open(NFC_KEYS_FILE, "r");
+  std::map<uint8_t, SectorResult> bruteforce_result;
+  // List of trailer of sector 0..63
+  list<uint8_t> know_sector = {
+      0,   // Sector 0
+      4,   // Sector 1
+      8,   // Sector 2
+      12,  // Sector 3
+      16,  // Sector 4
+      20,  // Sector 5
+      24,  // Sector 6
+      28,  // Sector 7
+      32,  // Sector 8
+      36,  // Sector 9
+      40,  // Sector 10
+      44,  // Sector 11
+      48,  // Sector 12
+      52,  // Sector 13
+      56,  // Sector 14
+      60   // Sector 15
+  };
+  uint16_t atqa = 0;
+  uint8_t sak = 0;
+  nfc_framework.get_tag_uid(bruteforce_result[0].uid,
+                            &bruteforce_result[0].uid_len, &atqa, &sak);
+  TagType tag =
+      NFCFramework::lookup_tag(atqa, sak, bruteforce_result[0].uid_len);
+  current_tag_blocks = tag.blocks;
+  if (tag.blocks == 20) {
+    know_sector.resize(5);
+  }
+  uint8_t zeros_data[16];
+  memset(zeros_data, 0, sizeof(uint8_t) * 16);
+
+  if (keys.available()) {
+    LOG_INFO("File found!\n");
+    vector<String> lines = readlines(keys);  // Read all lines
+    for (String line : lines) {
+      if (line[0] == '#')  // If is a comment, skip
+        continue;
+      vector<String> raw_key = string_split(
+          (char *)line.c_str(), " ");  // String string for each space
+      uint8_t parsed_key[6];
+      for (String key_byte : raw_key) {
+        // SERIAL_DEVICE.printf("%s\n", key_byte.c_str());
+        parse_str_to_arr(&key_byte, parsed_key, 6);
+      }
+      for (uint8_t sector : know_sector) {
+        if (bruteforce_result.find(sector) == bruteforce_result.end()) {
+          bruteforce_result.insert({sector, SectorResult()});
+        }
+        if (!bruteforce_result[sector].key_a_found &&
+            !bruteforce_result[sector].dumped) {
+          auth_sector(sector, parsed_key, KEY_A,
+                      bruteforce_result[sector].key_a,
+                      &bruteforce_result[sector].key_a_found);
+          if (bruteforce_result[sector].key_a_found) {
+            for (size_t i = sector; i < sector + 3; i++) {
+              bruteforce_result[sector].dumped =
+                  write_sector(i, zeros_data, KEY_A, parsed_key);
+              if (bruteforce_result[sector].dumped) formatted_sectors++;
+            }
+          }
+        }
+        if (!bruteforce_result[sector].key_b_found) {
+          auth_sector(sector, parsed_key, KEY_B,
+                      bruteforce_result[sector].key_b,
+                      &bruteforce_result[sector].key_b_found);
+          if (bruteforce_result[sector].key_b_found &&
+              !bruteforce_result[sector].dumped) {
+            for (size_t i = sector; i < sector + 3; i++) {
+              bruteforce_result[sector].dumped =
+                  write_sector(i, zeros_data, KEY_B, parsed_key);
+              if (bruteforce_result[sector].dumped) formatted_sectors++;
+            }
+          }
+        }
+        if (bruteforce_result[sector].dumped) {
+          know_sector.remove(sector);
+        }
+      }
+      if (know_sector.size() == 0) {
+        bruteforce_status = false;
+      }
+    }
+  } else {
+    LOG_ERROR("Keys file not found.\n");
+  }
+  bruteforce_status = false;  // Share bruteforce_status with bruteforce method
+                              // to save some memory
 }
 
 void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length) {
@@ -173,7 +314,8 @@ void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length) {
   };
 }
 
-void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length, uint16_t *atqa, uint8_t *sak) {
+void NFCAttacks::read_uid(uint8_t *uid, uint8_t *uid_length, uint16_t *atqa,
+                          uint8_t *sak) {
   LOG_INFO("Read UID: ");
   if (!nfc_framework.get_tag_uid(uid, uid_length, atqa, sak)) {
     uid = NULL;
@@ -202,97 +344,9 @@ NFCTag NFCAttacks::dump_ntag(int pages) {
   return NFCTag(nfc_framework.dump_ntag2xx_tag(pages), 7, pages);
 }
 
-uint8_t NFCAttacks::write_tag(NFCTag *tag) {
-  uint8_t key_universal[6] = {0xFF, 0xFF, 0xFF,
-                              0xFF, 0xFF, 0xFF};  // Universal key
-  uint8_t unwritable = 0;
-  uint8_t uid[7];
-  uint8_t uid_length;
-  if (nfc_framework.get_tag_uid(uid, uid_length)) {
-    for (size_t i = 0; i < tag->get_blocks_count(); i++) {
-      Serial.printf("Writing block: %i\n", i);
-      uint8_t block[BLOCK_SIZE] = {0};
-      tag->get_block(i, block);
-      if (nfc_framework.write_tag(i, block, key_universal)) {
-        LOG_SUCCESS("Block written correctly\n");
-      } else {
-        unwritable++;
-        LOG_ERROR("Error during writing block.");
-      };
-    }
-  } else {
-    LOG_INFO("Unable to find card");
-  }
-  return unwritable;
-}
-
-uint8_t NFCAttacks::write_tag(NFCTag *tag, int starting_block) {
-  uint8_t key_universal[6] = {0xFF, 0xFF, 0xFF,
-                              0xFF, 0xFF, 0xFF};  // Universal key
-  uint8_t unwritable = 0;
-  uint8_t uid[7];
-  uint8_t uid_length;
-  // Avoid crashing if no card is present
-  if (nfc_framework.get_tag_uid(uid, uid_length)) {
-    for (size_t i = starting_block; i < tag->get_blocks_count(); i++) {
-      Serial.printf("Writing block: %i\n", i);
-      uint8_t block[BLOCK_SIZE] = {0};
-      tag->get_block(i, block);
-      if (nfc_framework.write_tag(i, block, key_universal)) {
-        LOG_SUCCESS("Block written correctly\n");
-      } else {
-        unwritable++;
-        LOG_ERROR("Error during writing block.");
-      };
-    }
-  } else {
-    LOG_INFO("Unable to find card");
-  }
-  return unwritable;
-}
-
-void NFCAttacks::write_tag(NFCTag *tag, uint8_t *key) {
-  for (size_t i = 0; i < tag->get_blocks_count(); i++) {
-    Serial.printf("Writing block: %i\n", i);
-    uint8_t block[BLOCK_SIZE] = {0};
-    tag->get_block(i, block);
-    if (nfc_framework.write_tag(i, block, key)) {
-      LOG_SUCCESS("Block written correctly\n");
-    } else {
-      LOG_ERROR("Error during writing block.");
-    };
-  }
-}
-
-void NFCAttacks::write_tag(NFCTag *tag, uint8_t *key, int starting_block) {
-  for (size_t i = starting_block; i < tag->get_blocks_count(); i++) {
-    Serial.printf("Writing block: %i\n", i);
-    uint8_t block[BLOCK_SIZE] = {0};
-    tag->get_block(i, block);
-    if (nfc_framework.write_tag(i, block, key)) {
-      LOG_SUCCESS("Block written correctly\n");
-    } else {
-      LOG_ERROR("Error during writing block.");
-    };
-  }
-}
-
-uint8_t NFCAttacks::format_tag(bool ultralight) {
-  LOG_INFO("Formatting tag...");
-  uint8_t empty_tag_data[ultralight ? MIFARE_ULTRALIGHT_SIZE
-                                    : MIFARE_CLASSIC_SIZE] = {0};
-  NFCTag empty_tag = NFCTag(
-      empty_tag_data, 4);  // Uid lenght is dummy here since it's an empty key
-  return write_tag(&empty_tag, ultralight ? 7 : 4);
-}
-
-void NFCAttacks::format_tag(uint8_t *key, bool ultralight) {
-  LOG_INFO("Formatting tag...");
-  uint8_t empty_tag_data[ultralight ? MIFARE_ULTRALIGHT_SIZE
-                                    : MIFARE_CLASSIC_SIZE] = {0};
-  NFCTag empty_tag = NFCTag(
-      empty_tag_data, 4);  // Uid lenght is dummy here since it's an empty key
-  write_tag(&empty_tag, key, ultralight ? 7 : 4);
+bool NFCAttacks::write_sector(uint8_t block_number, uint8_t *data,
+                              uint8_t key_type, uint8_t *key) {
+  return nfc_framework.write_tag(block_number, data, key_type, key);
 }
 
 uint8_t NFCAttacks::write_ntag(NFCTag *tag) {
@@ -320,6 +374,18 @@ uint8_t NFCAttacks::write_ntag(NFCTag *tag) {
     LOG_INFO("Unable to find card");
   }
   return unwritable;
+}
+
+bool NFCAttacks::write_ntag(uint8_t page, uint8_t *data) {
+  uint8_t uid[7];
+  uint8_t uid_length;
+  bool success = false;
+
+  if (nfc_framework.get_tag_uid(uid, uid_length)) {
+    success = nfc_framework.write_ntag2xx_page(page, data);
+  }
+
+  return success;
 }
 
 uint8_t NFCAttacks::format_ntag(int pages) {
@@ -452,7 +518,7 @@ bool NFCAttacks::felica_clone(NFCTag *tag) {
 
 NFCTag NFCAttacks::get_tag_towrite(uint8_t uid_length) {
   File nfc_config = open(NFC_CONFIG_FILE, "r");
-  StaticJsonDocument<256> doc;
+  JsonDocument doc;
   DeserializationError error = deserializeJson(doc, nfc_config);
   if (error) {
     uint8_t empty[1024];
@@ -478,7 +544,7 @@ NFCTag NFCAttacks::get_felica_towrite() {
   uint8_t idm[8] = {0};
   uint8_t pmm[8] = {0};
   uint16_t sys_code = 0;
-  StaticJsonDocument<256> doc;
+  JsonDocument doc;
   DeserializationError error = deserializeJson(doc, nfc_config);
   if (error) {
     uint8_t empty[1024];
