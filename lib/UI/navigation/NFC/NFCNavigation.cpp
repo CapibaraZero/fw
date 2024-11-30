@@ -126,6 +126,9 @@ void write_dump_to_tag(const char *path) {
 
 void open_nfc_dump_browser() {
   nfc_dumps_files = list_dir(open(NFC_DUMPS_PATH, "r"));
+  nfc_dumps_files.erase(std::remove_if(nfc_dumps_files.begin(), nfc_dumps_files.end(), [](std::string file) {
+      return file.find(".bin") != std::string::npos || file.find(".hex") != std::string::npos;
+  }),nfc_dumps_files.end());
   gui->reset();
   nfc_dump_file_browser_page = new FileBrowserPage(
       nfc_dumps_files.size() + 1, 1, 1, gui->get_screen(), gui);
