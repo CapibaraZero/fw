@@ -49,6 +49,7 @@ class NFCAttacks {
  public:
   NFCAttacks(/* args */);
   ~NFCAttacks() {};
+  void power_down() {nfc_framework.power_down();};
   bool bruteforce();
   void read_uid(uint8_t *uid, uint8_t *uid_length);
   void read_uid(uint8_t *uid, uint8_t *uid_length, uint16_t *atqa,

@@ -90,7 +90,8 @@ void bruteforce_tag(Gui *gui, NFCAttacks *attacks) {
               (void *)params, 5, &ui_updater_task_handle);
 }
 
-void destroy_tasks() {
+void destroy_tasks(NFCAttacks *attacks) {
+  attacks->power_down();
   if (polling_in_progress) {
     vTaskDelete(polling_task_handle);
     polling_task_handle = NULL;

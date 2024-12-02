@@ -158,7 +158,7 @@ void bruteforce_a_tag() {
 }
 
 void stop_nfc_polling() {
-  destroy_tasks();
+  destroy_tasks(nfc_attacks);
   goto_nfc_gui();
 }
 
