@@ -49,7 +49,7 @@ void SubGHZ::init_receive() {
   if (_modulation == 2)  // LoRa doesn't require anything
     return;
 #ifndef CC1101_SUBGHZ
-  SPI2.begin(SD_CARD_SCK, SX1276_MISO, SD_CARD_MOSI, _csn);
+  SPI2.begin(SX1276_SCK, SX1276_MISO, SX1276_MOSI, _csn);
   radio.beginFSK();
   radio.setCRC(false);
   radio.setAFC(true);

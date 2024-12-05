@@ -43,6 +43,8 @@
 #define SX1276_NSS 1
 #define SX1276_DIO2 15
 #define SX1276_DIO1 16
+#define SX1276_SCK 17
+#define SX1276_MOSI 18
 #define SX1276_MISO 7
 
 #define PN532_SDA 8
