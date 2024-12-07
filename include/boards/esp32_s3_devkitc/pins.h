@@ -27,8 +27,8 @@
 #define RIGHT_BTN_PIN 42
 
 // Display pins
-#define TFT_RST 4
-#define TFT_DC 5
+#define TFT_RST 5
+#define TFT_DC 4
 #define TFT_CS 10
 #define TFT_MOSI 11
 #define TFT_MISO -1
