@@ -41,7 +41,7 @@ void goto_badusb_gui() {
 #ifdef ARDUINO_NANO_ESP32
   Serial.end();
 #endif
-  hid.begin();
+  // Begin is performed in USBHid class(setting layout or by default)
   files = list_dir(open("/ducky", "r"));
   _gui->reset();
   file_browser_page =
