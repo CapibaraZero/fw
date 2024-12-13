@@ -32,7 +32,7 @@ void update_wifi_scan_progress(void *pv) {
     set_wifi_channel_text((char *)(String("Channel: ") + String(ch)).c_str());
     ch++;
     progress += progress_step;  // 13 ch scan
-    delay(1000);                // ch change time
+    delay(3000);                // ch change time
   }
   while (params->wifi_attack->sniffer_running()) {
     delay(1);

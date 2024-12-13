@@ -33,7 +33,10 @@ WifiAttack::WifiAttack(/* args */) {}
 WifiAttack::~WifiAttack() {}
 
 void WifiAttack::scan() {
-  int n = WiFi.scanNetworks(false, true, false, 1000);
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+  delay(500);
+  int n = WiFi.scanNetworks(false, true, false, 3000);
   for (int i = 0; i < n; i++) {
     WifiNetwork network = WifiNetwork(WiFi.SSID(i), WiFi.RSSI(i), WiFi.BSSID(i),
                                       WiFi.channel(i), WiFi.encryptionType(i));
