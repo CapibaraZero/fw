@@ -129,8 +129,8 @@ void goto_home_from_subghz() {
 }
 
 void subghz_sender_file_browser() {
-  gui->reset();
   subghz_files = list_dir(open("/subghz/raw_signals", "r"));
+  gui->reset();
   file_browser_page = new FileBrowserPage(subghz_files.size() + 1, 1, 1,
                                           gui->get_screen(), gui);
   file_browser_page->display("SubGHZ File Browser", &subghz_files,
