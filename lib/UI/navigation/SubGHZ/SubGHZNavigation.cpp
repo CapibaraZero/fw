@@ -58,7 +58,7 @@ void start_raw_record() {
 }
 
 void make_dump_file() {
-  Serial.println("Saving file");
+  Serial.println("Saving SubGHZ dump file");
   extern std::vector<byte> raw_signal;
   JsonDocument doc;
   doc["frequency"] = subghz_module->get_frequency();
@@ -66,11 +66,11 @@ void make_dump_file() {
   doc["deviation"] = subghz_module->get_deviation();
   doc["data_length"] = raw_signal.size();
   JsonArray data = doc["data"].to<JsonArray>();
-  Serial.println("Saving file");
+  // Serial.println("Saving file");
   for (byte b : raw_signal) {
     data.add(b);
   }
-  Serial.println("Saving file");
+  // Serial.println("Saving file");
 
 #ifdef ARDUINO_NANO_ESP32
   // Save to LittleFS since SD doesn't work until SX1276 perform a reset(never
@@ -86,20 +86,21 @@ void make_dump_file() {
 #endif
 
   if (file) {
-    LOG_INFO("Saving file14\n");
+    // LOG_INFO("Saving file14\n");
     serializeJsonPretty(doc, file);
-    LOG_INFO("Saving file4\n");
+    // LOG_INFO("Saving file4\n");
   } else {
     LOG_ERROR("Can't save file to LittleFS\n");
   }
   file.close();
 }
 
+
 void stop_subghz_raw_record() {
+  subghz_module->stop_receive();
+  make_dump_file();
   stop_subghz_attack();
   subghz_raw_record_page = nullptr;
-  make_dump_file();
-  subghz_module->stop_receive();
   goto_subghz_gui();
 }
 
