@@ -34,6 +34,9 @@ jobs:
         run: bash prepare_image.sh "lilygo_t_embed_cc1101" && cp build/*.zip release
       - name: Create release
         uses: softprops/action-gh-release@v2
+        #if: startsWith(github.ref, 'develop/0.5.2')
         with:
+          tag_name: ${{ github.sha }}
+          name: "CapibaraZero ${{github.ref}} beta"
           prerelease: true
           files: release/*
