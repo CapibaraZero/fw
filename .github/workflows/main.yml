@@ -2,6 +2,9 @@ name: Build CapibaraZero firmware
 
 on: [push]
 
+permissions:
+  contents: write
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,5 +24,16 @@ jobs:
         run: pip install --upgrade platformio
       - name: Prepare PN532 libraries
         run: bash init_nfc_libs.sh
-      - name: Build PlatformIO Project
-        run: pio run
+      - name: Prepare release folder
+        run: mkdir release
+      - name: Build ESP32-S3-DevKitC
+        run: bash prepare_image.sh "esp32-s3-devkitc-1" && cp build/*.zip release
+      - name: Build Arduino Nano ESP32
+        run: bash prepare_image.sh "arduino_nano_esp32" && cp build/*.zip release
+      - name: Build LilyGo T-Embed CC1101
+        run: bash prepare_image.sh "lilygo_t_embed_cc1101" && cp build/*.zip release
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: true
+          files: release/*
