@@ -32,11 +32,13 @@ jobs:
         run: bash prepare_image.sh "arduino_nano_esp32" && cp build/*.zip release
       - name: Build LilyGo T-Embed CC1101
         run: bash prepare_image.sh "lilygo_t_embed_cc1101" && cp build/*.zip release
+      - name: Generate release tag
+        run: echo TAG_NAME=0.5.2-$(date +"%Y_%m_%d_%S") >> $GITHUB_ENV
       - name: Create release
         uses: softprops/action-gh-release@v2
         #if: startsWith(github.ref, 'develop/0.5.2')
         with:
-          tag_name: ${{ github.sha }}
+          tag_name: ${{env.TAG_NAME}}
           name: "CapibaraZero ${{github.ref}} beta"
           prerelease: true
           files: release/*
