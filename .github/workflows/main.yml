@@ -1,4 +1,4 @@
-name: Build CapibaraZero firmware
+ name: Build CapibaraZero firmware
 
 on: [push]
 
@@ -36,10 +36,11 @@ jobs:
         run: echo TAG_NAME=0.5.2-$(date +"%Y_%m_%d_%S") >> $GITHUB_ENV
       - name: Create release
         uses: softprops/action-gh-release@v2
-        #if: startsWith(github.ref, 'develop/0.5.2')
+        if: startsWith(github.ref, 'refs/heads/develop')
         with:
           tag_name: ${{ env.TAG_NAME }}
-          target_commitish: ${{ github.sha }}
+          target_commitish: ${{ github.ref }}
           name: "CapibaraZero ${{ github.ref }} beta"
+          make_latest: true
           prerelease: true
           files: release/*
