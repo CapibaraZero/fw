@@ -2,7 +2,7 @@
 
 # A simple script to extract build images from pio folder
 BOARD=$1
-VERSION="0_5_1"
+VERSION="0_5_2"
 mkdir build
 
 # Remove old builds
