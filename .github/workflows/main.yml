@@ -38,7 +38,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         #if: startsWith(github.ref, 'develop/0.5.2')
         with:
-          tag_name: ${{env.TAG_NAME}}
-          name: "CapibaraZero ${{github.ref}} beta"
+          tag_name: ${{ env.TAG_NAME }}
+          target_commitish: ${{ github.sha }}
+          name: "CapibaraZero ${{ github.ref }} beta"
           prerelease: true
           files: release/*
