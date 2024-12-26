@@ -1,4 +1,4 @@
- name: Build CapibaraZero firmware
+name: Build CapibaraZero firmware
 
 on: [push]
 
