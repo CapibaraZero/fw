@@ -22,8 +22,6 @@ jobs:
           python-version: '3.12'
       - name: Install PlatformIO Core
         run: pip install --upgrade platformio
-      - name: Prepare PN532 libraries
-        run: bash init_nfc_libs.sh
       - name: Prepare release folder
         run: mkdir release
       - name: Build ESP32-S3-DevKitC

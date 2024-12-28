@@ -49,6 +49,8 @@
 
 #define PN532_SDA 8
 #define PN532_SCL 9
+#define PN532_RST -1
+#define PN532_IRQ -1
 
 #define BATTERY_MONITOR 2
 

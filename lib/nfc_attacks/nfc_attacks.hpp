@@ -18,7 +18,7 @@
 #ifndef NFC_ATTACKS_H
 #define NFC_ATTACKS_H
 #include <stdint.h>
-
+#include "../../include/pins.h"
 typedef struct SectorResult {
   uint8_t uid[7];
   uint8_t uid_len = 0;
@@ -34,7 +34,7 @@ typedef struct SectorResult {
 
 class NFCAttacks {
  private:
-  NFCFramework nfc_framework = NFCFramework();
+  NFCFramework nfc_framework = NFCFramework(PN532_IRQ, PN532_RST);
   bool is_there_null_blocks(NFCTag *tag);
   NFCTag *current_tag = (NFCTag *)malloc(sizeof(NFCTag));
   uint8_t tried_keys = 0;
@@ -49,6 +49,7 @@ class NFCAttacks {
  public:
   NFCAttacks(/* args */);
   ~NFCAttacks() {};
+  bool begin();
   void power_down() {nfc_framework.power_down();};
   bool bruteforce();
   void read_uid(uint8_t *uid, uint8_t *uid_length);
