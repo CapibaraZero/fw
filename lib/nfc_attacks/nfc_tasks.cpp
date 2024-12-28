@@ -134,8 +134,12 @@ void dump_felica_task(void *pv) {
 void format_iso14443a_task(void *pv) {
   format_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  params->attacks->format_tag();
-  delay(10000);
+  if(!exists("/NFC/keys.txt")) {
+    params->gui->show_error_page("Missing keys file");
+  } else {
+    params->attacks->format_tag();
+    delay(10000);
+  }
   format_in_progress = false;
   // We don't need free(pv) here because we share same pointer between
   // bruteforce tasks
@@ -169,7 +173,11 @@ void format_felica_task(void *pv) {
 void bruteforce_iso14443a_task(void *pv) {
   bruteforce_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  params->attacks->bruteforce();
+  if(!exists("/NFC/keys.txt")) {
+    params->gui->show_error_page("Missing keys file");
+  } else {
+    params->attacks->bruteforce();
+  }
   bruteforce_in_progress = false;
   // We don't need free(pv) here because we share same pointer between
   // bruteforce tasks

@@ -23,6 +23,7 @@
 #include "pages/network_attacks/DHCPGluttonPage.hpp"
 #include "pages/network_attacks/EvilPortalPage.hpp"
 #include "pages/network_attacks/NetworkAttacksPage.hpp"
+#include "posixsd.hpp"
 
 static Gui *gui;
 static NetworkAttacks *attack;
@@ -38,6 +39,11 @@ void goto_net_attacks_gui() {
 }
 
 void goto_dhcpglutton_gui() {
+  if(!exists("/dhcp_glutton/config.json")) {
+    gui->show_error_page("Missing config");
+    goto_net_attacks_gui();
+    return;
+  }
   gui->reset();
   dhcp_glutton_page = new DHCPGluttonPage(0, 0, 0, gui->get_screen(), gui);
   gui->set_current_page(dhcp_glutton_page);
@@ -52,6 +58,11 @@ void goto_evilportal_gui() {
 }
 
 void goto_arp_poisoner_gui() {
+  if(!exists("/arp_poisoner/config.json")) {
+    gui->show_error_page("Missing config");
+    goto_net_attacks_gui();
+    return;
+  }
   gui->reset();
   arpoisoner_page = new ARPoisonerPage(0, 0, 0, gui->get_screen(), gui);
   gui->set_current_page(arpoisoner_page);

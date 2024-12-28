@@ -36,25 +36,24 @@ NetworkAttacks::NetworkAttacks(/* args */) {}
 
 NetworkAttacks::~NetworkAttacks() {}
 
-void NetworkAttacks::connect_to_wifi(const char *config) {
+size_t NetworkAttacks::connect_to_wifi(const char *config) {
   File dhcp_glutton_config = open(config, "r");
   JsonDocument doc;
   DeserializationError error = deserializeJson(doc, dhcp_glutton_config);
+  bool ret = 2;
   if (error) {
-    Serial.printf("Error: %s", error.c_str());
-    LOG_ERROR(
-        "Error during deserialization of configuration. Restarting ESP...");
-    ESP.restart();
+    LOG_ERROR(error.c_str());
+    ret = 0;
+  } else if (doc["ssid"].isNull() || doc["password"].isNull()) {
+    ret = 1;
+  } else {
+    WiFi.mode(WIFI_STA);
+    WiFi.begin((const char *)doc["ssid"], (const char *)doc["password"]);
+    LOG_INFO("Connecting to WiFi network");
+    while (WiFi.status() != WL_CONNECTED);
+    LOG_INFO("Connected!");
   }
-  if (doc["ssid"].isNull() || doc["password"].isNull()) {
-    LOG_ERROR("Invalid configuration. Restarting ESP...");
-    ESP.restart();
-  }
-  WiFi.mode(WIFI_STA);
-  WiFi.begin((const char *)doc["ssid"], (const char *)doc["password"]);
-  LOG_INFO("Connecting to WiFi network");
-  while (WiFi.status() != WL_CONNECTED);
-  LOG_INFO("Connected! Starting DoS");
+  return ret;
 }
 
 void NetworkAttacks::create_default_ap() {
@@ -86,29 +85,30 @@ ARPoisonerConfig NetworkAttacks::get_arp_config() {
   File arp_poisoner_config = open(ARP_POISONING_CONFIG_FILE, "r");
   JsonDocument doc;
   DeserializationError error = deserializeJson(doc, arp_poisoner_config);
-  if (error) {
-    Serial.printf("Error: %s", error.c_str());
-    LOG_ERROR("Missing ARP poisoner configuration");
-    ESP.restart();
-  }
-  if (doc["target_ip"].isNull() || doc["target_mac"].isNull()) {
-    LOG_ERROR("Invalid ARP poisoner configuration");
-    ESP.restart();
-  }
   ARPoisonerConfig arp_config;
-  for (uint8_t i = 0; i < 4; i++) {
-    arp_config.dest_ip[i] = doc["target_ip"][i];
-  }
-  for (uint8_t i = 0; i < 6; i++) {
-    arp_config.dest_mac[i] = doc["target_mac"][i];
-  }
-  if (!doc["send_time"].isNull()) {
-    arp_config.send_time = doc["send_time"];
+  if (error) {
+    arp_config.missing = true;
+    LOG_ERROR(error.c_str());
+  } else if (doc["target_ip"].isNull() || doc["target_mac"].isNull()) {
+    arp_config.invalid = true;
+  } else {
+      for (uint8_t i = 0; i < 4; i++) {
+        arp_config.dest_ip[i] = doc["target_ip"][i];
+      }
+      for (uint8_t i = 0; i < 6; i++) {
+        arp_config.dest_mac[i] = doc["target_mac"][i];
+      }
+      if (!doc["send_time"].isNull()) {
+        arp_config.send_time = doc["send_time"];
+      }
   }
   return arp_config;
 }
-void NetworkAttacks::dhcp_starvation() {
-  connect_to_wifi(DHCP_GLUTTON_CONFIG_FILE);
+int NetworkAttacks::dhcp_starvation() {
+  int ret = connect_to_wifi(DHCP_GLUTTON_CONFIG_FILE);
+  if(ret != 2) {
+    return ret;
+  }
   DHCPGlutton dhcp_dos = DHCPGlutton();
   for (;;) {
     dhcp_dos.random_mac_address_spoof();
@@ -132,9 +132,20 @@ void NetworkAttacks::kill_evilportal() {
   WiFi.softAPdisconnect(true);
 }
 
-void NetworkAttacks::start_arp_poisoning() {
+size_t NetworkAttacks::start_arp_poisoning() {
   connect_to_wifi(ARP_POISONING_CONFIG_FILE);
   ARPoisonerConfig config = get_arp_config();
+
+  size_t ret = 2;
+  if(config.missing) {
+    ret = 0;
+  } else if(config.invalid){
+    ret = 1;
+  }
+
+  if(ret != 2)
+    return ret;
+
   ARP_poisoner poisoner = ARP_poisoner();
   while (true) {
     poisoner.send_arp_packet(config.dest_ip, config.dest_mac);

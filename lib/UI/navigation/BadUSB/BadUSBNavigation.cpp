@@ -20,6 +20,7 @@ extern FILE *yyin;
 void badusb_selection_handler(const char *path) {
   FILE *file = fopen(("/sd/ducky/" + (String)path).c_str(), "r");
   if (!file) {
+    _gui->show_error_page("Failed to open file");
     LOG_ERROR("Failed to open file");
     return;
   }
@@ -34,7 +35,7 @@ void goto_home_from_badusb() {
   Serial.begin(115200);
 #endif
   init_main_gui();
-  file_browser_page = nullptr;
+  file_browser_page = nullptr;  // Deleted in init_main_gui()
 }
 
 void goto_badusb_gui() {

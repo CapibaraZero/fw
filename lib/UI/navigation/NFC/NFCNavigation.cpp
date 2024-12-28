@@ -34,7 +34,7 @@
 #include "sdcard_helper.hpp"
 
 static Gui *gui;
-static NFCAttacks *nfc_attacks = nullptr;
+NFCAttacks *nfc_attacks = nullptr;
 static NFCMainPage *nfc_main_page = nullptr;
 static NFCPollingWaitingPage *nfc_polling_waiting_page = nullptr;
 static NFCPollingResultPage *nfc_polling_result_page = nullptr;
@@ -112,6 +112,11 @@ void write_hex_to_tag() {
   gui->reset();
   // gui->init_nfc_write_result_gui();
   NFCTag tag_to_write = nfc_attacks->get_tag_towrite(7);
+  if(!exists("/nfc/config.json")) {
+    gui->show_error_page("Missing config");
+    goto_home();
+    return;
+  }
   // TODO: If empty block the process
   write_tag(gui, nfc_attacks, &tag_to_write);
 }
@@ -244,6 +249,9 @@ void init_nfc_navigation(Gui *_gui) {
     Wire.begin(PN532_SDA, PN532_SCL);
 #endif
     nfc_attacks = new NFCAttacks();
+    if(!nfc_attacks->begin()) {
+      gui->show_error_page("Missing PN532");
+    }
     nfc_initialized = true;
   }
 }

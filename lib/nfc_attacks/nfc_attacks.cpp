@@ -31,14 +31,12 @@ using namespace std;
 
 #define NFC_KEYS_FILE "/NFC/keys.txt"
 
-NFCAttacks::NFCAttacks() {
-  if (!nfc_framework.ready()) {
-    LOG_ERROR("PN532 not found, trying to restart\n");
-    ESP.restart();
-  } else {
-    LOG_SUCCESS("PN532 found!\n");
-  }
+NFCAttacks::NFCAttacks() {}
+
+bool NFCAttacks::begin() {
+  return nfc_framework.ready();
 }
+
 bool NFCAttacks::is_there_null_blocks(NFCTag *tag) {
   for (size_t i = 0; i < tag->get_blocks_count(); i++) {
     uint8_t block[BLOCK_SIZE] = {0};

@@ -89,3 +89,11 @@ void Gui::set_current_page(Page *page, bool display, bool delete_page) {
   current_page = page;
   if (display) page->display();
 }
+
+void Gui::show_error_page(const char *error) {
+  invalid_config_page = new InvalidConfigPage(0, 0, 0, screen, this);
+  reset();
+  set_current_page(invalid_config_page, false);
+  invalid_config_page->display(error);
+  delay(3000);
+}

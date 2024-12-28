@@ -90,6 +90,7 @@ void make_dump_file() {
     serializeJsonPretty(doc, file);
     // LOG_INFO("Saving file4\n");
   } else {
+    gui->show_error_page("Can't save capture");
     LOG_ERROR("Can't save file to LittleFS\n");
   }
   file.close();

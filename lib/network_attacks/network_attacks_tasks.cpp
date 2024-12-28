@@ -15,11 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "network_attacks.hpp"
+#include "ui_tasks/network_attacks/net_attacks_ui_tasks_types.h"
 
 void dhcp_starvation_task(void *pv) {
-  NetworkAttacks *params = static_cast<NetworkAttacks *>(pv);
-  params->dhcp_starvation();
+  NetAttacksTaskArg *params = static_cast<NetAttacksTaskArg *>(pv);
+  size_t ret = params->attack->dhcp_starvation();
+  if(ret == 0) {
+    params->gui->show_error_page("Missing config");
+  } else if(ret == 1){
+    params->gui->show_error_page("Invalid config");
+  };
+  vTaskDelete(NULL);
 }
 
 void evilportal_task(void *pv) {
@@ -28,6 +34,12 @@ void evilportal_task(void *pv) {
 }
 
 void arp_poisoning_task(void *pv) {
-  NetworkAttacks *params = static_cast<NetworkAttacks *>(pv);
-  params->start_arp_poisoning();
+  NetAttacksTaskArg *params = static_cast<NetAttacksTaskArg *>(pv);
+  size_t ret = params->attack->start_arp_poisoning();
+  if(ret == 0) {
+    params->gui->show_error_page("Missing config");
+  } else if(ret == 1){
+    params->gui->show_error_page("Invalid config");
+  };
+  vTaskDelete(NULL);
 }

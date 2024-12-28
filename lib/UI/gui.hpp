@@ -19,6 +19,7 @@
 #include "GFXForms.hpp"
 #include "pages/Page.hpp"
 #include "pages/main_page/MainPage.hpp"
+#include "pages/InvalidConfig.hpp"
 #include "widgets/RectText.hpp"
 
 #ifndef GUI_H
@@ -31,7 +32,8 @@ class Gui {
   MainPage *main_page = nullptr;  // Never delete main_page since it's always
                                   // necessary Reduce memory fragmentation
   BatteryMonitorTaskParams battery_monitor_task_params;
-
+  InvalidConfigPage *invalid_config_page;
+  
  public:
   Gui(GFXForms *_screen) { screen = _screen; };
   ~Gui() {};
@@ -62,6 +64,8 @@ class Gui {
 
   /// @brief Generate arrrow-right event and propagate to current page
   void right();
+
+  void show_error_page(const char *error);
 };
 
 #endif

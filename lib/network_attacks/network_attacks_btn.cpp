@@ -35,7 +35,7 @@ void start_dhcpglutton(Gui *gui, NetworkAttacks *attack) {
   task_arg = (NetAttacksTaskArg *)malloc(sizeof(NetAttacksTaskArg));
   task_arg->attack = attack;
   task_arg->gui = gui;
-  xTaskCreate(&dhcp_starvation_task, "dhcp_glutton", 4000, (void *)attack, 5,
+  xTaskCreate(&dhcp_starvation_task, "dhcp_glutton", 4000, (void *)task_arg, 5,
               &dhcp_glutton_handle);
   xTaskCreate(&update_dhcp_glutton_clients, "dhcp_glutton_ui_updater", 4000,
               (void *)task_arg, tskIDLE_PRIORITY, &dhcp_glutton_ui_handle);
@@ -45,6 +45,7 @@ void start_dhcpglutton(Gui *gui, NetworkAttacks *attack) {
 void kill_dhcpglutton() {
   vTaskDelete(dhcp_glutton_handle);
   vTaskDelete(dhcp_glutton_ui_handle);
+  free(task_arg);
   WiFi.disconnect();
 }
 
@@ -64,13 +65,20 @@ void kill_evilportal(NetworkAttacks *attack) {
   attack->stop_evilportal();  // Set evilportal to false so
                               // update_evilportal_requests kill evilportal
   vTaskDelete(evilportal_task_handle);  // This task would ran always
+  free(task_arg);
 }
 
 TaskHandle_t arp_poisoner_task_handle = NULL;
 
 void start_arp_poisoning(Gui *gui, NetworkAttacks *attack) {
-  xTaskCreate(&arp_poisoning_task, "arp_poisoner_task", 4000, (void *)attack, 5,
+  task_arg = (NetAttacksTaskArg *)malloc(sizeof(NetAttacksTaskArg));
+  task_arg->attack = attack;
+  task_arg->gui = gui;
+  xTaskCreate(&arp_poisoning_task, "arp_poisoner_task", 4000, (void *)task_arg, 5,
               &arp_poisoner_task_handle);
 }
 
-void kill_arp_poisoning() { vTaskDelete(arp_poisoner_task_handle); }
+void kill_arp_poisoning() { 
+  vTaskDelete(arp_poisoner_task_handle);
+  free(task_arg);
+}
