@@ -19,7 +19,7 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/network_attacks/evilportal_keys.h"
-#include "../../navigation/network_attacks/network_attacks_navigation.hpp"
+#include "../../navigation/wifi/wifi_navigation.hpp"
 #include "gui.hpp"
 
 EvilPortalPage::~EvilPortalPage() {

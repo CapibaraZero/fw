@@ -26,6 +26,9 @@ class WifiPage : public Page {
  private:
   List *wifi_list;
   List *wifi_sniff;
+  List *dhcpglutton;
+  List *evilportal;
+  List *arp_poisoner;
   List *go_back;
 
  public:

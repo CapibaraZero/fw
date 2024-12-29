@@ -19,7 +19,7 @@
 
 #include "GFXForms.hpp"  // Fix building errors
 #include "gui.hpp"
-#include "navigation/network_attacks/network_attacks_navigation.hpp"
+#include "navigation/wifi/wifi_navigation.hpp"
 #include "network_attacks.hpp"
 #include "network_attacks_tasks.hpp"
 #include "ui_tasks/network_attacks/net_attacks_ui_tasks.hpp"

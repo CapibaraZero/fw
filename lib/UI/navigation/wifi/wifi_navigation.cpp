@@ -28,9 +28,15 @@
 #include "wifi_attacks_btn.hpp"
 #include "wifi_position.h"
 #include "wifi_tasks.hpp"
+#include "network_attacks.hpp"
+#include "network_attacks_btn.hpp"
+#include "pages/network_attacks/ARPoisonerPage.hpp"
+#include "pages/network_attacks/DHCPGluttonPage.hpp"
+#include "pages/network_attacks/EvilPortalPage.hpp"
+#include "posixsd.hpp"
 
 static Gui *gui;
-static WifiAttack wifiAttack = WifiAttack();
+WifiAttack wifiAttack = WifiAttack();
 static WifiPage *wifi_page = nullptr;
 static WifiScanPage *wifi_scan_page = nullptr;
 static WifiSniffPage *wifi_sniff_page = nullptr;
@@ -53,7 +59,7 @@ void goto_sniff_wifi() { sniff_wifi(gui, &wifiAttack); }
 
 void init_wifi_gui() {
   gui->reset();
-  wifi_page = new WifiPage(2, 0, 1, gui->get_screen(), gui);
+  wifi_page = new WifiPage(5, 0, 1, gui->get_screen(), gui);
   gui->set_current_page(wifi_page);
 }
 
@@ -169,4 +175,78 @@ void display_wifi_scan_result() {
 void update_packets_count(int count) {
   wifi_sniff_page->update_packet_count(count);
 }
-void init_wifi_navigation(Gui *_gui) { gui = _gui; }
+
+
+static NetworkAttacks *attack;
+static DHCPGluttonPage *dhcp_glutton_page;
+static EvilPortalPage *evilportal_page;
+static ARPoisonerPage *arpoisoner_page;
+
+void goto_dhcpglutton_gui() {
+  if(!exists("/dhcp_glutton/config.json")) {
+    gui->show_error_page("Missing config");
+    init_wifi_gui();
+    return;
+  }
+  gui->reset();
+  dhcp_glutton_page = new DHCPGluttonPage(0, 0, 0, gui->get_screen(), gui);
+  gui->set_current_page(dhcp_glutton_page);
+  start_dhcpglutton(gui, attack);
+}
+
+void goto_evilportal_gui() {
+  gui->reset();
+  evilportal_page = new EvilPortalPage(0, 0, 0, gui->get_screen(), gui);
+  gui->set_current_page(evilportal_page);
+  start_evilportal(gui, attack);
+}
+
+void goto_arp_poisoner_gui() {
+  if(!exists("/arp_poisoner/config.json")) {
+    gui->show_error_page("Missing config");
+    init_wifi_gui();
+    return;
+  }
+  gui->reset();
+  arpoisoner_page = new ARPoisonerPage(0, 0, 0, gui->get_screen(), gui);
+  gui->set_current_page(arpoisoner_page);
+  start_arp_poisoning(gui, attack);
+}
+
+void set_dhcp_glutton_clients(int client) {
+  dhcp_glutton_page->update_packet_count(client);
+}
+
+void set_evilportal_ip(const char *ip) { evilportal_page->set_portal_ip(ip); }
+
+void set_evilportal_requests(int req) {
+  evilportal_page->update_requests_count(req);
+}
+
+void net_attacks_goto_home() {
+  init_main_gui();
+  // net_attacks_page = nullptr;
+}
+
+void stop_dhcpglutton() {
+  kill_dhcpglutton();
+  init_main_gui();
+  dhcp_glutton_page = nullptr;
+}
+
+void stop_evilportal() {
+  kill_evilportal(attack);
+  init_main_gui();
+  evilportal_page = nullptr;
+}
+
+void stop_arp_poisoner() {
+  kill_arp_poisoning();
+  init_main_gui();
+  arpoisoner_page = nullptr;
+}
+
+void init_wifi_navigation(Gui *_gui) { 
+  gui = _gui;
+  attack = new NetworkAttacks();
+}
