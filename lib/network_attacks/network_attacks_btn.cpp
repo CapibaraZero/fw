@@ -78,7 +78,8 @@ void start_arp_poisoning(Gui *gui, NetworkAttacks *attack) {
               &arp_poisoner_task_handle);
 }
 
-void kill_arp_poisoning() { 
+void kill_arp_poisoning() {
+  WiFi.disconnect(true, true);
   vTaskDelete(arp_poisoner_task_handle);
   free(task_arg);
 }
