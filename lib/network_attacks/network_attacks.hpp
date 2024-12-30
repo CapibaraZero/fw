@@ -29,8 +29,8 @@ typedef struct {
 } WiFIAPConfig;
 
 typedef struct {
-  bool invalid;
-  bool missing;
+  bool invalid = false;
+  bool missing = false;
   uint8_t dest_ip[4];
   uint8_t dest_mac[6];
   uint16_t send_time = 1000;
