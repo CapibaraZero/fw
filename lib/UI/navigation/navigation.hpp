@@ -32,5 +32,4 @@ void init_nfc_ui();
 
 void init_ir_ui();
 
-void init_network_attacks_ui();
 #endif

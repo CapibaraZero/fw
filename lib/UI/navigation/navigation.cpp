@@ -23,7 +23,6 @@
 #include "SubGHZ/SubGHZNavigation.hpp"
 #include "buttons/btn_routines.hpp"
 #include "gui.hpp"
-#include "network_attacks/network_attacks_navigation.hpp"
 #include "wifi/wifi_navigation.hpp"
 
 static Gui *gui;
@@ -61,11 +60,6 @@ void init_nfc_ui() {
 void init_ir_ui() {
   init_ir_navigation(gui);
   goto_ir_gui();
-}
-
-void init_network_attacks_ui() {
-  init_network_attacks_navigation(gui);
-  goto_net_attacks_gui();
 }
 
 /*
