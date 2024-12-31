@@ -36,7 +36,7 @@ void section_not_ready() { LOG_ERROR("Section not ready"); }
 void MainPage::display() {
   current_position = 0;
   if (wifi == nullptr && SubGhz == nullptr && NFC == nullptr && IR == nullptr &&
-      net_attacks == nullptr && settings == nullptr && grid == nullptr) {
+      settings == nullptr && grid == nullptr) {
     wifi = new RectText(screen, english_words->at(WIFI_HOME_KEY),
                         HOME_TEXT_SIZE, HOME_TEXT_COLOR, HOME_ICON_HEIGHT,
                         HOME_ICON_RADIUS, HOME_ICON_COLOR, init_wifi_ui);
@@ -59,10 +59,6 @@ void MainPage::display() {
     IR = new RectText(screen, english_words->at(IR_HOME_KEY), HOME_TEXT_SIZE,
                       HOME_TEXT_COLOR, HOME_ICON_HEIGHT, HOME_ICON_RADIUS,
                       HOME_ICON_COLOR, init_ir_ui);
-    net_attacks = new RectText(screen, english_words->at(NET_ATTACKS_HOME_KEY),
-                               HOME_TEXT_SIZE, HOME_TEXT_COLOR,
-                               HOME_ICON_HEIGHT, HOME_ICON_RADIUS,
-                               HOME_ICON_COLOR, init_network_attacks_ui);
     settings =
         new RectText(screen, english_words->at(SETTINGS_HOME_KEY),
                      HOME_TEXT_SIZE, HOME_TEXT_COLOR, HOME_ICON_HEIGHT,
@@ -80,12 +76,11 @@ void MainPage::display() {
     grid->add(SubGhz);
     grid->add(NFC);
     grid->add(IR);
-    grid->add(net_attacks);
+    grid->add(settings);
 #if DISPLAY_WIDTH == 170 && DISPLAY_HEIGHT == 320
     btn_level = new Text(screen, HOME_TEXT_COLOR, "100%");
     grid->add(btn_level);
 #endif
-    // grid->add(settings);
     grid->set_pos(0, 0);
     grid->set_space_between(10);
     grid->set_padding(0, 10);
