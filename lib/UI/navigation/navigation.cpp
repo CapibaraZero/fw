@@ -23,6 +23,7 @@
 #include "SubGHZ/SubGHZNavigation.hpp"
 #include "buttons/btn_routines.hpp"
 #include "gui.hpp"
+#include "Settings/SettingsNavigation.hpp"
 #include "wifi/wifi_navigation.hpp"
 
 static Gui *gui;
@@ -60,6 +61,11 @@ void init_nfc_ui() {
 void init_ir_ui() {
   init_ir_navigation(gui);
   goto_ir_gui();
+}
+
+void init_settings_ui() {
+  init_settings_navigation(gui);
+  goto_settings_ui();
 }
 
 /*

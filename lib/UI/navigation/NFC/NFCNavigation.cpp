@@ -255,3 +255,18 @@ void init_nfc_navigation(Gui *_gui) {
     nfc_initialized = true;
   }
 }
+
+String get_current_pn532_version() {
+  String version = "";
+#ifndef LILYGO_T_EMBED_CC1101
+    // Already initialized in setup
+    Wire.begin(PN532_SDA, PN532_SCL);
+#endif
+    nfc_attacks = new NFCAttacks();
+    if(nfc_attacks->begin()) {
+      uint32_t nfc_version = nfc_attacks->get_version();
+      version = (String)((nfc_version>>16) & 0xFF) + "." + ((nfc_version>>8) & 0xFF);
+    }
+    nfc_attacks->power_down();
+    return version;
+}

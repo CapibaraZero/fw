@@ -46,4 +46,5 @@ void goto_nfc_polling_result_gui(uint8_t *uid, uint8_t len,
                                  const char *tag_name);
 void felica_dump();
 void nfc_cleanup();
+String get_current_pn532_version();
 #endif
