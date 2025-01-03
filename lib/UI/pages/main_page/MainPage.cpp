@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ void MainPage::display() {
     settings =
         new RectText(screen, english_words->at(SETTINGS_HOME_KEY),
                      HOME_TEXT_SIZE, HOME_TEXT_COLOR, HOME_ICON_HEIGHT,
-                     HOME_ICON_RADIUS, HOME_ICON_COLOR, section_not_ready);
+                     HOME_ICON_RADIUS, HOME_ICON_COLOR, init_settings_ui);
 
     grid = new Grid(screen, 2, 4);
 

@@ -1,3 +1,20 @@
+/*
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "SubGHZ.hpp"
 
 #include <Arduino.h>
@@ -94,6 +111,29 @@ void SubGHZ::init_receive() {
 #endif
   radio.setDirectSyncWord(0x555512AD, 0);
   radio.receiveDirect();
+}
+
+int16_t SubGHZ::get_chip_version() {
+  int16_t version = 0;
+#ifndef CC1101_SUBGHZ
+  SPI2.begin(SX1276_SCK, SX1276_MISO, SX1276_MOSI, _csn);
+  if(radio.beginFSK() == RADIOLIB_ERR_NONE) {
+    version = radio.getChipVersion();
+  }
+#else
+  SPI2.begin(CC1101_SCK, CC1101_MISO, CC1101_MOSI, _csn);
+  digitalWrite(CC1101_CS, HIGH);
+
+  int state = radio.begin(315);
+  if (state != RADIOLIB_ERR_NONE) {
+    Serial.print("Error initializing CC1101");
+    Serial.printf("Status: %i\n", state);
+  } else {
+    Serial.println("Initialized correctly");
+    version = radio.getChipVersion();
+  }
+#endif
+  return version;
 }
 
 void SubGHZ::stop_receive() {

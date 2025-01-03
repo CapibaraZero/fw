@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@ Gui *main_gui;
 Adafruit_ST7789 *display;
 GFXForms *screen;
 SPIClass display_spi;
+String fw_md5 = ESP.getSketchMD5(); // Calculate MD5 at startup(save time when loading settings)
 
 #ifdef ARDUINO_NANO_ESP32
 Peripherals_Arduino_Nano_ESP32 peripherals = Peripherals_Arduino_Nano_ESP32();

@@ -15,5 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-void enable_deep_sleep();
-void go_deep_sleep();
+#include "gui.hpp"
+
+void goto_settings_ui();
+void init_settings_navigation(Gui *_gui);
+void goto_back_to_home();

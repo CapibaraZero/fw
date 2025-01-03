@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,18 @@ static void IRAM_ATTR standby() {
                                ESP_EXT1_WAKEUP_ANY_LOW);
   esp_deep_sleep_start();
 }
+
+#endif
+
+#if defined(WAKEUP_PIN)
+
+void go_deep_sleep() {  // For usage in settings
+  digitalWrite(15, LOW);  // Power off CC1101 and LED
+  esp_sleep_enable_ext1_wakeup(GPIO_BITMASK(WAKEUP_PIN),
+                               ESP_EXT1_WAKEUP_ANY_LOW);
+  esp_deep_sleep_start();
+}
+
 #endif
 
 #if defined(STANDBY_BTN) && defined(WAKEUP_PIN)

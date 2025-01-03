@@ -1,3 +1,20 @@
+/*
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <LittleFS.h>
 
 #include "../../../../include/debug.h"
@@ -175,4 +192,18 @@ void init_subghz_navigation(Gui *_gui) {
   subghz_module = new SubGHZ(SD_CARD_SCK, CC1101_MISO, SD_CARD_MOSI, CC1101_CS,
                              CC1101_IO0, CC1101_IO2);
 #endif
+}
+
+String get_subghz_chip_revision() {
+#ifndef CC1101_SUBGHZ
+  subghz_module = new SubGHZ(SD_CARD_SCK, SX1276_MISO, SD_CARD_MOSI, SX1276_NSS,
+                             SX1276_DIO1, SX1276_DIO2);
+#else
+  subghz_module = new SubGHZ(SD_CARD_SCK, CC1101_MISO, SD_CARD_MOSI, CC1101_CS,
+                             CC1101_IO0, CC1101_IO2);
+#endif
+  String version = "";
+  version = subghz_module->get_chip_version();
+  delete subghz_module;
+  return version;
 }
