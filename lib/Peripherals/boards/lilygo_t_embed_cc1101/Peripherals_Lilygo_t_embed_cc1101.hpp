@@ -78,8 +78,12 @@ class Peripherals_Lilygo_t_embed_cc1101 : public Peripherals {
   };
   void init_navigation() {
     init_rotary_encoder();
-    init_navigation_btn(OK_BTN_PIN, handle_ok_button, INPUT, RISING);
+    init_ok_btn();
   };
+  void loop_code() {
+    handle_encoder();
+    ok_btn.read();
+  }
 };
 
 #endif

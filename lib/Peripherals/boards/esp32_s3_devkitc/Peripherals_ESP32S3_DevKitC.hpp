@@ -22,7 +22,12 @@
 #include "../../Peripherals.hpp"
 
 class Peripherals_ESP32S3_DevKitC : public Peripherals {
- public:
+private:
+  EasyButton up_btn = EasyButton(UP_BTN_PIN);
+  EasyButton down_btn = EasyButton(DOWN_BTN_PIN);
+  EasyButton left_btn = EasyButton(LEFT_BTN_PIN);
+  EasyButton right_btn = EasyButton(RIGHT_BTN_PIN);
+public:
   Peripherals_ESP32S3_DevKitC(/* args */) {};
   ~Peripherals_ESP32S3_DevKitC() {};
   void init_i2c_bus() {};
@@ -30,9 +35,16 @@ class Peripherals_ESP32S3_DevKitC : public Peripherals {
     common_init_sd(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
   };
   void init_navigation() {
-    common_init_navigation(UP_BTN_PIN, DOWN_BTN_PIN, LEFT_BTN_PIN,
-                           RIGHT_BTN_PIN, OK_BTN_PIN);
+    common_init_navigation(&up_btn, &down_btn, &left_btn,
+                           &right_btn);
+    init_ok_btn();
   };
+  void loop_code() {
+    up_btn.read();
+    down_btn.read();
+    left_btn.read();
+    right_btn.read();
+  }
 };
 
 #endif

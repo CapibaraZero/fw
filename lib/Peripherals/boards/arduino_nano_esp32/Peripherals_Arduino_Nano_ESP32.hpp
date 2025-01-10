@@ -62,7 +62,10 @@ class Peripherals_Arduino_Nano_ESP32 : public Peripherals {
     }
     return status;
   };
-
+  EasyButton up_btn = EasyButton(UP_BTN_PIN);
+  EasyButton down_btn = EasyButton(DOWN_BTN_PIN);
+  EasyButton left_btn = EasyButton(LEFT_BTN_PIN);
+  EasyButton right_btn = EasyButton(RIGHT_BTN_PIN);
  public:
   Peripherals_Arduino_Nano_ESP32(/* args */) {};
   ~Peripherals_Arduino_Nano_ESP32() {};
@@ -78,9 +81,16 @@ class Peripherals_Arduino_Nano_ESP32 : public Peripherals {
     }
   };
   void init_navigation() {
-    common_init_navigation(UP_BTN_PIN, DOWN_BTN_PIN, LEFT_BTN_PIN,
-                           RIGHT_BTN_PIN, OK_BTN_PIN);
+    common_init_navigation(&up_btn, &down_btn, &left_btn,
+                           &right_btn);
+    init_ok_btn();
   };
+  void loop_code() {
+    up_btn.read();
+    down_btn.read();
+    left_btn.read();
+    right_btn.read();
+  }
 };
 #endif
 #endif

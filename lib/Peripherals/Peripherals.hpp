@@ -31,22 +31,29 @@
 #ifndef PERIPHERALS_H
 #define PERIPHERALS_H
 #include <Arduino.h>
+#include <EasyButton.h>
+#include "navigation/buttons/btn_routines.hpp"
 
 class Peripherals {
  protected:
   bool common_init_sd(size_t sck, size_t miso, size_t mosi, size_t cs);
-  void common_init_navigation(size_t up, size_t down, size_t left, size_t right,
-                              size_t ok);
+  void common_init_navigation(EasyButton *up, EasyButton *down, EasyButton *left, EasyButton *right);
   void init_navigation_btn(int pin, void callback(),
                            int input_mode = INPUT_PULLUP,
                            int isr_mode = FALLING);
-
+  EasyButton ok_btn = EasyButton(OK_BTN_PIN);
+  void init_ok_btn() {
+    ok_btn.begin();
+    ok_btn.onPressed(handle_ok_button);
+    ok_btn.onPressedFor(5000, []() {ESP.restart();});
+  }
  public:
   Peripherals() {};
   ~Peripherals() {};
   virtual void init_i2c_bus() = 0;
   virtual void init_sd() = 0;
   virtual void init_navigation() = 0;
+  virtual void loop_code() = 0;
 };
 
 #endif
