@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ class MainPage : public Page {
   RectText *SubGhz = nullptr;
   RectText *NFC = nullptr;
   RectText *IR = nullptr;
-  RectText *net_attacks = nullptr;
+  RectText *scripts = nullptr;
   RectText *settings = nullptr;
   Text *text = nullptr;
 #if DISPLAY_WIDTH == 170 && DISPLAY_HEIGHT == 320

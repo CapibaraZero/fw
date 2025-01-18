@@ -15,24 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NAVIGATION_H
-#define NAVIGATION_H
+#include "duktape.h"
 
-void set_selected_listener(void *pv);
-void init_main_gui();
-void init_wifi_ui();
-
-void init_ble_ui();
-
-void init_badusb_ui();
-
-void init_subghz_ui();
-
-void init_nfc_ui();
-
-void init_ir_ui();
-
-void init_settings_ui();
-
-void init_scripts_ui();
-#endif
+class AppsJS
+{
+private:
+    duk_context *ctx;
+public:
+    AppsJS(/* args */);
+    ~AppsJS();
+    void run_script(const char *str) {
+        duk_eval_string_noresult(ctx, str);
+    }
+};

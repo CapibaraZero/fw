@@ -59,6 +59,9 @@ void MainPage::display() {
     IR = new RectText(screen, english_words->at(IR_HOME_KEY), HOME_TEXT_SIZE,
                       HOME_TEXT_COLOR, HOME_ICON_HEIGHT, HOME_ICON_RADIUS,
                       HOME_ICON_COLOR, init_ir_ui);
+    scripts = new RectText(screen, "JS", HOME_TEXT_SIZE,
+                      HOME_TEXT_COLOR, HOME_ICON_HEIGHT, HOME_ICON_RADIUS,
+                      HOME_ICON_COLOR, init_scripts_ui);
     settings =
         new RectText(screen, english_words->at(SETTINGS_HOME_KEY),
                      HOME_TEXT_SIZE, HOME_TEXT_COLOR, HOME_ICON_HEIGHT,
@@ -76,6 +79,7 @@ void MainPage::display() {
     grid->add(SubGhz);
     grid->add(NFC);
     grid->add(IR);
+    grid->add(scripts);
     grid->add(settings);
 #if DISPLAY_WIDTH == 170 && DISPLAY_HEIGHT == 320
     btn_level = new Text(screen, HOME_TEXT_COLOR, "100%");

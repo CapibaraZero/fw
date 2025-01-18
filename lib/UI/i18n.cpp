@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ void init_english_dict() {
   english_words->insert({SUBGHZ_HOME_KEY, "S.GHz"});
   english_words->insert({NFC_HOME_KEY, "NFC"});
   english_words->insert({IR_HOME_KEY, "IR"});
-  english_words->insert({NET_ATTACKS_HOME_KEY, "NetAt."});
+  english_words->insert({NET_ATTACKS_HOME_KEY, "NetA."});
   english_words->insert({SETTINGS_HOME_KEY, "Sett."});
   english_words->insert({VERSION_KEY, "Version "});
   // Home

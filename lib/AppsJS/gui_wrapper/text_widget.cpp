@@ -15,24 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NAVIGATION_H
-#define NAVIGATION_H
+#include "Text.hpp"
+#include "duktape.h"
 
-void set_selected_listener(void *pv);
-void init_main_gui();
-void init_wifi_ui();
+void text_set_text(Text *text, const char *str) {
+    text->set_text(str);
+}
 
-void init_ble_ui();
-
-void init_badusb_ui();
-
-void init_subghz_ui();
-
-void init_nfc_ui();
-
-void init_ir_ui();
-
-void init_settings_ui();
-
-void init_scripts_ui();
-#endif
+duk_ret_t text_widget_set_text_js(duk_context *ctx) {
+    
+}

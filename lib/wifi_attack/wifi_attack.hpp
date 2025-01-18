@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,11 @@ class WifiAttack {
   /// @brief Scan all the WiFi environments
   /// @return A list of all network found
   void scan();
+
+  /// @brief Return scan result to JSON string
+  /// @return JSON string with WiFi scan result
+  String scan_to_str();
+
   /// @brief Save WiFI scan result to JSON in SD
   /// @param networks WiFi scan result
   void save_scan();

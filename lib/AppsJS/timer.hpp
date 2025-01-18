@@ -15,24 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NAVIGATION_H
-#define NAVIGATION_H
+#include "duktape.h"
 
-void set_selected_listener(void *pv);
-void init_main_gui();
-void init_wifi_ui();
-
-void init_ble_ui();
-
-void init_badusb_ui();
-
-void init_subghz_ui();
-
-void init_nfc_ui();
-
-void init_ir_ui();
-
-void init_settings_ui();
-
-void init_scripts_ui();
-#endif
+void init_js_timer(duk_context *ctx);

@@ -1,3 +1,19 @@
+/*
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "../../../../include/pins.h"
 #include "../navigation.hpp"
@@ -18,7 +34,7 @@ static Gui *gui;
 static IRMainPage *ir_main_page = nullptr;
 IRRecordSignalPage *ir_record_signal_page = nullptr;
 static IREmulateRC *ir_emulate_rc = nullptr;
-static IrFramework *ir_framework = nullptr;
+IrFramework *ir_framework = nullptr;
 static IRListsProgress *ir_list_progress = nullptr;
 static FileBrowserPage *file_browser_page = nullptr;
 

@@ -7,6 +7,9 @@
 # VSCode Cmake stuff
 build
 
+# Duktape
+lib/duktape-2.7.0/
+
 # MacOS useless file
 .DS_Store
 

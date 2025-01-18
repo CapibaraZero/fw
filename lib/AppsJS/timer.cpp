@@ -15,24 +15,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NAVIGATION_H
-#define NAVIGATION_H
+#include "Arduino.h"
+#include "duktape.h"
 
-void set_selected_listener(void *pv);
-void init_main_gui();
-void init_wifi_ui();
+duk_ret_t JSnow(duk_context *ctx) {
+    duk_push_number(ctx, millis());
+    return 1;
+}
 
-void init_ble_ui();
+duk_ret_t JSdelay(duk_context *ctx) {
+    if(duk_get_top(ctx) == 1)
+        delay(duk_to_number(ctx, 0));
+    return 0;
+}
 
-void init_badusb_ui();
-
-void init_subghz_ui();
-
-void init_nfc_ui();
-
-void init_ir_ui();
-
-void init_settings_ui();
-
-void init_scripts_ui();
-#endif
+void init_js_timer(duk_context *ctx) {
+    duk_push_c_function(ctx, JSnow, 0);
+    duk_put_global_string(ctx, "now");
+    duk_push_c_function(ctx, JSdelay, 1);
+    duk_put_global_string(ctx, "delay");
+}

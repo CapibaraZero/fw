@@ -15,24 +15,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NAVIGATION_H
-#define NAVIGATION_H
+#include "AppsJS.hpp"
+#include "duktape.h"
+#include "ble.hpp"
+#include "io.hpp"
+#include "ir.hpp"
+#include "nfc.hpp"
+#include "storage.hpp"
+#include "timer.hpp"
+#include "js_gui.hpp"
 
-void set_selected_listener(void *pv);
-void init_main_gui();
-void init_wifi_ui();
+AppsJS::AppsJS() {
+    ctx = duk_create_heap_default();
+    init_js_ble(ctx);
+    init_js_io(ctx);
+    init_js_ir(ctx);
+    init_js_nfc(ctx);
+    init_js_storage(ctx);
+    init_js_timer(ctx);
+    init_gui_js(ctx);
+}
 
-void init_ble_ui();
-
-void init_badusb_ui();
-
-void init_subghz_ui();
-
-void init_nfc_ui();
-
-void init_ir_ui();
-
-void init_settings_ui();
-
-void init_scripts_ui();
-#endif
+AppsJS::~AppsJS() {
+    duk_destroy_heap(ctx);
+}
