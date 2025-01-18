@@ -76,7 +76,7 @@ void WifiNetworksPage::right() {
 void WifiNetworksPage::display() {
   if (!displayed) {
     grid = new Grid(screen, 5, 1);
-    grid->set_y_spacing(30);
+    grid->set_y_spacing(10);
     ssid = new Text(screen, ST77XX_WHITE, current_ssid);
     rssi = new Text(screen, ST77XX_WHITE, current_rssi);
     bssid = new Text(screen, ST77XX_WHITE, current_bssid);
