@@ -44,6 +44,7 @@ public:
     down_btn.read();
     left_btn.read();
     right_btn.read();
+    ok_btn.read();
   }
 };
 
