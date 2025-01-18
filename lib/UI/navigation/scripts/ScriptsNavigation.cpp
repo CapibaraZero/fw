@@ -33,6 +33,8 @@ DummyPage *dummy_page;
 
 void goto_home_from_scripts() {
     init_main_gui();
+    delete js_runtime;
+    js_runtime = nullptr;
     file_browser_page = nullptr;
 }
 
@@ -57,7 +59,6 @@ void goto_scripts_ui() {
     _gui->set_current_page(file_browser_page, false);
 }
 
-// void init_badusb_navigation(Gui *__gui) { _gui = __gui; }
 void init_scripts_navigation(Gui *gui) { 
     _gui = gui; 
     js_runtime = new AppsJS();
