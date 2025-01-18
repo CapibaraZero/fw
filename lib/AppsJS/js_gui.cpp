@@ -156,6 +156,7 @@ duk_ret_t create_list_widget(duk_context *ctx) {
 
 duk_ret_t goto_main_gui(duk_context *ctx) {
     init_main_gui();
+    duk_destroy_heap(ctx);
     return 0;
 }
 
