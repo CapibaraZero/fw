@@ -33,6 +33,7 @@
 #define TFT_MOSI 11
 #define TFT_MISO -1
 #define TFT_SCLK 12
+#define TFT_BLK 48
 
 // SD card
 #define SD_CARD_CS 13
