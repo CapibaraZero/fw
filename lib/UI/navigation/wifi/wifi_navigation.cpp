@@ -44,7 +44,7 @@ static WifiNetworksPage *wifi_networks_page = nullptr;
 static WifiScanSaveResultPage *wifi_save_result_page = nullptr;
 
 void init_wifi_scan_gui() {
-  wifi_scan_page = new WifiScanPage(0, 0, 0, gui->get_screen(), gui);
+  wifi_scan_page = new WifiScanPage(0, 0, 0, gui->get_screen());
   gui->set_current_page(wifi_scan_page);
   wifi_page = nullptr;
 }
@@ -59,7 +59,7 @@ void goto_sniff_wifi() { sniff_wifi(gui, &wifiAttack); }
 
 void init_wifi_gui() {
   gui->reset();
-  wifi_page = new WifiPage(5, 0, 1, gui->get_screen(), gui);
+  wifi_page = new WifiPage(5, 0, 1, gui->get_screen());
   gui->set_current_page(wifi_page);
 }
 
@@ -110,7 +110,7 @@ void save_wifi_scan_to_sd() {
 
 void sniff_only_bssid() {
   gui->reset();
-  wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen(), gui);
+  wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen());
   gui->set_current_page(wifi_sniff_page);
   sniff_bssid(gui, &wifiAttack);
 }
@@ -120,7 +120,7 @@ void init_wifi_networks_gui(vector<WifiNetwork> *networks) {
                                         to recreate a new one */
     // wifi_networks_page = new WifiNetworksPage(screen, networks);
     wifi_networks_page =
-        new WifiNetworksPage(0, 0, 0, gui->get_screen(), gui, networks);
+        new WifiNetworksPage(0, 0, 0, gui->get_screen(), networks);
   gui->set_current_page(wifi_networks_page);
   wifi_scan_page = nullptr;
 }
@@ -137,7 +137,7 @@ void show_wifi_scan_result_dialog(bool empty) {
     // wifi_save_result_page = new WifiScanSaveResultPage(screen, this,
     // empty);
     wifi_save_result_page =
-        new WifiScanSaveResultPage(0, 0, 0, gui->get_screen(), gui);
+        new WifiScanSaveResultPage(0, 0, 0, gui->get_screen());
     wifi_save_result_page->display(empty);
     gui->set_current_page(wifi_save_result_page, false);
     return;
@@ -162,7 +162,7 @@ void go_back_to_net_list() {
 }
 
 void show_wifi_sniff_page() {
-  wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen(), gui);
+  wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen());
   gui->set_current_page(wifi_sniff_page);
 }
 
@@ -189,14 +189,14 @@ void goto_dhcpglutton_gui() {
     return;
   }
   gui->reset();
-  dhcp_glutton_page = new DHCPGluttonPage(0, 0, 0, gui->get_screen(), gui);
+  dhcp_glutton_page = new DHCPGluttonPage(0, 0, 0, gui->get_screen());
   gui->set_current_page(dhcp_glutton_page);
   start_dhcpglutton(gui, attack);
 }
 
 void goto_evilportal_gui() {
   gui->reset();
-  evilportal_page = new EvilPortalPage(0, 0, 0, gui->get_screen(), gui);
+  evilportal_page = new EvilPortalPage(0, 0, 0, gui->get_screen());
   gui->set_current_page(evilportal_page);
   start_evilportal(gui, attack);
 }
@@ -208,7 +208,7 @@ void goto_arp_poisoner_gui() {
     return;
   }
   gui->reset();
-  arpoisoner_page = new ARPoisonerPage(0, 0, 0, gui->get_screen(), gui);
+  arpoisoner_page = new ARPoisonerPage(0, 0, 0, gui->get_screen());
   gui->set_current_page(arpoisoner_page);
   start_arp_poisoning(gui, attack);
 }

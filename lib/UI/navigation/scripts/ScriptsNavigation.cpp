@@ -49,11 +49,11 @@ void run_script(const char *path) {
 }
 
 void goto_scripts_ui() {
-    dummy_page = new DummyPage(0, 0, 0, _gui->get_screen(), _gui);
+    dummy_page = new DummyPage(0, 0, 0, _gui->get_screen());
     scripts_files = list_dir(open("/scripts", "r"));
     _gui->reset();
     file_browser_page =
-        new FileBrowserPage(scripts_files.size() + 1, 1, 1, _gui->get_screen(), _gui);
+        new FileBrowserPage(scripts_files.size() + 1, 1, 1, _gui->get_screen());
     file_browser_page->display("Scripts Browser", &scripts_files,
                                 run_script, goto_home_from_scripts);
     _gui->set_current_page(file_browser_page, false);

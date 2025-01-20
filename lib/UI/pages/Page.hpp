@@ -32,15 +32,13 @@ class Page {
   uint8_t position_increment = 0;
   uint8_t current_position = 0;
   Grid *grid = nullptr;
-  Gui *gui;
   Page(uint8_t _position_limit, uint8_t _lower_limit,
-       uint8_t _position_increment, GFXForms *_screen, Gui *_gui) {
+       uint8_t _position_increment, GFXForms *_screen) {
     this->position_limit = _position_limit;
     this->lower_limit = _lower_limit;
     this->position_increment = _position_increment;
     this->current_position = _lower_limit;
     this->screen = _screen;
-    this->gui = _gui;
   }
 
  public:

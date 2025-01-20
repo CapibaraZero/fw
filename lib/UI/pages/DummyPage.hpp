@@ -30,8 +30,8 @@ class DummyPage : public Page {
 
  public:
   DummyPage(uint8_t _position_limit, uint8_t _lower_limit,
-              uint8_t _position_increment, GFXForms *screen, Gui *_gui)
-      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+              uint8_t _position_increment, GFXForms *screen)
+      : Page(_position_limit, _lower_limit, _position_increment, screen) {
         };
   ~DummyPage() {};
   void display() {

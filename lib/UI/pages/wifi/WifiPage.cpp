@@ -31,7 +31,6 @@ WifiPage::~WifiPage() {
 }
 
 void WifiPage::display() {
-  init_wifi_navigation(gui);
   grid = new Grid(screen, 7, 1);
   wifi_list = new List(screen, english_words->at(WIFI_SCAN_KEY), 2,
                        ST77XX_WHITE, 20, ST77XX_BLACK, goto_scan_wifi);

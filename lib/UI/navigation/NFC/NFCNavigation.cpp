@@ -55,20 +55,20 @@ std::list<std::string> nfc_dumps_files;  // NFC Dumps files
 
 void goto_nfc_gui() {
   gui->reset();
-  nfc_main_page = new NFCMainPage(2, 0, 1, gui->get_screen(), gui);
+  nfc_main_page = new NFCMainPage(2, 0, 1, gui->get_screen());
   gui->set_current_page(nfc_main_page);
 }
 
 void goto_nfc_polling_waiting_gui() {
   gui->reset();
   nfc_polling_waiting_page =
-      new NFCPollingWaitingPage(0, 0, 0, gui->get_screen(), gui);
+      new NFCPollingWaitingPage(0, 0, 0, gui->get_screen());
   gui->set_current_page(nfc_polling_waiting_page);
 }
 
 void goto_nfc_dump_result_gui() {
   gui->reset();
-  nfc_dump_result_page = new NFCDumpResultPage(4, 4, 0, gui->get_screen(), gui);
+  nfc_dump_result_page = new NFCDumpResultPage(4, 4, 0, gui->get_screen());
   gui->set_current_page(nfc_dump_result_page);
 }
 
@@ -76,7 +76,7 @@ void goto_nfc_polling_result_gui(uint8_t *uid, uint8_t len,
                                  const char *tag_name) {
   gui->reset();
   nfc_polling_result_page =
-      new NFCPollingResultPage(5, 2, 1, gui->get_screen(), gui);
+      new NFCPollingResultPage(5, 2, 1, gui->get_screen());
   gui->set_current_page(nfc_polling_result_page, false);
   nfc_polling_result_page->display(uid, len, tag_name);
 }
@@ -124,7 +124,7 @@ void write_hex_to_tag() {
 void write_dump_to_tag(const char *path) {
   gui->reset();
   nfc_write_result_page =
-      new NFCWriteResultPage(0, 0, 0, gui->get_screen(), gui);
+      new NFCWriteResultPage(0, 0, 0, gui->get_screen());
   gui->set_current_page(nfc_write_result_page);
   write_sectors(gui, nfc_attacks, path);
 }
@@ -140,7 +140,7 @@ void open_nfc_dump_browser() {
       nfc_dumps_files.end());
   gui->reset();
   nfc_dump_file_browser_page = new FileBrowserPage(
-      nfc_dumps_files.size() + 1, 1, 1, gui->get_screen(), gui);
+      nfc_dumps_files.size() + 1, 1, 1, gui->get_screen());
   nfc_dump_file_browser_page->display("NFC Dumps Browser", &nfc_dumps_files,
                                       write_dump_to_tag, goto_home);
   gui->set_current_page(nfc_dump_file_browser_page, false);
@@ -149,7 +149,7 @@ void open_nfc_dump_browser() {
 void format_nfc_tag() {
   gui->reset();
   nfc_format_result_page =
-      new NFCFormatResultPage(0, 0, 0, gui->get_screen(), gui);
+      new NFCFormatResultPage(0, 0, 0, gui->get_screen());
   gui->set_current_page(nfc_format_result_page);
   format_iso14443a(gui, nfc_attacks);
 }
@@ -157,7 +157,7 @@ void format_nfc_tag() {
 void bruteforce_a_tag() {
   gui->reset();
   nfc_bruteforce_tag_page =
-      new NFCBruteforceTagPage(0, 0, 0, gui->get_screen(), gui);
+      new NFCBruteforceTagPage(0, 0, 0, gui->get_screen());
   gui->set_current_page(nfc_bruteforce_tag_page);
   bruteforce_tag(gui, nfc_attacks);
 }
@@ -189,7 +189,7 @@ void write_felica_tag() {
 void init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm,
                                         uint16_t sys_code) {
   nfc_felica_polling_result_page =
-      new NFCFelicaPollingResultPage(5, 4, 1, gui->get_screen(), gui);
+      new NFCFelicaPollingResultPage(5, 4, 1, gui->get_screen());
   nfc_felica_polling_result_page->display(idm, pmm, sys_code);
   gui->set_current_page(nfc_felica_polling_result_page, false);
   nfc_polling_waiting_page = nullptr;

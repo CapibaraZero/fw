@@ -29,7 +29,6 @@ NFCMainPage::~NFCMainPage() {
 }
 
 void NFCMainPage::display() {
-  init_nfc_navigation(gui);
   grid = new Grid(screen, 3, 1);
   polling_iso14443_a =
       new List(screen, english_words->at(POLLING_ISO14443A_KEY), 2,

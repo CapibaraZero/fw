@@ -35,7 +35,7 @@ void goto_settings_ui() {
     pos_limit--;
     lower_limit--;
     #endif
-    settings = new SettingsPage(pos_limit, lower_limit, 1, gui->get_screen(), gui);
+    settings = new SettingsPage(pos_limit, lower_limit, 1, gui->get_screen());
     gui->reset();
     settings->display(subghz_rev);
     gui->set_current_page(settings, false);
