@@ -90,6 +90,7 @@ class Peripherals_Arduino_Nano_ESP32 : public Peripherals {
     down_btn.read();
     left_btn.read();
     right_btn.read();
+    ok_btn.read();
   }
 };
 #endif
