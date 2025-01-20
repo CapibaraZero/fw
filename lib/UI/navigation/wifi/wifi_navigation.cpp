@@ -110,7 +110,7 @@ void save_wifi_scan_to_sd() {
 
 void sniff_only_bssid() {
   gui->reset();
-  wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen());
+  wifi_sniff_page = new WifiSniffPage(2, 2, 0, gui->get_screen());
   gui->set_current_page(wifi_sniff_page);
   sniff_bssid(gui, &wifiAttack);
 }
@@ -162,7 +162,7 @@ void go_back_to_net_list() {
 }
 
 void show_wifi_sniff_page() {
-  wifi_sniff_page = new WifiSniffPage(0, 0, 0, gui->get_screen());
+  wifi_sniff_page = new WifiSniffPage(2, 2, 0, gui->get_screen());
   gui->set_current_page(wifi_sniff_page);
 }
 
