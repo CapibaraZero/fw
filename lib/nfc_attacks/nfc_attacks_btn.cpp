@@ -1,3 +1,20 @@
+/*
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "../../include/debug.h"
 #include "nfc_attacks.hpp"
 #include "nfc_tasks.hpp"
@@ -9,6 +26,7 @@ static TaskHandle_t dump_task_handle = NULL;
 static TaskHandle_t format_task_handle = NULL;
 static TaskHandle_t bruteforce_task_handle = NULL;
 static TaskHandle_t ui_updater_task_handle = NULL;
+static TaskHandle_t nfc_emulate_handle = NULL;
 
 void mifare_polling(Gui *gui, NFCAttacks *attacks) {
   /* We delete this after usage, so we need to recreate struct every time */
@@ -90,6 +108,30 @@ void bruteforce_tag(Gui *gui, NFCAttacks *attacks) {
               (void *)params, 5, &ui_updater_task_handle);
 }
 
+void emulate_iso14443a_tag(uint8_t *uid, NFCAttacks *attacks) {
+  /* We delete this after usage, so we need to recreate struct every time */
+  params = (NFCTasksParams *)malloc(sizeof(NFCTasksParams));
+  params->attacks = attacks;
+  params->uid = uid;
+  xTaskCreate(emulate_iso14443anfc, "emulate_nfc", 4000, (void *) params, 5, &nfc_emulate_handle);
+}
+
+void emulate_iso18092_tag(uint8_t *idm, uint8_t *pmm, uint8_t *sys_code, NFCAttacks *attacks) {
+  /* We delete this after usage, so we need to recreate struct every time */
+  params = (NFCTasksParams *)malloc(sizeof(NFCTasksParams));
+  params->attacks = attacks;
+  params->idm = idm;
+  params->pmm = pmm;
+  // params->sys_code = sys_code;
+  memcpy(params->sys_code, sys_code, 2);
+  xTaskCreate(emulate_iso18092nfc, "emulate_nfc", 4000, (void *) params, 5, &nfc_emulate_handle);
+}
+
+void stop_emulate() {
+  vTaskDelete(nfc_emulate_handle);
+  nfc_emulate_handle = NULL;
+}
+
 void destroy_tasks(NFCAttacks *attacks) {
   attacks->power_down();
   if (polling_in_progress) {
@@ -108,5 +150,8 @@ void destroy_tasks(NFCAttacks *attacks) {
     bruteforce_task_handle = NULL;
     vTaskDelete(ui_updater_task_handle);
     ui_updater_task_handle = NULL;
+  }
+  if(nfc_emulate_handle != NULL) {
+    vTaskDelete(nfc_emulate_handle);
   }
 }

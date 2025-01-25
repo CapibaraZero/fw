@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -97,6 +97,9 @@ class NFCAttacks {
   bool get_bruteforce_status() { return bruteforce_status; };
   uint8_t get_formatted_sectors() { return formatted_sectors; };
   uint8_t get_tag_blocks() { return current_tag_blocks; };
+
+  bool emulate_tag(uint8_t *uid);
+  bool emulate_tag(uint8_t *idm, uint8_t *pmm, uint8_t *sys_code);
 };
 
 #endif

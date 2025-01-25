@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 #include "pages/NFC/NFCPollingResultPage.hpp"
 #include "pages/NFC/NFCPollingWaitingPage.hpp"
 #include "pages/NFC/NFCWriteResultPage.hpp"
+#include "pages/NFC/NFCEmulateTagPage.hpp"
 #include "posixsd.hpp"
 #include "sdcard_helper.hpp"
 
@@ -44,6 +45,7 @@ static NFCBruteforceTagPage *nfc_bruteforce_tag_page = nullptr;
 static NFCFelicaPollingResultPage *nfc_felica_polling_result_page = nullptr;
 static FileBrowserPage *nfc_dump_file_browser_page = nullptr;
 static NFCWriteResultPage *nfc_write_result_page = nullptr;
+static NFCEmulateTagPage *nfc_emulate_tag_page = nullptr;
 
 std::list<std::string> nfc_dumps_files;  // NFC Dumps files
 
@@ -76,7 +78,7 @@ void goto_nfc_polling_result_gui(uint8_t *uid, uint8_t len,
                                  const char *tag_name) {
   gui->reset();
   nfc_polling_result_page =
-      new NFCPollingResultPage(5, 2, 1, gui->get_screen());
+      new NFCPollingResultPage(6, 2, 1, gui->get_screen());
   gui->set_current_page(nfc_polling_result_page, false);
   nfc_polling_result_page->display(uid, len, tag_name);
 }
@@ -94,11 +96,23 @@ void nfc_cleanup() {
   }
 }
 
+bool emulating = false;
+
 void goto_home() {
+  if(emulating) {
+    stop_emulate();
+    emulating = false;
+  }
   reset_uid();
   reset_felica();
   nfc_cleanup();
   init_main_gui();
+}
+
+void nfc_return_back() {
+  stop_emulate();
+  gui->reset();
+  gui->set_current_page(nfc_polling_result_page);
 }
 
 void save_dump_to_sd() {
@@ -189,7 +203,7 @@ void write_felica_tag() {
 void init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm,
                                         uint16_t sys_code) {
   nfc_felica_polling_result_page =
-      new NFCFelicaPollingResultPage(5, 4, 1, gui->get_screen());
+      new NFCFelicaPollingResultPage(6, 4, 1, gui->get_screen());
   nfc_felica_polling_result_page->display(idm, pmm, sys_code);
   gui->set_current_page(nfc_felica_polling_result_page, false);
   nfc_polling_waiting_page = nullptr;
@@ -198,6 +212,31 @@ void init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm,
 void felica_dump() {
   goto_nfc_dump_result_gui();
   dump_felica(gui, nfc_attacks);
+}
+
+extern uint8_t uid[8];
+
+void emulate_iso14443a() {
+  gui->reset();
+  nfc_emulate_tag_page = new NFCEmulateTagPage(1, 1, 1, gui->get_screen());
+  gui->set_current_page(nfc_emulate_tag_page, true, false);
+  emulate_iso14443a_tag(uid, nfc_attacks);
+  emulating = true;
+}
+
+extern uint8_t idm[8];
+extern uint8_t pmm[8];
+extern uint16_t sys_code;
+
+void emulate_iso18092() {
+  gui->reset();
+  nfc_emulate_tag_page = new NFCEmulateTagPage(2, 1, 1, gui->get_screen());
+  gui->set_current_page(nfc_emulate_tag_page, true, false);
+  uint8_t _sys_code[2];
+  _sys_code[0] = sys_code >> 8;
+  _sys_code[1] = sys_code & 0xff;
+  emulate_iso18092_tag(idm, pmm, _sys_code, nfc_attacks);
+  emulating = true;
 }
 
 void set_dumped_sectors(int sectors) {

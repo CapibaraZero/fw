@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,10 +28,13 @@ void nfc_mifare_polling();
 void nfc_felica_polling();
 void format_nfc_tag();
 void goto_home();
+void nfc_return_back();
 void open_nfc_dump_browser();
 void bruteforce_a_tag();
 void init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm,
                                         uint16_t sys_code);
+void emulate_iso14443a();
+void emulate_iso18092();
 void set_dumped_sectors(int sectors);
 void set_unreadable_sectors(int sectors);
 void set_unauthenticated_sectors(int sectors);

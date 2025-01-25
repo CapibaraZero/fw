@@ -15,17 +15,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "GFXForms.hpp"  // Fix building errors
-#include "gui.hpp"
-#include "nfc_attacks.hpp"
-#include "wifi_attack.hpp"
+#include "NFCEmulateTagPage.hpp"
+#include "../../navigation/NFC/NFCNavigation.hpp"
 
-typedef struct {
-  NFCAttacks *attacks;
-  Gui *gui;
-  char *path;
-  uint8_t *uid;
-  uint8_t *idm;
-  uint8_t *pmm;
-  uint8_t sys_code[2];
-} NFCTasksParams;
+#include "gui.hpp"
+
+NFCEmulateTagPage::~NFCEmulateTagPage() {
+  delete emulate_text;
+  delete exit_page;
+}
+
+void NFCEmulateTagPage::display() {
+  grid = new Grid(screen, 2, 1);
+  emulate_text =
+      new Text(screen, ST77XX_WHITE, "Emulating tag...");
+  exit_page = new List(screen, "Exit", 2, ST77XX_WHITE, 20, ST77XX_BLACK, goto_home);
+  grid->add(emulate_text);
+  grid->add(exit_page);
+  grid->set_y_spacing(20);
+  grid->set_selected(1, true);
+  grid->display();
+}

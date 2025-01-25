@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ void NFCPollingResultPage::display(uint8_t *uid, uint8_t length,
   bruteforce_tag =
       new List(screen, english_words->at(NFC_BRUTEFORCE_TAG_KEY), 2,
                ST77XX_WHITE, 20, ST77XX_BLACK, bruteforce_a_tag);
+  emulate_tag = new List(screen, "Emulate UID", 2, ST77XX_WHITE, 20, ST77XX_BLACK, emulate_iso14443a);
   exit_page = new List(screen, english_words->at(NFC_GO_BACK_KEY), 2,
                        ST77XX_WHITE, 20, ST77XX_BLACK, goto_home);
   grid->add(tag_info);
@@ -50,6 +51,7 @@ void NFCPollingResultPage::display(uint8_t *uid, uint8_t length,
   grid->add(write_tag);
   grid->add(format_tag);
   grid->add(bruteforce_tag);
+  grid->add(emulate_tag);
   grid->add(exit_page);
   grid->set_selected(2, true);
   grid->set_y_spacing(20);

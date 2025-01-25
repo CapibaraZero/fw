@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -563,3 +563,11 @@ NFCTag NFCAttacks::get_felica_towrite() {
   }
   return NFCTag(idm, pmm, sys_code, data);
 }
+
+bool NFCAttacks::emulate_tag(uint8_t *uid) {
+  return nfc_framework.emulate_tag(uid);
+}
+
+bool NFCAttacks::emulate_tag(uint8_t *idm, uint8_t *pmm, uint8_t *sys_code) {
+  return nfc_framework.emulate_tag(idm, pmm, sys_code);
+};

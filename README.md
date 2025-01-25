@@ -33,7 +33,7 @@ Working Features:
 
 - Wi-Fi support
 - BLE support
-- BadUSB support(Limited to 4-5 files in file browser)
+- BadUSB support
 - NFC support
 - Some network attacks
 - SubGHZ(Beta support, need more testing)

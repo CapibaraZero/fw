@@ -15,17 +15,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "GFXForms.hpp"  // Fix building errors
-#include "gui.hpp"
-#include "nfc_attacks.hpp"
-#include "wifi_attack.hpp"
+#include "../../i18n.hpp"
+#include "../../i18n/NFC/nfc_format_page_keys.h"
+#include "../Page.hpp"
+#include "Grid.hpp"
+#include "List.hpp"
+#include "Text.hpp"
 
-typedef struct {
-  NFCAttacks *attacks;
-  Gui *gui;
-  char *path;
-  uint8_t *uid;
-  uint8_t *idm;
-  uint8_t *pmm;
-  uint8_t sys_code[2];
-} NFCTasksParams;
+#ifndef NFC_EMULATE_PAGE_H
+#define NFC_EMULATE_PAGE_H
+
+class NFCEmulateTagPage : public Page {
+ private:
+  Text *emulate_text;
+  List *exit_page;
+
+ public:
+  NFCEmulateTagPage(uint8_t _position_limit, uint8_t _lower_limit,
+                      uint8_t _position_increment, GFXForms *screen)
+      : Page(_position_limit, _lower_limit, _position_increment, screen) {
+        };
+  ~NFCEmulateTagPage();
+  void display();
+
+  void click(int pos, void callback()) { grid->click(pos, callback); };
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
+};
+
+#endif

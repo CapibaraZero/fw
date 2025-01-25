@@ -1,3 +1,20 @@
+/*
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "../../include/debug.h"
 #include "../UI/navigation/NFC/NFCNavigation.hpp"
 #include "ArduinoJson.h"
@@ -12,12 +29,12 @@ bool dump_in_progress = false;
 bool format_in_progress = false;
 bool bruteforce_in_progress = false;
 
-static uint8_t uid[8];
+uint8_t uid[8];
 static uint8_t uid_length = 0;
 
-static uint8_t idm[8] = {0};
-static uint8_t pmm[8] = {0};
-static uint16_t sys_code = 0;
+uint8_t idm[8] = {0};
+uint8_t pmm[8] = {0};
+uint16_t sys_code = 0;
 
 void reset_uid(void) {
   memset(uid, 0, 8);
@@ -251,4 +268,18 @@ void write_nfc_sectors(void *pv) {
   goto_home_nfc(params);
   free(pv);
   vTaskDelete(NULL);
+}
+
+void emulate_iso14443anfc(void *pv) {
+  NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
+  while (true) {
+    params->attacks->emulate_tag(params->uid);
+  }
+}
+
+void emulate_iso18092nfc(void *pv) {
+  NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
+  while (true) {
+    params->attacks->emulate_tag(params->idm, params->pmm, params->sys_code);
+  }
 }
