@@ -27,6 +27,7 @@ static TaskHandle_t format_task_handle = NULL;
 static TaskHandle_t bruteforce_task_handle = NULL;
 static TaskHandle_t ui_updater_task_handle = NULL;
 static TaskHandle_t nfc_emulate_handle = NULL;
+static TaskHandle_t emv_reader_handle = NULL;
 
 void mifare_polling(Gui *gui, NFCAttacks *attacks) {
   /* We delete this after usage, so we need to recreate struct every time */
@@ -132,6 +133,17 @@ void stop_emulate() {
   nfc_emulate_handle = NULL;
 }
 
+bool reading_emv = false;
+
+void read_emv_card_attack(Gui *gui, NFCAttacks *attacks) {
+  /* We delete this after usage, so we need to recreate struct every time */
+  params = (NFCTasksParams *)malloc(sizeof(NFCTasksParams));
+  params->attacks = attacks;
+  params->gui = gui;
+  xTaskCreate(read_emv_card_task, "read_emv_card", 4000, (void *) params, 5, &emv_reader_handle);
+  reading_emv = true;
+}
+
 void destroy_tasks(NFCAttacks *attacks) {
   attacks->power_down();
   if (polling_in_progress) {
@@ -153,5 +165,10 @@ void destroy_tasks(NFCAttacks *attacks) {
   }
   if(nfc_emulate_handle != NULL) {
     vTaskDelete(nfc_emulate_handle);
+    nfc_emulate_handle = NULL;
+  }
+  if(emv_reader_handle != NULL && reading_emv) {
+    vTaskDelete(emv_reader_handle);
+    emv_reader_handle = NULL;
   }
 }

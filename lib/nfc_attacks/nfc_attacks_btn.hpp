@@ -33,3 +33,4 @@ void destroy_tasks(NFCAttacks *attacks);
 void emulate_iso14443a_tag(uint8_t *uid, NFCAttacks *attacks);
 void emulate_iso18092_tag(uint8_t *idm, uint8_t *pmm, uint8_t *sys_code, NFCAttacks *attacks);
 void stop_emulate();
+void read_emv_card_attack(Gui *gui, NFCAttacks *nfc_attacks);

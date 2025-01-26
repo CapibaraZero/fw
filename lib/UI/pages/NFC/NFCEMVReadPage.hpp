@@ -15,30 +15,46 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../../i18n.hpp"
+#include "../../i18n/NFC/nfc_format_page_keys.h"
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
+#include "Text.hpp"
 
-#ifndef NFC_MAIN_PAGE_H
-#define NFC_MAIN_PAGE_H
+#ifndef NFC_EMV_READ_PAGE_H
+#define NFC_EMV_READ_PAGE_H
 
-class NFCMainPage : public Page {
+class NFCEMVReadPage : public Page {
  private:
-  List *polling_iso14443_a;
-  List *polling_felica;
-  List *read_emv;
-  List *go_back;
+  Text *card_type;
+  Text *card_number;
+  Text *issue_date;
+  Text *expire;
+  List *exit_page;
 
  public:
-  NFCMainPage(uint8_t _position_limit, uint8_t _lower_limit,
-              uint8_t _position_increment, GFXForms *screen)
+  NFCEMVReadPage(uint8_t _position_limit, uint8_t _lower_limit,
+                      uint8_t _position_increment, GFXForms *screen)
       : Page(_position_limit, _lower_limit, _position_increment, screen) {
         };
-  ~NFCMainPage();
+  ~NFCEMVReadPage();
   void display();
 
-  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
   void click(int pos, void callback()) { grid->click(pos, callback); };
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
+  void set_card_type(String type) {
+    card_type->set_text(type);
+  }
+  void set_card_pan(String pan) {
+    card_number->set_text(pan);
+  }
+  void set_card_issue_date(String issuedate) {
+    issue_date->set_text(issuedate);
+  }
+  void set_card_expire_date(String expiredate) {
+    expire->set_text(expiredate);
+  }
 };
 
 #endif

@@ -20,21 +20,23 @@
 
 #include "gui.hpp"
 
-void init_nfc_navigation(Gui *_gui);
-void goto_nfc_gui();
+
 void stop_nfc_polling();
 void save_dump_to_sd();
 void nfc_mifare_polling();
-void nfc_felica_polling();
 void format_nfc_tag();
-void goto_home();
-void nfc_return_back();
 void open_nfc_dump_browser();
 void bruteforce_a_tag();
 void init_nfc_felica_polling_result_gui(uint8_t *idm, uint8_t *pmm,
                                         uint16_t sys_code);
+
+
+// Emulator
 void emulate_iso14443a();
 void emulate_iso18092();
+
+// GUI function
+void goto_nfc_gui();
 void set_dumped_sectors(int sectors);
 void set_unreadable_sectors(int sectors);
 void set_unauthenticated_sectors(int sectors);
@@ -47,7 +49,22 @@ void nfc_bruteforce_set_tried_key(uint8_t attemps);
 void goto_nfc_dump_result_gui();
 void goto_nfc_polling_result_gui(uint8_t *uid, uint8_t len,
                                  const char *tag_name);
+void goto_home();
+void nfc_return_back();
+void set_emv_type(String type);
+void set_emv_pan(String pan);
+void set_emv_issue_date(String issuedate);
+void set_emv_expire_date(String expiredate);
+
+// FeliCa feature
 void felica_dump();
+void nfc_felica_polling();
+
+// EMV feature
+void read_emv_card();
+
+// Misc
+void init_nfc_navigation(Gui *_gui);
 void nfc_cleanup();
 String get_current_pn532_version();
 #endif

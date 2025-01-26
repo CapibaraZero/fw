@@ -31,6 +31,7 @@
 #include "pages/NFC/NFCPollingWaitingPage.hpp"
 #include "pages/NFC/NFCWriteResultPage.hpp"
 #include "pages/NFC/NFCEmulateTagPage.hpp"
+#include "pages/NFC/NFCEMVReadPage.hpp"
 #include "posixsd.hpp"
 #include "sdcard_helper.hpp"
 
@@ -46,6 +47,7 @@ static NFCFelicaPollingResultPage *nfc_felica_polling_result_page = nullptr;
 static FileBrowserPage *nfc_dump_file_browser_page = nullptr;
 static NFCWriteResultPage *nfc_write_result_page = nullptr;
 static NFCEmulateTagPage *nfc_emulate_tag_page = nullptr;
+static NFCEMVReadPage *nfc_emv_read_page = nullptr;
 
 std::list<std::string> nfc_dumps_files;  // NFC Dumps files
 
@@ -57,7 +59,7 @@ std::list<std::string> nfc_dumps_files;  // NFC Dumps files
 
 void goto_nfc_gui() {
   gui->reset();
-  nfc_main_page = new NFCMainPage(2, 0, 1, gui->get_screen());
+  nfc_main_page = new NFCMainPage(3, 0, 1, gui->get_screen());
   gui->set_current_page(nfc_main_page);
 }
 
@@ -94,6 +96,8 @@ void nfc_cleanup() {
   if (!nfc_dumps_files.empty()) {
     nfc_dumps_files.clear();
   }
+  nfc_emulate_tag_page = nullptr;
+  nfc_emv_read_page = nullptr;
 }
 
 bool emulating = false;
@@ -103,6 +107,8 @@ void goto_home() {
     stop_emulate();
     emulating = false;
   }
+
+  destroy_tasks(nfc_attacks);
   reset_uid();
   reset_felica();
   nfc_cleanup();
@@ -275,6 +281,29 @@ void set_wrote_sectors(size_t val) {
 
 void set_unwritable_sectors(size_t val) {
   nfc_write_result_page->set_unwritable_sectors(val);
+}
+
+void read_emv_card() {
+  gui->reset();
+  nfc_emv_read_page = new NFCEMVReadPage(5, 5, 0, gui->get_screen());
+  gui->set_current_page(nfc_emv_read_page);
+  read_emv_card_attack(gui, nfc_attacks);
+}
+
+void set_emv_type(String type) {
+  nfc_emv_read_page->set_card_type(type);
+}
+
+void set_emv_pan(String pan) {
+  nfc_emv_read_page->set_card_pan(pan);
+}
+
+void set_emv_issue_date(String issuedate) {
+  nfc_emv_read_page->set_card_issue_date("ValidFrom: " + issuedate);
+}
+
+void set_emv_expire_date(String expiredate) {
+  nfc_emv_read_page->set_card_expire_date("ValidTo: " + expiredate);
 }
 
 static bool nfc_initialized = false;

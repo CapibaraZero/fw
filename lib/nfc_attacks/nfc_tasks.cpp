@@ -283,3 +283,132 @@ void emulate_iso18092nfc(void *pv) {
     params->attacks->emulate_tag(params->idm, params->pmm, params->sys_code);
   }
 }
+
+// From https://github.com/huckor/BER-TLV
+std::string BinToAscii(uint8_t *BinData, size_t size)
+{
+	char AsciiHexNo[5];
+	std::string Return;
+
+	for(int i = 0; i < size; i++)
+	{
+		sprintf(AsciiHexNo, "%02X", BinData[i]);
+		Return += AsciiHexNo;
+	}
+
+	return Return;
+}
+
+typedef struct EMVAID {
+  uint8_t aid[7];
+  const char *name;
+} EMVAID;
+
+#define AID_DICT_SIZE 11
+// http://hartleyenterprises.com/listAID.html
+const EMVAID known_aid[AID_DICT_SIZE] = {
+  // MasterCard
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x04, 0x10, 0x10},
+    .name = "MasterCard"
+  },
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x04, 0x22, 0x03},
+    .name = "U.S Maestro"
+  },
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x04, 0x30, 0x60},
+    .name = "Maestro"
+  },
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x04, 0x60, 0x00},
+    .name = "Cirrus"
+  },
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x04, 0x99, 0x99},
+    .name = "MasterCard"
+  },
+  // Visa
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x03, 0x10, 0x10},
+    .name = "Visa"
+  },
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x03, 0x20, 0x10},
+    .name = "Electron"
+  },
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x03, 0x20, 0x20},
+    .name = "V-Pay"
+  },
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x03, 0x30, 0x10},
+    .name = "Visa"
+  },
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x03, 0x80, 0x10},
+    .name = "Visa"
+  },
+  {
+    .aid = {0xA0, 0x00, 0x00, 0x00, 0x98, 0x08, 0x40},
+    .name = "Visa"
+  }
+};
+
+extern bool reading_emv;
+
+void read_emv_card_task(void *pv) {
+  NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
+  EMVCard card = params->attacks->read_emv_card();
+
+  if(card.parsed) {
+    bool found = false;
+    for (size_t i = 0; i < AID_DICT_SIZE && !found; i++) {
+      if(memcmp(card.aid, known_aid[i].aid, 7) == 0) {
+        set_emv_type(known_aid[i].name);
+        found = true;
+      }
+    }
+
+    if(!found) {
+      set_emv_type("Unknown");
+    } 
+
+    if(card.pan != nullptr) {
+      std::string pan = BinToAscii(card.pan, card.pan_len);
+
+      /* Add some spacing */
+      size_t pad = 0;
+      for (size_t i = 0; i < pan.size(); i++) {
+        if(i % 4 == 0 && i != 0) {
+          pan.insert(pan.begin() + i + (pad++), ' ');
+        }
+      }
+      
+      set_emv_pan(pan.c_str());
+    } else {
+      set_emv_pan("Unknown");
+    }
+    
+    if(card.validfrom != nullptr) {
+      std::string issuedate = BinToAscii(card.validfrom, 2);
+      issuedate.insert(issuedate.begin() + 2, '/');
+      set_emv_issue_date(issuedate.c_str());
+    } else {
+      set_emv_issue_date("Unknown");
+    }
+
+    if(card.validto != nullptr) {
+      std::string validto = BinToAscii(card.validto, 2);
+      validto.insert(validto.begin() + 2, '/');
+      set_emv_expire_date(validto.c_str());
+    }  else {
+      set_emv_expire_date("Unknown");
+    } 
+  } else {
+    set_emv_type("Can't parse EMV");
+  }
+
+  reading_emv = false;
+  vTaskDelete(NULL);
+}

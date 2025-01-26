@@ -39,4 +39,5 @@ void bruteforce_iso14443a_task(void *pv);
 void bruteforce_update_ui_task(void *pv);
 void emulate_iso14443anfc(void *pv);
 void emulate_iso18092nfc(void *pv);
+void read_emv_card_task(void *pv);
 #endif
