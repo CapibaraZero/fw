@@ -29,7 +29,7 @@ void goto_back_to_home() {
 
 void goto_settings_ui() {
     String subghz_rev = get_subghz_chip_revision();
-    size_t pos_limit = SD.cardType() != CARD_NONE ? 11 : 9;
+    size_t pos_limit = SD.cardType() != CARD_NONE ? 12 : 10;
     size_t lower_limit = SD.cardType() != CARD_NONE ? 5 : 3;
     #if !defined(WAKEUP_PIN)
     pos_limit--;

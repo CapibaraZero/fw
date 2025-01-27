@@ -59,6 +59,12 @@ void setup() {
 
   peripherals.init_i2c_bus();
 
+  #ifdef BOARD_HAS_PSRAM
+    if(psramInit()) {
+      LOG_INFO("PSRAM initialized\n");
+    }
+    heap_caps_malloc_extmem_enable(4096); // Malloc larger than 4KB will be placed in PSRAM
+  #endif
   init_english_dict();
 
 #ifdef BATTERY_MONITOR

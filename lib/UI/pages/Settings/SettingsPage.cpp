@@ -80,7 +80,7 @@ void SettingsPage::display(String subghz_rev) {
   String subghz_module = "SX1276";
   #endif
   subghz = new Text(screen, ST77XX_WHITE, "SubGHZ module: " + subghz_module + " 0x" + subghz_rev);
-
+  psram = new Text(screen, ST77XX_WHITE, (String)"PSRAM: " + (psramFound() ? (String)((float)(ESP.getPsramSize() - ESP.getFreePsram()) / (1024*1024)) + "/" + ((float)ESP.getPsramSize()/ (1024*1024)) + "MB": "Not installed"));
 #if defined(WAKEUP_PIN)
   deep_sleep = new List(screen, "Deep Sleep", 2, ST77XX_WHITE, 20, ST77XX_BLACK, go_deep_sleep);
 #endif
@@ -100,6 +100,7 @@ void SettingsPage::display(String subghz_rev) {
 
   grid->add(nfc_version);
   grid->add(subghz);
+  grid->add(psram);
 
 #if defined(WAKEUP_PIN)
   grid->add(deep_sleep);

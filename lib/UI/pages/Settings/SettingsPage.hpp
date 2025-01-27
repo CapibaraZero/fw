@@ -34,6 +34,7 @@ class SettingsPage : public Page {
   Text *sd_card_size;
   Text *nfc_version;
   Text *subghz;
+  Text *psram;
   List *deep_sleep;
   List *reboot;
   List *go_back;
