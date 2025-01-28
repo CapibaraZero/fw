@@ -26,9 +26,10 @@ jobs:
         run: bash init_libs.sh
       - name: Build for all boards
         run: pio run
-      - name: Extract firmwares
+      - name: Prepare firmware folder
         run: bash prepare_image_all.sh
-      - uses: actions/upload-artifact@v4
+      - name: Upload firmware to artifact
+        uses: actions/upload-artifact@v4
         with:
           name: firmware
           path: firmware/
