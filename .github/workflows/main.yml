@@ -24,23 +24,48 @@ jobs:
         run: pip install --upgrade platformio
       - name: Prepare Duktape library
         run: bash init_libs.sh
-      - name: Prepare release folder
-        run: mkdir release
-      - name: Build ESP32-S3-DevKitC
-        run: bash prepare_image.sh "esp32-s3-devkitc-1" && cp build/*.zip release
-      - name: Build Arduino Nano ESP32
-        run: bash prepare_image.sh "arduino_nano_esp32" && cp build/*.zip release
-      - name: Build LilyGo T-Embed CC1101
-        run: bash prepare_image.sh "lilygo_t_embed_cc1101" && cp build/*.zip release
-      - name: Generate release tag
-        run: echo TAG_NAME=0.5.2-$(date +"%Y_%m_%d_%S") >> $GITHUB_ENV
-      - name: Create release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/heads/develop')
+      - name: Build for all boards
+        run: pio run
+      - name: Extract firmwares
+        run: bash prepare_image_all.sh
+      - uses: actions/upload-artifact@v4
         with:
-          tag_name: ${{ env.TAG_NAME }}
-          target_commitish: ${{ github.ref }}
-          name: "CapibaraZero ${{ github.ref }} beta"
-          make_latest: true
-          prerelease: true
-          files: release/*
+          name: firmware
+          path: firmware/
+      # - name: Generate release tag
+      #     run: echo TAG_NAME=0.5.2-$(date +"%Y_%m_%d_%S") >> $GITHUB_ENV
+      #   - name: Create release
+      #     uses: softprops/action-gh-release@v2
+      #     if: startsWith(github.ref, 'refs/heads/develop')
+      #     with:
+      #       tag_name: ${{ env.TAG_NAME }}
+      #       target_commitish: ${{ github.ref }}
+      #       name: "CapibaraZero ${{ github.ref }} beta"
+      #       make_latest: true
+      #       prerelease: true
+      #       files: release/*
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: firmware/
+      - uses: actions/checkout@v3
+        with:
+          repository: "capibaraZero/Web-Flasher"
+          ref: 'master'
+          token:  ${{ secrets.WEB_FLASHER_TOKEN }}
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      - name: Copy beta firmware
+        if: startsWith(github.ref, 'refs/heads/develop')
+        run: bash get_firmware.sh latest_beta
+      - name: Copy stable firmware
+        if: startsWith(github.ref, 'refs/heads/main')
+        run: bash get_firmware.sh latest_stable
+      - name: Push changes
+        run: git push origin master

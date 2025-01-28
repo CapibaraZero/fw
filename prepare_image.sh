@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# A simple script to extract build images from pio folder
+# A simple script to extract firmware images from pio folder
 BOARD=$1
 VERSION="0_5_2"
-mkdir build
+mkdir firmware
 
-# Remove old builds
-rm -rf build/*
+# Remove old firmware
+rm -rf firmware/*
 
-pio run -e "$BOARD"
+# pio run -e "$BOARD"
 
-cp /home/"$(whoami)"/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin build/
-cp .pio/build/"$BOARD"/partitions.bin build/
-cp .pio/build/"$BOARD"/firmware.bin build/
-cp .pio/build/"$BOARD"/bootloader.bin build/
+cp /home/"$(whoami)"/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin firmware/"$BOARD"
+cp .pio/firmware/"$BOARD"/partitions.bin firmware/"$BOARD"
+cp .pio/firmware/"$BOARD"/firmware.bin firmware/"$BOARD"
+cp .pio/firmware/"$BOARD"/bootloader.bin firmware/"$BOARD"
 
-cd build && zip -9 -r capibaraZero_"$VERSION"_"$BOARD".zip *
+# cd firmware && zip -9 -r capibaraZero_"$VERSION"_"$BOARD".zip *
