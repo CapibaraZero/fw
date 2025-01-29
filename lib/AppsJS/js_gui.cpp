@@ -24,7 +24,6 @@
 #include <GFXForms.hpp>
 #include "gui.hpp"
 #include "../UI/pages/DummyPage.hpp"
-#include "gui_wrapper/text_widget.hpp"
 #include "../../include/debug.h"
 #include "navigation/navigation.hpp"
 
