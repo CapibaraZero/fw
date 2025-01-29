@@ -70,4 +70,4 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/main')
         run: bash get_firmware.sh latest_stable
       - name: Push changes
-        run: git add public/ && git push origin main
+        run: git add public/ && git commir -m "Update firmware to latest" && git push origin main
