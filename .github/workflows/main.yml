@@ -50,15 +50,15 @@ jobs:
     needs: build
     steps:
       # - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: firmware
-          path: firmware/
       - uses: actions/checkout@v3
         with:
           repository: "capibaraZero/Web-Flasher"
           ref: 'main'
           token:  ${{ secrets.WEB_FLASHER_TOKEN }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: firmware/
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
@@ -70,4 +70,4 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/main')
         run: bash get_firmware.sh latest_stable
       - name: Push changes
-        run: git push origin master
+        run: git add public/ && git push origin master
