@@ -33,18 +33,18 @@ jobs:
         with:
           name: firmware
           path: firmware/
-      # - name: Generate release tag
-      #     run: echo TAG_NAME=0.5.2-$(date +"%Y_%m_%d_%S") >> $GITHUB_ENV
-      #   - name: Create release
-      #     uses: softprops/action-gh-release@v2
-      #     if: startsWith(github.ref, 'refs/heads/develop')
-      #     with:
-      #       tag_name: ${{ env.TAG_NAME }}
-      #       target_commitish: ${{ github.ref }}
-      #       name: "CapibaraZero ${{ github.ref }} beta"
-      #       make_latest: true
-      #       prerelease: true
-      #       files: release/*
+      - name: Generate release tag
+        run: echo TAG_NAME=$(cat TAG)-$(date +"%Y_%m_%d_%S") >> $GITHUB_ENV
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/heads/develop')
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          target_commitish: ${{ github.ref }}
+          name: "CapibaraZero ${{ github.ref }} beta"
+          make_latest: true
+          prerelease: true
+          files: release/*
   release:
     runs-on: ubuntu-latest
     needs: build
