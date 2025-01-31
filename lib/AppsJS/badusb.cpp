@@ -15,6 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if CONFIG_TINYUSB_HID_ENABLED
+
 #include "duktape.h"
 #include "Arduino.h"
 #include "usb_hid/USBHid.hpp" 
@@ -125,3 +127,5 @@ void init_js_badusb(duk_context *ctx) {
     duk_push_c_function(ctx, press_raw, 0);
     duk_put_global_string(ctx, "press_raw");
 };
+
+#endif

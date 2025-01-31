@@ -27,4 +27,8 @@
 
 #include "boards/lilygo_t_embed_cc1101/pins.h"
 
+#elif ARDUINO_AirM2M_CORE_ESP32C3
+
+#include "boards/airm2m_core_esp32c3/pins.h"
+
 #endif

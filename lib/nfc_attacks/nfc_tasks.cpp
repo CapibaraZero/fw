@@ -78,11 +78,11 @@ void felica_polling_task(void *pv) {
     delay(500);
   }
   LOG_INFO("Sys code: ");
-#ifdef ARDUINO_NANO_ESP32
+// #ifdef ARDUINO_NANO_ESP32
   Serial.println(sys_code, HEX);
-#else
-  Serial0.println(sys_code, HEX);
-#endif
+// #else
+//   Serial0.println(sys_code, HEX);
+// #endif
   // LOG_INFO("Card found");
   params->gui->reset();
   init_nfc_felica_polling_result_gui(idm, pmm, sys_code);

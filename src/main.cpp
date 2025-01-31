@@ -41,8 +41,8 @@
 Gui *main_gui;
 Adafruit_ST7789 *display;
 GFXForms *screen;
-SPIClass display_spi;
-String fw_md5 = ESP.getSketchMD5(); // Calculate MD5 at startup(save time when loading settings)
+SPIClass display_spi(FSPI);
+String fw_md5 = "";
 
 #ifdef ARDUINO_NANO_ESP32
 Peripherals_Arduino_Nano_ESP32 peripherals = Peripherals_Arduino_Nano_ESP32();
@@ -51,12 +51,15 @@ Peripherals_ESP32S3_DevKitC peripherals = Peripherals_ESP32S3_DevKitC();
 #elif LILYGO_T_EMBED_CC1101
 Peripherals_Lilygo_t_embed_cc1101 peripherals =
     Peripherals_Lilygo_t_embed_cc1101();
+#elif ARDUINO_AirM2M_CORE_ESP32C3
+Peripherals_AirM2M_CORE_ESP32C3 peripherals =
+    Peripherals_AirM2M_CORE_ESP32C3();
 #endif
 
 void setup() {
   SERIAL_DEVICE.begin(115200);
   delay(2000);
-
+  fw_md5 = ESP.getSketchMD5(); // Calculate MD5 at startup(save time when loading settings)
   peripherals.init_i2c_bus();
 
   #ifdef BOARD_HAS_PSRAM
@@ -72,7 +75,6 @@ void setup() {
 #endif
 
   display_spi.begin(TFT_SCLK, TFT_MISO, TFT_MOSI, TFT_CS);
-
   display = new Adafruit_ST7789(&display_spi, TFT_CS, TFT_DC, -1);
   screen = new GFXForms(DISPLAY_WIDTH, DISPLAY_HEIGHT, display);
 
@@ -88,7 +90,11 @@ void setup() {
 #if defined(STANDBY_BTN) && defined(WAKEUP_PIN)
   enable_deep_sleep();
 #endif
+
+#ifdef CONFIG_IDF_TARGET_ESP32S3
   display_spi.setHwCs(1);
+#endif
+
 #ifdef TFT_BLK
   analogWrite(TFT_BLK, 255);
 #endif

@@ -26,6 +26,10 @@
 
 #include "boards/lilygo_t_embed_cc1101/Peripherals_Lilygo_t_embed_cc1101.hpp"
 
+#elif ARDUINO_AirM2M_CORE_ESP32C3
+
+#include "boards/airm2m_core_esp32c3/Peripherals_AirM2M_CORE_ESP32C3.hpp"
+
 #endif
 
 #ifndef PERIPHERALS_H

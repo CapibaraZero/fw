@@ -52,17 +52,8 @@ void SettingsPage::display(String subghz_rev) {
   grid->set_y_spacing(10);
 
   version = new Text(screen, ST77XX_WHITE, (String)"Version: " + VERSION + " " + fw_md5.substring(0, 6));
-  String board = "";
-#ifdef ESP32S3_DEVKITC_BOARD
-  board = "ESP32-S3 DevKitC";
-#elif ARDUINO_NANO_ESP32
-  board = "Arduino Nano ESP32";
-#elif LILYGO_T_EMBED_CC1101
-  board = "LilyGo T-Embed CC1101";
-#else
-  board = "Unknown";
-#endif
-  board_widget = new Text(screen, ST77XX_WHITE, board);
+
+  board_widget = new Text(screen, ST77XX_WHITE, BOARD_NAME);
   heap_usage = new Text(screen, ST77XX_WHITE, "Heap: " +(String)((ESP.getHeapSize() - ESP.getFreeHeap()) / (1024)) + "/" + (ESP.getHeapSize() / (1024)) + "KB");
   chip = new Text(screen, ST77XX_WHITE, (String)"Chip: " + DEVICE + " " + ESP.getChipRevision() + " " + ESP.getCpuFreqMHz() + " MHz");
   battery = new Text(screen, ST77XX_WHITE, (String)"Battery: " + read_battery_level() + "%");
@@ -72,7 +63,7 @@ void SettingsPage::display(String subghz_rev) {
     sd_card_size = new Text(screen, ST77XX_WHITE, (String)"SD Card usage: " + (float)SD.usedBytes() / (1024 * 1024 * 1024) + "/" + SD.cardSize() / (1024 * 1024 * 1024) + "GB");
   }
 
-  nfc_version = new Text(screen, ST77XX_WHITE, "PN532 version: " + get_current_pn532_version());
+  nfc_version = new Text(screen, ST77XX_WHITE, "PN532 version: ");
 
   #ifdef CC1101_SUBGHZ
   String subghz_module = "CC1101";
@@ -80,7 +71,7 @@ void SettingsPage::display(String subghz_rev) {
   String subghz_module = "SX1276";
   #endif
   subghz = new Text(screen, ST77XX_WHITE, "SubGHZ module: " + subghz_module + " 0x" + subghz_rev);
-  psram = new Text(screen, ST77XX_WHITE, (String)"PSRAM: " + (psramFound() ? (String)((float)(ESP.getPsramSize() - ESP.getFreePsram()) / (1024*1024)) + "/" + ((float)ESP.getPsramSize()/ (1024*1024)) + "MB": "Not installed"));
+  psram = new Text(screen, ST77XX_WHITE, (String)"PSRAM: ");
 #if defined(WAKEUP_PIN)
   deep_sleep = new List(screen, "Deep Sleep", 2, ST77XX_WHITE, 20, ST77XX_BLACK, go_deep_sleep);
 #endif
