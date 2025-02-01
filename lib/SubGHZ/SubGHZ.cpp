@@ -77,12 +77,11 @@ void SubGHZ::init_receive() {
   pinMode(CC1101_SW0, OUTPUT);
 
   digitalWrite(CC1101_SW1, HIGH);
-  digitalWrite(CC1101_SW0, LOW);
+  digitalWrite(CC1101_SW0, HIGH);
 
   SPI2.begin(CC1101_SCK, CC1101_MISO, CC1101_MOSI, _csn);
-  digitalWrite(CC1101_CS, HIGH);
 
-  int state = radio.begin(315);
+  int state = radio.begin(433.92);
   if (state != RADIOLIB_ERR_NONE) {
     Serial.print("Error initializing CC1101");
     Serial.printf("Status: %i\n", state);
@@ -90,24 +89,34 @@ void SubGHZ::init_receive() {
     Serial.println("Initialized correctly");
   }
 
-  state = radio.setFrequency(315.0);
+  state = radio.setFrequency(433.92);
   error_check("Set frequency", state);
 
   state = radio.setOOK(true);
   error_check("Set OOK", state);
 
   // set bit rate to 100.0 kbps
-  state = radio.setBitRate(1.2);
+  state = radio.setBitRate(50);
   error_check("Set bitrate", state);
 
-  state = radio.setRxBandwidth(58.0);
+  state = radio.setRxBandwidth(812.50);
   error_check("Set RX Bandwidth", state);
 
-  state = radio.setFrequencyDeviation(5.2);
+  state = radio.setFrequencyDeviation(47.60);
   error_check("Set frequency deviation", state);
 
-  state = radio.setOutputPower(10);
+  state = radio.setOutputPower(12);
   error_check("Set output power", state);
+  
+  state = radio.setEncoding(RADIOLIB_ENCODING_NRZ);
+  error_check("Set encoding", state);
+
+  state = radio.variablePacketLengthMode();
+  error_check("set variable length", state);
+
+  state = radio.setCrcFiltering(false);
+  error_check("Disable CRC", state);
+
 #endif
   radio.setDirectSyncWord(0x555512AD, 0);
   radio.receiveDirect();
@@ -173,6 +182,7 @@ void SubGHZ::set_freq_mod(float freq, float bw, float deviation) {
   _bw = bw;
 #endif
   _frequency = freq;
+  delay(10);  // Time to adjust frequency(from: https://github.com/pr3y/Bruce/blob/main/src/modules/rf/rf.cpp#L205)
 }
 
 float SubGHZ::get_rssi() {

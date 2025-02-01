@@ -7,11 +7,7 @@
 
 #define TIME_BETWEEN_SCAN 400
 
-#ifdef CC1101_SUBGHZ
-#define RSSI_LIMIT -88
-#else
 #define RSSI_LIMIT -78
-#endif
 
 void frequency_analyzer(void *pv) {
   SubGHZTaskParameters *params = (SubGHZTaskParameters *)pv;
@@ -29,6 +25,7 @@ void frequency_analyzer(void *pv) {
         set_subghz_freqeuncy(freq);
         set_subghz_rssi(result.rssi);
       }
+      delay(100);
     }
   }
 }
