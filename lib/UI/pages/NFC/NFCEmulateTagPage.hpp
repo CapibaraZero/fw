@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,33 +15,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../../../../include/debug.h"
+#include "../../i18n.hpp"
+#include "../../i18n/NFC/nfc_format_page_keys.h"
 #include "../Page.hpp"
 #include "Grid.hpp"
 #include "List.hpp"
+#include "Text.hpp"
 
-#ifndef NetworkAttacks_PAGE_H
-#define NetworkAttacks_PAGE_H
+#ifndef NFC_EMULATE_PAGE_H
+#define NFC_EMULATE_PAGE_H
 
-class NetworkAttacksPage : public Page {
+class NFCEmulateTagPage : public Page {
  private:
-  List *dhcpglutton;
-  List *evilportal;
-  List *arp_poisoner;
-  List *go_back;
+  Text *emulate_text;
+  List *exit_page;
 
  public:
-  NetworkAttacksPage(uint8_t _position_limit, uint8_t _lower_limit,
-                     uint8_t _position_increment, GFXForms *screen, Gui *_gui)
-      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+  NFCEmulateTagPage(uint8_t _position_limit, uint8_t _lower_limit,
+                      uint8_t _position_increment, GFXForms *screen)
+      : Page(_position_limit, _lower_limit, _position_increment, screen) {
         };
-  ~NetworkAttacksPage();
+  ~NFCEmulateTagPage();
   void display();
+
   void click(int pos, void callback()) { grid->click(pos, callback); };
-  void set_selected(int pos, bool status) {
-    LOG_INFO("Set selected");
-    grid->set_selected(pos, status);
-  };
+  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
 };
 
 #endif

@@ -17,7 +17,7 @@
 
 #include <Arduino.h>
 
-#include "../../navigation/network_attacks/network_attacks_navigation.hpp"
+#include "../../navigation/wifi/wifi_navigation.hpp"
 #include "captive_portal_callback.hpp"
 #include "net_attacks_ui_tasks_types.h"
 

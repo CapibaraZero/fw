@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ class MainPage : public Page {
   RectText *SubGhz = nullptr;
   RectText *NFC = nullptr;
   RectText *IR = nullptr;
-  RectText *net_attacks = nullptr;
+  RectText *scripts = nullptr;
   RectText *settings = nullptr;
   Text *text = nullptr;
 #if DISPLAY_WIDTH == 170 && DISPLAY_HEIGHT == 320
@@ -42,8 +42,8 @@ class MainPage : public Page {
   // Text *battery_level;
  public:
   MainPage(uint8_t _position_limit, uint8_t _lower_limit,
-           uint8_t _position_increment, GFXForms *screen, Gui *_gui)
-      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+           uint8_t _position_increment, GFXForms *screen)
+      : Page(_position_limit, _lower_limit, _position_increment, screen) {
         };
   ~MainPage();
   void display();

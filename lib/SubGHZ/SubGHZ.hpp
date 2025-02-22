@@ -1,3 +1,20 @@
+/*
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #ifndef SUBGHZ_LIBRARY_H
 #define SUBGHZ_LIBRARY_H
 
@@ -53,6 +70,7 @@ class SubGHZ {
   SignalStrength scan_frequency(float freq, float bw = 200.0F,
                                 float deviation = 47.0F);
   SignalStrength scan_frequency();
+  int16_t get_chip_version();
   void rec_signal(std::vector<byte> *orig_signal);
   void send_signal(float freq, Modulation modulation, byte *payload,
                    size_t length);

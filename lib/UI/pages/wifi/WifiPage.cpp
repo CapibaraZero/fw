@@ -19,6 +19,8 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/wifi/wifi_submenu_keys.h"
+#include "../../i18n/network_attacks/net_attacks_main_page.h"
+#include "../../navigation/wifi/wifi_navigation.hpp"
 #include "../../navigation/wifi/wifi_navigation.hpp"
 #include "gui.hpp"
 
@@ -29,16 +31,26 @@ WifiPage::~WifiPage() {
 }
 
 void WifiPage::display() {
-  init_wifi_navigation(gui);
-  grid = new Grid(screen, 3, 1);
+  grid = new Grid(screen, 7, 1);
   wifi_list = new List(screen, english_words->at(WIFI_SCAN_KEY), 2,
                        ST77XX_WHITE, 20, ST77XX_BLACK, goto_scan_wifi);
   wifi_sniff = new List(screen, english_words->at(WIFI_SNIFF_KEY), 2,
                         ST77XX_WHITE, 20, ST77XX_BLACK, goto_sniff_wifi);
   go_back = new List(screen, english_words->at(WIFI_GO_BACK_KEY), 2,
                      ST77XX_WHITE, 20, ST77XX_BLACK, wifi_goto_home);
+  evilportal = new List(screen, english_words->at(EVILPORTAL_KEY), 2,
+                        ST77XX_WHITE, 20, ST77XX_BLACK, goto_evilportal_gui);
+  dhcpglutton = new List(screen, english_words->at(DHCP_GLUTTON_KEY), 2,
+                         ST77XX_WHITE, 20, ST77XX_BLACK, goto_dhcpglutton_gui);
+  arp_poisoner = new List(screen, "ARPoisoner", 2, ST77XX_WHITE, 20,
+                          ST77XX_BLACK, goto_arp_poisoner_gui);
+  go_back = new List(screen, english_words->at(NET_ATTACK_GO_BACK_KEY), 2,
+                     ST77XX_WHITE, 20, ST77XX_BLACK, net_attacks_goto_home);
   grid->add(wifi_list);
   grid->add(wifi_sniff);
+  grid->add(dhcpglutton);
+  grid->add(evilportal);
+  grid->add(arp_poisoner);
   grid->add(go_back);
   grid->set_selected(0, true);
   grid->display();

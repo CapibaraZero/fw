@@ -32,7 +32,6 @@ BLEPage::~BLEPage() {
 }
 
 void BLEPage::display() {
-  init_ble_navigation(gui);
   grid = new Grid(screen, 5, 1);
   //  ble_list = new List(screen, english_words->at(BLE_SCAN_KEY), 2,
   //  ST77XX_WHITE, 20, ST77XX_BLACK);

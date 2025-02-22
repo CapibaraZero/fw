@@ -29,7 +29,6 @@ SubGHZPage::~SubGHZPage() {
 }
 
 void SubGHZPage::display() {
-  init_subghz_navigation(gui);
   grid = new Grid(screen, 4, 1);
   SubGHZ_freq_analyzer = new List(screen, "Frequency analyzer", 2, ST77XX_WHITE,
                                   20, ST77XX_BLACK, start_frequency_analyzer);

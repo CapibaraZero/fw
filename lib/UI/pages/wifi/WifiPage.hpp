@@ -26,12 +26,15 @@ class WifiPage : public Page {
  private:
   List *wifi_list;
   List *wifi_sniff;
+  List *dhcpglutton;
+  List *evilportal;
+  List *arp_poisoner;
   List *go_back;
 
  public:
   WifiPage(uint8_t _position_limit, uint8_t _lower_limit,
-           uint8_t _position_increment, GFXForms *screen, Gui *_gui)
-      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+           uint8_t _position_increment, GFXForms *screen)
+      : Page(_position_limit, _lower_limit, _position_increment, screen) {
         };
   ~WifiPage();
   void display();

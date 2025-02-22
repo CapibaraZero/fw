@@ -82,7 +82,7 @@ SubGHZRAWRecorderConfig parse_raw_record_config() {
         "configuration");
     return params;
   }
-  JsonObject raw_record_config = doc["raw_record"];
+  JsonObject raw_record_config = doc["raw_record"].as<JsonObject>();
   float raw_record_config_frequency = raw_record_config["frequency"];
   float raw_record_config_bandwidth = raw_record_config["bandwidth"];
   float raw_record_config_deviation = raw_record_config["deviation"];
@@ -99,7 +99,7 @@ SubGHZRAWRecorderConfig parse_raw_record_config() {
     Serial.printf("Frequency is null. Using default frequency: %f\n",
                   DEFAULT_FREQUENCY);
   } else {
-    if (FREQ_CHECK(raw_record_config["frequency"]))
+    if (FREQ_CHECK(raw_record_config["frequency"].as<int>()))
       params.freq = raw_record_config_frequency;
     else
       Serial.printf("Invalid frequency value %f. Using %f MHz",
@@ -134,7 +134,7 @@ SubGHZRAWRecorderConfig parse_raw_record_config() {
     Serial.printf("RSSI threshold is null. Using default value %f\n",
                   DEFAULT_RSSI_THRESHOLD);
   else {
-    if (raw_record_config["rssi_threshold"] > 0)
+    if (raw_record_config["rssi_threshold"].as<int>() > 0)
       Serial.printf(
           "RSSI threshold can't be positive. Using default value %f\n",
           DEFAULT_RSSI_THRESHOLD);

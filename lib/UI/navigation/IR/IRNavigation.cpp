@@ -1,3 +1,19 @@
+/*
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "../../../../include/pins.h"
 #include "../navigation.hpp"
@@ -18,7 +34,7 @@ static Gui *gui;
 static IRMainPage *ir_main_page = nullptr;
 IRRecordSignalPage *ir_record_signal_page = nullptr;
 static IREmulateRC *ir_emulate_rc = nullptr;
-static IrFramework *ir_framework = nullptr;
+IrFramework *ir_framework = nullptr;
 static IRListsProgress *ir_list_progress = nullptr;
 static FileBrowserPage *file_browser_page = nullptr;
 
@@ -26,7 +42,7 @@ TaskHandle_t ir_record_task_handle = NULL;
 
 void goto_ir_gui() {
   gui->reset();
-  ir_main_page = new IRMainPage(3, 0, 1, gui->get_screen(), gui);
+  ir_main_page = new IRMainPage(3, 0, 1, gui->get_screen());
   gui->set_current_page(ir_main_page);
 }
 
@@ -40,7 +56,7 @@ void ir_goto_home() {
 void goto_ir_record_signal_page() {
   gui->reset();
   ir_record_signal_page =
-      new IRRecordSignalPage(1, 1, 0, gui->get_screen(), gui);
+      new IRRecordSignalPage(1, 1, 0, gui->get_screen());
   gui->set_current_page(ir_record_signal_page);
   ir_record_task_handle = ir_record_signal(ir_record_signal_page, ir_framework);
 }
@@ -85,7 +101,7 @@ void send_signal(const char *path) {
   deserializeJson(*signal, rc_file);
   if (signal->is<JsonArray>()) {
     gui->reset();
-    ir_list_progress = new IRListsProgress(1, 1, 0, gui->get_screen(), gui);
+    ir_list_progress = new IRListsProgress(1, 1, 0, gui->get_screen());
     gui->set_current_page(ir_list_progress, true, false);
   }
   ir_send_signal(ir_framework, signal, ir_list_progress,
@@ -110,7 +126,7 @@ void goto_ir_rc_emulator(const char *path) {
     cmds[i] = rc_signals[i]["name"].as<const char *>();
   }
   ir_emulate_rc =
-      new IREmulateRC(rc_signals.size(), 0, 1, gui->get_screen(), gui);
+      new IREmulateRC(rc_signals.size(), 0, 1, gui->get_screen());
   ir_emulate_rc->display(cmds, rc_signals.size());
   gui->set_current_page(ir_emulate_rc, false);
 }
@@ -119,7 +135,7 @@ void goto_ir_rc_browser() {
   ir_rc_files = list_dir(open("/IR/signal_rc", "r"));
   gui->reset();
   file_browser_page =
-      new FileBrowserPage(ir_rc_files.size() + 1, 1, 1, gui->get_screen(), gui);
+      new FileBrowserPage(ir_rc_files.size() + 1, 1, 1, gui->get_screen());
   file_browser_page->display("IR RC Emulator", &ir_rc_files,
                              goto_ir_rc_emulator, goto_ir_gui);
   gui->set_current_page(file_browser_page, false);
@@ -140,7 +156,7 @@ void goto_ir_send() {
   ir_signal_files = list_dir(open("/IR/signals", "r"));
   gui->reset();
   file_browser_page = new FileBrowserPage(ir_signal_files.size() + 1, 1, 1,
-                                          gui->get_screen(), gui);
+                                          gui->get_screen());
   file_browser_page->display("IR File Browser", &ir_signal_files, send_signal,
                              goto_ir_gui);
   gui->set_current_page(file_browser_page, false);

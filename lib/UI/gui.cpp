@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,9 +29,9 @@
 void Gui::init_gui() {
   if (main_page == nullptr) {
 #ifdef CONFIG_IDF_TARGET_ESP32S2
-    main_page = new MainPage(5, 0, 4, screen, this);
+    main_page = new MainPage(6, 0, 4, screen);
 #else
-    main_page = new MainPage(6, 0, 4, screen, this);
+    main_page = new MainPage(7, 0, 4, screen);
 #endif
     main_page->display();
     battery_monitor_task_params.page = main_page;
@@ -88,4 +88,12 @@ void Gui::set_current_page(Page *page, bool display, bool delete_page) {
   if (delete_page) delete current_page;
   current_page = page;
   if (display) page->display();
+}
+
+void Gui::show_error_page(const char *error) {
+  invalid_config_page = new InvalidConfigPage(0, 0, 0, screen);
+  reset();
+  set_current_page(invalid_config_page, false);
+  invalid_config_page->display(error);
+  delay(3000);
 }

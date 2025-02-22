@@ -7,9 +7,8 @@
 # VSCode Cmake stuff
 build
 
-# Seeed-Studio libs
-lib/PN532
-lib/PN532_I2C
+# Duktape
+lib/duktape-2.7.0/
 
 # MacOS useless file
 .DS_Store

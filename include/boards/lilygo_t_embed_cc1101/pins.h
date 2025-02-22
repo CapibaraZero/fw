@@ -56,8 +56,8 @@
 // PN532(NFC)
 #define NFC_BUS_SCL 18
 #define NFC_BUS_SDA 8
-#define NFC_RST 45
-#define NFC_IRQ 17
+#define PN532_RST 45
+#define PN532_IRQ 17
 
 #define BOARD_PWR_EN 15
 #define BQ27220_BATTERY

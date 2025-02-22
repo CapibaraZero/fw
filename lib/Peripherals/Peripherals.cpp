@@ -71,13 +71,15 @@ void Peripherals::init_navigation_btn(int pin, void callback(), int input_mode,
   attachInterrupt(pin, callback, isr_mode);
 }
 
-void Peripherals::common_init_navigation(size_t up, size_t down, size_t left,
-                                         size_t right, size_t ok) {
-#if BTN_NAVIGATION
-  init_navigation_btn(up, handle_up_button);
-  init_navigation_btn(down, handle_down_button);
-  init_navigation_btn(left, handle_left_button);
-  init_navigation_btn(right, handle_right_button);
-  init_navigation_btn(ok, handle_ok_button);
+void Peripherals::common_init_navigation(EasyButton *up, EasyButton *down, EasyButton *left, EasyButton *right) {
+#ifdef BTN_NAVIGATION
+  up->begin();
+  up->onPressed(handle_up_button);
+  down->begin();
+  down->onPressed(handle_down_button);
+  left->begin();
+  left->onPressed(handle_left_button);
+  right->begin();
+  right->onPressed(handle_right_button);
 #endif
 }

@@ -55,4 +55,23 @@ void show_wifi_sniff_page();
 /// @brief Update sniffed packets in WiFi sniffer page
 /// @param count Number of sniffed packets
 void update_packets_count(int count);
+
+void goto_dhcpglutton_gui();
+
+void goto_evilportal_gui();
+
+void goto_arp_poisoner_gui();
+
+void set_dhcp_glutton_clients(int client);
+
+void set_evilportal_ip(const char *ip);
+void set_evilportal_requests(int req);
+
+void net_attacks_goto_home();
+
+void stop_dhcpglutton();
+
+void stop_evilportal();
+
+void stop_arp_poisoner();
 #endif

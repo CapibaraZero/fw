@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,19 +26,19 @@
 #include "fm.hpp"
 #include "helper.hpp"
 #include "posixsd.hpp"
+#include "BerTlv.h"
+#include <bits/stdc++.h>
 
 using namespace std;
 
 #define NFC_KEYS_FILE "/NFC/keys.txt"
 
-NFCAttacks::NFCAttacks() {
-  if (!nfc_framework.ready()) {
-    LOG_ERROR("PN532 not found, trying to restart\n");
-    ESP.restart();
-  } else {
-    LOG_SUCCESS("PN532 found!\n");
-  }
+NFCAttacks::NFCAttacks() {}
+
+bool NFCAttacks::begin() {
+  return nfc_framework.ready();
 }
+
 bool NFCAttacks::is_there_null_blocks(NFCTag *tag) {
   for (size_t i = 0; i < tag->get_blocks_count(); i++) {
     uint8_t block[BLOCK_SIZE] = {0};
@@ -564,4 +564,110 @@ NFCTag NFCAttacks::get_felica_towrite() {
     memcpy(&data[i][0], &buffer[i * 16], 16);
   }
   return NFCTag(idm, pmm, sys_code, data);
+}
+
+bool NFCAttacks::emulate_tag(uint8_t *uid) {
+  return nfc_framework.emulate_tag(uid);
+}
+
+bool NFCAttacks::emulate_tag(uint8_t *idm, uint8_t *pmm, uint8_t *sys_code) {
+  return nfc_framework.emulate_tag(idm, pmm, sys_code);
+};
+
+void NFCAttacks::parse_pan(std::vector<uint8_t> *afl_content, EMVCard *card) {
+  auto pos = find(afl_content->begin(), afl_content->end(), 0x5A);
+  uint8_t len = *(pos+1);
+  uint8_t pan_begin = distance(afl_content->begin(), pos) + 2;
+  card->pan = (uint8_t *)malloc(len);
+  memcpy(card->pan, &afl_content->data()[pan_begin], len);
+  card->pan_len = len;
+}
+
+void NFCAttacks::parse_validfrom(std::vector<uint8_t> *afl_content, EMVCard *card) {
+  bool found = false;
+  for (size_t i = 0; i < afl_content->size() && !found; i++) {
+    if(afl_content->at(i) == 0x5F && afl_content->at(i+1) == 0x25) {
+      size_t begin = i+3; // The format is 0x5F 0x25 SIZE DATA so skip 3 bytes
+      card->validfrom = (uint8_t *) malloc(2);
+      // The format in card is YEAR/MONTH but I want MONTH/YEAR since is the standard format
+      card->validfrom[0] = afl_content->at(begin+1);
+      card->validfrom[1] = afl_content->at(begin);
+      found = true;
+    }
+  }
+}
+
+void NFCAttacks::parse_validto(std::vector<uint8_t> *afl_content, EMVCard *card) {
+  bool found = false;
+  for (size_t i = 0; i < afl_content->size() && !found; i++) {
+    if(afl_content->at(i) == 0x5F && afl_content->at(i+1) == 0x24) {
+      size_t begin = i+3; // The format is 0x5F 0x24 SIZE DATA so skip 3 bytes
+      card->validto = (uint8_t *) malloc(2);
+      // The format in card is YEAR/MONTH but I want MONTH/YEAR since is the standard format
+      card->validto[0] = afl_content->at(begin+1);
+      card->validto[1] = afl_content->at(begin);
+      found = true;
+    }
+  }
+}
+
+void NFCAttacks::get_afl(EMVCard *card, uint8_t *afl) {
+  uint8_t P2 = (afl[0] >> 3) <<3 | 0b00000100;  // Calculate P2 from afl
+  std::vector<uint8_t> afl_content = nfc_framework.emv_read_afl(P2);
+  if(!afl_content.empty()) {
+    BerTlv Tlv;
+    Tlv.SetTlv(afl_content);
+    std::vector<uint8_t> container;
+    if(Tlv.GetValue("5A", &container) != OK) {  // Get PAN(Credit Card Number). If TLV is corrupted(happens often with PN532 fallback to a workaround to find information)
+      parse_pan(&afl_content, card);
+      parse_validfrom(&afl_content, card);
+      parse_validto(&afl_content, card);
+    } else {
+      memcpy(card->pan, container.data(), container.size());  // Copy data from TLV to struct
+      container.clear();
+      if(Tlv.GetValue("5F25", &container) != OK) {  // Get ValidFrom date
+        parse_validfrom(&afl_content, card);
+        parse_validto(&afl_content, card);
+      } else {
+        memcpy(card->validfrom, container.data(), container.size());
+        if(Tlv.GetValue("5F24", &container) != OK) {  // Get ValidTo date
+          parse_validto(&afl_content, card);
+        } else {
+          memcpy(card->validto, container.data(), container.size());
+        }
+      }
+    }
+  } else {
+    Serial.println("Can't parse AFL data");
+  }
+}
+
+EMVCard NFCAttacks::read_emv_card() {
+  EMVCard res;
+  std::vector<uint8_t> aid = nfc_framework.emv_ask_for_aid(); // Perform Application Selection
+  if(aid.empty()) { // If we can't get AID, we can't read the card
+    res.parsed = false;
+    Serial.println("Can't read card");
+  } else {
+    // Copy AID to result card
+    res.aid = (uint8_t *)malloc(aid.size());
+    memcpy(res.aid, aid.data(), aid.size());
+
+    // Initialize Application Process
+    std::vector<uint8_t> pdol = nfc_framework.emv_ask_for_pdol(&aid); // Check if card require PDOL(for example, VISA)
+      
+    if(pdol.empty()) {  // No PDOL(for example Mastercard)
+      std::vector<uint8_t> afl = nfc_framework.emv_ask_for_afl(); // Try to get AFL without PDOL
+
+      if(!afl.empty()) {
+        // Read Application data
+        get_afl(&res, afl.data());  // Read AFL
+      }  else {
+        Serial.println("Can't get AFL ID");
+      }
+    } else {
+      // TODO: Implement PDOL reading
+    }
+  }
+  return res;
 }

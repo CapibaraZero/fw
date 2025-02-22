@@ -10,7 +10,7 @@ void wifi_scan_task(void *pv) {
 
 void wifi_sniff_task(void *pv) {
   WifiAttack *attack = static_cast<WifiAttack *>(pv);
-  attack->sniff(1000, true, get_current_fs());
+  attack->sniff(1000, get_current_fs());
   while (attack->sniffer_running()) {
     NOP();
   }

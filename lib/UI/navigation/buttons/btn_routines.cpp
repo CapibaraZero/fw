@@ -24,13 +24,13 @@ static Buttons btn_pressed = NULL_BTN;
 
 #ifdef BTN_NAVIGATION
 /* ISR routines */
-void IRAM_ATTR handle_up_button() { btn_pressed = UP_BTN; }
+void handle_up_button() { btn_pressed = UP_BTN; }
 
-void IRAM_ATTR handle_down_button() { btn_pressed = DOWN_BTN; }
+void handle_down_button() { btn_pressed = DOWN_BTN; }
 
-void IRAM_ATTR handle_left_button() { btn_pressed = LEFT_BTN; }
+void handle_left_button() { btn_pressed = LEFT_BTN; }
 
-void IRAM_ATTR handle_right_button() { btn_pressed = RIGHT_BTN; }
+void handle_right_button() { btn_pressed = RIGHT_BTN; }
 
 #elif defined(ENCODER_NAVIGATION)
 #include <RotaryEncoder.h>
@@ -60,7 +60,9 @@ void handle_encoder() {
 }
 #endif
 
-void IRAM_ATTR handle_ok_button() { btn_pressed = OK_BTN; }
+void IRAM_ATTR handle_ok_button() { 
+    btn_pressed = OK_BTN;
+}
 
 Buttons get_btn_pressed() { return btn_pressed; }
 

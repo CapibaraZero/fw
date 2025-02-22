@@ -26,13 +26,14 @@ void update_wifi_scan_progress(void *pv) {
   const double lower_limit = 100 + progress_step - 1;  // While limit
   double progress = progress_step;
   int ch = 1;
+  delay(6000);  // Wait for stack initialization(5000 WIFI_OFF + 500 WIFI_STA + some tollerance)
   while (progress < lower_limit)  // Until 100%
   {
     set_progress((char *)(String(progress) + String("%")).c_str());
     set_wifi_channel_text((char *)(String("Channel: ") + String(ch)).c_str());
     ch++;
     progress += progress_step;  // 13 ch scan
-    delay(1000);                // ch change time
+    delay(1000);                // ch change time(300 + 700 to make sure that scan is really finished)
   }
   while (params->wifi_attack->sniffer_running()) {
     delay(1);

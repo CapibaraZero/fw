@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,12 +33,41 @@ WifiAttack::WifiAttack(/* args */) {}
 WifiAttack::~WifiAttack() {}
 
 void WifiAttack::scan() {
-  int n = WiFi.scanNetworks(false, true, false, 1000);
+  WiFi.mode(WIFI_OFF); // otherwise Wifi.Scannetworks() fails
+  delay(5000);
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+  delay(500);
+  int n = WiFi.scanNetworks(false, true, false, 300);
   for (int i = 0; i < n; i++) {
     WifiNetwork network = WifiNetwork(WiFi.SSID(i), WiFi.RSSI(i), WiFi.BSSID(i),
                                       WiFi.channel(i), WiFi.encryptionType(i));
     networks.push_back(network);
   }
+  WiFi.scanDelete();  // Clean result since we save result in a vector
+}
+
+String WifiAttack::scan_to_str() {
+  JsonDocument all_networks;
+
+  for (auto network : networks) {
+    JsonDocument wifi;
+    JsonDocument doc;
+    JsonArray json_bssid = doc.to<JsonArray>();
+    uint8_t *bssid = network.get_bssid();
+    for (size_t i = 0; i < 6; i++) {
+      json_bssid.add(bssid[i]);
+    }
+    wifi["ssid"] = network.get_ssid();
+    wifi["rssi"] = network.get_rssi();
+    wifi["bssid"] = json_bssid;
+    wifi["channel"] = network.get_channel();
+    wifi["auth_mode"] = network.get_auth_mode();
+    all_networks.add(wifi);
+  }
+  String json;
+  serializeJson(all_networks, json);
+  return json;
 }
 
 void WifiAttack::save_scan() {

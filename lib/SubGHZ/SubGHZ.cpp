@@ -1,3 +1,20 @@
+/*
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "SubGHZ.hpp"
 
 #include <Arduino.h>
@@ -60,8 +77,59 @@ void SubGHZ::init_receive() {
   pinMode(CC1101_SW0, OUTPUT);
 
   digitalWrite(CC1101_SW1, HIGH);
-  digitalWrite(CC1101_SW0, LOW);
+  digitalWrite(CC1101_SW0, HIGH);
 
+  SPI2.begin(CC1101_SCK, CC1101_MISO, CC1101_MOSI, _csn);
+
+  int state = radio.begin(433.92);
+  if (state != RADIOLIB_ERR_NONE) {
+    Serial.print("Error initializing CC1101");
+    Serial.printf("Status: %i\n", state);
+  } else {
+    Serial.println("Initialized correctly");
+  }
+
+  state = radio.setFrequency(433.92);
+  error_check("Set frequency", state);
+
+  state = radio.setOOK(true);
+  error_check("Set OOK", state);
+
+  // set bit rate to 100.0 kbps
+  state = radio.setBitRate(50);
+  error_check("Set bitrate", state);
+
+  state = radio.setRxBandwidth(812.50);
+  error_check("Set RX Bandwidth", state);
+
+  state = radio.setFrequencyDeviation(47.60);
+  error_check("Set frequency deviation", state);
+
+  state = radio.setOutputPower(12);
+  error_check("Set output power", state);
+  
+  state = radio.setEncoding(RADIOLIB_ENCODING_NRZ);
+  error_check("Set encoding", state);
+
+  state = radio.variablePacketLengthMode();
+  error_check("set variable length", state);
+
+  state = radio.setCrcFiltering(false);
+  error_check("Disable CRC", state);
+
+#endif
+  radio.setDirectSyncWord(0x555512AD, 0);
+  radio.receiveDirect();
+}
+
+int16_t SubGHZ::get_chip_version() {
+  int16_t version = 0;
+#ifndef CC1101_SUBGHZ
+  SPI2.begin(SX1276_SCK, SX1276_MISO, SX1276_MOSI, _csn);
+  if(radio.beginFSK() == RADIOLIB_ERR_NONE) {
+    version = radio.getChipVersion();
+  }
+#else
   SPI2.begin(CC1101_SCK, CC1101_MISO, CC1101_MOSI, _csn);
   digitalWrite(CC1101_CS, HIGH);
 
@@ -71,29 +139,10 @@ void SubGHZ::init_receive() {
     Serial.printf("Status: %i\n", state);
   } else {
     Serial.println("Initialized correctly");
+    version = radio.getChipVersion();
   }
-
-  state = radio.setFrequency(315.0);
-  error_check("Set frequency", state);
-
-  state = radio.setOOK(true);
-  error_check("Set OOK", state);
-
-  // set bit rate to 100.0 kbps
-  state = radio.setBitRate(1.2);
-  error_check("Set bitrate", state);
-
-  state = radio.setRxBandwidth(58.0);
-  error_check("Set RX Bandwidth", state);
-
-  state = radio.setFrequencyDeviation(5.2);
-  error_check("Set frequency deviation", state);
-
-  state = radio.setOutputPower(10);
-  error_check("Set output power", state);
 #endif
-  radio.setDirectSyncWord(0x555512AD, 0);
-  radio.receiveDirect();
+  return version;
 }
 
 void SubGHZ::stop_receive() {
@@ -133,6 +182,7 @@ void SubGHZ::set_freq_mod(float freq, float bw, float deviation) {
   _bw = bw;
 #endif
   _frequency = freq;
+  delay(10);  // Time to adjust frequency(from: https://github.com/pr3y/Bruce/blob/main/src/modules/rf/rf.cpp#L205)
 }
 
 float SubGHZ::get_rssi() {

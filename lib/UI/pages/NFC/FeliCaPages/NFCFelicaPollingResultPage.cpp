@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ void NFCFelicaPollingResultPage::display(uint8_t *idm, uint8_t *pmm,
       english_words->at(NFC_FELICA_SYSTEM_CODE_KEY) + String(sys_code, HEX));
   dump_to_sd = new List(screen, english_words->at(NFC_DUMP_TAG_TO_SD), 2,
                         ST77XX_WHITE, 20, ST77XX_BLACK, felica_dump);
+  emulate_tag = new List(screen, "Emulate UID", 2, ST77XX_WHITE, 20, ST77XX_BLACK, emulate_iso18092);
   // write_tag = new List(screen, "Write tag", 2, ST77XX_WHITE, 20,
   // ST77XX_BLACK); format_tag = new List(screen,
   // english_words->at(NFC_FORMAT_TAG_TO_SD), 2,
@@ -55,6 +56,7 @@ void NFCFelicaPollingResultPage::display(uint8_t *idm, uint8_t *pmm,
   // grid->add(write_tag);
   // grid->add(format_tag);
   //   grid->add(bruteforce_tag);
+  grid->add(emulate_tag);
   grid->add(exit_page);
   grid->set_selected(4, true);
   grid->set_y_spacing(20);

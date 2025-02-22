@@ -69,17 +69,21 @@ class Peripherals_Lilygo_t_embed_cc1101 : public Peripherals {
     digitalWrite(BOARD_PWR_EN, HIGH);  // Power on CC1101 an
 
     // NFC
-    pinMode(NFC_RST, OUTPUT);
-    digitalWrite(NFC_RST, HIGH);
-    pinMode(NFC_IRQ, OPEN_DRAIN);
+    pinMode(PN532_RST, OUTPUT);
+    digitalWrite(PN532_RST, HIGH);
+    pinMode(PN532_IRQ, OPEN_DRAIN);
   };
   void init_sd() {
     common_init_sd(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
   };
   void init_navigation() {
     init_rotary_encoder();
-    init_navigation_btn(OK_BTN_PIN, handle_ok_button, INPUT, RISING);
+    init_ok_btn();
   };
+  void loop_code() {
+    handle_encoder();
+    ok_btn.read();
+  }
 };
 
 #endif

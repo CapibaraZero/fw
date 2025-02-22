@@ -14,10 +14,10 @@ Docs: https://capibarazero.github.io/docs/
 
 To build project just must have PlatformIO installed and a working version of GNU Bison and Flex
 
-Before building project you must execute init_nfc_libs.sh to prepare PN532 libs
+Before building project you must execute init_libs.sh to prepare PN532 libs
 
 ```bash
-bash init_nfc_libs.sh   # Init NFC libs
+bash init_libs.sh   # Init NFC and Duktape libs
 pio run
 # To upload firmware
 pio run -t upload
@@ -33,7 +33,7 @@ Working Features:
 
 - Wi-Fi support
 - BLE support
-- BadUSB support(Limited to 4-5 files in file browser)
+- BadUSB support
 - NFC support
 - Some network attacks
 - SubGHZ(Beta support, need more testing)
@@ -46,7 +46,7 @@ More details in the project view: https://github.com/orgs/CapibaraZero/projects/
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
-If you wanna port project to other ESP boards, we have made a little guide here: https://capibarazero.github.io/docs/docs/development/porting_to_others_boards/new_porting
+If you wanna port project to other ESP boards, we have made a little guide here: https://capibarazero.com/docs/development/porting_to_others_boards/new_porting
 
 ## Social
 

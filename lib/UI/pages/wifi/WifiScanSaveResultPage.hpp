@@ -27,17 +27,16 @@
 class WifiScanSaveResultPage : public Page {
  private:
   int selection_index = 0;
-  List *save_sd;
-  List *sniff_filter;
-  List *go_back;
-  List *exit_btn;
+  List *save_sd = nullptr;
+  List *sniff_filter = nullptr;
+  List *go_back = nullptr;
+  List *exit_btn = nullptr;
   bool empty = false;
 
  public:
   WifiScanSaveResultPage(uint8_t _position_limit, uint8_t _lower_limit,
-                         uint8_t _position_increment, GFXForms *screen,
-                         Gui *_gui)
-      : Page(_position_limit, _lower_limit, _position_increment, screen, _gui) {
+                         uint8_t _position_increment, GFXForms *screen)
+      : Page(_position_limit, _lower_limit, _position_increment, screen) {
         };
   ~WifiScanSaveResultPage();
 

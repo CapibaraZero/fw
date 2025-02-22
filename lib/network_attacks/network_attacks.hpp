@@ -21,6 +21,7 @@
 #include <stdint.h>
 
 #include "evilportal.hpp"
+#include "gui.hpp"
 
 typedef struct {
   const char *ssid;
@@ -28,6 +29,8 @@ typedef struct {
 } WiFIAPConfig;
 
 typedef struct {
+  bool invalid = false;
+  bool missing = false;
   uint8_t dest_ip[4];
   uint8_t dest_mac[6];
   uint16_t send_time = 1000;
@@ -37,7 +40,7 @@ class NetworkAttacks {
  private:
   uint8_t generated_clients = 0;
   /// @brief Connect to provided SSID and password from JSON config file
-  void connect_to_wifi(const char *config);
+  size_t connect_to_wifi(const char *config);
   EvilPortal *evilPortal;
   bool _evilportal_running = true;
   /// @brief Create the default AP if config is not provided
@@ -50,7 +53,7 @@ class NetworkAttacks {
  public:
   NetworkAttacks(/* args */);
   ~NetworkAttacks();
-  void dhcp_starvation();
+  int dhcp_starvation();
   uint8_t get_generated_clients() {
     return generated_clients;
   };  // Try to reduce a bit the overhead
@@ -60,7 +63,7 @@ class NetworkAttacks {
   void kill_evilportal();
   void stop_evilportal() { _evilportal_running = false; };
   bool evilportal_running() { return _evilportal_running; };
-  void start_arp_poisoning();
+  size_t start_arp_poisoning();
 };
 
 #endif

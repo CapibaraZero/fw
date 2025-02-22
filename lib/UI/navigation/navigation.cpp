@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,8 @@
 #include "SubGHZ/SubGHZNavigation.hpp"
 #include "buttons/btn_routines.hpp"
 #include "gui.hpp"
-#include "network_attacks/network_attacks_navigation.hpp"
+#include "Settings/SettingsNavigation.hpp"
+#include "scripts/ScriptsNavigation.hpp"
 #include "wifi/wifi_navigation.hpp"
 
 static Gui *gui;
@@ -63,9 +64,14 @@ void init_ir_ui() {
   goto_ir_gui();
 }
 
-void init_network_attacks_ui() {
-  init_network_attacks_navigation(gui);
-  goto_net_attacks_gui();
+void init_settings_ui() {
+  init_settings_navigation(gui);
+  goto_settings_ui();
+}
+
+void init_scripts_ui() {
+  init_scripts_navigation(gui);
+  goto_scripts_ui();
 }
 
 /*
