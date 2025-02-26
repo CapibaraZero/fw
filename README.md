@@ -4,7 +4,7 @@
 
 ---
 
-## ANNOUNCEMENT: Now CapibaraZero is available for SBC that runs Linux [here](https://github.com/CapibaraZero/fw_linux) you can find more information.
+## ANNOUNCEMENT: Now CapibaraZero is available for SBC that runs Linux(Raspberry Pi, OrangePI, ...). [Here](https://github.com/CapibaraZero/fw_linux) you can find more information.
 
 CapibaraZero aim to be a cheap alternative to FlipperZero™. It's based on ESP32 boards especially on ESP32-S3 but we want to port firmware to all ESP family boards.
 
