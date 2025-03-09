@@ -1,61 +1,61 @@
-name: Build CapibaraZero firmware
+# name: Build CapibaraZero firmware
 
-on: [push]
+# on: [push]
 
-permissions:
-  contents: write
+# permissions:
+#   contents: write
   
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/pip
-            ~/.platformio/.cache
-          key: ${{ runner.os }}-pio
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
-      - name: Install PlatformIO Core
-        run: pip install --upgrade platformio
-      - name: Prepare Duktape library
-        run: bash init_libs.sh
-      - name: Build for all boards
-        run: pio run
-      - name: Prepare firmware folder
-        run: bash prepare_image_all.sh
-      - name: Upload firmware to artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: firmware
-          path: firmware/
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      # - uses: actions/checkout@v4
-      - uses: actions/checkout@v3
-        with:
-          repository: "capibaraZero/Web-Flasher"
-          ref: 'main'
-          token:  ${{ secrets.WEB_FLASHER_TOKEN }}
-      - uses: actions/download-artifact@v4
-        with:
-          name: firmware
-          path: firmware/
-      - name: setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-      - name: Copy beta firmware
-        if: startsWith(github.ref, 'refs/heads/develop')
-        run: bash get_firmware.sh latest_beta
-      - name: Copy stable firmware
-        if: startsWith(github.ref, 'refs/heads/main')
-        run: bash get_firmware.sh latest_stable
-      - name: Push changes
-        run: git add public/ && git commit -m "Update firmware to latest" && git push origin main
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/cache@v3
+#         with:
+#           path: |
+#             ~/.cache/pip
+#             ~/.platformio/.cache
+#           key: ${{ runner.os }}-pio
+#       - uses: actions/setup-python@v4
+#         with:
+#           python-version: '3.12'
+#       - name: Install PlatformIO Core
+#         run: pip install --upgrade platformio
+#       - name: Prepare Duktape library
+#         run: bash init_libs.sh
+#       - name: Build for all boards
+#         run: pio run
+#       - name: Prepare firmware folder
+#         run: bash prepare_image_all.sh
+#       - name: Upload firmware to artifact
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: firmware
+#           path: firmware/
+#   release:
+#     runs-on: ubuntu-latest
+#     needs: build
+#     steps:
+#       # - uses: actions/checkout@v4
+#       - uses: actions/checkout@v3
+#         with:
+#           repository: "capibaraZero/Web-Flasher"
+#           ref: 'main'
+#           token:  ${{ secrets.WEB_FLASHER_TOKEN }}
+#       - uses: actions/download-artifact@v4
+#         with:
+#           name: firmware
+#           path: firmware/
+#       - name: setup git config
+#         run: |
+#           git config user.name "GitHub Actions Bot"
+#           git config user.email "<>"
+#       - name: Copy beta firmware
+#         if: startsWith(github.ref, 'refs/heads/develop')
+#         run: bash get_firmware.sh latest_beta
+#       - name: Copy stable firmware
+#         if: startsWith(github.ref, 'refs/heads/main')
+#         run: bash get_firmware.sh latest_stable
+#       - name: Push changes
+#         run: git add public/ && git commit -m "Update firmware to latest" && git push origin main
