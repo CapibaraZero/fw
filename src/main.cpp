@@ -15,12 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Adafruit_GFX.h>     // Core graphics library
-#include <Adafruit_ST7789.h>  // Hardware-specific library for ST7735
 #include <Arduino.h>
 
-#include <GFXForms.hpp>
-
+#include "gui.hpp"
 #include "DeepSleep.hpp"
 #include "Peripherals.hpp"
 #include "SPI.h"
@@ -28,20 +25,17 @@
 #include "ble_hid/BLEHid.hpp"  // Without this build fails
 #include "debug.h"
 #include "freertos/task.h"
-#include "gui.hpp"
-#include "i18n.hpp"
-#include "navigation/navigation.hpp"
 #include "pins.h"
 #include "posixsd.hpp"
-#include "style.h"
+#include "lv_port_disp.h"
+#include "lv_port_indev.h"
+#include "lvgl.h"
+#include "ui.h"
 
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
 
 Gui *main_gui;
-Adafruit_ST7789 *display;
-GFXForms *screen;
-SPIClass display_spi;
 String fw_md5 = ESP.getSketchMD5(); // Calculate MD5 at startup(save time when loading settings)
 
 #ifdef ARDUINO_NANO_ESP32
@@ -65,36 +59,22 @@ void setup() {
     }
     heap_caps_malloc_extmem_enable(4096); // Malloc larger than 4KB will be placed in PSRAM
   #endif
-  init_english_dict();
 
 #ifdef BATTERY_MONITOR
   pinMode(BATTERY_MONITOR, INPUT);
 #endif
-
-  display_spi.begin(TFT_SCLK, TFT_MISO, TFT_MOSI, TFT_CS);
-
-  display = new Adafruit_ST7789(&display_spi, TFT_CS, TFT_DC, -1);
-  screen = new GFXForms(DISPLAY_WIDTH, DISPLAY_HEIGHT, display);
-
-  screen->set_rotation(1);
-  screen->set_background_color(HOME_BACKGROUND_COLOR);
-  main_gui = new Gui(screen);
-  main_gui->init_gui();
-
-  peripherals.init_navigation();
-
-  xTaskCreate(&set_selected_listener, "set_selected_listener", 8192,
-              (void *)main_gui, 1, NULL);
 #if defined(STANDBY_BTN) && defined(WAKEUP_PIN)
   enable_deep_sleep();
 #endif
-  display_spi.setHwCs(1);
-#ifdef TFT_BLK
-  analogWrite(TFT_BLK, 255);
-#endif
   peripherals.init_sd();
+
+  lv_init();
+  lv_port_disp_init();
+  lv_port_indev_init();
+  ui_init();
 }
 
 void loop() {
-  peripherals.loop_code();
+  lv_timer_handler();
+  ui_tick();
 }

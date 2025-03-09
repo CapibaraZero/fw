@@ -25,7 +25,6 @@
 #include "gui.hpp"
 #include "Settings/SettingsNavigation.hpp"
 #include "scripts/ScriptsNavigation.hpp"
-#include "wifi/wifi_navigation.hpp"
 
 static Gui *gui;
 
@@ -34,10 +33,7 @@ void init_main_gui() {
   gui->init_gui();
 }
 
-void init_wifi_ui() {
-  init_wifi_navigation(gui);
-  init_wifi_gui();
-}
+void init_wifi_ui() {}
 
 void init_ble_ui() {
   init_ble_navigation(gui);

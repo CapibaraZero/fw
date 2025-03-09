@@ -19,7 +19,6 @@
 
 #include "../../i18n.hpp"
 #include "../../i18n/network_attacks/dhcpglutton_keys.h"
-#include "../../navigation/wifi/wifi_navigation.hpp"
 #include "gui.hpp"
 
 ARPoisonerPage::~ARPoisonerPage() {
@@ -30,8 +29,8 @@ ARPoisonerPage::~ARPoisonerPage() {
 void ARPoisonerPage::display() {
   grid = new Grid(screen, 2, 1);
   text = new Text(screen, ST77XX_WHITE, "ARP poisoning running");
-  stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
-                  stop_arp_poisoner);
+  // stop = new List(screen, "Stop", 2, ST77XX_WHITE, 20, ST77XX_BLACK,
+  //                 stop_arp_poisoner);
 
   grid->add(text);
   grid->add(stop);

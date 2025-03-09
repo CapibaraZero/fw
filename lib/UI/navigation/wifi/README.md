@@ -1,1 +1,0 @@
-# WiFi attacks GUI manager

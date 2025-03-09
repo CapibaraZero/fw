@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+#ifndef EEZ_LVGL_UI_GUI_H
+#define EEZ_LVGL_UI_GUI_H
 
-#define WIFI_SCAN_POS 0
-#define WIFI_SNIFF_POS 1
-#define WIFI_GO_BACK_POS 2
+#include <lvgl.h>
 
-#define WIFI_SCAN_SAVE_TO_SD_POS 0
-#define WIFI_SCAN_SNIFF_BSSID_POS 1
-#define WIFI_SCAN_GO_BACK_POS 2
+
+
+#if defined(EEZ_FOR_LVGL)
+#include <eez/flow/lvgl_api.h>
+#endif
+
+#if !defined(EEZ_FOR_LVGL)
+#include "screens.h"
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
+void ui_init();
+void ui_tick();
+
+#if !defined(EEZ_FOR_LVGL)
+void loadScreen(enum ScreensEnum screenId);
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // EEZ_LVGL_UI_GUI_H

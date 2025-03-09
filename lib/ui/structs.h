@@ -14,14 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+#ifndef EEZ_LVGL_UI_STRUCTS_H
+#define EEZ_LVGL_UI_STRUCTS_H
 
-// This file contains functions that starts wifiAttack on button click
 
-#include "gui.hpp"
-#include "wifi_attack.hpp"
 
-void scan_wifi(WifiAttack *wifiAttack);
-void sniff_wifi(WifiAttack *wifiAttack);
-void stop_wifi_sniffer_updater();
-void sniff_bssid(WifiAttack *wifiAttack, WifiNetwork *network);
-void return_to_net_list(Gui *gui);
+#if defined(EEZ_FOR_LVGL)
+
+#include <eez/flow/flow.h>
+#include <stdint.h>
+#include <stdbool.h>
+
+#include "vars.h"
+
+using namespace eez;
+
+
+
+
+
+#endif
+
+#endif /*EEZ_LVGL_UI_STRUCTS_H*/

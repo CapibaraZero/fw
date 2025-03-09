@@ -14,14 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+#include "styles.h"
+#include "images.h"
+#include "fonts.h"
 
-// This file contains functions that starts wifiAttack on button click
+#include "ui.h"
+#include "screens.h"
 
-#include "gui.hpp"
-#include "wifi_attack.hpp"
 
-void scan_wifi(WifiAttack *wifiAttack);
-void sniff_wifi(WifiAttack *wifiAttack);
-void stop_wifi_sniffer_updater();
-void sniff_bssid(WifiAttack *wifiAttack, WifiNetwork *network);
-void return_to_net_list(Gui *gui);

@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,22 +19,21 @@
 
 #include "GFXForms.hpp"  // Fix building errors
 #include "gui.hpp"
-#include "navigation/wifi/wifi_navigation.hpp"
 #include "network_attacks.hpp"
 #include "network_attacks_tasks.hpp"
 #include "ui_tasks/network_attacks/net_attacks_ui_tasks.hpp"
 #include "ui_tasks/network_attacks/net_attacks_ui_tasks_types.h"
 #include "wifi_attack.hpp"
+#include "vars.h"
 
 static NetAttacksTaskArg *task_arg = NULL;
 static TaskHandle_t dhcp_glutton_handle = NULL;
 static TaskHandle_t dhcp_glutton_ui_handle = NULL;
 static TaskHandle_t evilportal_task_handle = NULL;
 
-void start_dhcpglutton(Gui *gui, NetworkAttacks *attack) {
+void start_dhcpglutton(NetworkAttacks *attack) {
   task_arg = (NetAttacksTaskArg *)malloc(sizeof(NetAttacksTaskArg));
   task_arg->attack = attack;
-  task_arg->gui = gui;
   xTaskCreate(&dhcp_starvation_task, "dhcp_glutton", 4000, (void *)task_arg, 5,
               &dhcp_glutton_handle);
   xTaskCreate(&update_dhcp_glutton_clients, "dhcp_glutton_ui_updater", 4000,
@@ -49,12 +48,11 @@ void kill_dhcpglutton() {
   WiFi.disconnect();
 }
 
-void start_evilportal(Gui *gui, NetworkAttacks *attack) {
+void start_evilportal(NetworkAttacks *attack) {
   attack->init_evilportal();
-  set_evilportal_ip(WiFi.softAPIP().toString().c_str());
+  set_var_evilportal_ip(WiFi.softAPIP().toString().c_str());
   task_arg = (NetAttacksTaskArg *)malloc(sizeof(NetAttacksTaskArg));
   task_arg->attack = attack;
-  task_arg->gui = gui;
   xTaskCreate(&evilportal_task, "evilportal_processor", 4000, (void *)attack, 5,
               &evilportal_task_handle);
   xTaskCreate(&update_evilportal_requests, "evilportal_requests_updater", 4000,
@@ -73,7 +71,6 @@ TaskHandle_t arp_poisoner_task_handle = NULL;
 void start_arp_poisoning(Gui *gui, NetworkAttacks *attack) {
   task_arg = (NetAttacksTaskArg *)malloc(sizeof(NetAttacksTaskArg));
   task_arg->attack = attack;
-  task_arg->gui = gui;
   xTaskCreate(&arp_poisoning_task, "arp_poisoner_task", 4000, (void *)task_arg, 5,
               &arp_poisoner_task_handle);
 }

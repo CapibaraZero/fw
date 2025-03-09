@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 #ifndef NETWORK_ATTACKS_BTN_H
 #define NETWORK_ATTACKS_BTN_H
 
-void start_dhcpglutton(Gui *gui, NetworkAttacks *attack);
+void start_dhcpglutton(NetworkAttacks *attack);
 void kill_dhcpglutton();
-void start_evilportal(Gui *gui, NetworkAttacks *attack);
+void start_evilportal(NetworkAttacks *attack);
 void kill_evilportal(NetworkAttacks *attack);
-void start_arp_poisoning(Gui *gui, NetworkAttacks *attack);
+void start_arp_poisoning(NetworkAttacks *attack);
 void kill_arp_poisoning();
 #endif

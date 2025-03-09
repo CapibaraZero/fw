@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,7 @@ void dhcp_starvation_task(void *pv) {
   NetAttacksTaskArg *params = static_cast<NetAttacksTaskArg *>(pv);
   size_t ret = params->attack->dhcp_starvation();
   if(ret == 0) {
-    params->gui->show_error_page("Missing config");
-  } else if(ret == 1){
-    params->gui->show_error_page("Invalid config");
+    Serial.println("Invalid config");
   };
   vTaskDelete(NULL);
 }
@@ -37,9 +35,7 @@ void arp_poisoning_task(void *pv) {
   NetAttacksTaskArg *params = static_cast<NetAttacksTaskArg *>(pv);
   size_t ret = params->attack->start_arp_poisoning();
   if(ret == 0) {
-    params->gui->show_error_page("Missing config");
-  } else if(ret == 1){
-    params->gui->show_error_page("Invalid config");
+    Serial.println("Invalid config");
   };
   vTaskDelete(NULL);
 }
