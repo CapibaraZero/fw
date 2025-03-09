@@ -102,6 +102,7 @@ void create_screen_main() {
                     lv_obj_t *obj = lv_btn_create(parent_obj);
                     lv_obj_set_pos(obj, 220, 14);
                     lv_obj_set_size(obj, 100, 50);
+                    lv_obj_add_event_cb(obj, action_go_to_ble_page, LV_EVENT_PRESSED, (void *)0);
                     {
                         lv_obj_t *parent_obj = obj;
                         {
@@ -641,9 +642,9 @@ void delete_screen_wi_fi_net_selection() {
 void tick_screen_wi_fi_net_selection() {
 }
 
-void create_screen_wi_fi_sniffer() {
+void create_screen_sniffer() {
     lv_obj_t *obj = lv_obj_create(0);
-    objects.wi_fi_sniffer = obj;
+    objects.sniffer = obj;
     lv_obj_set_pos(obj, 0, 0);
     lv_obj_set_size(obj, 320, 170);
     {
@@ -690,16 +691,16 @@ void create_screen_wi_fi_sniffer() {
         }
     }
     
-    tick_screen_wi_fi_sniffer();
+    tick_screen_sniffer();
 }
 
-void delete_screen_wi_fi_sniffer() {
-    lv_obj_del(objects.wi_fi_sniffer);
-    objects.wi_fi_sniffer = 0;
+void delete_screen_sniffer() {
+    lv_obj_del(objects.sniffer);
+    objects.sniffer = 0;
     objects.obj6 = 0;
 }
 
-void tick_screen_wi_fi_sniffer() {
+void tick_screen_sniffer() {
     {
         const char *new_val = get_var_captured_packets();
         const char *cur_val = lv_label_get_text(objects.obj6);
@@ -939,6 +940,167 @@ void delete_screen_invalid_config() {
 void tick_screen_invalid_config() {
 }
 
+void create_screen_ble_page() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.ble_page = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 320, 170);
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            lv_obj_t *obj = lv_obj_create(parent_obj);
+            lv_obj_set_pos(obj, 0, 27);
+            lv_obj_set_size(obj, 320, 143);
+            lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_top(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_right(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_bottom(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_layout(obj, LV_LAYOUT_FLEX, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_flex_flow(obj, LV_FLEX_FLOW_COLUMN, LV_PART_MAIN | LV_STATE_DEFAULT);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 320, 34);
+                    lv_obj_add_event_cb(obj, action_start_ble_sniffer, LV_EVENT_CLICKED, (void *)0);
+                    lv_obj_add_state(obj, LV_STATE_FOCUSED);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "BLE Sniffer");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 320, 34);
+                    lv_obj_add_event_cb(obj, action_start_ble_spam, LV_EVENT_PRESSED, (void *)0);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "AppleJuice");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 320, 34);
+                    lv_obj_add_event_cb(obj, action_start_ble_spam, LV_EVENT_PRESSED, (void *)2);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "Swift Pair Spam");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 320, 34);
+                    lv_obj_add_event_cb(obj, action_start_ble_spam, LV_EVENT_PRESSED, (void *)1);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "Fast Pair Spam");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    tick_screen_ble_page();
+}
+
+void delete_screen_ble_page() {
+    lv_obj_del(objects.ble_page);
+    objects.ble_page = 0;
+}
+
+void tick_screen_ble_page() {
+}
+
+void create_screen_ble_spam() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.ble_spam = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 320, 170);
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            lv_obj_t *obj = lv_obj_create(parent_obj);
+            lv_obj_set_pos(obj, 0, 0);
+            lv_obj_set_size(obj, 320, 170);
+            lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_top(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_right(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_bottom(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_layout(obj, LV_LAYOUT_FLEX, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_flex_flow(obj, LV_FLEX_FLOW_COLUMN, LV_PART_MAIN | LV_STATE_DEFAULT);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 11);
+                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_label_set_text(obj, "Spam attack in progress...");
+                }
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 93, 38);
+                    lv_obj_add_event_cb(obj, action_stop_ble_spam, LV_EVENT_PRESSED, (void *)0);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "Stop");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    tick_screen_ble_spam();
+}
+
+void delete_screen_ble_spam() {
+    lv_obj_del(objects.ble_spam);
+    objects.ble_spam = 0;
+}
+
+void tick_screen_ble_spam() {
+}
+
 
 
 typedef void (*create_screen_func_t)();
@@ -948,10 +1110,12 @@ create_screen_func_t create_screen_funcs[] = {
     create_screen_wi_fi_scan_page,
     create_screen_wi_fi_net_view,
     create_screen_wi_fi_net_selection,
-    create_screen_wi_fi_sniffer,
+    create_screen_sniffer,
     create_screen_evil_portal,
     create_screen_dhcp_glutton,
     create_screen_invalid_config,
+    create_screen_ble_page,
+    create_screen_ble_spam,
 };
 void create_screen(int screen_index) {
     create_screen_funcs[screen_index]();
@@ -967,10 +1131,12 @@ delete_screen_func_t delete_screen_funcs[] = {
     delete_screen_wi_fi_scan_page,
     delete_screen_wi_fi_net_view,
     delete_screen_wi_fi_net_selection,
-    delete_screen_wi_fi_sniffer,
+    delete_screen_sniffer,
     delete_screen_evil_portal,
     delete_screen_dhcp_glutton,
     delete_screen_invalid_config,
+    delete_screen_ble_page,
+    delete_screen_ble_spam,
 };
 void delete_screen(int screen_index) {
     delete_screen_funcs[screen_index]();
@@ -986,10 +1152,12 @@ tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_wi_fi_scan_page,
     tick_screen_wi_fi_net_view,
     tick_screen_wi_fi_net_selection,
-    tick_screen_wi_fi_sniffer,
+    tick_screen_sniffer,
     tick_screen_evil_portal,
     tick_screen_dhcp_glutton,
     tick_screen_invalid_config,
+    tick_screen_ble_page,
+    tick_screen_ble_spam,
 };
 void tick_screen(int screen_index) {
     tick_screen_funcs[screen_index]();
@@ -1004,4 +1172,5 @@ void create_screens() {
     lv_disp_set_theme(dispp, theme);
     
     create_screen_main();
+    create_screen_ble_spam();
 }

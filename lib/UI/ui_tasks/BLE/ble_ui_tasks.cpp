@@ -17,14 +17,14 @@
 
 #include <Arduino.h>
 
-#include "../../navigation/BLE/ble_navigation.hpp"
 #include "ble_ui_tasks_types.h"
 #include "bluetooth_attacks.hpp"
+#include "vars.h"
 
 void update_ble_sniffed_packets(void *pv) {
   BLEUITaskParameters *params = static_cast<BLEUITaskParameters *>(pv);
   while (params->ble_attack->is_sniffing()) {
-    update_ble_packets_count(params->ble_attack->get_sniffed_packets());
+    set_var_captured_packets(("Captured packets: " + (String)params->ble_attack->get_sniffed_packets()).c_str());
     delay(1000);
   }
   vTaskDelete(NULL);

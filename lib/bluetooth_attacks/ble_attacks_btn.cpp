@@ -52,12 +52,11 @@ void scan_ble(Gui *gui, BluetoothAttack *attack) {
 
 TaskHandle_t ble_sniffer_updater = NULL;
 
-void sniff_ble(Gui *gui, BluetoothAttack *attack) {
+void sniff_ble(BluetoothAttack *attack) {
   /* We delete this after usage, so we need to recreate struct every time */
   ble_ui_task_params =
       (BLEUITaskParameters *)malloc(sizeof(BLEUITaskParameters));
   ble_ui_task_params->ble_attack = attack;
-  ble_ui_task_params->gui = gui;
   xTaskCreate(&ble_sniff_task, "ble_sniff", TASK_STACK_SIZE,
               (void *)ble_ui_task_params, 5, NULL);
   xTaskCreate(&update_ble_sniffed_packets, "ble_sniff_gui_updater", 4000,

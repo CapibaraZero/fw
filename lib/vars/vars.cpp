@@ -90,7 +90,7 @@ extern "C" void set_var_wifi_current_bssid(const char *value) {
     wifi_current_bssid = value;
 }
 
-std::string captured_packets;
+std::string captured_packets = "Captured packets: ";
 
 extern "C" const char *get_var_captured_packets() {
     return captured_packets.c_str();

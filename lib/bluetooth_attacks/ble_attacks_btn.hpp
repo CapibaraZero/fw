@@ -23,7 +23,7 @@
 #include "gui.hpp"
 
 void scan_ble(Gui *gui, BluetoothAttack *attack);
-void sniff_ble(Gui *gui, BluetoothAttack *attack);
+void sniff_ble(BluetoothAttack *attack);
 void stop_sniffer_updater();
 void start_applejuice(BluetoothAttack *attack);
 void start_samsung_ble_spam(BluetoothAttack *attack);

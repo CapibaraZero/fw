@@ -16,7 +16,6 @@
  */
 
 #include "../../../include/debug.h"
-#include "BLE/ble_navigation.hpp"
 #include "BadUSB/BadUSBNavigation.hpp"
 #include "IR/IRNavigation.hpp"
 #include "NFC/NFCNavigation.hpp"
@@ -35,10 +34,7 @@ void init_main_gui() {
 
 void init_wifi_ui() {}
 
-void init_ble_ui() {
-  init_ble_navigation(gui);
-  goto_ble_gui();
-}
+void init_ble_ui() {}
 
 void init_badusb_ui() {
   init_badusb_navigation(gui);
