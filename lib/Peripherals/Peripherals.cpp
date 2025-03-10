@@ -26,13 +26,11 @@
 uint32_t sd_sum_Mbyte;
 uint32_t sd_used_Mbyte;
 
-SPIClass SD_CARD_SPI(HSPI);
-
 bool Peripherals::common_init_sd(size_t sck, size_t miso, size_t mosi,
                                  size_t cs) {
-  SD_CARD_SPI.end();
-  SD_CARD_SPI.begin(sck, miso, mosi);
-  bool status = SD.begin(SD_CARD_CS, SD_CARD_SPI);
+  SPI.end();
+  SPI.begin(sck, miso, mosi);
+  bool status = SD.begin(SD_CARD_CS);
   if (!status) {
     Serial.println("init_sdcard failed");
   };

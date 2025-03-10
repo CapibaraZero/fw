@@ -118,6 +118,7 @@ void create_screen_main() {
                     lv_obj_t *obj = lv_btn_create(parent_obj);
                     lv_obj_set_pos(obj, 108, 14);
                     lv_obj_set_size(obj, 100, 50);
+                    lv_obj_add_event_cb(obj, action_go_to_filebrowser, LV_EVENT_PRESSED, (void *)0);
                     {
                         lv_obj_t *parent_obj = obj;
                         {
@@ -1101,6 +1102,58 @@ void delete_screen_ble_spam() {
 void tick_screen_ble_spam() {
 }
 
+void create_screen_file_explorer() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.file_explorer = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 320, 170);
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            lv_obj_t *obj = lv_obj_create(parent_obj);
+            lv_obj_set_pos(obj, 0, 19);
+            lv_obj_set_size(obj, 320, 151);
+            lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_top(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_right(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_bottom(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_layout(obj, LV_LAYOUT_FLEX, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_flex_flow(obj, LV_FLEX_FLOW_COLUMN, LV_PART_MAIN | LV_STATE_DEFAULT);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 13, 35);
+                    lv_obj_set_size(obj, 320, 27);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "File1.txt");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    tick_screen_file_explorer();
+}
+
+void delete_screen_file_explorer() {
+    lv_obj_del(objects.file_explorer);
+    objects.file_explorer = 0;
+}
+
+void tick_screen_file_explorer() {
+}
+
 
 
 typedef void (*create_screen_func_t)();
@@ -1116,6 +1169,7 @@ create_screen_func_t create_screen_funcs[] = {
     create_screen_invalid_config,
     create_screen_ble_page,
     create_screen_ble_spam,
+    create_screen_file_explorer,
 };
 void create_screen(int screen_index) {
     create_screen_funcs[screen_index]();
@@ -1137,6 +1191,7 @@ delete_screen_func_t delete_screen_funcs[] = {
     delete_screen_invalid_config,
     delete_screen_ble_page,
     delete_screen_ble_spam,
+    delete_screen_file_explorer,
 };
 void delete_screen(int screen_index) {
     delete_screen_funcs[screen_index]();
@@ -1158,6 +1213,7 @@ tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_invalid_config,
     tick_screen_ble_page,
     tick_screen_ble_spam,
+    tick_screen_file_explorer,
 };
 void tick_screen(int screen_index) {
     tick_screen_funcs[screen_index]();
@@ -1172,5 +1228,4 @@ void create_screens() {
     lv_disp_set_theme(dispp, theme);
     
     create_screen_main();
-    create_screen_ble_spam();
 }

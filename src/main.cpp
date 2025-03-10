@@ -66,12 +66,14 @@ void setup() {
 #if defined(STANDBY_BTN) && defined(WAKEUP_PIN)
   enable_deep_sleep();
 #endif
-  peripherals.init_sd();
 
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
   ui_init();
+
+  peripherals.init_sd();
+
 }
 
 void loop() {

@@ -36,6 +36,7 @@ typedef struct _objects_t {
     lv_obj_t *invalid_config;
     lv_obj_t *ble_page;
     lv_obj_t *ble_spam;
+    lv_obj_t *file_explorer;
     lv_obj_t *wifi_stack_init_text;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
@@ -63,6 +64,7 @@ enum ScreensEnum {
     SCREEN_ID_INVALID_CONFIG = 9,
     SCREEN_ID_BLE_PAGE = 10,
     SCREEN_ID_BLE_SPAM = 11,
+    SCREEN_ID_FILE_EXPLORER = 12,
 };
 
 void create_screen_main();
@@ -108,6 +110,10 @@ void tick_screen_ble_page();
 void create_screen_ble_spam();
 void delete_screen_ble_spam();
 void tick_screen_ble_spam();
+
+void create_screen_file_explorer();
+void delete_screen_file_explorer();
+void tick_screen_file_explorer();
 
 void create_screen_by_id(enum ScreensEnum screenId);
 void delete_screen_by_id(enum ScreensEnum screenId);

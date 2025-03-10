@@ -16,7 +16,6 @@
  */
 
 #include "../../../include/debug.h"
-#include "BadUSB/BadUSBNavigation.hpp"
 #include "IR/IRNavigation.hpp"
 #include "NFC/NFCNavigation.hpp"
 #include "SubGHZ/SubGHZNavigation.hpp"
@@ -36,10 +35,7 @@ void init_wifi_ui() {}
 
 void init_ble_ui() {}
 
-void init_badusb_ui() {
-  init_badusb_navigation(gui);
-  goto_badusb_gui();
-}
+void init_badusb_ui() {}
 
 void init_subghz_ui() {
   init_subghz_navigation(gui);
