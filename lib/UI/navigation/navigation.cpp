@@ -18,7 +18,6 @@
 #include "../../../include/debug.h"
 #include "IR/IRNavigation.hpp"
 #include "NFC/NFCNavigation.hpp"
-#include "SubGHZ/SubGHZNavigation.hpp"
 #include "buttons/btn_routines.hpp"
 #include "gui.hpp"
 #include "Settings/SettingsNavigation.hpp"
@@ -37,10 +36,7 @@ void init_ble_ui() {}
 
 void init_badusb_ui() {}
 
-void init_subghz_ui() {
-  init_subghz_navigation(gui);
-  goto_subghz_gui();
-}
+void init_subghz_ui() {}
 
 void init_nfc_ui() {
   init_nfc_navigation(gui);

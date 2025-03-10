@@ -69,6 +69,19 @@ void set_var_evilportal_captured_requests(const char *value);
 const char *get_var_dhcpglutton_generated_client();
 
 void set_var_dhcpglutton_generated_client(const char *value);
+
+
+// Begin SubGHZ
+const char *get_var_subghz_frequency_analyzer_freq();
+
+void set_var_subghz_frequency_analyzer_freq(const char *value);
+
+const char *get_var_subghz_frequency_analyzer_rssi();
+
+void set_var_subghz_frequency_analyzer_rssi(const char *value);
+
+
+
 // Flow global variables
 
 enum FlowGlobalVariables {

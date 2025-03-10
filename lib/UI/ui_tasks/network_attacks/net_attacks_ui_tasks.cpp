@@ -20,6 +20,8 @@
 #include "captive_portal_callback.hpp"
 #include "net_attacks_ui_tasks_types.h"
 #include "vars.h"
+#include "evilportal.hpp"
+#include "network_attacks.hpp"
 
 #define UPDATE_TIME 1000  // Duration of a cycle
 

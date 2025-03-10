@@ -23,14 +23,14 @@
 
 #include "../../include/pins.h"
 
-SPIClass SPI2(HSPI);
+// SPIClass SPI2(HSPI);
 
 #ifndef CC1101_SUBGHZ
 // TODO: Initialize SPI(and SX1276) in constructor of SubGHZ class
 SX1276 radio =
     new Module(SX1276_NSS, RADIOLIB_NC, RADIOLIB_NC, SX1276_DIO1, SPI2);
 #else
-CC1101 radio = new Module(CC1101_CS, CC1101_IO0, -1, CC1101_IO2, SPI2);
+CC1101 radio = new Module(CC1101_CS, CC1101_IO0, -1, CC1101_IO2);
 #endif
 
 #ifndef CC1101_SUBGHZ
@@ -79,7 +79,7 @@ void SubGHZ::init_receive() {
   digitalWrite(CC1101_SW1, HIGH);
   digitalWrite(CC1101_SW0, HIGH);
 
-  SPI2.begin(CC1101_SCK, CC1101_MISO, CC1101_MOSI, _csn);
+  SPI.begin(CC1101_SCK, CC1101_MISO, CC1101_MOSI, _csn);
 
   int state = radio.begin(433.92);
   if (state != RADIOLIB_ERR_NONE) {
@@ -130,7 +130,7 @@ int16_t SubGHZ::get_chip_version() {
     version = radio.getChipVersion();
   }
 #else
-  SPI2.begin(CC1101_SCK, CC1101_MISO, CC1101_MOSI, _csn);
+  SPI.begin(CC1101_SCK, CC1101_MISO, CC1101_MOSI, _csn);
   digitalWrite(CC1101_CS, HIGH);
 
   int state = radio.begin(315);

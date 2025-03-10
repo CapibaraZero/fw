@@ -130,3 +130,25 @@ extern "C" void set_var_dhcpglutton_generated_client(const char *value) {
     dhcpglutton_generated_client = value;
 }
 // END WIFI
+
+// BEGIN SubGHZ
+
+std::string subghz_frequency_analyzer_freq = "Frequency: ";
+
+extern "C" const char *get_var_subghz_frequency_analyzer_freq() {
+    return subghz_frequency_analyzer_freq.c_str();
+}
+
+extern "C" void set_var_subghz_frequency_analyzer_freq(const char *value) {
+    subghz_frequency_analyzer_freq = value;
+}
+
+std::string subghz_frequency_analyzer_rssi = "RSSI: ";
+
+extern "C" const char *get_var_subghz_frequency_analyzer_rssi() {
+    return subghz_frequency_analyzer_rssi.c_str();
+}
+
+extern "C" void set_var_subghz_frequency_analyzer_rssi(const char *value) {
+    subghz_frequency_analyzer_rssi = value;
+}

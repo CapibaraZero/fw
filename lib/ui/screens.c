@@ -35,6 +35,7 @@ void create_screen_main() {
     objects.main = obj;
     lv_obj_set_pos(obj, 0, 0);
     lv_obj_set_size(obj, 320, 170);
+    lv_obj_add_event_cb(obj, action_go_to_subghz, LV_EVENT_PRESSED, (void *)0);
     {
         lv_obj_t *parent_obj = obj;
         {
@@ -134,6 +135,7 @@ void create_screen_main() {
                     lv_obj_t *obj = lv_btn_create(parent_obj);
                     lv_obj_set_pos(obj, -72, 155);
                     lv_obj_set_size(obj, 100, 50);
+                    lv_obj_add_event_cb(obj, action_go_to_subghz, LV_EVENT_PRESSED, (void *)0);
                     {
                         lv_obj_t *parent_obj = obj;
                         {
@@ -1154,6 +1156,195 @@ void delete_screen_file_explorer() {
 void tick_screen_file_explorer() {
 }
 
+void create_screen_sub_ghz_page() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.sub_ghz_page = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 320, 170);
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            lv_obj_t *obj = lv_obj_create(parent_obj);
+            lv_obj_set_pos(obj, 0, 27);
+            lv_obj_set_size(obj, 320, 143);
+            lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_top(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_right(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_bottom(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_layout(obj, LV_LAYOUT_FLEX, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_flex_flow(obj, LV_FLEX_FLOW_COLUMN, LV_PART_MAIN | LV_STATE_DEFAULT);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 320, 34);
+                    lv_obj_add_event_cb(obj, action_subghz_start_frequency_analyzer, LV_EVENT_CLICKED, (void *)0);
+                    lv_obj_add_state(obj, LV_STATE_FOCUSED);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "Frequency Scanner");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 320, 34);
+                    lv_obj_add_event_cb(obj, action_subghz_start_record_raw, LV_EVENT_PRESSED, (void *)0);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "Record RAW");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 320, 34);
+                    lv_obj_add_event_cb(obj, action_subghz_start_sender, LV_EVENT_PRESSED, (void *)0);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "Sender");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 320, 34);
+                    lv_obj_add_event_cb(obj, action_go_to_main_page, LV_EVENT_PRESSED, (void *)0);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "Go back");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    tick_screen_sub_ghz_page();
+}
+
+void delete_screen_sub_ghz_page() {
+    lv_obj_del(objects.sub_ghz_page);
+    objects.sub_ghz_page = 0;
+}
+
+void tick_screen_sub_ghz_page() {
+}
+
+void create_screen_sub_ghz_frequency_analyzer_page() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.sub_ghz_frequency_analyzer_page = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 320, 170);
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            lv_obj_t *obj = lv_obj_create(parent_obj);
+            lv_obj_set_pos(obj, 0, 0);
+            lv_obj_set_size(obj, 320, 170);
+            lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_top(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_right(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_bottom(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_layout(obj, LV_LAYOUT_FLEX, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_flex_flow(obj, LV_FLEX_FLOW_COLUMN, LV_PART_MAIN | LV_STATE_DEFAULT);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj10 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_label_set_text(obj, "");
+                }
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj11 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_label_set_text(obj, "");
+                }
+                {
+                    lv_obj_t *obj = lv_btn_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 100, 37);
+                    lv_obj_add_event_cb(obj, action_stop_subghz_frequency_analyzer, LV_EVENT_PRESSED, (void *)0);
+                    {
+                        lv_obj_t *parent_obj = obj;
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "Stop");
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    tick_screen_sub_ghz_frequency_analyzer_page();
+}
+
+void delete_screen_sub_ghz_frequency_analyzer_page() {
+    lv_obj_del(objects.sub_ghz_frequency_analyzer_page);
+    objects.sub_ghz_frequency_analyzer_page = 0;
+    objects.obj10 = 0;
+    objects.obj11 = 0;
+}
+
+void tick_screen_sub_ghz_frequency_analyzer_page() {
+    {
+        const char *new_val = get_var_subghz_frequency_analyzer_freq();
+        const char *cur_val = lv_label_get_text(objects.obj10);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj10;
+            lv_label_set_text(objects.obj10, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = get_var_subghz_frequency_analyzer_rssi();
+        const char *cur_val = lv_label_get_text(objects.obj11);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj11;
+            lv_label_set_text(objects.obj11, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+}
+
 
 
 typedef void (*create_screen_func_t)();
@@ -1170,6 +1361,8 @@ create_screen_func_t create_screen_funcs[] = {
     create_screen_ble_page,
     create_screen_ble_spam,
     create_screen_file_explorer,
+    create_screen_sub_ghz_page,
+    create_screen_sub_ghz_frequency_analyzer_page,
 };
 void create_screen(int screen_index) {
     create_screen_funcs[screen_index]();
@@ -1192,6 +1385,8 @@ delete_screen_func_t delete_screen_funcs[] = {
     delete_screen_ble_page,
     delete_screen_ble_spam,
     delete_screen_file_explorer,
+    delete_screen_sub_ghz_page,
+    delete_screen_sub_ghz_frequency_analyzer_page,
 };
 void delete_screen(int screen_index) {
     delete_screen_funcs[screen_index]();
@@ -1214,6 +1409,8 @@ tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_ble_page,
     tick_screen_ble_spam,
     tick_screen_file_explorer,
+    tick_screen_sub_ghz_page,
+    tick_screen_sub_ghz_frequency_analyzer_page,
 };
 void tick_screen(int screen_index) {
     tick_screen_funcs[screen_index]();

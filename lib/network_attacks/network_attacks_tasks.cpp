@@ -16,6 +16,7 @@
  */
 
 #include "ui_tasks/network_attacks/net_attacks_ui_tasks_types.h"
+#include "network_attacks.hpp"
 
 void dhcp_starvation_task(void *pv) {
   NetAttacksTaskArg *params = static_cast<NetAttacksTaskArg *>(pv);

@@ -18,7 +18,6 @@
 #include "../../pages/Settings/SettingsPage.hpp"
 #include "gui.hpp"
 #include "../navigation.hpp"
-#include "../../navigation/SubGHZ/SubGHZNavigation.hpp"
 
 static SettingsPage *settings = nullptr;
 static Gui *gui = nullptr;
@@ -28,7 +27,7 @@ void goto_back_to_home() {
 }
 
 void goto_settings_ui() {
-    String subghz_rev = get_subghz_chip_revision();
+    // String subghz_rev = get_subghz_chip_revision();
     size_t pos_limit = SD.cardType() != CARD_NONE ? 12 : 10;
     size_t lower_limit = SD.cardType() != CARD_NONE ? 5 : 3;
     #if !defined(WAKEUP_PIN)
@@ -37,7 +36,7 @@ void goto_settings_ui() {
     #endif
     settings = new SettingsPage(pos_limit, lower_limit, 1, gui->get_screen());
     gui->reset();
-    settings->display(subghz_rev);
+    // settings->display(subghz_rev);
     gui->set_current_page(settings, false);
 }
 

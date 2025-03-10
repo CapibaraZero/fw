@@ -37,6 +37,8 @@ typedef struct _objects_t {
     lv_obj_t *ble_page;
     lv_obj_t *ble_spam;
     lv_obj_t *file_explorer;
+    lv_obj_t *sub_ghz_page;
+    lv_obj_t *sub_ghz_frequency_analyzer_page;
     lv_obj_t *wifi_stack_init_text;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
@@ -48,6 +50,8 @@ typedef struct _objects_t {
     lv_obj_t *obj7;
     lv_obj_t *obj8;
     lv_obj_t *obj9;
+    lv_obj_t *obj10;
+    lv_obj_t *obj11;
 } objects_t;
 
 extern objects_t objects;
@@ -65,6 +69,8 @@ enum ScreensEnum {
     SCREEN_ID_BLE_PAGE = 10,
     SCREEN_ID_BLE_SPAM = 11,
     SCREEN_ID_FILE_EXPLORER = 12,
+    SCREEN_ID_SUB_GHZ_PAGE = 13,
+    SCREEN_ID_SUB_GHZ_FREQUENCY_ANALYZER_PAGE = 14,
 };
 
 void create_screen_main();
@@ -114,6 +120,14 @@ void tick_screen_ble_spam();
 void create_screen_file_explorer();
 void delete_screen_file_explorer();
 void tick_screen_file_explorer();
+
+void create_screen_sub_ghz_page();
+void delete_screen_sub_ghz_page();
+void tick_screen_sub_ghz_page();
+
+void create_screen_sub_ghz_frequency_analyzer_page();
+void delete_screen_sub_ghz_frequency_analyzer_page();
+void tick_screen_sub_ghz_frequency_analyzer_page();
 
 void create_screen_by_id(enum ScreensEnum screenId);
 void delete_screen_by_id(enum ScreensEnum screenId);

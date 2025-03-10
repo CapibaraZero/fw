@@ -1,9 +1,9 @@
 #include <vector>
 
-#include "../UI/navigation/SubGHZ/SubGHZNavigation.hpp"
 #include "SubGHZ.hpp"
 #include "fm.hpp"
 #include "subghz_tasks_type.h"
+#include "vars.h"
 
 #define TIME_BETWEEN_SCAN 400
 
@@ -22,8 +22,8 @@ void frequency_analyzer(void *pv) {
 #endif
       SignalStrength result = params->subghz->scan_frequency(freq);
       if (result.rssi > RSSI_LIMIT) {
-        set_subghz_freqeuncy(freq);
-        set_subghz_rssi(result.rssi);
+        set_var_subghz_frequency_analyzer_freq( ((String)"Frequency: " + freq + "MHz").c_str() );
+        set_var_subghz_frequency_analyzer_rssi( ((String)"RSSI: " + result.rssi + "dBm").c_str() );
       }
       delay(100);
     }
