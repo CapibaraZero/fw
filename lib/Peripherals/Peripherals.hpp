@@ -54,6 +54,9 @@ class Peripherals {
   virtual void init_sd() = 0;
   virtual void init_navigation() = 0;
   virtual void loop_code() = 0;
+  virtual void standby() {
+    Serial.println("Standby not implemented");
+  }
 };
 
 #endif

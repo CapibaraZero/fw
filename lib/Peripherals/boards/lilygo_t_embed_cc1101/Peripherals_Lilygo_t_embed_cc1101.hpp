@@ -29,9 +29,16 @@
 #include "Wire.h"
 #include "navigation/buttons/btn_routines.hpp"
 #include "navigation/navigation.hpp"
+#define XPOWERS_CHIP_BQ25896
+
+#include <XPowersLib.h>
+
+#define GPIO_BITMASK(GPIO) (1ULL << GPIO)
 
 class Peripherals_Lilygo_t_embed_cc1101 : public Peripherals {
  private:
+ XPowersPPM PPM;
+
   /* data */
  public:
   Peripherals_Lilygo_t_embed_cc1101(/* args */) {};
@@ -68,6 +75,14 @@ class Peripherals_Lilygo_t_embed_cc1101 : public Peripherals {
     pinMode(BOARD_PWR_EN, OUTPUT);
     digitalWrite(BOARD_PWR_EN, HIGH);  // Power on CC1101 an
 
+    // Init PPM
+    bool result =  PPM.init(Wire, NFC_BUS_SDA, NFC_BUS_SCL, BQ25896_SLAVE_ADDRESS);
+    if (result == false) {
+        Serial.println("PPM is not online...");
+    } else {
+        Serial.println("PPM initialized!");
+    }
+
     // NFC
     pinMode(PN532_RST, OUTPUT);
     digitalWrite(PN532_RST, HIGH);
@@ -83,6 +98,12 @@ class Peripherals_Lilygo_t_embed_cc1101 : public Peripherals {
   void loop_code() {
     handle_encoder();
     ok_btn.read();
+  }
+  void standby() {
+      digitalWrite(BOARD_PWR_EN, LOW);  // Power off CC1101 and LED
+      esp_sleep_enable_ext1_wakeup(GPIO_BITMASK(WAKEUP_PIN),
+                                 ESP_EXT1_WAKEUP_ANY_LOW);
+      esp_deep_sleep_start();
   }
 };
 

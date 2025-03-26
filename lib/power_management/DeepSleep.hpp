@@ -15,5 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-void enable_deep_sleep();
+class Peripherals;
+void enable_deep_sleep(Peripherals *board);
 void go_deep_sleep();

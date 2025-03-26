@@ -64,7 +64,7 @@ void setup() {
   pinMode(BATTERY_MONITOR, INPUT);
 #endif
 #if defined(STANDBY_BTN) && defined(WAKEUP_PIN)
-  enable_deep_sleep();
+  enable_deep_sleep(&peripherals);
 #endif
 
   lv_init();
