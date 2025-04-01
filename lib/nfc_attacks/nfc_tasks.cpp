@@ -16,13 +16,17 @@
  */
 
 #include "../../include/debug.h"
-#include "../UI/navigation/NFC/NFCNavigation.hpp"
 #include "ArduinoJson.h"
 #include "flipper_zero_nfc_file_parser.hpp"
 #include "navigation/navigation.hpp"
 #include "nfc_attacks.hpp"
 #include "nfc_tasks_types.h"
 #include "posixsd.hpp"
+#include <lvgl.h>
+#include "screens.h"
+#include "vars.h"
+#include "hex2str.hpp"
+#include "ui.h"
 
 bool polling_in_progress = false;
 bool dump_in_progress = false;
@@ -62,10 +66,17 @@ void mifare_polling_task(void *pv) {
   Serial.println(atqa, HEX);
   Serial.print("SAK: ");
   Serial.println(sak, HEX);
-  goto_nfc_polling_result_gui(
-      uid, uid_length, NFCFramework::lookup_tag(atqa, sak, uid_length).name);
+
+  create_screen_nfciso14443_ainfo();
+  loadScreen(SCREEN_ID_NFCISO14443_AINFO);
+
+  set_var_nfc_tag_type(NFCFramework::lookup_tag(atqa, sak, uid_length).name);
+  set_var_nfc_atqa(("ATQA: " + String(atqa, HEX)).c_str());
+  set_var_nfc_sak(("SAK: " + String(sak, HEX)).c_str());
+
   free(pv);
   polling_in_progress = false;
+  uid_length = 0; // Reset for next usage
   vTaskDelete(NULL);
 }
 
@@ -77,17 +88,26 @@ void felica_polling_task(void *pv) {
     params->attacks->detect_felica(idm, pmm, &sys_code);
     delay(500);
   }
+
+
   LOG_INFO("Sys code: ");
 #ifdef ARDUINO_NANO_ESP32
   Serial.println(sys_code, HEX);
 #else
   Serial0.println(sys_code, HEX);
 #endif
-  // LOG_INFO("Card found");
-  params->gui->reset();
-  init_nfc_felica_polling_result_gui(idm, pmm, sys_code);
+
+  create_screen_nfciso18092_ainfo();
+  loadScreen(SCREEN_ID_NFCISO18092_AINFO);
+
+  set_var_nfc_tag_type("FeliCa found!");
+  set_var_nfc_atqa(("IDm: " + hextostr(idm, 8)).c_str());
+  set_var_nfc_sak(("PMm: " + hextostr(pmm, 8)).c_str());
+  set_var_nfc_sys_code(("Sys. Code: "+ String(sys_code, HEX)).c_str());
+  
   free(pv);
   polling_in_progress = false;
+
   vTaskDelete(NULL);
 }
 
@@ -102,47 +122,23 @@ void get_card_info(uint8_t *_idm, uint8_t *_pmm, uint16_t *_sys_code) {
   *_sys_code = sys_code;
 }
 
-void goto_home_nfc(NFCTasksParams *params) {
-  // Go to home.
-  // TODO: Port this in NFCNavigation
-  // params->gui->reset();
-  // params->gui->init_gui();
-  // params->gui->set_current_position(0);
-  // params->gui->set_selected_widget(0, true);
-  nfc_cleanup();
-  reset_uid();
-  init_main_gui();
-}
-
-void dump_iso14443a_task(void *pv) {
-  dump_in_progress = true;
-  NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  DumpResult *result = (DumpResult *)malloc(sizeof(DumpResult));
-  NFCTag tag = params->attacks->dump_tag(result);
-  set_dumped_sectors(tag.get_blocks_count() - result->unreadable -
-                     result->unauthenticated);
-  set_unreadable_sectors(result->unreadable + result->unauthenticated);
-  params->attacks->set_scanned_tag(&tag);
-  delay(10000);
-  goto_home_nfc(params);
-  free(pv);
-  dump_in_progress = false;
-  vTaskDelete(NULL);
+void goto_home_nfc() {
+  create_screen_nfc_page();
+  loadScreen(SCREEN_ID_NFC_PAGE);
 }
 
 void dump_felica_task(void *pv) {
   dump_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  // DumpResult *result = (DumpResult *)malloc(sizeof(DumpResult));
   uint8_t unreadable = 0;
   NFCTag tag = params->attacks->felica_dump(14, &unreadable);
   LOG_INFO("Finished2");
   Serial.printf("Felica dump: %d\n", unreadable);
-  set_dumped_sectors(14 - unreadable);
-  set_unreadable_sectors(unreadable);
+  set_var_nfc_felica_read_sector(("Read sectors: " + String(14 - unreadable)).c_str());
+  set_var_nfc_felica_unreadable_sectors(("Unreadable sectors: " + String(unreadable)).c_str());
   params->attacks->set_scanned_tag(&tag);
-  delay(10000);
-  goto_home_nfc(params);
+  delay(5000);
+  goto_home_nfc();
   free(pv);
   dump_in_progress = false;
   vTaskDelete(NULL);
@@ -152,12 +148,19 @@ void format_iso14443a_task(void *pv) {
   format_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   if(!exists("/NFC/keys.txt")) {
-    params->gui->show_error_page("Missing keys file");
+    Serial.println("Missing keys file");
+    params->attacks->set_bruteforce_status(false);
+    // params->gui->show_error_page("Missing keys file");
   } else {
     params->attacks->format_tag();
     delay(10000);
   }
   format_in_progress = false;
+
+  if(!exists("/NFC/keys.txt")) {
+    set_var_nfc_written_sectors("Missing keys file");  // Show a message error for user
+    set_var_nfc_unwritable_sectors("");
+  }
   // We don't need free(pv) here because we share same pointer between
   // bruteforce tasks
   vTaskDelete(NULL);
@@ -166,24 +169,13 @@ void format_iso14443a_task(void *pv) {
 void format_update_ui_task(void *pv) {
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   while (params->attacks->get_bruteforce_status()) {
-    set_formatted_sectors(params->attacks->get_tag_blocks(),
-                          params->attacks->get_formatted_sectors());
+    set_var_nfc_written_sectors(("Formatted: " + String(params->attacks->get_formatted_sectors())).c_str());
+    set_var_nfc_unwritable_sectors(("Unwritable: " + String(params->attacks->get_tag_blocks())).c_str());
     delay(1000);
   }
   delay(3000);
-  goto_home_nfc(params);
+  goto_home_nfc();
   free(pv);
-  vTaskDelete(NULL);
-}
-
-void format_felica_task(void *pv) {
-  format_in_progress = true;
-  NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
-  set_unformatted_sectors(14, params->attacks->felica_format(14));
-  delay(10000);
-  goto_home_nfc(params);
-  free(pv);
-  format_in_progress = false;
   vTaskDelete(NULL);
 }
 
@@ -191,7 +183,8 @@ void bruteforce_iso14443a_task(void *pv) {
   bruteforce_in_progress = true;
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   if(!exists("/NFC/keys.txt")) {
-    params->gui->show_error_page("Missing keys file");
+    set_var_nfc_found_keys("Missing keys file");
+    params->attacks->set_bruteforce_status(false);
   } else {
     params->attacks->bruteforce();
   }
@@ -204,14 +197,16 @@ void bruteforce_iso14443a_task(void *pv) {
 void bruteforce_update_ui_task(void *pv) {
   NFCTasksParams *params = static_cast<NFCTasksParams *>(pv);
   while (params->attacks->get_bruteforce_status()) {
-    nfc_bruteforce_set_tried_key(params->attacks->get_tried_keys());
+    set_var_nfc_tried_keys(("Tried keys: " + String(params->attacks->get_tried_keys())).c_str());
     delay(1000);
   }
   delay(1000);
-  nfc_bruteforce_set_tried_key(params->attacks->get_tried_keys());
-  nfc_bruteforce_found_key();
+  set_var_nfc_tried_keys(("Tried keys: " + String(params->attacks->get_tried_keys())).c_str());
+  // nfc_bruteforce_set_tried_key(params->attacks->get_tried_keys());
+  // nfc_bruteforce_found_key();
+  set_var_nfc_found_keys("Saving results...");
   delay(2000);
-  goto_home_nfc(params);
+  goto_home_nfc();
   free(pv);
   vTaskDelete(NULL);
 }
@@ -254,9 +249,9 @@ void write_nfc_sectors(void *pv) {
           success = params->attacks->write_ntag(i++, data);
         }
         if (success) {
-          set_wrote_sectors(++wrote_sectors);
+          set_var_nfc_written_sectors(("Written sectors: " + String(++wrote_sectors)).c_str());
         } else {
-          set_unwritable_sectors(++unwritable_sectors);
+          set_var_nfc_unwritable_sectors(("Unwritable sectors: " + String(++unwritable_sectors)).c_str());
         }
       }
     }
@@ -265,7 +260,7 @@ void write_nfc_sectors(void *pv) {
                             params->attacks);
   }
   delay(6000);
-  goto_home_nfc(params);
+  goto_home_nfc();
   free(pv);
   vTaskDelete(NULL);
 }
@@ -365,14 +360,14 @@ void read_emv_card_task(void *pv) {
     bool found = false;
     for (size_t i = 0; i < AID_DICT_SIZE && !found; i++) {
       if(memcmp(card.aid, known_aid[i].aid, 7) == 0) {
-        set_emv_type(known_aid[i].name);
+        set_var_nfc_emv_type(known_aid[i].name);
         found = true;
       }
     }
 
     if(!found) {
-      set_emv_type("Unknown");
-    } 
+      set_var_nfc_emv_type("Unknown");
+    }
 
     if(card.pan != nullptr) {
       std::string pan = BinToAscii(card.pan, card.pan_len);
@@ -384,29 +379,29 @@ void read_emv_card_task(void *pv) {
           pan.insert(pan.begin() + i + (pad++), ' ');
         }
       }
-      
-      set_emv_pan(pan.c_str());
+
+      set_var_nfc_emv_card_number(pan.c_str());
     } else {
-      set_emv_pan("Unknown");
+      set_var_nfc_emv_card_number("Unknown");
     }
-    
+
     if(card.validfrom != nullptr) {
       std::string issuedate = BinToAscii(card.validfrom, 2);
       issuedate.insert(issuedate.begin() + 2, '/');
-      set_emv_issue_date(issuedate.c_str());
+      set_var_nfc_emv_card_issue(issuedate.c_str());
     } else {
-      set_emv_issue_date("Unknown");
+      set_var_nfc_emv_card_issue("Unknown");
     }
 
     if(card.validto != nullptr) {
       std::string validto = BinToAscii(card.validto, 2);
       validto.insert(validto.begin() + 2, '/');
-      set_emv_expire_date(validto.c_str());
+      set_var_nfc_emv_card_expire(validto.c_str());
     }  else {
-      set_emv_expire_date("Unknown");
-    } 
+      set_var_nfc_emv_card_expire("Unknown");
+    }
   } else {
-    set_emv_type("Can't parse EMV");
+    set_var_nfc_emv_type("Can't parse EMV");
   }
 
   reading_emv = false;

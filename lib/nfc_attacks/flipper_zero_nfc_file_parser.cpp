@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 #include <string>
 #include <vector>
 
-#include "../UI/navigation/NFC/NFCNavigation.hpp"
 #include "nfc_attacks.hpp"
+#include "vars.h"
 
 static int count_chars_in_line(const char *str, int pos) {
   int end_pos = pos;
@@ -83,10 +83,12 @@ void flipper_zero_nfc_parser(std::string file, NFCAttacks *attacks) {
         success = attacks->write_ntag(i++, data);
       }
       if (success) {
-        set_wrote_sectors(++wrote_sectors);
+        set_var_nfc_written_sectors(("Written sectors: " + String(++wrote_sectors)).c_str());
       } else {
-        set_unwritable_sectors(++unwritable_sectors);
+        set_var_nfc_unwritable_sectors(("Unwritable sectors: " + String(++unwritable_sectors)).c_str());
       }
     }
   }
+
+  set_var_nfc_unwritable_sectors("Write completed!");
 }

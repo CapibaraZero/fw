@@ -1,8 +1,8 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[capibaraZero.eez-project]:/userPages/10",
-    "selectedActionObject": "[capibaraZero.eez-project]:/actions/16",
-    "selectedGlobalVariableObject": "[capibaraZero.eez-project]:/variables/globalVariables/7",
+    "selectedUserPageObject": "[capibaraZero.eez-project]:/userPages/14",
+    "selectedActionObject": "[capibaraZero.eez-project]:/actions/31",
+    "selectedGlobalVariableObject": "[capibaraZero.eez-project]:/variables/globalVariables/26",
     "subnavigationSelectedItems": {
       "variables-tab/sub-navigation/selected-item": "Global"
     }
@@ -125,6 +125,7 @@
                   "type": "tabset",
                   "id": "#4eb6ad71-2704-42f7-b131-ab6c118ce4ad",
                   "weight": 1,
+                  "selected": 2,
                   "enableClose": false,
                   "children": [
                     {
@@ -167,8 +168,7 @@
                       "enableClose": false,
                       "icon": "svg:hierarchy"
                     }
-                  ],
-                  "active": true
+                  ]
                 },
                 {
                   "type": "tabset",
@@ -197,11 +197,11 @@
               "children": [
                 {
                   "type": "tab",
-                  "id": "#3335ae31-970b-4120-97a1-8d0aae789023",
-                  "name": "BLESpam",
+                  "id": "#fdfde95d-0ffd-4205-8f0f-0f79b3ca9644",
+                  "name": "NFCPage",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[capibaraZero.eez-project]:/userPages/10",
+                    "objectPath": "[capibaraZero.eez-project]:/userPages/14",
                     "permanent": false
                   },
                   "icon": "svg:page"
@@ -260,7 +260,7 @@
                 {
                   "type": "tabset",
                   "id": "#2e537619-807a-4a3e-ae25-63317067a890",
-                  "weight": 2.3607038123167157,
+                  "weight": 1.7676508344030808,
                   "children": [
                     {
                       "type": "tab",
@@ -270,12 +270,13 @@
                       "enableClose": false,
                       "icon": "svg:properties"
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
                   "id": "#96bc7185-5900-4e45-bf9c-29695beeb7bd",
-                  "weight": 0.6392961876832844,
+                  "weight": 1.2323491655969192,
                   "children": [
                     {
                       "type": "tab",
@@ -1024,7 +1025,9 @@
           "1": {
             "0": {},
             "1": {},
-            "2": {},
+            "2": {
+              "$selected": true
+            },
             "3": {},
             "4": {},
             "5": {},
@@ -1034,8 +1037,8 @@
       },
       "transform": {
         "translate": {
-          "x": -302.75,
-          "y": -155.75
+          "x": -442.75,
+          "y": -150.75
         },
         "scale": 3
       },
@@ -1077,15 +1080,14 @@
       "selection": {
         "0": {
           "0": {
-            "0": {},
-            "$selected": true
+            "0": {}
           }
         }
       },
       "transform": {
         "translate": {
-          "x": -16.333334989017843,
-          "y": -39.3333318101036
+          "x": -504.3333349890179,
+          "y": -203.3333318101036
         },
         "scale": 3
       },
@@ -1134,7 +1136,7 @@
           "x": -168,
           "y": -85
         },
-        "scale": 1
+        "scale": 3
       },
       "timeline": {
         "isEditorActive": false,
@@ -1187,7 +1189,7 @@
       },
       "transform": {
         "translate": {
-          "x": -160,
+          "x": -447,
           "y": -85
         },
         "scale": 3
@@ -1228,8 +1230,8 @@
       },
       "transform": {
         "translate": {
-          "x": -330.1,
-          "y": -265.5
+          "x": -356.1,
+          "y": -343.5
         },
         "scale": 3
       },
@@ -1252,8 +1254,261 @@
       },
       "transform": {
         "translate": {
-          "x": -160,
+          "x": -460,
           "y": -205
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/14[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "0": {
+              "0": {}
+            },
+            "1": {},
+            "2": {
+              "$selected": true
+            },
+            "3": {}
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -414,
+          "y": -335
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/12[flow-state]": {
+      "selection": {},
+      "transform": {
+        "translate": {
+          "x": -454,
+          "y": -85
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/13[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "2": {
+              "$selected": true
+            }
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -160,
+          "y": -85
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/15[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {}
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -303,
+          "y": -164
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/16[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "3": {
+              "0": {},
+              "1": {}
+            },
+            "4": {
+              "0": {},
+              "1": {},
+              "2": {}
+            },
+            "$selected": true
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -360,
+          "y": -240
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/17[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {}
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -510,
+          "y": -249
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/18[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "1": {}
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -412,
+          "y": -129
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/19[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {}
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -472,
+          "y": -189
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/20[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "4": {
+              "0": {}
+            }
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -416,
+          "y": -283
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/21[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "$selected": true
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -510,
+          "y": -191
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/22[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "3": {},
+            "4": {
+              "$selected": true
+            }
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -465,
+          "y": -203
         },
         "scale": 3
       },

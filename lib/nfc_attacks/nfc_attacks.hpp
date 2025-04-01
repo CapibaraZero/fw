@@ -112,6 +112,9 @@ class NFCAttacks {
   NFCTag get_felica_towrite();
   uint8_t get_tried_keys() { return tried_keys; };
   bool get_bruteforce_status() { return bruteforce_status; };
+  void set_bruteforce_status(bool val) {
+    bruteforce_status = val;
+  }
   uint8_t get_formatted_sectors() { return formatted_sectors; };
   uint8_t get_tag_blocks() { return current_tag_blocks; };
 

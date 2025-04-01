@@ -16,21 +16,19 @@
  */
 
 #include "nfc_attacks.hpp"
+#include "gui.hpp"
 
-void mifare_polling(Gui *gui, NFCAttacks *attacks);
-void felica_polling(Gui *gui, NFCAttacks *attacks);
-void dump_iso14443a(Gui *gui, NFCAttacks *attacks);
-void dump_felica(Gui *gui, NFCAttacks *attacks);
-void write_tag(Gui *gui, NFCAttacks *attacks, NFCTag *tag);
+void mifare_polling(NFCAttacks *attacks);
+void felica_polling(NFCAttacks *attacks);
+void dump_felica(NFCAttacks *attacks);
 void write_felica_tag(Gui *gui, NFCAttacks *attacks, NFCTag *tag);
-void write_sectors(Gui *gui, NFCAttacks *attacks, const char *path);
-void format_iso14443a(Gui *gui, NFCAttacks *attacks);
-void format_felica(Gui *gui, NFCAttacks *attacks);
-void bruteforce_tag(Gui *gui, NFCAttacks *attacks);
+void write_sectors(NFCAttacks *attacks, const char *path);
+void format_iso14443a(NFCAttacks *attacks);
+void bruteforce_tag(NFCAttacks *attacks);
 void reset_uid(void);  // From nfc_tasks.cpp
 void reset_felica(void);
 void destroy_tasks(NFCAttacks *attacks);
 void emulate_iso14443a_tag(uint8_t *uid, NFCAttacks *attacks);
 void emulate_iso18092_tag(uint8_t *idm, uint8_t *pmm, uint8_t *sys_code, NFCAttacks *attacks);
 void stop_emulate();
-void read_emv_card_attack(Gui *gui, NFCAttacks *nfc_attacks);
+void read_emv_card_attack(NFCAttacks *nfc_attacks);

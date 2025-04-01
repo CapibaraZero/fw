@@ -17,7 +17,6 @@
 
 #include "../../../include/debug.h"
 #include "IR/IRNavigation.hpp"
-#include "NFC/NFCNavigation.hpp"
 #include "buttons/btn_routines.hpp"
 #include "gui.hpp"
 #include "Settings/SettingsNavigation.hpp"
@@ -38,10 +37,7 @@ void init_badusb_ui() {}
 
 void init_subghz_ui() {}
 
-void init_nfc_ui() {
-  init_nfc_navigation(gui);
-  goto_nfc_gui();
-}
+void init_nfc_ui() {}
 
 void init_ir_ui() {
   init_ir_navigation(gui);

@@ -81,8 +81,47 @@ const char *get_var_subghz_frequency_analyzer_rssi();
 void set_var_subghz_frequency_analyzer_rssi(const char *value);
 
 
+const char *get_var_nfc_atqa();
+void set_var_nfc_atqa(const char *value);
 
-// Flow global variables
+const char *get_var_nfc_sak();
+void set_var_nfc_sak(const char *value);
+
+const char *get_var_nfc_tag_type();
+void set_var_nfc_tag_type(const char *value);
+
+const char *get_var_nfc_written_sectors();
+void set_var_nfc_written_sectors(const char *value);
+
+const char *get_var_nfc_unwritable_sectors();
+void set_var_nfc_unwritable_sectors(const char *value);
+
+const char *get_var_nfc_tried_keys();
+void set_var_nfc_tried_keys(const char *value);
+
+const char *get_var_nfc_found_keys();
+void set_var_nfc_found_keys(const char *value);
+
+const char *get_var_nfc_sys_code();
+void set_var_nfc_sys_code(const char *value);
+
+const char *get_var_nfc_felica_read_sector();
+void set_var_nfc_felica_read_sector(const char *value);
+
+const char *get_var_nfc_felica_unreadable_sectors();
+void set_var_nfc_felica_unreadable_sectors(const char *value);
+
+const char *get_var_nfc_emv_type();
+void set_var_nfc_emv_type(const char *value);
+
+const char *get_var_nfc_emv_card_number();
+void set_var_nfc_emv_card_number(const char *value); 
+
+const char *get_var_nfc_emv_card_issue();
+void set_var_nfc_emv_card_issue(const char *value);
+
+const char *get_var_nfc_emv_card_expire();
+void set_var_nfc_emv_card_expire(const char *value);
 
 enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_NONE

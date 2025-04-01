@@ -15,30 +15,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../Page.hpp"
-#include "Grid.hpp"
-#include "List.hpp"
+#ifndef NFC_ACTIONS_H
+#define NFC_ACTIONS_H
 
-#ifndef NFC_MAIN_PAGE_H
-#define NFC_MAIN_PAGE_H
+#include "lvgl.h"
 
-class NFCMainPage : public Page {
- private:
-  List *polling_iso14443_a;
-  List *polling_felica;
-  List *read_emv;
-  List *go_back;
+#ifdef __cplusplus
+extern "C" {
+#endif
 
- public:
-  NFCMainPage(uint8_t _position_limit, uint8_t _lower_limit,
-              uint8_t _position_increment, GFXForms *screen)
-      : Page(_position_limit, _lower_limit, _position_increment, screen) {
-        };
-  ~NFCMainPage();
-  void display();
+void action_go_to_nfc_polling(lv_event_t *e);
+void action_stop_nfc_polling(lv_event_t *e);
+void action_go_to_nfc_page(lv_event_t *e);
+void action_go_to_nfc_format(lv_event_t *e);
+void action_nfc_start_emulation(lv_event_t *e);
+void action_nfc_stop_emulation(lv_event_t *e);
+void action_go_to_nfc_bruteforce(lv_event_t *e);
+void write_sectors_wrapper(lv_event_t *e);
+void action_go_to_nfc_felica_dump(lv_event_t *e);
+void action_go_to_nfc_read_emv(lv_event_t *e);
 
-  void set_selected(int pos, bool status) { grid->set_selected(pos, status); };
-  void click(int pos, void callback()) { grid->click(pos, callback); };
-};
+#ifdef __cplusplus
+}
+#endif
 
 #endif

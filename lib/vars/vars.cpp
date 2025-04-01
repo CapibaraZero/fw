@@ -152,3 +152,143 @@ extern "C" const char *get_var_subghz_frequency_analyzer_rssi() {
 extern "C" void set_var_subghz_frequency_analyzer_rssi(const char *value) {
     subghz_frequency_analyzer_rssi = value;
 }
+
+std::string nfc_atqa;
+
+extern "C" const char *get_var_nfc_atqa() {
+    return nfc_atqa.c_str();
+}
+
+extern "C" void set_var_nfc_atqa(const char *value) {
+    nfc_atqa = value;
+}
+
+std::string nfc_sak;
+
+extern "C" const char *get_var_nfc_sak() {
+    return nfc_sak.c_str();
+}
+
+extern "C" void set_var_nfc_sak(const char *value) {
+    nfc_sak = value;
+}
+
+std::string nfc_tag_type;
+
+extern "C" const char *get_var_nfc_tag_type() {
+    return nfc_tag_type.c_str();
+}
+
+extern "C" void set_var_nfc_tag_type(const char *value) {
+    nfc_tag_type = value;
+}
+
+std::string nfc_written_sectors;
+
+extern "C" const char *get_var_nfc_written_sectors() {
+    return nfc_written_sectors.c_str();
+}
+
+extern "C" void set_var_nfc_written_sectors(const char *value) {
+    nfc_written_sectors = value;
+}
+
+std::string nfc_unwritable_sectors;
+
+extern "C" const char *get_var_nfc_unwritable_sectors() {
+    return nfc_unwritable_sectors.c_str();
+}
+
+extern "C" void set_var_nfc_unwritable_sectors(const char *value) {
+    nfc_unwritable_sectors = value;
+}
+
+std::string nfc_tried_keys;
+
+extern "C" const char *get_var_nfc_tried_keys() {
+    return nfc_tried_keys.c_str();
+}
+
+extern "C" void set_var_nfc_tried_keys(const char *value) {
+    nfc_tried_keys = value;
+}
+
+std::string nfc_found_keys;
+
+extern "C" const char *get_var_nfc_found_keys() {
+    return nfc_found_keys.c_str();
+}
+
+extern "C" void set_var_nfc_found_keys(const char *value) {
+    nfc_found_keys = value;
+}
+
+std::string nfc_sys_code;
+
+extern "C" const char *get_var_nfc_sys_code() {
+    return nfc_sys_code.c_str();
+}
+
+extern "C" void set_var_nfc_sys_code(const char *value) {
+    nfc_sys_code = value;
+}
+
+std::string nfc_felica_read_sector;
+
+extern "C" const char *get_var_nfc_felica_read_sector() {
+    return nfc_felica_read_sector.c_str();
+}
+
+extern "C" void set_var_nfc_felica_read_sector(const char *value) {
+    nfc_felica_read_sector = value;
+}
+
+std::string nfc_felica_unreadable_sectors;
+
+extern "C" const char *get_var_nfc_felica_unreadable_sectors() {
+    return nfc_felica_unreadable_sectors.c_str();
+}
+
+extern "C" void set_var_nfc_felica_unreadable_sectors(const char *value) {
+    nfc_felica_unreadable_sectors = value;
+}
+
+std::string nfc_emv_type = "Reading EMV...";
+
+extern "C" const char *get_var_nfc_emv_type() {
+    return nfc_emv_type.c_str();
+}
+
+extern "C" void set_var_nfc_emv_type(const char *value) {
+    nfc_emv_type = value;
+}
+
+std::string nfc_emv_card_number;
+
+extern "C" const char *get_var_nfc_emv_card_number() {
+    return nfc_emv_card_number.c_str();
+}
+
+extern "C" void set_var_nfc_emv_card_number(const char *value) {
+    nfc_emv_card_number = value;
+}
+
+std::string nfc_emv_card_issue;
+
+extern "C" const char *get_var_nfc_emv_card_issue() {
+    return nfc_emv_card_issue.c_str();
+}
+
+extern "C" void set_var_nfc_emv_card_issue(const char *value) {
+    nfc_emv_card_issue = value;
+}
+
+std::string nfc_emv_card_expire;
+
+extern "C" const char *get_var_nfc_emv_card_expire() {
+    return nfc_emv_card_expire.c_str();
+}
+
+extern "C" void set_var_nfc_emv_card_expire(const char *value) {
+    nfc_emv_card_expire = value;
+}

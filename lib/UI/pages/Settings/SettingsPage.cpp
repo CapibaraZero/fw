@@ -17,7 +17,6 @@
 
 #include "SettingsPage.hpp"
 #include "../../i18n.hpp"
-#include "../../navigation/NFC/NFCNavigation.hpp"
 #include "../../navigation/Settings/SettingsNavigation.hpp"
 #include "gui.hpp"
 #include "../../../../include/device_info.h"
@@ -72,7 +71,7 @@ void SettingsPage::display(String subghz_rev) {
     sd_card_size = new Text(screen, ST77XX_WHITE, (String)"SD Card usage: " + (float)SD.usedBytes() / (1024 * 1024 * 1024) + "/" + SD.cardSize() / (1024 * 1024 * 1024) + "GB");
   }
 
-  nfc_version = new Text(screen, ST77XX_WHITE, "PN532 version: " + get_current_pn532_version());
+  // nfc_version = new Text(screen, ST77XX_WHITE, "PN532 version: " + get_current_pn532_version());
 
   #ifdef CC1101_SUBGHZ
   String subghz_module = "CC1101";

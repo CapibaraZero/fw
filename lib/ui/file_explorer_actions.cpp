@@ -1,3 +1,20 @@
+/*
+ * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "lvgl.h"
 #include "screens.h"
 #include "ui.h"
@@ -11,6 +28,7 @@
 #include <list>
 #include <vector>
 #include "../../include/debug.h"
+#include "nfc_actions.hpp"
 
 extern objects_t objects;
 
@@ -44,7 +62,7 @@ void parse_badusb_file(lv_event_t *e)
     fclose(file);
 }
 
-void create_screen_file_explorer_dinamically()
+void create_screen_file_explorer_dinamically(lv_event_cb_t cb)
 {
     // Create initial page
     lv_obj_t *main_obj = lv_obj_create(0);
@@ -69,7 +87,7 @@ void create_screen_file_explorer_dinamically()
     // Create buttons for all files
     for (size_t i = 0; i < files.size(); i++)
     {
-        create_btn(files[i].c_str(), container_obj, parse_badusb_file, (void *)files[i].c_str());
+        create_btn(files[i].c_str(), container_obj, cb, (void *)files[i].c_str());
     }
     
 
@@ -80,13 +98,34 @@ void create_screen_file_explorer_dinamically()
 
 extern "C" void action_go_to_filebrowser(lv_event_t *e)
 {
-    auto files_list = list_dir(open("/ducky", "r"));    // TODO: Make list_dir return a vector
+    int mode = (int)e->user_data;
+
+    String path = "";
+    lv_event_cb_t cb;
+    if(mode == 0) {
+        path = "/ducky";
+        cb = parse_badusb_file;
+    } else if(mode == 1) {
+        path = "/NFC/dumps";
+        cb = write_sectors_wrapper;
+    }
+
+    auto files_list = list_dir(open(path, "r"));    // TODO: Make list_dir return a vector
     files = std::vector<std::string>(files_list.begin(), files_list.end());
 
+    if(mode == 1) { // Cleanup NFC files
+        files.erase(
+            std::remove_if(files.begin(), files.end(),
+                           [](std::string file) {
+                             return file.find(".bin") != std::string::npos ||
+                                    file.find(".hex") != std::string::npos;
+                           }),
+            files.end());
+    }
 #ifdef ESP32S3_DEVKITC_BOARD
     Serial.end();
 #endif
 
-    create_screen_file_explorer_dinamically();
+    create_screen_file_explorer_dinamically(cb);
     loadScreen(SCREEN_ID_FILE_EXPLORER);
 }

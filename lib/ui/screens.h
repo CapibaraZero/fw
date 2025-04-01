@@ -39,6 +39,15 @@ typedef struct _objects_t {
     lv_obj_t *file_explorer;
     lv_obj_t *sub_ghz_page;
     lv_obj_t *sub_ghz_frequency_analyzer_page;
+    lv_obj_t *nfc_page;
+    lv_obj_t *nfc_polling;
+    lv_obj_t *nfciso14443_ainfo;
+    lv_obj_t *nfc_write_page;
+    lv_obj_t *nfc_emulate_page;
+    lv_obj_t *nfc_bruteforce_page;
+    lv_obj_t *nfciso18092_ainfo;
+    lv_obj_t *nfc_felica_read;
+    lv_obj_t *nfcemv_read;
     lv_obj_t *wifi_stack_init_text;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
@@ -52,6 +61,23 @@ typedef struct _objects_t {
     lv_obj_t *obj9;
     lv_obj_t *obj10;
     lv_obj_t *obj11;
+    lv_obj_t *obj12;
+    lv_obj_t *obj13;
+    lv_obj_t *obj14;
+    lv_obj_t *obj15;
+    lv_obj_t *obj16;
+    lv_obj_t *obj17;
+    lv_obj_t *obj18;
+    lv_obj_t *obj19;
+    lv_obj_t *obj20;
+    lv_obj_t *obj21;
+    lv_obj_t *obj22;
+    lv_obj_t *obj23;
+    lv_obj_t *obj24;
+    lv_obj_t *obj25;
+    lv_obj_t *obj26;
+    lv_obj_t *obj27;
+    lv_obj_t *obj28;
 } objects_t;
 
 extern objects_t objects;
@@ -71,6 +97,15 @@ enum ScreensEnum {
     SCREEN_ID_FILE_EXPLORER = 12,
     SCREEN_ID_SUB_GHZ_PAGE = 13,
     SCREEN_ID_SUB_GHZ_FREQUENCY_ANALYZER_PAGE = 14,
+    SCREEN_ID_NFC_PAGE = 15,
+    SCREEN_ID_NFC_POLLING = 16,
+    SCREEN_ID_NFCISO14443_AINFO = 17,
+    SCREEN_ID_NFC_WRITE_PAGE = 18,
+    SCREEN_ID_NFC_EMULATE_PAGE = 19,
+    SCREEN_ID_NFC_BRUTEFORCE_PAGE = 20,
+    SCREEN_ID_NFCISO18092_AINFO = 21,
+    SCREEN_ID_NFC_FELICA_READ = 22,
+    SCREEN_ID_NFCEMV_READ = 23,
 };
 
 void create_screen_main();
@@ -128,6 +163,42 @@ void tick_screen_sub_ghz_page();
 void create_screen_sub_ghz_frequency_analyzer_page();
 void delete_screen_sub_ghz_frequency_analyzer_page();
 void tick_screen_sub_ghz_frequency_analyzer_page();
+
+void create_screen_nfc_page();
+void delete_screen_nfc_page();
+void tick_screen_nfc_page();
+
+void create_screen_nfc_polling();
+void delete_screen_nfc_polling();
+void tick_screen_nfc_polling();
+
+void create_screen_nfciso14443_ainfo();
+void delete_screen_nfciso14443_ainfo();
+void tick_screen_nfciso14443_ainfo();
+
+void create_screen_nfc_write_page();
+void delete_screen_nfc_write_page();
+void tick_screen_nfc_write_page();
+
+void create_screen_nfc_emulate_page();
+void delete_screen_nfc_emulate_page();
+void tick_screen_nfc_emulate_page();
+
+void create_screen_nfc_bruteforce_page();
+void delete_screen_nfc_bruteforce_page();
+void tick_screen_nfc_bruteforce_page();
+
+void create_screen_nfciso18092_ainfo();
+void delete_screen_nfciso18092_ainfo();
+void tick_screen_nfciso18092_ainfo();
+
+void create_screen_nfc_felica_read();
+void delete_screen_nfc_felica_read();
+void tick_screen_nfc_felica_read();
+
+void create_screen_nfcemv_read();
+void delete_screen_nfcemv_read();
+void tick_screen_nfcemv_read();
 
 void create_screen_by_id(enum ScreensEnum screenId);
 void delete_screen_by_id(enum ScreensEnum screenId);
