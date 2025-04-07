@@ -123,6 +123,27 @@ void set_var_nfc_emv_card_issue(const char *value);
 const char *get_var_nfc_emv_card_expire();
 void set_var_nfc_emv_card_expire(const char *value);
 
+const char *get_var_ir_protocol();
+void set_var_ir_protocol(const char *value);
+
+const char *get_var_ir_addr();
+void set_var_ir_addr(const char *value);
+
+const char *get_var_ir_cmd();
+void set_var_ir_cmd(const char *value);
+
+const char *get_var_ir_len();
+void set_var_ir_len(const char *value);
+
+bool get_var_ir_retry();
+void set_var_ir_retry(bool value);
+
+bool get_var_ir_save();
+void set_var_ir_save(bool value);
+
+const char *get_var_ir_emulate_progress();
+void set_var_ir_emulate_progress(const char *value);
+
 enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_NONE
 };

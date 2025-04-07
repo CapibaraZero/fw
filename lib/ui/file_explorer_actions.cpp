@@ -29,6 +29,7 @@
 #include <vector>
 #include "../../include/debug.h"
 #include "nfc_actions.hpp"
+#include "ir_actions.hpp"
 
 extern objects_t objects;
 
@@ -38,10 +39,12 @@ extern USBHid hid;  // From DuckyESP
 
 void action_go_to_main_page(lv_event_t *e)
 {
-    hid.end();
-#ifndef ESP32S3_DEVKITC_BOARD
-    Serial.begin(115200);
-#endif
+    if(((size_t)e->user_data) == 0) {   // Close HID only in BadUSB
+        hid.end();
+        #ifndef ESP32S3_DEVKITC_BOARD
+            Serial.begin(115200);
+        #endif
+    }
 
     create_screen_main();
     loadScreen(SCREEN_ID_MAIN);
@@ -62,7 +65,7 @@ void parse_badusb_file(lv_event_t *e)
     fclose(file);
 }
 
-void create_screen_file_explorer_dinamically(lv_event_cb_t cb)
+void create_screen_file_explorer_dinamically(size_t mode, lv_event_cb_t cb)
 {
     // Create initial page
     lv_obj_t *main_obj = lv_obj_create(0);
@@ -92,7 +95,7 @@ void create_screen_file_explorer_dinamically(lv_event_cb_t cb)
     
 
     // Create return
-    create_btn("Go back", container_obj, action_go_to_main_page, (void *)0);
+    create_btn("Go back", container_obj, action_go_to_main_page, (void *)mode);
     tick_screen_file_explorer();
 }
 
@@ -108,6 +111,9 @@ extern "C" void action_go_to_filebrowser(lv_event_t *e)
     } else if(mode == 1) {
         path = "/NFC/dumps";
         cb = write_sectors_wrapper;
+    } else if(mode == 2) {
+        path = "/IR/signals";
+        cb = action_ir_send_signal;
     }
 
     auto files_list = list_dir(open(path, "r"));    // TODO: Make list_dir return a vector
@@ -126,6 +132,6 @@ extern "C" void action_go_to_filebrowser(lv_event_t *e)
     Serial.end();
 #endif
 
-    create_screen_file_explorer_dinamically(cb);
+    create_screen_file_explorer_dinamically(mode, cb);
     loadScreen(SCREEN_ID_FILE_EXPLORER);
 }

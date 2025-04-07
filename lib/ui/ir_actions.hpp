@@ -15,9 +15,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "wifi_actions.hpp"
-#include "ble_actions.hpp"
-#include "file_explorer_actions.hpp"
-#include "subghz_actions.hpp"
-#include "nfc_actions.hpp"
-#include "ir_actions.hpp"
+#ifndef IR_ACTIONS_H
+#define IR_ACTIONS_H
+
+#include "lvgl.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void action_go_to_ir_page(lv_event_t *e);
+void action_go_to_ir_record_signal_page(lv_event_t *e);
+void action_stop_ir_record(lv_event_t *e);
+void action_ir_save_record(lv_event_t *e);
+void action_ir_retry_record(lv_event_t *e);
+void action_ir_send_signal(lv_event_t *e);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

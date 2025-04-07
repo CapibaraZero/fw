@@ -8,9 +8,9 @@
 
 TaskHandle_t record_task_handle;
 
-TaskHandle_t ir_record_signal(IRRecordSignalPage *page,
+TaskHandle_t ir_record_signal(
                               IrFramework *framework) {
-  IrAttackTaskParams params = {.ir_framework = framework, .page = page};
+  IrAttackTaskParams params = {.ir_framework = framework};
   xTaskCreate(ir_record_signal_task, "ir_record_signal_task", 8000, &params, 5,
               &record_task_handle);
   return record_task_handle;
@@ -27,7 +27,7 @@ RecordedSignal json_to_signal(JsonDocument signal) {
   parsed_signal.numberOfBits = signal["number_of_bits"];
   parsed_signal.flags = signal["flags"];
   /* Only PulseWidth/PulseDistance and Unknown require decodedRawDataArray, so
-   * memory for others protocols */
+   * save memory for others protocols */
   if (parsed_signal.protocol >= 0 && parsed_signal.protocol <= 2) {
     for (size_t i = 0; i < len; i++) {
       parsed_signal.decodedRawDataArray[i] = raw_data[i];
@@ -38,13 +38,11 @@ RecordedSignal json_to_signal(JsonDocument signal) {
 }
 
 void ir_send_signal(IrFramework *framework, JsonDocument *signal_doc,
-                    IRListsProgress *progress_page,
                     TaskHandle_t *list_handler) {
   RecordedSignal parsed_signal = json_to_signal(*signal_doc);
   if (signal_doc->is<JsonArray>()) {
     IrAttackTaskParams params = {.ir_framework = framework,
-                                 .signal = signal_doc,
-                                 .progress_page = progress_page};
+                                 .signal = signal_doc};
     xTaskCreate(ir_list_emit, "ir_list_emit", 20000, &params, 5, list_handler);
   } else {
     RecordedSignal parsed_signal = json_to_signal(*signal_doc);

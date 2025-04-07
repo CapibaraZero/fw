@@ -292,3 +292,73 @@ extern "C" const char *get_var_nfc_emv_card_expire() {
 extern "C" void set_var_nfc_emv_card_expire(const char *value) {
     nfc_emv_card_expire = value;
 }
+
+std::string ir_protocol = "Waiting for signal...";
+
+extern "C" const char *get_var_ir_protocol() {
+    return ir_protocol.c_str();
+}
+
+extern "C" void set_var_ir_protocol(const char *value) {
+    ir_protocol = value;
+}
+
+std::string ir_addr;
+
+extern "C" const char *get_var_ir_addr() {
+    return ir_addr.c_str();
+}
+
+extern "C" void set_var_ir_addr(const char *value) {
+    ir_addr = value;
+}
+
+std::string ir_cmd;
+
+extern "C" const char *get_var_ir_cmd() {
+    return ir_cmd.c_str();
+}
+
+extern "C" void set_var_ir_cmd(const char *value) {
+    ir_cmd = value;
+}
+
+std::string ir_len;
+
+extern "C" const char *get_var_ir_len() {
+    return ir_len.c_str();
+}
+
+extern "C" void set_var_ir_len(const char *value) {
+    ir_len = value;
+}
+
+bool ir_retry = true;   // Hide retry btn
+
+extern "C" bool get_var_ir_retry() {
+    return ir_retry;
+}
+
+extern "C" void set_var_ir_retry(bool value) {
+    ir_retry = value;
+}
+
+bool ir_save = true;    // Hide retry btn
+
+extern "C" bool get_var_ir_save() {
+    return ir_save;
+}
+
+extern "C" void set_var_ir_save(bool value) {
+    ir_save = value;
+}
+
+std::string ir_emulate_progress;
+
+extern "C" const char *get_var_ir_emulate_progress() {
+    return ir_emulate_progress.c_str();
+}
+
+extern "C" void set_var_ir_emulate_progress(const char *value) {
+    ir_emulate_progress = value;
+}

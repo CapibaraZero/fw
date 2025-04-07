@@ -1,8 +1,8 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[capibaraZero.eez-project]:/userPages/14",
-    "selectedActionObject": "[capibaraZero.eez-project]:/actions/31",
-    "selectedGlobalVariableObject": "[capibaraZero.eez-project]:/variables/globalVariables/26",
+    "selectedUserPageObject": "[capibaraZero.eez-project]:/userPages/25",
+    "selectedActionObject": "[capibaraZero.eez-project]:/actions/36",
+    "selectedGlobalVariableObject": "[capibaraZero.eez-project]:/variables/globalVariables/33",
     "subnavigationSelectedItems": {
       "variables-tab/sub-navigation/selected-item": "Global"
     }
@@ -125,7 +125,6 @@
                   "type": "tabset",
                   "id": "#4eb6ad71-2704-42f7-b131-ab6c118ce4ad",
                   "weight": 1,
-                  "selected": 2,
                   "enableClose": false,
                   "children": [
                     {
@@ -197,11 +196,11 @@
               "children": [
                 {
                   "type": "tab",
-                  "id": "#fdfde95d-0ffd-4205-8f0f-0f79b3ca9644",
-                  "name": "NFCPage",
+                  "id": "#3dd3ab16-6514-4838-a557-4c58d03d4fdf",
+                  "name": "IREmulateList",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[capibaraZero.eez-project]:/userPages/14",
+                    "objectPath": "[capibaraZero.eez-project]:/userPages/25",
                     "permanent": false
                   },
                   "icon": "svg:page"
@@ -250,7 +249,8 @@
                   },
                   "icon": "svg:page"
                 }
-              ]
+              ],
+              "active": true
             },
             {
               "type": "row",
@@ -270,8 +270,7 @@
                       "enableClose": false,
                       "icon": "svg:properties"
                     }
-                  ],
-                  "active": true
+                  ]
                 },
                 {
                   "type": "tabset",
@@ -1025,20 +1024,20 @@
           "1": {
             "0": {},
             "1": {},
-            "2": {
-              "$selected": true
-            },
+            "2": {},
             "3": {},
             "4": {},
-            "5": {},
+            "5": {
+              "$selected": true
+            },
             "6": {}
           }
         }
       },
       "transform": {
         "translate": {
-          "x": -442.75,
-          "y": -150.75
+          "x": -484.75,
+          "y": -191.75
         },
         "scale": 3
       },
@@ -1274,17 +1273,17 @@
               "0": {}
             },
             "1": {},
-            "2": {
+            "2": {},
+            "3": {
               "$selected": true
-            },
-            "3": {}
+            }
           }
         }
       },
       "transform": {
         "translate": {
-          "x": -414,
-          "y": -335
+          "x": -463,
+          "y": -266
         },
         "scale": 3
       },
@@ -1509,6 +1508,96 @@
         "translate": {
           "x": -465,
           "y": -203
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/23[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "0": {},
+            "1": {
+              "$selected": true
+            },
+            "2": {},
+            "3": {}
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -448,
+          "y": -243
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/24[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "4": {
+              "0": {},
+              "1": {}
+            }
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -620,
+          "y": -250
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/25[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "0": {}
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -160,
+          "y": -85
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/-1[flow-state]": {
+      "selection": {},
+      "transform": {
+        "translate": {
+          "x": -160,
+          "y": -85
         },
         "scale": 3
       },

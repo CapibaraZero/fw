@@ -48,6 +48,9 @@ typedef struct _objects_t {
     lv_obj_t *nfciso18092_ainfo;
     lv_obj_t *nfc_felica_read;
     lv_obj_t *nfcemv_read;
+    lv_obj_t *ir_page;
+    lv_obj_t *ir_record_signal_page;
+    lv_obj_t *ir_emulate_list_page;
     lv_obj_t *wifi_stack_init_text;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
@@ -78,6 +81,13 @@ typedef struct _objects_t {
     lv_obj_t *obj26;
     lv_obj_t *obj27;
     lv_obj_t *obj28;
+    lv_obj_t *obj29;
+    lv_obj_t *obj30;
+    lv_obj_t *obj31;
+    lv_obj_t *obj32;
+    lv_obj_t *obj33;
+    lv_obj_t *obj34;
+    lv_obj_t *obj35;
 } objects_t;
 
 extern objects_t objects;
@@ -106,6 +116,9 @@ enum ScreensEnum {
     SCREEN_ID_NFCISO18092_AINFO = 21,
     SCREEN_ID_NFC_FELICA_READ = 22,
     SCREEN_ID_NFCEMV_READ = 23,
+    SCREEN_ID_IR_PAGE = 24,
+    SCREEN_ID_IR_RECORD_SIGNAL_PAGE = 25,
+    SCREEN_ID_IR_EMULATE_LIST_PAGE = 26,
 };
 
 void create_screen_main();
@@ -199,6 +212,18 @@ void tick_screen_nfc_felica_read();
 void create_screen_nfcemv_read();
 void delete_screen_nfcemv_read();
 void tick_screen_nfcemv_read();
+
+void create_screen_ir_page();
+void delete_screen_ir_page();
+void tick_screen_ir_page();
+
+void create_screen_ir_record_signal_page();
+void delete_screen_ir_record_signal_page();
+void tick_screen_ir_record_signal_page();
+
+void create_screen_ir_emulate_list_page();
+void delete_screen_ir_emulate_list_page();
+void tick_screen_ir_emulate_list_page();
 
 void create_screen_by_id(enum ScreensEnum screenId);
 void delete_screen_by_id(enum ScreensEnum screenId);

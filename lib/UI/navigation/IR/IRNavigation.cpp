@@ -34,11 +34,11 @@ static Gui *gui;
 static IRMainPage *ir_main_page = nullptr;
 IRRecordSignalPage *ir_record_signal_page = nullptr;
 static IREmulateRC *ir_emulate_rc = nullptr;
-IrFramework *ir_framework = nullptr;
+IrFramework *ir_framework_ = nullptr;
 static IRListsProgress *ir_list_progress = nullptr;
 static FileBrowserPage *file_browser_page = nullptr;
 
-TaskHandle_t ir_record_task_handle = NULL;
+// TaskHandle_t ir_record_task_handle = NULL;
 
 void goto_ir_gui() {
   gui->reset();
@@ -49,8 +49,8 @@ void goto_ir_gui() {
 void ir_goto_home() {
   init_main_gui();
   ir_main_page = nullptr;
-  delete ir_framework;
-  ir_framework = nullptr;
+  delete ir_framework_;
+  ir_framework_ = nullptr;
 }
 
 void goto_ir_record_signal_page() {
@@ -58,12 +58,12 @@ void goto_ir_record_signal_page() {
   ir_record_signal_page =
       new IRRecordSignalPage(1, 1, 0, gui->get_screen());
   gui->set_current_page(ir_record_signal_page);
-  ir_record_task_handle = ir_record_signal(ir_record_signal_page, ir_framework);
+  // ir_record_task_handle = ir_record_signal(ir_record_signal_page, ir_framework_);
 }
 
 void save_record_to_sd() {
   Serial.println("Saving to SD");
-  RecordedSignal signal = ir_framework->get_decoded_signal();
+  RecordedSignal signal = ir_framework_->get_decoded_signal();
   JsonDocument doc;
   doc["protocol"] = signal.protocol;
   doc["address"] = signal.address;
@@ -85,15 +85,15 @@ void save_record_to_sd() {
 }
 
 void stop_ir_record() {
-  vTaskDelete(ir_record_task_handle);
-  ir_record_task_handle = NULL;
+  // vTaskDelete(ir_record_task_handle);
+  // ir_record_task_handle = NULL;
   goto_ir_gui();
 }
 
 #include <list>
 
 static std::list<string> ir_signal_files;
-static TaskHandle_t list_sender_task_handle;
+// static TaskHandle_t list_sender_task_handle;
 
 void send_signal(const char *path) {
   File rc_file = open("/IR/signals/" + (String)path, "r");
@@ -104,12 +104,12 @@ void send_signal(const char *path) {
     ir_list_progress = new IRListsProgress(1, 1, 0, gui->get_screen());
     gui->set_current_page(ir_list_progress, true, false);
   }
-  ir_send_signal(ir_framework, signal, ir_list_progress,
-                 &list_sender_task_handle);
+  // ir_send_signal(ir_framework_, signal, ir_list_progress,
+  //                &list_sender_task_handle);
 }
 
 void stop_list_sender() {
-  vTaskDelete(list_sender_task_handle);
+  // vTaskDelete(list_sender_task_handle);
   gui->reset();
   gui->set_current_page(file_browser_page, true, false);
 }
@@ -144,7 +144,7 @@ void goto_ir_rc_browser() {
 void emulate_ir_rc() {
   size_t current_signal_index = ir_emulate_rc->get_current_element();
   JsonDocument current_signal = rc_signals[current_signal_index];
-  ir_send_signal(ir_framework, &current_signal);
+  ir_send_signal(ir_framework_, &current_signal);
 }
 
 void go_back_to_ir_browser() {
@@ -164,6 +164,6 @@ void goto_ir_send() {
 
 void init_ir_navigation(Gui *_gui) {
   gui = _gui;
-  ir_framework = new IrFramework(IR_RECEIVER_PIN, IR_EMITTER_PIN);
+  ir_framework_ = new IrFramework(IR_RECEIVER_PIN, IR_EMITTER_PIN);
   // TODO: Delete std::list
 }

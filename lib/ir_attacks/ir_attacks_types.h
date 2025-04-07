@@ -10,8 +10,6 @@ class IrFramework;
 typedef struct {
   IrFramework *ir_framework;
   JsonDocument *signal;
-  IRRecordSignalPage *page;
-  IRListsProgress *progress_page;
 } IrAttackTaskParams;
 
 #endif
