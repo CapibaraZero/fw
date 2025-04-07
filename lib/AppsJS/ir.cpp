@@ -20,7 +20,7 @@
 #include "IrFramework.hpp"
 //#include "IRremote.hpp"
 #include "../../include/pins.h"
-#include "navigation/IR/IRNavigation.hpp"
+// #include "navigation/IR/IRNavigation.hpp"
 #include "ArduinoJson.h"
 
 static IrFramework *irframework;

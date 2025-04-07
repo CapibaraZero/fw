@@ -92,7 +92,7 @@ void create_screen_file_explorer_dinamically(size_t mode, lv_event_cb_t cb)
     {
         create_btn(files[i].c_str(), container_obj, cb, (void *)files[i].c_str());
     }
-    
+
 
     // Create return
     create_btn("Go back", container_obj, action_go_to_main_page, (void *)mode);
@@ -114,6 +114,9 @@ extern "C" void action_go_to_filebrowser(lv_event_t *e)
     } else if(mode == 2) {
         path = "/IR/signals";
         cb = action_ir_send_signal;
+    } else if(mode == 3) {
+        path = "/IR/signal_rc";
+        cb = action_ir_open_rc;
     }
 
     auto files_list = list_dir(open(path, "r"));    // TODO: Make list_dir return a vector

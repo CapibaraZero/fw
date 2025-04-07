@@ -1,7 +1,7 @@
-#include "../UI/navigation/IR/IRNavigation.hpp"
 #include "IrFramework.hpp"
 #include "ir_attacks_types.h"
 #include "vars.h"
+#include "lvgl.h"
 #include "ir_actions.hpp"
 
 void ir_record_signal_task(void *pv) {
@@ -21,8 +21,7 @@ void ir_record_signal_task(void *pv) {
 
   set_var_ir_retry(false);  // Show retry and save button
   set_var_ir_save(false);
-  // params->page->set_signal(ir_framework->enum_to_str(data.protocol),
-  //                          data.address, data.command, data.raw_len);
+
   vTaskDelete(NULL);
 }
 
@@ -41,7 +40,7 @@ void ir_list_emit(void *pv) {
   }
 
   action_go_to_ir_page(NULL);
-  // go_back_to_ir_browser();
+
   delete signals;  // Delete old JSON signal since it's not used anymore
   vTaskDelete(NULL);
 }

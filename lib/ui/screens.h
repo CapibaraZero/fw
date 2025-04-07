@@ -51,6 +51,7 @@ typedef struct _objects_t {
     lv_obj_t *ir_page;
     lv_obj_t *ir_record_signal_page;
     lv_obj_t *ir_emulate_list_page;
+    lv_obj_t *irrc_page;
     lv_obj_t *wifi_stack_init_text;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
@@ -119,6 +120,7 @@ enum ScreensEnum {
     SCREEN_ID_IR_PAGE = 24,
     SCREEN_ID_IR_RECORD_SIGNAL_PAGE = 25,
     SCREEN_ID_IR_EMULATE_LIST_PAGE = 26,
+    SCREEN_ID_IRRC_PAGE = 27,
 };
 
 void create_screen_main();
@@ -224,6 +226,10 @@ void tick_screen_ir_record_signal_page();
 void create_screen_ir_emulate_list_page();
 void delete_screen_ir_emulate_list_page();
 void tick_screen_ir_emulate_list_page();
+
+void create_screen_irrc_page();
+void delete_screen_irrc_page();
+void tick_screen_irrc_page();
 
 void create_screen_by_id(enum ScreensEnum screenId);
 void delete_screen_by_id(enum ScreensEnum screenId);

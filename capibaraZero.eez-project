@@ -9696,8 +9696,8 @@
                       "objID": "f452f44f-01db-4260-c5f7-8b7fa1653bfe",
                       "eventName": "PRESSED",
                       "handlerType": "action",
-                      "action": "go_to_evilportal",
-                      "userData": 0
+                      "action": "go_to_filebrowser",
+                      "userData": 3
                     }
                   ],
                   "leftUnit": "px",
@@ -10759,6 +10759,56 @@
       "localVariables": [],
       "userProperties": [],
       "name": "IREmulateListPage",
+      "left": 0,
+      "top": 0,
+      "width": 320,
+      "height": 170,
+      "isUsedAsUserWidget": false,
+      "createAtStart": false,
+      "deleteOnScreenUnload": false
+    },
+    {
+      "objID": "d3d1ee34-4c0d-4add-bb58-9f1c048e491e",
+      "components": [
+        {
+          "objID": "b3e49d0c-2e2b-429e-8104-b4af69941b10",
+          "type": "LVGLScreenWidget",
+          "left": 0,
+          "top": 0,
+          "width": 320,
+          "height": 170,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "3c90dbae-dfab-477e-fef8-38421ee3a74a",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [],
+          "widgetFlags": "CLICKABLE|PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "localStyles": {
+            "objID": "d734a5ed-17c2-4769-fe89-90f2341d0686"
+          },
+          "groupIndex": 0
+        }
+      ],
+      "connectionLines": [],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "IRRCPage",
       "left": 0,
       "top": 0,
       "width": 320,

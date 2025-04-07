@@ -3,8 +3,6 @@
 
 #include "ArduinoJson.h"
 #include "GFXForms.hpp"
-#include "pages/IR/IRListsProgress.hpp"
-#include "pages/IR/IRRecordSignalPage.hpp"
 class IrFramework;
 
 typedef struct {

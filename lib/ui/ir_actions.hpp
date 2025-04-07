@@ -30,6 +30,7 @@ void action_stop_ir_record(lv_event_t *e);
 void action_ir_save_record(lv_event_t *e);
 void action_ir_retry_record(lv_event_t *e);
 void action_ir_send_signal(lv_event_t *e);
+void action_ir_open_rc(lv_event_t *e);
 
 #ifdef __cplusplus
 }

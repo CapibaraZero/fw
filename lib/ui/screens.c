@@ -2348,7 +2348,7 @@ void create_screen_ir_page() {
                     lv_obj_t *obj = lv_btn_create(parent_obj);
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 320, 34);
-                    lv_obj_add_event_cb(obj, action_go_to_evilportal, LV_EVENT_PRESSED, (void *)0);
+                    lv_obj_add_event_cb(obj, action_go_to_filebrowser, LV_EVENT_PRESSED, (void *)3);
                     {
                         lv_obj_t *parent_obj = obj;
                         {
@@ -2655,6 +2655,23 @@ void tick_screen_ir_emulate_list_page() {
     }
 }
 
+void create_screen_irrc_page() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.irrc_page = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 320, 170);
+    
+    tick_screen_irrc_page();
+}
+
+void delete_screen_irrc_page() {
+    lv_obj_del(objects.irrc_page);
+    objects.irrc_page = 0;
+}
+
+void tick_screen_irrc_page() {
+}
+
 
 
 typedef void (*create_screen_func_t)();
@@ -2685,6 +2702,7 @@ create_screen_func_t create_screen_funcs[] = {
     create_screen_ir_page,
     create_screen_ir_record_signal_page,
     create_screen_ir_emulate_list_page,
+    create_screen_irrc_page,
 };
 void create_screen(int screen_index) {
     create_screen_funcs[screen_index]();
@@ -2721,6 +2739,7 @@ delete_screen_func_t delete_screen_funcs[] = {
     delete_screen_ir_page,
     delete_screen_ir_record_signal_page,
     delete_screen_ir_emulate_list_page,
+    delete_screen_irrc_page,
 };
 void delete_screen(int screen_index) {
     delete_screen_funcs[screen_index]();
@@ -2757,6 +2776,7 @@ tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_ir_page,
     tick_screen_ir_record_signal_page,
     tick_screen_ir_emulate_list_page,
+    tick_screen_irrc_page,
 };
 void tick_screen(int screen_index) {
     tick_screen_funcs[screen_index]();

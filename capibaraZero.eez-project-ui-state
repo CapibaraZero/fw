@@ -196,6 +196,18 @@
               "children": [
                 {
                   "type": "tab",
+                  "id": "#85cff099-e1d5-4600-8328-193bd8a8255c",
+                  "name": "Settings",
+                  "component": "editor",
+                  "config": {
+                    "objectPath": "[capibaraZero.eez-project]:/settings",
+                    "subObjectPath": "[capibaraZero.eez-project]:/settings",
+                    "permanent": false
+                  },
+                  "icon": "material:settings"
+                },
+                {
+                  "type": "tab",
                   "id": "#3dd3ab16-6514-4838-a557-4c58d03d4fdf",
                   "name": "IREmulateList",
                   "component": "editor",
@@ -1580,7 +1592,7 @@
       },
       "transform": {
         "translate": {
-          "x": -160,
+          "x": -337.853720664978,
           "y": -85
         },
         "scale": 3
