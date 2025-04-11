@@ -46,8 +46,12 @@ extern "C" void action_go_to_wifi_page(lv_event_t *e)
 static WifiAttack attack;
 static NetworkAttacks net_attacks;
 
-extern "C" void action_go_to_wifi_scan(lv_event_t *e)
-{
+extern "C" void action_go_to_wifi_scan(lv_event_t *e) {
+    // Resetting variables
+    set_var_wifi_scan_current_progress("Progress: 0%");
+    set_var_wifi_scan_current_channel("Channel: 1");
+    set_var_wifi_scan_info("Initializing WiFi stack...");
+    
     create_screen_wi_fi_scan_page();
     loadScreen(SCREEN_ID_WI_FI_SCAN_PAGE);
     scan_wifi(&attack);
@@ -59,6 +63,11 @@ extern "C" void action_next_wifi_network(lv_event_t *e)
 {
     Serial.println("Scroll");
     next_network(&position);
+}
+
+extern "C" void action_go_to_wifi_net_view(lv_event_t *e) {
+    create_screen_wi_fi_net_view();
+    loadScreen(SCREEN_ID_WI_FI_NET_VIEW);
 }
 
 extern "C" void action_go_to_net_selection(lv_event_t *e)
@@ -80,8 +89,8 @@ extern "C" void action_wifi_start_bssid_sniffer(lv_event_t *e)
     wifi_sniffer_running = true;
     create_screen_sniffer();
     loadScreen(SCREEN_ID_SNIFFER);
-    WifiNetwork *net = get_current_network(position);
-    sniff_bssid(&attack, net);
+    // WifiNetwork *net = get_current_network(position);
+    // sniff_bssid(&attack, net);
 }
 
 extern "C" void action_go_to_wifi_sniffer(lv_event_t *e)
@@ -140,4 +149,5 @@ void wifi_stop_sniffer()
     stop_wifi_sniffer_updater();
     attack.clean_networks();
     wifi_sniffer_running = false;
+    set_var_captured_packets("0");
 }

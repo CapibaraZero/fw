@@ -13,6 +13,7 @@ void action_go_to_main_page(lv_event_t *e);
 
 void action_go_to_wifi_page(lv_event_t * e);
 void action_go_to_wifi_scan(lv_event_t * e);
+void action_go_to_wifi_net_view(lv_event_t *e);
 void action_next_wifi_network(lv_event_t *e);
 void action_save_wifi_scan_to_sd(lv_event_t *e);
 void action_wifi_stop_sniffer(lv_event_t *e);

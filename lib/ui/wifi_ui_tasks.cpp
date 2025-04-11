@@ -24,7 +24,7 @@ void update_wifi_sniff_packets(void *pv) {
 vector<WifiNetwork> networks;
 
 void next_network(size_t *pos) {
-  if(++(*pos) > networks.size()) {
+  if(++(*pos) >= networks.size()) {
     *pos = 0;
   }
   WifiNetwork net = networks.at(*pos);
