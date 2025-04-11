@@ -21,8 +21,6 @@
 #include <Arduino.h>
 
 #include "../../include/debug.h"
-#include "../UI/gui.hpp"
-#include "GFXForms.hpp"  // Fix building errors
 #include "actions/tasks/wifi/wifi_ui_tasks.hpp"
 #include "ui_tasks/wifi/wifi_ui_tasks_types.h"
 #include "wifi_sniff_task_types.h"
@@ -89,5 +87,3 @@ void sniff_bssid(WifiAttack *wifiAttack, WifiNetwork *network) {
               (void *)wifi_ui_task_params, tskIDLE_PRIORITY,
               &wifi_sniffer_updater);
 }
-
-void return_to_net_list(Gui *gui) {}

@@ -22,15 +22,15 @@
 #include "battery_monitor_task_types.h"
 
 void battery_monitor_task(void *pv) {
-  BatteryMonitorTaskParams *params =
-      static_cast<BatteryMonitorTaskParams *>(pv);
+  // BatteryMonitorTaskParams *params =
+  //     static_cast<BatteryMonitorTaskParams *>(pv);
 
-  while (true) {
-    if (params->visible) {
-      params->lock = true;
-      params->page->set_battery_level();
-      params->lock = false;
-    }
-    delay(TASK_POLLING_RATE);
-  }
+  // while (true) {
+  //   if (params->visible) {
+  //     params->lock = true;
+  //     params->page->set_battery_level();
+  //     params->lock = false;
+  //   }
+  //   delay(TASK_POLLING_RATE);
+  // }
 }

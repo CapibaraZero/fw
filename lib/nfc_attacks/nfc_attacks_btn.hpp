@@ -16,12 +16,12 @@
  */
 
 #include "nfc_attacks.hpp"
-#include "gui.hpp"
+
 
 void mifare_polling(NFCAttacks *attacks);
 void felica_polling(NFCAttacks *attacks);
 void dump_felica(NFCAttacks *attacks);
-void write_felica_tag(Gui *gui, NFCAttacks *attacks, NFCTag *tag);
+void write_felica_tag(NFCAttacks *attacks, NFCTag *tag);
 void write_sectors(NFCAttacks *attacks, const char *path);
 void format_iso14443a(NFCAttacks *attacks);
 void bruteforce_tag(NFCAttacks *attacks);

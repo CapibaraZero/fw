@@ -17,11 +17,9 @@
 
 // This file contains functions that starts wifiAttack on button click
 
-#include "gui.hpp"
 #include "wifi_attack.hpp"
 
 void scan_wifi(WifiAttack *wifiAttack);
 void sniff_wifi(WifiAttack *wifiAttack);
 void stop_wifi_sniffer_updater();
 void sniff_bssid(WifiAttack *wifiAttack, WifiNetwork *network);
-void return_to_net_list(Gui *gui);

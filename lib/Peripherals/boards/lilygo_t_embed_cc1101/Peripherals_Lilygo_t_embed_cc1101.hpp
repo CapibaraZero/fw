@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,8 +27,6 @@
 #include "../../Peripherals.hpp"
 #include "Arduino.h"
 #include "Wire.h"
-#include "navigation/buttons/btn_routines.hpp"
-#include "navigation/navigation.hpp"
 #define XPOWERS_CHIP_BQ25896
 
 #include <XPowersLib.h>
@@ -92,11 +90,9 @@ class Peripherals_Lilygo_t_embed_cc1101 : public Peripherals {
     common_init_sd(SD_CARD_SCK, SD_CARD_MISO, SD_CARD_MOSI, SD_CARD_CS);
   };
   void init_navigation() {
-    init_rotary_encoder();
     init_ok_btn();
   };
   void loop_code() {
-    handle_encoder();
     ok_btn.read();
   }
   void standby() {

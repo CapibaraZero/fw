@@ -15,14 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "GFXForms.hpp"  // Fix building errors
-#include "gui.hpp"
+
+
 #include "nfc_attacks.hpp"
 #include "wifi_attack.hpp"
 
 typedef struct {
   NFCAttacks *attacks;
-  Gui *gui;
+  
   char *path;
   uint8_t *uid;
   uint8_t *idm;

@@ -18,7 +18,6 @@
 #include "../../include/debug.h"
 #include "ArduinoJson.h"
 #include "flipper_zero_nfc_file_parser.hpp"
-#include "navigation/navigation.hpp"
 #include "nfc_attacks.hpp"
 #include "nfc_tasks_types.h"
 #include "posixsd.hpp"

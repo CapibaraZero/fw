@@ -17,8 +17,8 @@
 
 #include <Arduino.h>
 
-#include "GFXForms.hpp"  // Fix building errors
-#include "gui.hpp"
+
+
 #include "network_attacks.hpp"
 #include "network_attacks_tasks.hpp"
 #include "ui_tasks/network_attacks/net_attacks_ui_tasks.hpp"
@@ -68,7 +68,7 @@ void kill_evilportal(NetworkAttacks *attack) {
 
 TaskHandle_t arp_poisoner_task_handle = NULL;
 
-void start_arp_poisoning(Gui *gui, NetworkAttacks *attack) {
+void start_arp_poisoning(NetworkAttacks *attack) {
   task_arg = (NetAttacksTaskArg *)malloc(sizeof(NetAttacksTaskArg));
   task_arg->attack = attack;
   xTaskCreate(&arp_poisoning_task, "arp_poisoner_task", 4000, (void *)task_arg, 5,

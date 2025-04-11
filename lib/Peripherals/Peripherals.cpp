@@ -19,8 +19,6 @@
 
 #include "Arduino.h"
 #include "SPI.h"
-#include "navigation/buttons/btn_routines.hpp"
-#include "navigation/navigation.hpp"
 #include "posixsd.hpp"
 
 uint32_t sd_sum_Mbyte;

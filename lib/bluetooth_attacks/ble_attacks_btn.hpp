@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
 
 #include "FS.h"
 #include "bluetooth_attacks.hpp"
-#include "gui.hpp"
 
-void scan_ble(Gui *gui, BluetoothAttack *attack);
+
+void scan_ble(BluetoothAttack *attack);
 void sniff_ble(BluetoothAttack *attack);
 void stop_sniffer_updater();
 void start_applejuice(BluetoothAttack *attack);

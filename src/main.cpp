@@ -17,7 +17,6 @@
 
 #include <Arduino.h>
 
-#include "gui.hpp"
 #include "DeepSleep.hpp"
 #include "Peripherals.hpp"
 #include "SPI.h"
@@ -35,7 +34,6 @@
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
 
-Gui *main_gui;
 String fw_md5 = ESP.getSketchMD5(); // Calculate MD5 at startup(save time when loading settings)
 
 #ifdef ARDUINO_NANO_ESP32

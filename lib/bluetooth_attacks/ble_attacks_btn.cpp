@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,10 +16,9 @@
  */
 
 #include "../../include/debug.h"
-#include "GFXForms.hpp"  // Fix building errors
 #include "ble_attack_tasks.hpp"
 #include "bluetooth_attacks.hpp"
-#include "gui.hpp"
+
 #include "posixsd.hpp"
 #include "ui_tasks/BLE/ble_ui_tasks.hpp"
 #include "ui_tasks/BLE/ble_ui_tasks_types.h"
@@ -37,13 +36,12 @@ static TaskHandle_t samsung_ble_spam_handle = NULL;
 static TaskHandle_t swift_pair_spam_handle = NULL;
 static TaskHandle_t fast_pair_spam_handle = NULL;
 
-void scan_ble(Gui *gui, BluetoothAttack *attack) {
+void scan_ble(BluetoothAttack *attack) {
   LOG_INFO("Start scanning BLE");
   /* We delete this after usage, so we need to recreate struct every time */
   ble_ui_task_params =
       (BLEUITaskParameters *)malloc(sizeof(BLEUITaskParameters));
   ble_ui_task_params->ble_attack = attack;
-  ble_ui_task_params->gui = gui;
   xTaskCreate(&ble_scan_task, "ble_scan", TASK_STACK_SIZE,
               (void *)ble_ui_task_params, 5, NULL);
   xTaskCreate(&update_ble_scan_progress, "ble_scan_gui_updater", 4000,

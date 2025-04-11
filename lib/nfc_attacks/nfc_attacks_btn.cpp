@@ -55,7 +55,7 @@ void dump_felica(NFCAttacks *attacks) {
               &dump_task_handle);
 }
 
-void write_felica_tag(Gui *gui, NFCAttacks *attacks, NFCTag *tag) {
+void write_felica_tag(NFCAttacks *attacks, NFCTag *tag) {
   attacks->felica_write(tag);
 }
 

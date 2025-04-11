@@ -1,2 +1,0 @@
-#define RUNNING_DHCPGLUTTON_KEY "running_dhcpglbutton"
-#define CREATED_DHCPGLUTTON_CLIENTS_KEY "created_dhcpglbutton_clients"

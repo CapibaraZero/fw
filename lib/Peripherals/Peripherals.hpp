@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,6 @@
 #define PERIPHERALS_H
 #include <Arduino.h>
 #include <EasyButton.h>
-#include "navigation/buttons/btn_routines.hpp"
 
 class Peripherals {
  protected:
@@ -43,9 +42,9 @@ class Peripherals {
                            int isr_mode = FALLING);
   EasyButton ok_btn = EasyButton(OK_BTN_PIN);
   void init_ok_btn() {
-    ok_btn.begin();
-    ok_btn.onPressed(handle_ok_button);
-    ok_btn.onPressedFor(5000, []() {ESP.restart();});
+    // ok_btn.begin();
+    // ok_btn.onPressed(handle_ok_button);
+    // ok_btn.onPressedFor(5000, []() {ESP.restart();});
   }
  public:
   Peripherals() {};

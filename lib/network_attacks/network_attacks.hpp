@@ -21,7 +21,7 @@
 #include <stdint.h>
 
 #include "evilportal.hpp"
-#include "gui.hpp"
+
 
 typedef struct {
   const char *ssid;
