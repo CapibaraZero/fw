@@ -14,6 +14,9 @@ void action_stop_subghz_frequency_analyzer(lv_event_t *e);
 void action_subghz_start_record_raw(lv_event_t *e);
 
 void action_subghz_start_sender(lv_event_t *e);
+
+char *get_subghz_chip_revision();
+
 #ifdef __cplusplus
 }
 #endif

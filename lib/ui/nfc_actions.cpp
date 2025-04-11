@@ -141,3 +141,25 @@ extern "C" void action_go_to_nfc_read_emv(lv_event_t *e) {
 
   read_emv_card_attack(_nfc_attacks);
 }
+
+extern "C" char *get_current_pn532_version() {
+  char *version = (char *)malloc(4 * sizeof(char));
+#ifndef LILYGO_T_EMBED_CC1101
+    // Already initialized in setup
+    Wire.begin(PN532_SDA, PN532_SCL);
+#endif
+    _nfc_attacks = new NFCAttacks();
+    if(_nfc_attacks->begin()) {
+      uint32_t nfc_version = _nfc_attacks->get_version();
+      uint32_t nfc_main_version = ((nfc_version>>16) & 0xFF);
+      uint32_t nfc_revision = ((nfc_version >> 8) & 0xFF);
+
+      sprintf(version, "%lu.%lu", nfc_main_version, nfc_revision);
+    } else {
+      strcpy(version, "Unv.");
+    }
+
+    _nfc_attacks->power_down();
+    delete _nfc_attacks;
+    return version;
+}

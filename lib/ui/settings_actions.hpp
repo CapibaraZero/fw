@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NFC_ACTIONS_H
-#define NFC_ACTIONS_H
+#ifndef SETTINGS_ACTIONS_H
+#define SETTINGS_ACTIONS_H
 
 #include "lvgl.h"
 
@@ -24,18 +24,10 @@
 extern "C" {
 #endif
 
-void action_go_to_nfc_polling(lv_event_t *e);
-void action_stop_nfc_polling(lv_event_t *e);
-void action_go_to_nfc_page(lv_event_t *e);
-void action_go_to_nfc_format(lv_event_t *e);
-void action_nfc_start_emulation(lv_event_t *e);
-void action_nfc_stop_emulation(lv_event_t *e);
-void action_go_to_nfc_bruteforce(lv_event_t *e);
-void write_sectors_wrapper(lv_event_t *e);
-void action_go_to_nfc_felica_dump(lv_event_t *e);
-void action_go_to_nfc_read_emv(lv_event_t *e);
-char *get_current_pn532_version();
+    void action_go_to_settings(lv_event_t *e);
+    void action_esp_deep_sleep(lv_event_t *e);
 
+    void action_esp_reboot(lv_event_t *e);
 #ifdef __cplusplus
 }
 #endif

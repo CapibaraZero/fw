@@ -1,6 +1,6 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[capibaraZero.eez-project]:/userPages/25",
+    "selectedUserPageObject": "[capibaraZero.eez-project]:/userPages/0",
     "selectedActionObject": "[capibaraZero.eez-project]:/actions/36",
     "selectedGlobalVariableObject": "[capibaraZero.eez-project]:/variables/globalVariables/33",
     "subnavigationSelectedItems": {
@@ -167,7 +167,8 @@
                       "enableClose": false,
                       "icon": "svg:hierarchy"
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
@@ -191,28 +192,17 @@
               "type": "tabset",
               "id": "EDITORS",
               "weight": 65,
+              "selected": 4,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
                 {
                   "type": "tab",
-                  "id": "#85cff099-e1d5-4600-8328-193bd8a8255c",
-                  "name": "Settings",
-                  "component": "editor",
-                  "config": {
-                    "objectPath": "[capibaraZero.eez-project]:/settings",
-                    "subObjectPath": "[capibaraZero.eez-project]:/settings",
-                    "permanent": false
-                  },
-                  "icon": "material:settings"
-                },
-                {
-                  "type": "tab",
                   "id": "#3dd3ab16-6514-4838-a557-4c58d03d4fdf",
-                  "name": "IREmulateList",
+                  "name": "IRPage",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[capibaraZero.eez-project]:/userPages/25",
+                    "objectPath": "[capibaraZero.eez-project]:/userPages/23",
                     "permanent": false
                   },
                   "icon": "svg:page"
@@ -261,8 +251,7 @@
                   },
                   "icon": "svg:page"
                 }
-              ],
-              "active": true
+              ]
             },
             {
               "type": "row",
@@ -1034,14 +1023,14 @@
             "0": {}
           },
           "1": {
-            "0": {},
+            "0": {
+              "$selected": true
+            },
             "1": {},
             "2": {},
             "3": {},
             "4": {},
-            "5": {
-              "$selected": true
-            },
+            "5": {},
             "6": {}
           }
         }
@@ -1535,9 +1524,7 @@
         "0": {
           "0": {
             "0": {},
-            "1": {
-              "$selected": true
-            },
+            "1": {},
             "2": {},
             "3": {}
           }
@@ -1592,8 +1579,8 @@
       },
       "transform": {
         "translate": {
-          "x": -337.853720664978,
-          "y": -85
+          "x": -555.0796313285828,
+          "y": -329.37915682792664
         },
         "scale": 3
       },
@@ -1610,6 +1597,38 @@
         "translate": {
           "x": -160,
           "y": -85
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/11[flow-state]": {
+      "selection": {},
+      "transform": {
+        "translate": {
+          "x": -160,
+          "y": -85
+        },
+        "scale": 3
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[capibaraZero.eez-project]:/userPages/26[flow-state]": {
+      "selection": {},
+      "transform": {
+        "translate": {
+          "x": -306.62748527526855,
+          "y": -144.7371301651001
         },
         "scale": 3
       },

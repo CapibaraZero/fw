@@ -52,6 +52,7 @@ typedef struct _objects_t {
     lv_obj_t *ir_record_signal_page;
     lv_obj_t *ir_emulate_list_page;
     lv_obj_t *irrc_page;
+    lv_obj_t *settings_page;
     lv_obj_t *wifi_stack_init_text;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
@@ -89,6 +90,25 @@ typedef struct _objects_t {
     lv_obj_t *obj33;
     lv_obj_t *obj34;
     lv_obj_t *obj35;
+    lv_obj_t *obj36;
+    lv_obj_t *obj37;
+    lv_obj_t *obj38;
+    lv_obj_t *obj39;
+    lv_obj_t *obj40;
+    lv_obj_t *obj41;
+    lv_obj_t *obj42;
+    lv_obj_t *obj43;
+    lv_obj_t *obj44;
+    lv_obj_t *obj45;
+    lv_obj_t *obj46;
+    lv_obj_t *obj47;
+    lv_obj_t *obj48;
+    lv_obj_t *obj49;
+    lv_obj_t *obj50;
+    lv_obj_t *obj51;
+    lv_obj_t *obj52;
+    lv_obj_t *obj53;
+    lv_obj_t *obj54;
 } objects_t;
 
 extern objects_t objects;
@@ -121,6 +141,7 @@ enum ScreensEnum {
     SCREEN_ID_IR_RECORD_SIGNAL_PAGE = 25,
     SCREEN_ID_IR_EMULATE_LIST_PAGE = 26,
     SCREEN_ID_IRRC_PAGE = 27,
+    SCREEN_ID_SETTINGS_PAGE = 28,
 };
 
 void create_screen_main();
@@ -230,6 +251,10 @@ void tick_screen_ir_emulate_list_page();
 void create_screen_irrc_page();
 void delete_screen_irrc_page();
 void tick_screen_irrc_page();
+
+void create_screen_settings_page();
+void delete_screen_settings_page();
+void tick_screen_settings_page();
 
 void create_screen_by_id(enum ScreensEnum screenId);
 void delete_screen_by_id(enum ScreensEnum screenId);

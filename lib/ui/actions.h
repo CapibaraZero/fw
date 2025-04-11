@@ -21,3 +21,4 @@
 #include "subghz_actions.hpp"
 #include "nfc_actions.hpp"
 #include "ir_actions.hpp"
+#include "settings_actions.hpp"

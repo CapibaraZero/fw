@@ -15,29 +15,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NFC_ACTIONS_H
-#define NFC_ACTIONS_H
+#ifndef SD_UTILS_H
+#define SD_UTILS_H
 
-#include "lvgl.h"
+#include <SD.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void action_go_to_nfc_polling(lv_event_t *e);
-void action_stop_nfc_polling(lv_event_t *e);
-void action_go_to_nfc_page(lv_event_t *e);
-void action_go_to_nfc_format(lv_event_t *e);
-void action_nfc_start_emulation(lv_event_t *e);
-void action_nfc_stop_emulation(lv_event_t *e);
-void action_go_to_nfc_bruteforce(lv_event_t *e);
-void write_sectors_wrapper(lv_event_t *e);
-void action_go_to_nfc_felica_dump(lv_event_t *e);
-void action_go_to_nfc_read_emv(lv_event_t *e);
-char *get_current_pn532_version();
-
-#ifdef __cplusplus
+inline String get_current_sd_type() {
+    uint8_t cardType = SD.cardType();
+    switch (cardType) {
+        case CARD_NONE:
+            return "None";
+        case CARD_MMC:
+            return "MMC";
+        case CARD_SD:
+            return "SDSC";
+        case CARD_SDHC:
+            return "SDHC";
+        default:
+            return "Unknown";
+    }
 }
-#endif
 
-#endif
+inline bool sd_card_installed() {
+    return SD.cardType() != CARD_NONE;
+}
+
+#endif // SD_UTILS_H

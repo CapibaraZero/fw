@@ -362,3 +362,114 @@ extern "C" const char *get_var_ir_emulate_progress() {
 extern "C" void set_var_ir_emulate_progress(const char *value) {
     ir_emulate_progress = value;
 }
+
+std::string sw_version;
+
+extern "C" const char *get_var_sw_version() {
+    return sw_version.c_str();
+}
+
+extern "C" void set_var_sw_version(const char *value) {
+    sw_version = value;
+}
+
+std::string board;
+
+extern "C" const char *get_var_board() {
+    return board.c_str();
+}
+
+extern "C" void set_var_board(const char *value) {
+    board = value;
+}
+
+std::string heap_usage;
+
+extern "C" const char *get_var_heap_usage() {
+    return heap_usage.c_str();
+}
+
+extern "C" void set_var_heap_usage(const char *value) {
+    heap_usage = value;
+}
+
+
+std::string chip_revision;
+
+extern "C" const char *get_var_chip_revision() {
+    return chip_revision.c_str();
+}
+
+extern "C" void set_var_chip_revision(const char *value) {
+    chip_revision = value;
+}
+
+std::string sd_card_type;
+
+extern "C" const char *get_var_sd_card_type() {
+    return sd_card_type.c_str();
+}
+
+extern "C" void set_var_sd_card_type(const char *value) {
+    sd_card_type = value;
+}
+
+std::string sd_card_usage;
+
+extern "C" const char *get_var_sd_card_usage() {
+    return sd_card_usage.c_str();
+}
+
+extern "C" void set_var_sd_card_usage(const char *value) {
+    sd_card_usage = value;
+}
+
+bool sd_card_installed;
+
+extern "C" bool get_var_sd_card_installed() {
+    return sd_card_installed;
+}
+
+extern "C" void set_var_sd_card_installed(bool value) {
+    sd_card_installed = value;
+}
+
+std::string nfc_revision;
+
+extern "C" const char *get_var_nfc_revision() {
+    return nfc_revision.c_str();
+}
+
+extern "C" void set_var_nfc_revision(const char *value) {
+    nfc_revision = value;
+}
+
+std::string subghz_revision;
+
+extern "C" const char *get_var_subghz_revision() {
+    return subghz_revision.c_str();
+}
+
+extern "C" void set_var_subghz_revision(const char *value) {
+    subghz_revision = value;
+}
+
+std::string psram_size;
+
+extern "C" const char *get_var_psram_size() {
+    return psram_size.c_str();
+}
+
+extern "C" void set_var_psram_size(const char *value) {
+    psram_size = value;
+}
+
+bool psram_installed;
+
+extern "C" bool get_var_psram_installed() {
+    return psram_installed;
+}
+
+extern "C" void set_var_psram_installed(bool value) {
+    psram_installed = value;
+}

@@ -144,6 +144,41 @@ void set_var_ir_save(bool value);
 const char *get_var_ir_emulate_progress();
 void set_var_ir_emulate_progress(const char *value);
 
+const char *get_var_sw_version();
+void set_var_sw_version(const char *value);
+
+const char *get_var_board();
+void set_var_board(const char *value);
+
+const char *get_var_heap_usage();
+void set_var_heap_usage(const char *value);
+
+const char *get_var_chip_revision();
+void set_var_chip_revision(const char *value);
+
+const char *get_var_sd_card_type();
+void set_var_sd_card_type(const char *value);
+
+const char *get_var_sd_card_usage();
+void set_var_sd_card_usage(const char *value);
+
+bool get_var_sd_card_installed();
+void set_var_sd_card_installed(bool value);
+
+const char *get_var_nfc_revision();
+void set_var_nfc_revision(const char *value);
+
+const char *get_var_subghz_revision();
+void set_var_subghz_revision(const char *value);
+
+const char *get_var_psram_size();
+
+void set_var_psram_size(const char *value);
+
+bool get_var_psram_installed();
+
+void set_var_psram_installed(bool value);
+
 enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_NONE
 };
@@ -157,3 +192,4 @@ enum FlowGlobalVariables {
 #endif
 
 #endif /*EEZ_LVGL_UI_VARS_H*/
+
