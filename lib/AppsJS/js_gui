@@ -22,10 +22,8 @@
 #include "Grid.hpp"
 #include "List.hpp"
 #include <GFXForms.hpp>
-#include "gui.hpp"
-#include "../UI/pages/DummyPage.hpp"
 #include "../../include/debug.h"
-#include "navigation/navigation.hpp"
+
 
 extern Gui *main_gui;
 extern DummyPage *dummy_page;
