@@ -179,6 +179,10 @@ bool get_var_psram_installed();
 
 void set_var_psram_installed(bool value);
 
+const char *get_var_battery_level();
+
+void set_var_battery_level(const char *value);
+
 enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_NONE
 };

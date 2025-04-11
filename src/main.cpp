@@ -20,8 +20,6 @@
 #include "DeepSleep.hpp"
 #include "Peripherals.hpp"
 #include "SPI.h"
-#include "battery_monitor.hpp"
-#include "ble_hid/BLEHid.hpp"  // Without this build fails
 #include "debug.h"
 #include "freertos/task.h"
 #include "pins.h"
@@ -30,6 +28,7 @@
 #include "lv_port_indev.h"
 #include "lvgl.h"
 #include "ui.h"
+#include "ui_tasks/battery_monitor/battery_monitor_task.hpp"
 
 /* TODO: To lower this, we can may switch to heap for wifi_networks */
 #define TASK_STACK_SIZE 16000
@@ -72,6 +71,12 @@ void setup() {
 
   peripherals.init_sd();
 
+#if defined(BATTERY_MONITOR) || defined(LILYGO_T_EMBED_CC1101)
+  // Task size calculated with uxTaskGetStackHighWaterMark
+  xTaskCreate(
+      battery_monitor_task, "battery_monitor", 1400, NULL,
+      tskIDLE_PRIORITY, NULL);
+#endif
 }
 
 void loop() {

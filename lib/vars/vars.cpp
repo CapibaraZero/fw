@@ -473,3 +473,13 @@ extern "C" bool get_var_psram_installed() {
 extern "C" void set_var_psram_installed(bool value) {
     psram_installed = value;
 }
+
+std::string battery_level;
+
+extern "C" const char *get_var_battery_level() {
+    return battery_level.c_str();
+}
+
+extern "C" void set_var_battery_level(const char *value) {
+    battery_level = value;
+}

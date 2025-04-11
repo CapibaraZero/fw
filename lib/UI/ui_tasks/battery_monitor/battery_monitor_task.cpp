@@ -1,6 +1,6 @@
 /*
  * This file is part of the Capibara zero (https://github.com/CapibaraZero/fw or
- * https://capibarazero.github.io/). Copyright (c) 2024 Andrea Canale.
+ * https://capibarazero.github.io/). Copyright (c) 2025 Andrea Canale.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,18 +19,11 @@
 
 #include "../../../../include/battery_level.h"
 #include "battery_monitor.hpp"
-#include "battery_monitor_task_types.h"
+#include "vars.h"
 
 void battery_monitor_task(void *pv) {
-  // BatteryMonitorTaskParams *params =
-  //     static_cast<BatteryMonitorTaskParams *>(pv);
-
-  // while (true) {
-  //   if (params->visible) {
-  //     params->lock = true;
-  //     params->page->set_battery_level();
-  //     params->lock = false;
-  //   }
-  //   delay(TASK_POLLING_RATE);
-  // }
+  while (true) {
+    set_var_battery_level(((String)"Battery: " + read_battery_level()).c_str());
+    delay(TASK_POLLING_RATE);
+  }
 }
