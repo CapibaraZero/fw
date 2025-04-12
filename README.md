@@ -1,3 +1,5 @@
+THIS PROJECT IS DEPRECATED, SWITCH TO BRUCE FW, [HERE](https://github.com/andreock/Bruce) IS MY FORK, OFFICIAL [HERE](https://github.com/pr3y/Bruce)
+
 # CapibaraZero firmware
 
 <img src="https://github.com/CapibaraZero/.github/blob/main/logo.png?raw=true" width="256" />
